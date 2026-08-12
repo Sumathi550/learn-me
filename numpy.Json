@@ -1,0 +1,556 @@
+[
+  {
+    "id": 1,
+    "question": "What is NumPy primarily used for?",
+    "options": [
+      "Web Development",
+      "Numerical Computing",
+      "Game Development",
+      "Networking"
+    ],
+    "answer": "Numerical Computing"
+  },
+  {
+    "id": 2,
+    "question": "Which statement is used to import NumPy?",
+    "options": [
+      "import numpy",
+      "import numpy as np",
+      "include numpy",
+      "using numpy"
+    ],
+    "answer": "import numpy as np"
+  },
+  {
+    "id": 3,
+    "question": "Which function is used to create a NumPy array?",
+    "options": [
+      "np.create()",
+      "np.array()",
+      "np.list()",
+      "np.make()"
+    ],
+    "answer": "np.array()"
+  },
+  {
+    "id": 4,
+    "question": "What is the type of a NumPy array?",
+    "options": [
+      "list",
+      "tuple",
+      "numpy.ndarray",
+      "dict"
+    ],
+    "answer": "numpy.ndarray"
+  },
+  {
+    "id": 5,
+    "question": "Which attribute returns the shape of a NumPy array?",
+    "options": [
+      "size",
+      "shape",
+      "length",
+      "ndim"
+    ],
+    "answer": "shape"
+  },
+  {
+    "id": 6,
+    "question": "Which attribute returns the number of dimensions of an array?",
+    "options": [
+      "shape",
+      "size",
+      "ndim",
+      "dtype"
+    ],
+    "answer": "ndim"
+  },
+  {
+    "id": 7,
+    "question": "Which attribute returns the total number of elements in a NumPy array?",
+    "options": [
+      "count",
+      "shape",
+      "size",
+      "length"
+    ],
+    "answer": "size"
+  },
+  {
+    "id": 8,
+    "question": "Which attribute returns the data type of array elements?",
+    "options": [
+      "dtype",
+      "type",
+      "datatype",
+      "class"
+    ],
+    "answer": "dtype"
+  },
+  {
+    "id": 9,
+    "question": "Why are NumPy arrays preferred over Python lists for numerical computations?",
+    "options": [
+      "They use less memory and are faster",
+      "They support only strings",
+      "They cannot perform mathematical operations",
+      "They are slower but easier to use"
+    ],
+    "answer": "They use less memory and are faster"
+  },
+  {
+    "id": 10,
+    "question": "Which function converts a Python list into a NumPy array?",
+    "options": [
+      "np.convert()",
+      "np.array()",
+      "np.tolist()",
+      "np.change()"
+    ],
+    "answer": "np.array()"
+  }
+]
+,
+{
+  "id": 11,
+  "question": "Which function creates an array filled with zeros?",
+  "options": [
+    "np.ones()",
+    "np.zeros()",
+    "np.empty()",
+    "np.full()"
+  ],
+  "answer": "np.zeros()"
+},
+{
+  "id": 12,
+  "question": "Which function creates an array filled with ones?",
+  "options": [
+    "np.ones()",
+    "np.zeros()",
+    "np.empty()",
+    "np.identity()"
+  ],
+  "answer": "np.ones()"
+},
+{
+  "id": 13,
+  "question": "Which function creates an identity matrix?",
+  "options": [
+    "np.diag()",
+    "np.identity()",
+    "np.zeros()",
+    "np.full()"
+  ],
+  "answer": "np.identity()"
+},
+{
+  "id": 14,
+  "question": "Which function creates evenly spaced values over a specified interval?",
+  "options": [
+    "np.arange()",
+    "np.linspace()",
+    "np.range()",
+    "np.random()"
+  ],
+  "answer": "np.linspace()"
+},
+{
+  "id": 15,
+  "question": "Which function is similar to Python's range()?",
+  "options": [
+    "np.arange()",
+    "np.linspace()",
+    "np.interval()",
+    "np.count()"
+  ],
+  "answer": "np.arange()"
+},
+{
+  "id": 16,
+  "question": "Which function creates an array with random values between 0 and 1?",
+  "options": [
+    "np.random.rand()",
+    "np.random.randint()",
+    "np.random.randomint()",
+    "np.random.choice()"
+  ],
+  "answer": "np.random.rand()"
+},
+{
+  "id": 17,
+  "question": "Which function generates random integers?",
+  "options": [
+    "np.randint()",
+    "np.random.randint()",
+    "np.random.int()",
+    "np.int()"
+  ],
+  "answer": "np.random.randint()"
+},
+{
+  "id": 18,
+  "question": "Which function creates an array without initializing its values?",
+  "options": [
+    "np.empty()",
+    "np.zeros()",
+    "np.ones()",
+    "np.full()"
+  ],
+  "answer": "np.empty()"
+},
+{
+  "id": 19,
+  "question": "Which function creates an array filled with a specified value?",
+  "options": [
+    "np.fill()",
+    "np.full()",
+    "np.value()",
+    "np.assign()"
+  ],
+  "answer": "np.full()"
+},
+{
+  "id": 20,
+  "question": "Which method changes the shape of an existing NumPy array?",
+  "options": [
+    "resize()",
+    "reshape()",
+    "changeShape()",
+    "modify()"
+  ],
+  "answer": "reshape()"
+}
+,
+{
+  "id": 21,
+  "question": "Which operator performs element-wise addition of two NumPy arrays?",
+  "options": [
+    "+",
+    "&",
+    "*",
+    "%"
+  ],
+  "answer": "+"
+},
+{
+  "id": 22,
+  "question": "Which operator performs element-wise multiplication of two NumPy arrays?",
+  "options": [
+    "+",
+    "-",
+    "*",
+    "/"
+  ],
+  "answer": "*"
+},
+{
+  "id": 23,
+  "question": "Which function returns the sum of all elements in a NumPy array?",
+  "options": [
+    "np.add()",
+    "np.sum()",
+    "np.total()",
+    "np.count()"
+  ],
+  "answer": "np.sum()"
+},
+{
+  "id": 24,
+  "question": "Which function returns the average (mean) of array elements?",
+  "options": [
+    "np.avg()",
+    "np.average()",
+    "np.mean()",
+    "np.mid()"
+  ],
+  "answer": "np.mean()"
+},
+{
+  "id": 25,
+  "question": "Which function returns the largest value in a NumPy array?",
+  "options": [
+    "np.high()",
+    "np.maximum()",
+    "np.max()",
+    "np.large()"
+  ],
+  "answer": "np.max()"
+},
+{
+  "id": 26,
+  "question": "Which function returns the smallest value in a NumPy array?",
+  "options": [
+    "np.minimum()",
+    "np.low()",
+    "np.small()",
+    "np.min()"
+  ],
+  "answer": "np.min()"
+},
+{
+  "id": 27,
+  "question": "Which function calculates the square root of each element in an array?",
+  "options": [
+    "np.square()",
+    "np.root()",
+    "np.sqrt()",
+    "np.power()"
+  ],
+  "answer": "np.sqrt()"
+},
+{
+  "id": 28,
+  "question": "Which function raises each element of an array to a specified power?",
+  "options": [
+    "np.exp()",
+    "np.power()",
+    "np.raise()",
+    "np.squareRoot()"
+  ],
+  "answer": "np.power()"
+},
+{
+  "id": 29,
+  "question": "Which function performs matrix multiplication (dot product) in NumPy?",
+  "options": [
+    "np.multiply()",
+    "np.cross()",
+    "np.dot()",
+    "np.matmulArray()"
+  ],
+  "answer": "np.dot()"
+},
+{
+  "id": 30,
+  "question": "What is broadcasting in NumPy?",
+  "options": [
+    "Sending arrays over a network",
+    "Expanding arrays of different shapes to perform operations",
+    "Sorting array elements",
+    "Creating multiple arrays at once"
+  ],
+  "answer": "Expanding arrays of different shapes to perform operations"
+}
+,
+{
+  "id": 31,
+  "question": "In NumPy, array indexing starts from?",
+  "options": [
+    "1",
+    "0",
+    "-1",
+    "Depends on the array"
+  ],
+  "answer": "0"
+},
+{
+  "id": 32,
+  "question": "Which index refers to the last element of a NumPy array?",
+  "options": [
+    "0",
+    "-1",
+    "1",
+    "last"
+  ],
+  "answer": "-1"
+},
+{
+  "id": 33,
+  "question": "Which symbol is used for slicing in NumPy?",
+  "options": [
+    ":",
+    ";",
+    ",",
+    "|"
+  ],
+  "answer": ":"
+},
+{
+  "id": 34,
+  "question": "What does arr[2:5] return?",
+  "options": [
+    "Elements at index 2, 3, and 4",
+    "Elements at index 2 to 5 inclusive",
+    "Elements at index 3, 4, and 5",
+    "An error"
+  ],
+  "answer": "Elements at index 2, 3, and 4"
+},
+{
+  "id": 35,
+  "question": "Which method is used to reshape a NumPy array?",
+  "options": [
+    "reshape()",
+    "resize()",
+    "changeShape()",
+    "reform()"
+  ],
+  "answer": "reshape()"
+},
+{
+  "id": 36,
+  "question": "Which method converts a multi-dimensional array into a one-dimensional array?",
+  "options": [
+    "flatten()",
+    "merge()",
+    "join()",
+    "compress()"
+  ],
+  "answer": "flatten()"
+},
+{
+  "id": 37,
+  "question": "Which attribute is used to transpose a NumPy array?",
+  "options": [
+    ".shape",
+    ".T",
+    ".dtype",
+    ".size"
+  ],
+  "answer": ".T"
+},
+{
+  "id": 38,
+  "question": "Which function joins multiple NumPy arrays into one?",
+  "options": [
+    "np.append()",
+    "np.concatenate()",
+    "np.combine()",
+    "np.connect()"
+  ],
+  "answer": "np.concatenate()"
+},
+{
+  "id": 39,
+  "question": "Which function splits a NumPy array into multiple sub-arrays?",
+  "options": [
+    "np.divide()",
+    "np.cut()",
+    "np.split()",
+    "np.slice()"
+  ],
+  "answer": "np.split()"
+},
+{
+  "id": 40,
+  "question": "What is the purpose of array slicing in NumPy?",
+  "options": [
+    "To delete an array",
+    "To extract a portion of an array",
+    "To sort an array",
+    "To merge arrays"
+  ],
+  "answer": "To extract a portion of an array"
+}
+,
+{
+  "id": 41,
+  "question": "Which function calculates the standard deviation of a NumPy array?",
+  "options": [
+    "np.var()",
+    "np.std()",
+    "np.mean()",
+    "np.sum()"
+  ],
+  "answer": "np.std()"
+},
+{
+  "id": 42,
+  "question": "Which function calculates the variance of a NumPy array?",
+  "options": [
+    "np.var()",
+    "np.std()",
+    "np.mean()",
+    "np.average()"
+  ],
+  "answer": "np.var()"
+},
+{
+  "id": 43,
+  "question": "Which function generates random floating-point numbers between 0 and 1?",
+  "options": [
+    "np.random.randint()",
+    "np.random.rand()",
+    "np.random.choice()",
+    "np.random.seed()"
+  ],
+  "answer": "np.random.rand()"
+},
+{
+  "id": 44,
+  "question": "Which function randomly shuffles the elements of a NumPy array?",
+  "options": [
+    "np.random.shuffle()",
+    "np.shuffle()",
+    "np.random.sort()",
+    "np.mix()"
+  ],
+  "answer": "np.random.shuffle()"
+},
+{
+  "id": 45,
+  "question": "Which function sorts the elements of a NumPy array?",
+  "options": [
+    "np.order()",
+    "np.sort()",
+    "np.arrange()",
+    "np.rank()"
+  ],
+  "answer": "np.sort()"
+},
+{
+  "id": 46,
+  "question": "Which function returns only the unique elements from a NumPy array?",
+  "options": [
+    "np.unique()",
+    "np.single()",
+    "np.remove()",
+    "np.filter()"
+  ],
+  "answer": "np.unique()"
+},
+{
+  "id": 47,
+  "question": "Which function returns the indices where a given condition is True?",
+  "options": [
+    "np.index()",
+    "np.where()",
+    "np.search()",
+    "np.locate()"
+  ],
+  "answer": "np.where()"
+},
+{
+  "id": 48,
+  "question": "Which function saves a NumPy array to a binary (.npy) file?",
+  "options": [
+    "np.write()",
+    "np.save()",
+    "np.store()",
+    "np.export()"
+  ],
+  "answer": "np.save()"
+},
+{
+  "id": 49,
+  "question": "Which function loads a NumPy array from a .npy file?",
+  "options": [
+    "np.read()",
+    "np.import()",
+    "np.load()",
+    "np.open()"
+  ],
+  "answer": "np.load()"
+},
+{
+  "id": 50,
+  "question": "Which operator is commonly used for matrix multiplication in Python with NumPy?",
+  "options": [
+    "*",
+    "@",
+    "%",
+    "//"
+  ],
+  "answer": "@"
+}

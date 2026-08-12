@@ -1,0 +1,552 @@
+[
+    {
+        "id": 1,
+        "question": "What is Statistics primarily used for in Machine Learning?",
+        "options": [
+            "Web Development",
+            "Data Analysis and Decision Making",
+            "Game Development",
+            "Networking"
+        ],
+        "answer": "Data Analysis and Decision Making"
+    },
+    {
+        "id": 2,
+        "question": "Which of the following is a type of statistics?",
+        "options": [
+            "Descriptive Statistics",
+            "Inferential Statistics",
+            "Both A and B",
+            "None of the above"
+        ],
+        "answer": "Both A and B"
+    },
+    {
+        "id": 3,
+        "question": "What does Descriptive Statistics mainly do?",
+        "options": [
+            "Predict future values",
+            "Summarize and describe data",
+            "Train machine learning models",
+            "Store data"
+        ],
+        "answer": "Summarize and describe data"
+    },
+    {
+        "id": 4,
+        "question": "Which measure represents the average value of a dataset?",
+        "options": [
+            "Median",
+            "Mode",
+            "Mean",
+            "Range"
+        ],
+        "answer": "Mean"
+    },
+    {
+        "id": 5,
+        "question": "Which measure represents the middle value in an ordered dataset?",
+        "options": [
+            "Mean",
+            "Median",
+            "Mode",
+            "Variance"
+        ],
+        "answer": "Median"
+    },
+    {
+        "id": 6,
+        "question": "Which measure represents the most frequently occurring value?",
+        "options": [
+            "Mean",
+            "Median",
+            "Mode",
+            "Range"
+        ],
+        "answer": "Mode"
+    },
+    {
+        "id": 7,
+        "question": "Which measure is calculated as Maximum Value - Minimum Value?",
+        "options": [
+            "Variance",
+            "Range",
+            "Standard Deviation",
+            "Mean"
+        ],
+        "answer": "Range"
+    },
+    {
+        "id": 8,
+        "question": "Which measure indicates how spread out the data is from the mean?",
+        "options": [
+            "Mode",
+            "Variance",
+            "Median",
+            "Frequency"
+        ],
+        "answer": "Variance"
+    },
+    {
+        "id": 9,
+        "question": "Which measure is the square root of variance?",
+        "options": [
+            "Mean",
+            "Median",
+            "Standard Deviation",
+            "Range"
+        ],
+        "answer": "Standard Deviation"
+    },
+    {
+        "id": 10,
+        "question": "Which type of statistics is used to make predictions about a population based on sample data?",
+        "options": [
+            "Descriptive Statistics",
+            "Inferential Statistics",
+            "Summary Statistics",
+            "Predictive Statistics"
+        ],
+        "answer": "Inferential Statistics"
+    }
+],
+{
+    "id": 11,
+    "question": "What is probability?",
+    "options": [
+        "The measure of certainty of an event",
+        "The measure of the likelihood of an event occurring",
+        "The total number of outcomes",
+        "The average of a dataset"
+    ],
+    "answer": "The measure of the likelihood of an event occurring"
+},
+{
+    "id": 12,
+    "question": "What is the probability value of an impossible event?",
+    "options": [
+        "0",
+        "0.5",
+        "1",
+        "-1"
+    ],
+    "answer": "0"
+},
+{
+    "id": 13,
+    "question": "What is the probability value of a certain event?",
+    "options": [
+        "0",
+        "0.25",
+        "0.5",
+        "1"
+    ],
+    "answer": "1"
+},
+{
+    "id": 14,
+    "question": "If a fair coin is tossed, what is the probability of getting Heads?",
+    "options": [
+        "0",
+        "0.25",
+        "0.5",
+        "1"
+    ],
+    "answer": "0.5"
+},
+{
+    "id": 15,
+    "question": "Which of the following represents the total probability of all possible outcomes?",
+    "options": [
+        "0",
+        "0.5",
+        "1",
+        "2"
+    ],
+    "answer": "1"
+},
+{
+    "id": 16,
+    "question": "Which probability rule is used when two events cannot happen at the same time?",
+    "options": [
+        "Addition Rule",
+        "Multiplication Rule",
+        "Division Rule",
+        "Bayes Rule"
+    ],
+    "answer": "Addition Rule"
+},
+{
+    "id": 17,
+    "question": "What is the probability of rolling a 6 on a fair six-sided dice?",
+    "options": [
+        "1/2",
+        "1/3",
+        "1/6",
+        "1/12"
+    ],
+    "answer": "1/6"
+},
+{
+    "id": 18,
+    "question": "Independent events are events where:",
+    "options": [
+        "One event affects the other",
+        "One event depends on the other",
+        "The occurrence of one event does not affect the other",
+        "Both events are always equal"
+    ],
+    "answer": "The occurrence of one event does not affect the other"
+},
+{
+    "id": 19,
+    "question": "Which theorem is commonly used in Machine Learning for updating probabilities based on new evidence?",
+    "options": [
+        "Pythagoras Theorem",
+        "Bayes Theorem",
+        "Euler Theorem",
+        "Fermat Theorem"
+    ],
+    "answer": "Bayes Theorem"
+},
+{
+    "id": 20,
+    "question": "What is the probability of selecting an even number from the set {1,2,3,4,5,6}?",
+    "options": [
+        "1/2",
+        "1/3",
+        "2/3",
+        "1/6"
+    ],
+    "answer": "1/2"
+},
+{
+    "id": 21,
+    "question": "Which distribution is also known as the Gaussian Distribution?",
+    "options": [
+        "Uniform Distribution",
+        "Normal Distribution",
+        "Binomial Distribution",
+        "Poisson Distribution"
+    ],
+    "answer": "Normal Distribution"
+},
+{
+    "id": 22,
+    "question": "In a normal distribution, where are the mean, median, and mode located?",
+    "options": [
+        "At different values",
+        "Only mean equals median",
+        "All are equal",
+        "None are equal"
+    ],
+    "answer": "All are equal"
+},
+{
+    "id": 23,
+    "question": "What is the shape of a normal distribution curve?",
+    "options": [
+        "Rectangular",
+        "Bell-shaped",
+        "Triangular",
+        "Circular"
+    ],
+    "answer": "Bell-shaped"
+},
+{
+    "id": 24,
+    "question": "What does a histogram primarily represent?",
+    "options": [
+        "Relationship between two variables",
+        "Frequency distribution of data",
+        "Average value",
+        "Data correlation"
+    ],
+    "answer": "Frequency distribution of data"
+},
+{
+    "id": 25,
+    "question": "Which measure indicates whether a distribution is symmetric or asymmetric?",
+    "options": [
+        "Variance",
+        "Skewness",
+        "Range",
+        "Mode"
+    ],
+    "answer": "Skewness"
+},
+{
+    "id": 26,
+    "question": "A positively skewed distribution has a tail extending towards which side?",
+    "options": [
+        "Left",
+        "Right",
+        "Both sides",
+        "No tail"
+    ],
+    "answer": "Right"
+},
+{
+    "id": 27,
+    "question": "What does kurtosis measure?",
+    "options": [
+        "Spread of data",
+        "Center of data",
+        "Peakedness of a distribution",
+        "Correlation between variables"
+    ],
+    "answer": "Peakedness of a distribution"
+},
+{
+    "id": 28,
+    "question": "Which statistical measure is commonly used to detect outliers?",
+    "options": [
+        "Z-Score",
+        "Mean",
+        "Median",
+        "Mode"
+    ],
+    "answer": "Z-Score"
+},
+{
+    "id": 29,
+    "question": "What does a Z-score represent?",
+    "options": [
+        "The maximum value",
+        "The minimum value",
+        "The number of standard deviations a value is from the mean",
+        "The average value"
+    ],
+    "answer": "The number of standard deviations a value is from the mean"
+},
+{
+    "id": 30,
+    "question": "Which measure divides a dataset into four equal parts?",
+    "options": [
+        "Percentiles",
+        "Quartiles",
+        "Deciles",
+        "Mean"
+    ],
+    "answer": "Quartiles"
+},
+{
+    "id": 31,
+    "question": "What does the Null Hypothesis (H₀) usually represent?",
+    "options": [
+        "There is a significant effect",
+        "There is no significant effect or difference",
+        "The experiment failed",
+        "The sample is invalid"
+    ],
+    "answer": "There is no significant effect or difference"
+},
+{
+    "id": 32,
+    "question": "What does the Alternative Hypothesis (H₁) represent?",
+    "options": [
+        "No relationship exists",
+        "There is a significant effect or difference",
+        "The sample size is small",
+        "The experiment should stop"
+    ],
+    "answer": "There is a significant effect or difference"
+},
+{
+    "id": 33,
+    "question": "What is a p-value?",
+    "options": [
+        "The probability of obtaining the observed result assuming the null hypothesis is true",
+        "The average of the dataset",
+        "The confidence level",
+        "The standard deviation"
+    ],
+    "answer": "The probability of obtaining the observed result assuming the null hypothesis is true"
+},
+{
+    "id": 34,
+    "question": "What is the commonly used significance level (α) in hypothesis testing?",
+    "options": [
+        "0.5",
+        "0.1",
+        "0.05",
+        "1.0"
+    ],
+    "answer": "0.05"
+},
+{
+    "id": 35,
+    "question": "If the p-value is less than the significance level (α), what should you do?",
+    "options": [
+        "Accept the null hypothesis",
+        "Reject the null hypothesis",
+        "Ignore the result",
+        "Increase the sample size"
+    ],
+    "answer": "Reject the null hypothesis"
+},
+{
+    "id": 36,
+    "question": "A Type I Error occurs when:",
+    "options": [
+        "A true null hypothesis is rejected",
+        "A false null hypothesis is accepted",
+        "The sample is too small",
+        "The test statistic is zero"
+    ],
+    "answer": "A true null hypothesis is rejected"
+},
+{
+    "id": 37,
+    "question": "A Type II Error occurs when:",
+    "options": [
+        "A false null hypothesis is accepted",
+        "A true null hypothesis is rejected",
+        "The p-value is zero",
+        "The sample size is very large"
+    ],
+    "answer": "A false null hypothesis is accepted"
+},
+{
+    "id": 38,
+    "question": "Which statistical test is commonly used to compare the means of two groups?",
+    "options": [
+        "Chi-Square Test",
+        "t-Test",
+        "Correlation Test",
+        "Regression Test"
+    ],
+    "answer": "t-Test"
+},
+{
+    "id": 39,
+    "question": "Which test is commonly used to determine the relationship between categorical variables?",
+    "options": [
+        "t-Test",
+        "ANOVA",
+        "Chi-Square Test",
+        "Z-Test"
+    ],
+    "answer": "Chi-Square Test"
+},
+{
+    "id": 40,
+    "question": "Which statistical test is commonly used to compare the means of three or more groups?",
+    "options": [
+        "t-Test",
+        "Chi-Square Test",
+        "ANOVA",
+        "Z-Test"
+    ],
+    "answer": "ANOVA"
+},
+{
+    "id": 41,
+    "question": "What does correlation measure?",
+    "options": [
+        "The average of a dataset",
+        "The relationship between two variables",
+        "The spread of data",
+        "The probability of an event"
+    ],
+    "answer": "The relationship between two variables"
+},
+{
+    "id": 42,
+    "question": "Which correlation value indicates a perfect positive relationship?",
+    "options": [
+        "-1",
+        "0",
+        "0.5",
+        "1"
+    ],
+    "answer": "1"
+},
+{
+    "id": 43,
+    "question": "Which correlation value indicates no linear relationship?",
+    "options": [
+        "0",
+        "1",
+        "-1",
+        "0.9"
+    ],
+    "answer": "0"
+},
+{
+    "id": 44,
+    "question": "Which correlation value indicates a perfect negative relationship?",
+    "options": [
+        "1",
+        "0",
+        "-1",
+        "-0.5"
+    ],
+    "answer": "-1"
+},
+{
+    "id": 45,
+    "question": "Which method is commonly used to calculate linear correlation between two numerical variables?",
+    "options": [
+        "Pearson Correlation",
+        "Bayes Theorem",
+        "ANOVA",
+        "Chi-Square Test"
+    ],
+    "answer": "Pearson Correlation"
+},
+{
+    "id": 46,
+    "question": "What is regression primarily used for?",
+    "options": [
+        "Classification",
+        "Predicting continuous values",
+        "Sorting data",
+        "Data visualization"
+    ],
+    "answer": "Predicting continuous values"
+},
+{
+    "id": 47,
+    "question": "In Linear Regression, the variable being predicted is called the:",
+    "options": [
+        "Independent Variable",
+        "Dependent Variable",
+        "Input Variable",
+        "Feature Matrix"
+    ],
+    "answer": "Dependent Variable"
+},
+{
+    "id": 48,
+    "question": "The input feature used to predict the output is called the:",
+    "options": [
+        "Dependent Variable",
+        "Target Variable",
+        "Independent Variable",
+        "Output Variable"
+    ],
+    "answer": "Independent Variable"
+},
+{
+    "id": 49,
+    "question": "Which metric is commonly used to measure how well a regression model fits the data?",
+    "options": [
+        "Accuracy",
+        "Precision",
+        "R² Score",
+        "Recall"
+    ],
+    "answer": "R² Score"
+},
+{
+    "id": 50,
+    "question": "Which of the following is a real-world application of Linear Regression?",
+    "options": [
+        "House Price Prediction",
+        "Email Spam Detection",
+        "Image Classification",
+        "Face Recognition"
+    ],
+    "answer": "House Price Prediction"
+}

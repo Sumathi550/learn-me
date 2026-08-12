@@ -1,0 +1,556 @@
+[
+  {
+    "id": 1,
+    "question": "What is Pandas primarily used for?",
+    "options": [
+      "Game Development",
+      "Data Analysis and Manipulation",
+      "Web Development",
+      "Networking"
+    ],
+    "answer": "Data Analysis and Manipulation"
+  },
+  {
+    "id": 2,
+    "question": "Which statement is used to import Pandas?",
+    "options": [
+      "import pandas",
+      "import pandas as pd",
+      "include pandas",
+      "using pandas"
+    ],
+    "answer": "import pandas as pd"
+  },
+  {
+    "id": 3,
+    "question": "Which Pandas data structure is one-dimensional?",
+    "options": [
+      "DataFrame",
+      "Series",
+      "Array",
+      "Table"
+    ],
+    "answer": "Series"
+  },
+  {
+    "id": 4,
+    "question": "Which Pandas data structure is two-dimensional?",
+    "options": [
+      "Series",
+      "List",
+      "DataFrame",
+      "Tuple"
+    ],
+    "answer": "DataFrame"
+  },
+  {
+    "id": 5,
+    "question": "Which function creates a Pandas Series?",
+    "options": [
+      "pd.DataFrame()",
+      "pd.Series()",
+      "pd.Array()",
+      "pd.List()"
+    ],
+    "answer": "pd.Series()"
+  },
+  {
+    "id": 6,
+    "question": "Which function creates a Pandas DataFrame?",
+    "options": [
+      "pd.Table()",
+      "pd.Series()",
+      "pd.DataFrame()",
+      "pd.Frame()"
+    ],
+    "answer": "pd.DataFrame()"
+  },
+  {
+    "id": 7,
+    "question": "Which attribute returns the dimensions of a DataFrame?",
+    "options": [
+      "shape",
+      "size",
+      "count",
+      "length"
+    ],
+    "answer": "shape"
+  },
+  {
+    "id": 8,
+    "question": "Which function displays the first 5 rows of a DataFrame by default?",
+    "options": [
+      "tail()",
+      "show()",
+      "head()",
+      "display()"
+    ],
+    "answer": "head()"
+  },
+  {
+    "id": 9,
+    "question": "Which function displays the last 5 rows of a DataFrame by default?",
+    "options": [
+      "head()",
+      "last()",
+      "tail()",
+      "bottom()"
+    ],
+    "answer": "tail()"
+  },
+  {
+    "id": 10,
+    "question": "Which function provides a summary of a DataFrame including column names and data types?",
+    "options": [
+      "describe()",
+      "summary()",
+      "info()",
+      "details()"
+    ],
+    "answer": "info()"
+  }
+]
+,
+{
+  "id": 11,
+  "question": "Which function is used to read a CSV file in Pandas?",
+  "options": [
+    "pd.open_csv()",
+    "pd.read_csv()",
+    "pd.load_csv()",
+    "pd.import_csv()"
+  ],
+  "answer": "pd.read_csv()"
+},
+{
+  "id": 12,
+  "question": "Which function is used to read an Excel file?",
+  "options": [
+    "pd.read_excel()",
+    "pd.open_excel()",
+    "pd.load_excel()",
+    "pd.import_excel()"
+  ],
+  "answer": "pd.read_excel()"
+},
+{
+  "id": 13,
+  "question": "Which function saves a DataFrame as a CSV file?",
+  "options": [
+    "to_csv()",
+    "save_csv()",
+    "write_csv()",
+    "export_csv()"
+  ],
+  "answer": "to_csv()"
+},
+{
+  "id": 14,
+  "question": "Which function saves a DataFrame as an Excel file?",
+  "options": [
+    "write_excel()",
+    "save_excel()",
+    "to_excel()",
+    "export_excel()"
+  ],
+  "answer": "to_excel()"
+},
+{
+  "id": 15,
+  "question": "Which parameter is commonly used in read_csv() to specify the delimiter?",
+  "options": [
+    "split",
+    "delimiter",
+    "sep",
+    "divide"
+  ],
+  "answer": "sep"
+},
+{
+  "id": 16,
+  "question": "Which function is used to read a JSON file in Pandas?",
+  "options": [
+    "pd.read_json()",
+    "pd.open_json()",
+    "pd.import_json()",
+    "pd.load_json()"
+  ],
+  "answer": "pd.read_json()"
+},
+{
+  "id": 17,
+  "question": "Which parameter prevents the index column from being saved in a CSV file?",
+  "options": [
+    "header=False",
+    "index=False",
+    "save=False",
+    "row=False"
+  ],
+  "answer": "index=False"
+},
+{
+  "id": 18,
+  "question": "Which function reads data from an SQL database into a DataFrame?",
+  "options": [
+    "pd.read_sql()",
+    "pd.sql_read()",
+    "pd.import_sql()",
+    "pd.load_sql()"
+  ],
+  "answer": "pd.read_sql()"
+},
+{
+  "id": 19,
+  "question": "What is the default separator used by read_csv()?",
+  "options": [
+    "Semicolon (;)",
+    "Comma (,)",
+    "Tab (\\t)",
+    "Space"
+  ],
+  "answer": "Comma (,)"
+},
+{
+  "id": 20,
+  "question": "Which function is used to preview only a few rows while reading a large dataset?",
+  "options": [
+    "head()",
+    "preview()",
+    "sample()",
+    "tail()"
+  ],
+  "answer": "head()"
+}
+,
+{
+  "id": 21,
+  "question": "Which attribute is used to select rows and columns by label in Pandas?",
+  "options": [
+    "iloc[]",
+    "loc[]",
+    "select[]",
+    "index[]"
+  ],
+  "answer": "loc[]"
+},
+{
+  "id": 22,
+  "question": "Which attribute is used to select rows and columns by integer position?",
+  "options": [
+    "loc[]",
+    "iloc[]",
+    "position[]",
+    "rows[]"
+  ],
+  "answer": "iloc[]"
+},
+{
+  "id": 23,
+  "question": "Which syntax is used to select a single column from a DataFrame?",
+  "options": [
+    "df(column)",
+    "df['column']",
+    "df.column()",
+    "df->column"
+  ],
+  "answer": "df['column']"
+},
+{
+  "id": 24,
+  "question": "Which function returns all unique values in a column?",
+  "options": [
+    "distinct()",
+    "unique()",
+    "different()",
+    "values()"
+  ],
+  "answer": "unique()"
+},
+{
+  "id": 25,
+  "question": "Which function returns the frequency of unique values?",
+  "options": [
+    "count_values()",
+    "value_counts()",
+    "frequency()",
+    "unique_count()"
+  ],
+  "answer": "value_counts()"
+},
+{
+  "id": 26,
+  "question": "Which operator is commonly used to filter rows based on a condition?",
+  "options": [
+    "Boolean indexing",
+    "Loop",
+    "Switch",
+    "Function"
+  ],
+  "answer": "Boolean indexing"
+},
+{
+  "id": 27,
+  "question": "Which function sorts a DataFrame by column values?",
+  "options": [
+    "sort()",
+    "sort_values()",
+    "arrange()",
+    "order()"
+  ],
+  "answer": "sort_values()"
+},
+{
+  "id": 28,
+  "question": "Which method is used to filter rows using a query string?",
+  "options": [
+    "search()",
+    "query()",
+    "find()",
+    "filter_rows()"
+  ],
+  "answer": "query()"
+},
+{
+  "id": 29,
+  "question": "Which method checks whether values exist in a given list?",
+  "options": [
+    "contains()",
+    "isin()",
+    "exists()",
+    "include()"
+  ],
+  "answer": "isin()"
+},
+{
+  "id": 30,
+  "question": "Which expression selects rows where the Age column is greater than 18?",
+  "options": [
+    "df[df['Age'] > 18]",
+    "df.select(Age>18)",
+    "df.where(Age>18)",
+    "df.filter(Age>18)"
+  ],
+  "answer": "df[df['Age'] > 18]"
+}
+,
+{
+  "id": 31,
+  "question": "Which function removes rows or columns from a DataFrame?",
+  "options": [
+    "remove()",
+    "delete()",
+    "drop()",
+    "clear()"
+  ],
+  "answer": "drop()"
+},
+{
+  "id": 32,
+  "question": "Which function removes rows containing missing values?",
+  "options": [
+    "dropna()",
+    "fillna()",
+    "removeNull()",
+    "clean()"
+  ],
+  "answer": "dropna()"
+},
+{
+  "id": 33,
+  "question": "Which function replaces missing values with a specified value?",
+  "options": [
+    "replace()",
+    "fillna()",
+    "update()",
+    "insert()"
+  ],
+  "answer": "fillna()"
+},
+{
+  "id": 34,
+  "question": "Which function replaces existing values in a DataFrame?",
+  "options": [
+    "change()",
+    "replace()",
+    "modify()",
+    "updateValue()"
+  ],
+  "answer": "replace()"
+},
+{
+  "id": 35,
+  "question": "Which function renames DataFrame columns?",
+  "options": [
+    "change()",
+    "rename()",
+    "modify()",
+    "setName()"
+  ],
+  "answer": "rename()"
+},
+{
+  "id": 36,
+  "question": "Which function changes the data type of a column?",
+  "options": [
+    "convert()",
+    "astype()",
+    "dtype()",
+    "cast()"
+  ],
+  "answer": "astype()"
+},
+{
+  "id": 37,
+  "question": "Which function removes duplicate rows from a DataFrame?",
+  "options": [
+    "drop_duplicates()",
+    "remove_duplicates()",
+    "unique()",
+    "distinct()"
+  ],
+  "answer": "drop_duplicates()"
+},
+{
+  "id": 38,
+  "question": "Which function checks for missing values in a DataFrame?",
+  "options": [
+    "isna()",
+    "isempty()",
+    "checknull()",
+    "findnull()"
+  ],
+  "answer": "isna()"
+},
+{
+  "id": 39,
+  "question": "Which function counts the number of missing values in each column?",
+  "options": [
+    "df.isna().sum()",
+    "df.count()",
+    "df.total()",
+    "df.nullcount()"
+  ],
+  "answer": "df.isna().sum()"
+},
+{
+  "id": 40,
+  "question": "Which function removes an entire column from a DataFrame?",
+  "options": [
+    "drop(column, axis=1)",
+    "delete(column)",
+    "remove(column)",
+    "clear(column)"
+  ],
+  "answer": "drop(column, axis=1)"
+}
+,
+{
+  "id": 41,
+  "question": "Which function is used to group data by one or more columns in Pandas?",
+  "options": [
+    "group()",
+    "groupby()",
+    "cluster()",
+    "categorize()"
+  ],
+  "answer": "groupby()"
+},
+{
+  "id": 42,
+  "question": "Which function is used to merge two DataFrames based on a common column?",
+  "options": [
+    "combine()",
+    "concat()",
+    "merge()",
+    "joinData()"
+  ],
+  "answer": "merge()"
+},
+{
+  "id": 43,
+  "question": "Which function is used to concatenate multiple DataFrames?",
+  "options": [
+    "append()",
+    "merge()",
+    "concat()",
+    "join()"
+  ],
+  "answer": "concat()"
+},
+{
+  "id": 44,
+  "question": "Which function generates summary statistics for numerical columns?",
+  "options": [
+    "summary()",
+    "describe()",
+    "statistics()",
+    "info()"
+  ],
+  "answer": "describe()"
+},
+{
+  "id": 45,
+  "question": "Which function calculates the average of a column?",
+  "options": [
+    "average()",
+    "mean()",
+    "median()",
+    "mode()"
+  ],
+  "answer": "mean()"
+},
+{
+  "id": 46,
+  "question": "Which function returns the middle value of a dataset?",
+  "options": [
+    "mode()",
+    "mean()",
+    "median()",
+    "center()"
+  ],
+  "answer": "median()"
+},
+{
+  "id": 47,
+  "question": "Which function returns the most frequently occurring value?",
+  "options": [
+    "mode()",
+    "median()",
+    "mean()",
+    "count()"
+  ],
+  "answer": "mode()"
+},
+{
+  "id": 48,
+  "question": "Which function calculates the correlation between numerical columns?",
+  "options": [
+    "cov()",
+    "corr()",
+    "relationship()",
+    "compare()"
+  ],
+  "answer": "corr()"
+},
+{
+  "id": 49,
+  "question": "Which aggregation function counts the number of non-null values?",
+  "options": [
+    "size()",
+    "count()",
+    "sum()",
+    "total()"
+  ],
+  "answer": "count()"
+},
+{
+  "id": 50,
+  "question": "Which of the following is an aggregation function commonly used with groupby()?",
+  "options": [
+    "mean()",
+    "sum()",
+    "count()",
+    "All of the above"
+  ],
+  "answer": "All of the above"
+}

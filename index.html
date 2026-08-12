@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Me - Premium AI Learning</title>
+
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <!-- jsPDF & html2canvas for certificates -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header>
+        <nav class="container">
+            <div class="logo" onclick="navigateTo('home')" style="cursor:pointer;">
+                Learn <span>Me</span>
+            </div>
+
+            <!-- Hamburger Menu -->
+            <div class="menu-btn" id="menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <!-- Navigation -->
+            <ul id="nav-menu">
+                <li><a href="#" class="nav-link" data-target="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-target="courses">Courses</a></li>
+                <li><a href="#" class="nav-link" data-target="dashboard">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main id="app-container">
+        
+        <!-- ================= VIEW: HOME ================= -->
+        <section id="view-home" class="view active-view">
+            <div class="hero">
+                <div class="container hero-content">
+                    <h1>Master the Future of AI</h1>
+                    <p>
+                        Explore cutting-edge courses in Artificial Intelligence, Machine Learning,
+                        Deep Learning, and Computer Vision. Experience premium learning.
+                    </p>
+                    <a href="#" class="btn btn-primary" onclick="navigateTo('courses')">
+                        <i class="fas fa-rocket"></i> Start Learning
+                    </a>
+                </div>
+            </div>
+            
+            <div class="container stats-bar">
+                <div class="stat-item"><i class="fas fa-video"></i> <span>Interactive Modules</span></div>
+                <div class="stat-item"><i class="fas fa-brain"></i> <span>AI Assessments</span></div>
+                <div class="stat-item"><i class="fas fa-certificate"></i> <span>Verifiable Certificates</span></div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW: COURSES LIST ================= -->
+        <section id="view-courses" class="view">
+            <div class="container">
+                <div class="view-header">
+                    <h2>Premium Courses</h2>
+                    <p>Select a learning path to begin your journey.</p>
+                </div>
+                <div class="cards" id="courses-container">
+                    <!-- Dynamic courses will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW: COURSE DETAILS ================= -->
+        <section id="view-course-details" class="view">
+            <div class="container" id="course-details-container">
+                <!-- Dynamic course details injected here -->
+            </div>
+        </section>
+
+
+
+        <!-- ================= VIEW: ASSESSMENT ================= -->
+        <section id="view-assessment" class="view">
+            <div class="container" id="assessment-container">
+                <!-- Final assessment content injected here -->
+            </div>
+        </section>
+
+        <!-- ================= VIEW: RESULT ================= -->
+        <section id="view-result" class="view">
+            <div class="container" id="result-container">
+                <!-- Results content injected here -->
+            </div>
+        </section>
+        
+        <!-- ================= VIEW: DASHBOARD ================= -->
+        <section id="view-dashboard" class="view">
+            <div class="container" id="dashboard-container">
+                <!-- Dashboard content injected here -->
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Hidden Certificate Template -->
+    <div id="certificate-template" style="position: absolute; left: -9999px; background: white; color: black; width: 800px; height: 600px; padding: 40px; box-sizing: border-box; text-align: center; border: 20px solid #1e293b;">
+        <h1 style="font-size: 40px; margin-top: 50px; color: #1e293b;">Certificate of Completion</h1>
+        <p style="font-size: 20px; margin-top: 20px;">This is proudly presented to</p>
+        <h2 id="cert-student-name" style="font-size: 35px; margin: 30px 0; color: #3b82f6;">Student Name</h2>
+        <p style="font-size: 18px; line-height: 1.6;">For successfully completing the rigorous curriculum and final assessment in</p>
+        <h3 id="cert-course-name" style="font-size: 28px; margin: 20px 0; font-weight: bold;">Course Name</h3>
+        <p style="font-size: 18px;">Final Score: <span id="cert-score">100%</span></p>
+        
+        <div style="display: flex; justify-content: space-between; margin-top: 80px; text-align: left; padding: 0 40px;">
+            <div>
+                <p>Date: <span id="cert-date">YYYY-MM-DD</span></p>
+            </div>
+            <div>
+                <p>ID: <span id="cert-id">CERT-000</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Learn Me Institute. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

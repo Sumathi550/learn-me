@@ -1,0 +1,442 @@
+[
+    {
+        "id": 1,
+        "question": "Which keyword is used to define a function in Python?",
+        "options": [
+            "function",
+            "define",
+            "def",
+            "func"
+        ],
+        "answer": "def"
+    },
+    {
+        "id": 2,
+        "question": "Which function is used to display output in Python?",
+        "options": [
+            "echo()",
+            "display()",
+            "print()",
+            "show()"
+        ],
+        "answer": "print()"
+    },
+    {
+        "id": 3,
+        "question": "Which function is used to get input from the user?",
+        "options": [
+            "read()",
+            "scan()",
+            "input()",
+            "get()"
+        ],
+        "answer": "input()"
+    },
+    {
+        "id": 4,
+        "question": "Which data type is used to store whole numbers?",
+        "options": [
+            "float",
+            "int",
+            "str",
+            "bool"
+        ],
+        "answer": "int"
+    },
+    {
+        "id": 5,
+        "question": "Which of the following is the correct file extension for Python files?",
+        "options": [
+            ".pt",
+            ".python",
+            ".py",
+            ".pyt"
+        ],
+        "answer": ".py"
+    },
+    {
+        "id": 6,
+        "question": "Which operator is used for exponentiation in Python?",
+        "options": [
+            "^",
+            "**",
+            "*",
+            "%"
+        ],
+        "answer": "**"
+    },
+    {
+        "id": 7,
+        "question": "Which symbol is used to write a comment in Python?",
+        "options": [
+            "//",
+            "#",
+            "/*",
+            "--"
+        ],
+        "answer": "#"
+    },
+    {
+        "id": 8,
+        "question": "Which of the following is a mutable data type?",
+        "options": [
+            "Tuple",
+            "String",
+            "List",
+            "Integer"
+        ],
+        "answer": "List"
+    },
+    {
+        "id": 9,
+        "question": "Which keyword is used to create a loop that repeats while a condition is true?",
+        "options": [
+            "for",
+            "repeat",
+            "while",
+            "loop"
+        ],
+        "answer": "while"
+    },
+    {
+        "id": 10,
+        "question": "Which keyword is used to import a module in Python?",
+        "options": [
+            "include",
+            "using",
+            "import",
+            "require"
+        ],
+        "answer": "import"
+    }
+],
+{
+    "id": 11,
+    "question": "Which operator is used to perform floor division in Python?",
+    "options": [
+        "/",
+        "//",
+        "%",
+        "**"
+    ],
+    "answer": "//"
+},
+{
+    "id": 12,
+    "question": "Which operator is used to find the remainder of a division?",
+    "options": [
+        "/",
+        "//",
+        "%",
+        "*"
+    ],
+    "answer": "%"
+},
+{
+    "id": 13,
+    "question": "Which comparison operator checks if two values are equal?",
+    "options": [
+        "=",
+        "==",
+        "!=",
+        ">="
+    ],
+    "answer": "=="
+},
+{
+    "id": 14,
+    "question": "Which logical operator returns True only if both conditions are True?",
+    "options": [
+        "or",
+        "and",
+        "not",
+        "xor"
+    ],
+    "answer": "and"
+},
+{
+    "id": 15,
+    "question": "Which keyword is used to start a conditional statement in Python?",
+    "options": [
+        "when",
+        "if",
+        "switch",
+        "case"
+    ],
+    "answer": "if"
+},
+{
+    "id": 16,
+    "question": "Which keyword is used to check another condition if the first condition is False?",
+    "options": [
+        "elseif",
+        "elif",
+        "else if",
+        "otherwise"
+    ],
+    "answer": "elif"
+},
+{
+    "id": 17,
+    "question": "Which keyword executes when all previous conditions are False?",
+    "options": [
+        "default",
+        "finally",
+        "else",
+        "break"
+    ],
+    "answer": "else"
+},
+{
+    "id": 18,
+    "question": "Which comparison operator means 'not equal to'?",
+    "options": [
+        "<>",
+        "!=",
+        "==",
+        "=!"
+    ],
+    "answer": "!="
+},
+{
+    "id": 19,
+    "question": "What is the output of: print(10 > 5)?",
+    "options": [
+        "False",
+        "10",
+        "True",
+        "Error"
+    ],
+    "answer": "True"
+},
+{
+    "id": 20,
+    "question": "Which logical operator reverses a Boolean value?",
+    "options": [
+        "and",
+        "or",
+        "not",
+        "is"
+    ],
+    "answer": "not"
+},
+{
+    "id": 21,
+    "question": "Which loop is used to iterate over a sequence in Python?",
+    "options": [
+        "while",
+        "for",
+        "loop",
+        "repeat"
+    ],
+    "answer": "for"
+},
+{
+    "id": 22,
+    "question": "Which keyword is used to terminate a loop immediately?",
+    "options": [
+        "continue",
+        "stop",
+        "break",
+        "exit"
+    ],
+    "answer": "break"
+},
+{
+    "id": 23,
+    "question": "Which keyword skips the current iteration and moves to the next iteration?",
+    "options": [
+        "break",
+        "pass",
+        "continue",
+        "skip"
+    ],
+    "answer": "continue"
+},
+{
+    "id": 24,
+    "question": "What is the output of range(5)?",
+    "options": [
+        "1,2,3,4,5",
+        "0,1,2,3,4",
+        "0,1,2,3,4,5",
+        "1,2,3,4"
+    ],
+    "answer": "0,1,2,3,4"
+},
+{
+    "id": 25,
+    "question": "Which loop executes as long as the given condition is True?",
+    "options": [
+        "for",
+        "while",
+        "repeat",
+        "do-while"
+    ],
+    "answer": "while"
+},
+{
+    "id": 26,
+    "question": "Which keyword is used to define a function in Python?",
+    "options": [
+        "function",
+        "define",
+        "def",
+        "func"
+    ],
+    "answer": "def"
+},
+{
+    "id": 27,
+    "question": "Which keyword is used to return a value from a function?",
+    "options": [
+        "print",
+        "return",
+        "yield",
+        "break"
+    ],
+    "answer": "return"
+},
+{
+    "id": 28,
+    "question": "Which function returns the length of a list or string?",
+    "options": [
+        "count()",
+        "size()",
+        "len()",
+        "length()"
+    ],
+    "answer": "len()"
+},
+{
+    "id": 29,
+    "question": "Which keyword is used to create an anonymous function?",
+    "options": [
+        "lambda",
+        "anonymous",
+        "func",
+        "def"
+    ],
+    "answer": "lambda"
+},
+{
+    "id": 30,
+    "question": "Which of the following is the correct way to call a function named 'display'?",
+    "options": [
+        "display",
+        "display[]",
+        "display()",
+        "call display()"
+    ],
+    "answer": "display()"
+},
+{
+    "id": 31,
+    "question": "Which brackets are used to create a list in Python?",
+    "options": [
+        "()",
+        "[]",
+        "{}",
+        "<>"
+    ],
+    "answer": "[]"
+},
+{
+    "id": 32,
+    "question": "Which data structure is immutable in Python?",
+    "options": [
+        "List",
+        "Dictionary",
+        "Tuple",
+        "Set"
+    ],
+    "answer": "Tuple"
+},
+{
+    "id": 33,
+    "question": "Which method is used to add an element to the end of a list?",
+    "options": [
+        "insert()",
+        "append()",
+        "add()",
+        "extend()"
+    ],
+    "answer": "append()"
+},
+{
+    "id": 34,
+    "question": "Which method removes the last element from a list?",
+    "options": [
+        "remove()",
+        "delete()",
+        "pop()",
+        "clear()"
+    ],
+    "answer": "pop()"
+},
+{
+    "id": 35,
+    "question": "Which collection stores data as key-value pairs?",
+    "options": [
+        "List",
+        "Tuple",
+        "Dictionary",
+        "Set"
+    ],
+    "answer": "Dictionary"
+},
+{
+    "id": 36,
+    "question": "Which brackets are used to create a dictionary?",
+    "options": [
+        "[]",
+        "()",
+        "{}",
+        "<>"
+    ],
+    "answer": "{}"
+},
+{
+    "id": 37,
+    "question": "Which method returns all the keys in a dictionary?",
+    "options": [
+        "values()",
+        "items()",
+        "keys()",
+        "get()"
+    ],
+    "answer": "keys()"
+},
+{
+    "id": 38,
+    "question": "Which method removes all elements from a list?",
+    "options": [
+        "delete()",
+        "remove()",
+        "clear()",
+        "pop()"
+    ],
+    "answer": "clear()"
+},
+{
+    "id": 39,
+    "question": "Which Python collection automatically removes duplicate values?",
+    "options": [
+        "List",
+        "Tuple",
+        "Set",
+        "Dictionary"
+    ],
+    "answer": "Set"
+},
+{
+    "id": 40,
+    "question": "Which method sorts a list in ascending order?",
+    "options": [
+        "order()",
+        "arrange()",
+        "sort()",
+        "sortedlist()"
+    ],
+    "answer": "sort()"
+}

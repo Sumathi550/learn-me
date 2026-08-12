@@ -1,0 +1,552 @@
+[
+    {
+        "id": 1,
+        "question": "What is Computer Vision?",
+        "options": [
+            "A programming language",
+            "A field of AI that enables computers to understand images and videos",
+            "A database system",
+            "A web framework"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 2,
+        "question": "Computer Vision is a subfield of which domain?",
+        "options": [
+            "Networking",
+            "Artificial Intelligence",
+            "Operating Systems",
+            "Cloud Computing"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 3,
+        "question": "Which library is widely used for Computer Vision in Python?",
+        "options": [
+            "NumPy",
+            "Pandas",
+            "OpenCV",
+            "Matplotlib"
+        ],
+        "answer": 2
+    },
+    {
+        "id": 4,
+        "question": "What does OpenCV stand for?",
+        "options": [
+            "Open Computer Vision",
+            "OpenCV Vision",
+            "Optical Computer Vision",
+            "Online Computer Vision"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 5,
+        "question": "Which function is commonly used to read an image in OpenCV?",
+        "options": [
+            "cv2.load()",
+            "cv2.read()",
+            "cv2.imread()",
+            "cv2.open()"
+        ],
+        "answer": 2
+    },
+    {
+        "id": 6,
+        "question": "Which function is used to display an image in OpenCV?",
+        "options": [
+            "cv2.display()",
+            "cv2.imshow()",
+            "cv2.show()",
+            "cv2.image()"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 7,
+        "question": "Which function is used to save an image in OpenCV?",
+        "options": [
+            "cv2.imwrite()",
+            "cv2.save()",
+            "cv2.store()",
+            "cv2.export()"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 8,
+        "question": "Which color format does OpenCV use by default?",
+        "options": [
+            "RGB",
+            "BGR",
+            "HSV",
+            "CMYK"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 9,
+        "question": "What is the smallest unit of a digital image?",
+        "options": [
+            "Frame",
+            "Pixel",
+            "Grid",
+            "Layer"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 10,
+        "question": "Which of the following is a real-world application of Computer Vision?",
+        "options": [
+            "Face Recognition",
+            "Medical Image Analysis",
+            "Autonomous Vehicles",
+            "All of the above"
+        ],
+        "answer": 3
+    },
+    {
+        "id": 11,
+        "question": "What is the purpose of converting an image to grayscale?",
+        "options": [
+            "Increase image size",
+            "Reduce the image to one intensity channel for easier processing",
+            "Add more colors",
+            "Improve internet speed"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 12,
+        "question": "Which OpenCV function is used to convert a color image to grayscale?",
+        "options": [
+            "cv2.gray()",
+            "cv2.cvtColor()",
+            "cv2.convertGray()",
+            "cv2.toGray()"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 13,
+        "question": "Which OpenCV function is used to resize an image?",
+        "options": [
+            "cv2.scale()",
+            "cv2.resize()",
+            "cv2.crop()",
+            "cv2.expand()"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 14,
+        "question": "Image cropping is mainly used to:",
+        "options": [
+            "Increase image brightness",
+            "Extract a specific region of an image",
+            "Rotate an image",
+            "Blur an image"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 15,
+        "question": "Which OpenCV function is commonly used to rotate an image?",
+        "options": [
+            "cv2.rotate()",
+            "cv2.spin()",
+            "cv2.flipRotate()",
+            "cv2.turn()"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 16,
+        "question": "What is the purpose of Gaussian Blur?",
+        "options": [
+            "Detect edges",
+            "Reduce image noise and smooth the image",
+            "Increase contrast",
+            "Sharpen the image"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 17,
+        "question": "Thresholding is mainly used to:",
+        "options": [
+            "Convert an image into a binary image",
+            "Resize an image",
+            "Rotate an image",
+            "Compress an image"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 18,
+        "question": "Which edge detection algorithm is widely used in OpenCV?",
+        "options": [
+            "K-Means",
+            "Canny Edge Detection",
+            "Decision Tree",
+            "Random Forest"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 19,
+        "question": "Which OpenCV function performs Canny Edge Detection?",
+        "options": [
+            "cv2.edge()",
+            "cv2.canny()",
+            "cv2.Canny()",
+            "cv2.detectEdge()"
+        ],
+        "answer": 2
+    },
+    {
+        "id": 20,
+        "question": "Morphological operations such as erosion and dilation are mainly used for:",
+        "options": [
+            "Image compression",
+            "Removing noise and refining object shapes",
+            "Changing image colors",
+            "Increasing image resolution"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 21,
+        "question": "What is Object Detection in Computer Vision?",
+        "options": [
+            "Identifying only the color of an image",
+            "Identifying and locating objects within an image",
+            "Compressing an image",
+            "Resizing an image"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 22,
+        "question": "Which algorithm is widely used for real-time object detection?",
+        "options": [
+            "YOLO",
+            "K-Means",
+            "Linear Regression",
+            "Naive Bayes"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 23,
+        "question": "What does YOLO stand for?",
+        "options": [
+            "You Only Learn Once",
+            "You Only Look Once",
+            "Your Object Learning Operation",
+            "Young Object Locator"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 24,
+        "question": "Which OpenCV-based method is commonly used for face detection?",
+        "options": [
+            "KNN",
+            "Haar Cascade",
+            "Decision Tree",
+            "Random Forest"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 25,
+        "question": "What is the purpose of a bounding box in object detection?",
+        "options": [
+            "To increase image quality",
+            "To highlight the location of an object",
+            "To resize an image",
+            "To blur the background"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 26,
+        "question": "What is Image Segmentation?",
+        "options": [
+            "Splitting an image into meaningful regions",
+            "Reducing image size",
+            "Rotating an image",
+            "Changing image colors"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 27,
+        "question": "Semantic Segmentation assigns:",
+        "options": [
+            "A class label to every pixel",
+            "A label to the entire image",
+            "A label to only one object",
+            "A random color to each pixel"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 28,
+        "question": "Instance Segmentation differs from Semantic Segmentation because it:",
+        "options": [
+            "Treats all objects of the same class as one",
+            "Identifies each object instance separately",
+            "Only works on grayscale images",
+            "Only detects faces"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 29,
+        "question": "Which OpenCV function is commonly used to detect contours?",
+        "options": [
+            "cv2.findContours()",
+            "cv2.detectContours()",
+            "cv2.contours()",
+            "cv2.shapeDetect()"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 30,
+        "question": "Which Computer Vision task follows an object's movement across video frames?",
+        "options": [
+            "Image Classification",
+            "Object Tracking",
+            "Thresholding",
+            "Image Filtering"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 31,
+        "question": "Which deep learning architecture is primarily used for image classification?",
+        "options": [
+            "RNN",
+            "CNN",
+            "LSTM",
+            "K-Means"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 32,
+        "question": "What is Image Classification?",
+        "options": [
+            "Locating objects in an image",
+            "Assigning a label to an entire image",
+            "Tracking moving objects",
+            "Enhancing image quality"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 33,
+        "question": "What is Feature Extraction in Computer Vision?",
+        "options": [
+            "Removing unwanted pixels",
+            "Identifying important patterns or characteristics from an image",
+            "Changing image colors",
+            "Compressing image files"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 34,
+        "question": "Which technique uses a pre-trained deep learning model for a new vision task?",
+        "options": [
+            "Transfer Learning",
+            "Gradient Descent",
+            "Clustering",
+            "Thresholding"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 35,
+        "question": "Which OpenCV function is used to draw a rectangle on an image?",
+        "options": [
+            "cv2.box()",
+            "cv2.rectangle()",
+            "cv2.square()",
+            "cv2.drawRect()"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 36,
+        "question": "Which OpenCV function is used to draw a circle on an image?",
+        "options": [
+            "cv2.circle()",
+            "cv2.round()",
+            "cv2.drawCircle()",
+            "cv2.arc()"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 37,
+        "question": "Which OpenCV class is commonly used to capture video from a webcam?",
+        "options": [
+            "cv2.VideoCapture()",
+            "cv2.Camera()",
+            "cv2.CaptureVideo()",
+            "cv2.Webcam()"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 38,
+        "question": "Which color space is commonly used for color detection in OpenCV?",
+        "options": [
+            "RGB",
+            "HSV",
+            "CMYK",
+            "LAB"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 39,
+        "question": "Which OpenCV function is commonly used for template matching?",
+        "options": [
+            "cv2.matchTemplate()",
+            "cv2.findTemplate()",
+            "cv2.templateMatch()",
+            "cv2.detectTemplate()"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 40,
+        "question": "Which Computer Vision application identifies or verifies a person's identity from an image or video?",
+        "options": [
+            "Face Recognition",
+            "Image Filtering",
+            "Thresholding",
+            "Edge Detection"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 41,
+        "question": "What does OCR stand for?",
+        "options": [
+            "Object Character Recognition",
+            "Optical Character Recognition",
+            "Online Character Reader",
+            "Open Character Recognition"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 42,
+        "question": "What is the main purpose of OCR?",
+        "options": [
+            "Detect faces",
+            "Extract text from images",
+            "Classify objects",
+            "Resize images"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 43,
+        "question": "Pose Estimation is used to:",
+        "options": [
+            "Estimate the position of human body keypoints",
+            "Detect image colors",
+            "Compress images",
+            "Generate random images"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 44,
+        "question": "Image Captioning combines Computer Vision with which field?",
+        "options": [
+            "Networking",
+            "Natural Language Processing",
+            "Database Management",
+            "Cyber Security"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 45,
+        "question": "Which Deep Learning model is commonly used to generate realistic images?",
+        "options": [
+            "GAN",
+            "Decision Tree",
+            "K-Means",
+            "Naive Bayes"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 46,
+        "question": "Computer Vision is widely used in the medical field for:",
+        "options": [
+            "Medical Image Analysis",
+            "Web Development",
+            "Database Design",
+            "Network Routing"
+        ],
+        "answer": 0
+    },
+    {
+        "id": 47,
+        "question": "Autonomous vehicles use Computer Vision mainly for:",
+        "options": [
+            "Image Compression",
+            "Road, lane, and object detection",
+            "Text Translation",
+            "Audio Processing"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 48,
+        "question": "Which technology overlays digital content onto the real world?",
+        "options": [
+            "Virtual Reality (VR)",
+            "Augmented Reality (AR)",
+            "Cloud Computing",
+            "Blockchain"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 49,
+        "question": "Which Computer Vision application identifies emotions from facial expressions?",
+        "options": [
+            "Object Tracking",
+            "Facial Emotion Recognition",
+            "Image Compression",
+            "Edge Detection"
+        ],
+        "answer": 1
+    },
+    {
+        "id": 50,
+        "question": "Which of the following is a real-world application of Computer Vision?",
+        "options": [
+            "Face Unlock on Smartphones",
+            "Traffic Monitoring",
+            "Quality Inspection in Manufacturing",
+            "All of the above"
+        ],
+        "answer": 3
+    }
+]
