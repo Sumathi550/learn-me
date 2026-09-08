@@ -1,0 +1,447 @@
+ [
+  {
+    "id": 1,
+    "question": "What type of database is MongoDB?",
+    "options": [
+      "Relational database",
+      "Document-oriented NoSQL database",
+      "Spreadsheet database",
+      "Graphical database"
+    ],
+    "answer": "Document-oriented NoSQL database",
+    "explanation": "MongoDB is a NoSQL database that stores data as flexible, document-based records."
+  },
+  {
+    "id": 2,
+    "question": "What is the basic unit of data storage in MongoDB?",
+    "options": ["Table", "Document", "Row", "Schema"],
+    "answer": "Document",
+    "explanation": "MongoDB stores individual records as documents."
+  },
+  {
+    "id": 3,
+    "question": "What is the MongoDB equivalent of a table in a relational database?",
+    "options": ["Document", "Collection", "Field", "Index"],
+    "answer": "Collection",
+    "explanation": "A collection groups multiple MongoDB documents, similar to a table in relational databases."
+  },
+  {
+    "id": 4,
+    "question": "MongoDB documents are stored in which format?",
+    "options": ["XML", "BSON", "CSV", "HTML"],
+    "answer": "BSON",
+    "explanation": "MongoDB stores documents internally using BSON, a binary representation of JSON-like documents."
+  },
+  {
+    "id": 5,
+    "question": "Which command is commonly used to view all documents in a collection?",
+    "options": ["db.collection.get()", "db.collection.find()", "db.collection.select()", "db.collection.show()"],
+    "answer": "db.collection.find()",
+    "explanation": "The find() method retrieves documents from a MongoDB collection."
+  },
+  {
+    "id": 6,
+    "question": "Which method is used to insert one document into a collection?",
+    "options": ["addOne()", "insertOne()", "createOne()", "saveOne()"],
+    "answer": "insertOne()",
+    "explanation": "insertOne() adds a single document to a MongoDB collection."
+  },
+  {
+    "id": 7,
+    "question": "Which method inserts multiple documents?",
+    "options": ["insertMany()", "addMany()", "createMany()", "pushMany()"],
+    "answer": "insertMany()",
+    "explanation": "insertMany() adds multiple documents to a collection in a single operation."
+  },
+  {
+    "id": 8,
+    "question": "Which field uniquely identifies a MongoDB document by default?",
+    "options": ["id", "_id", "primaryKey", "documentId"],
+    "answer": "_id",
+    "explanation": "Every MongoDB document has an _id field that uniquely identifies it within a collection."
+  },
+  {
+    "id": 9,
+    "question": "What is ObjectId commonly used for in MongoDB?",
+    "options": [
+      "Generating unique document identifiers",
+      "Creating CSS objects",
+      "Encrypting passwords",
+      "Sorting collections"
+    ],
+    "answer": "Generating unique document identifiers",
+    "explanation": "ObjectId is a common BSON type used to generate unique values for the _id field."
+  },
+  {
+    "id": 10,
+    "question": "Which operator is used to match documents where a field equals a value?",
+    "options": ["$eq", "$equal", "$match", "$same"],
+    "answer": "$eq",
+    "explanation": "The $eq operator explicitly tests whether a field is equal to a specified value."
+  },
+
+  {
+    "id": 11,
+    "question": "Which operator checks whether a value is greater than another value?",
+    "options": ["$gt", "$greater", "$above", "$more"],
+    "answer": "$gt",
+    "explanation": "The $gt operator matches values greater than the specified value."
+  },
+  {
+    "id": 12,
+    "question": "Which operator checks whether a value is less than another value?",
+    "options": ["$lt", "$less", "$below", "$small"],
+    "answer": "$lt",
+    "explanation": "The $lt operator matches values less than the specified value."
+  },
+  {
+    "id": 13,
+    "question": "Which operator checks whether a field matches one of several values?",
+    "options": ["$in", "$or", "$all", "$match"],
+    "answer": "$in",
+    "explanation": "The $in operator selects documents where a field matches any value in a specified array."
+  },
+  {
+    "id": 14,
+    "question": "Which logical operator matches documents that satisfy multiple conditions?",
+    "options": ["$and", "$all", "$both", "$combine"],
+    "answer": "$and",
+    "explanation": "The $and operator performs a logical AND operation on multiple query expressions."
+  },
+  {
+    "id": 15,
+    "question": "Which logical operator matches documents that satisfy at least one condition?",
+    "options": ["$and", "$or", "$not", "$nor"],
+    "answer": "$or",
+    "explanation": "The $or operator selects documents that match at least one of the specified conditions."
+  },
+  {
+    "id": 16,
+    "question": "Which method updates a single matching document?",
+    "options": ["update()", "updateOne()", "modifyOne()", "changeOne()"],
+    "answer": "updateOne()",
+    "explanation": "updateOne() updates the first document that matches the specified filter."
+  },
+  {
+    "id": 17,
+    "question": "Which method updates multiple matching documents?",
+    "options": ["updateAll()", "updateMany()", "modifyMany()", "changeMany()"],
+    "answer": "updateMany()",
+    "explanation": "updateMany() updates all documents that match the specified filter."
+  },
+  {
+    "id": 18,
+    "question": "Which update operator is commonly used to change the value of a field?",
+    "options": ["$set", "$update", "$change", "$modify"],
+    "answer": "$set",
+    "explanation": "The $set operator replaces the value of a specified field."
+  },
+  {
+    "id": 19,
+    "question": "Which method removes a single matching document?",
+    "options": ["deleteOne()", "removeOne()", "dropOne()", "delete()"],
+    "answer": "deleteOne()",
+    "explanation": "deleteOne() removes the first document that matches the specified filter."
+  },
+  {
+    "id": 20,
+    "question": "Which method removes multiple matching documents?",
+    "options": ["deleteAll()", "deleteMany()", "removeMany()", "dropMany()"],
+    "answer": "deleteMany()",
+    "explanation": "deleteMany() removes all documents that match the specified filter."
+  },
+
+  {
+    "id": 21,
+    "question": "Which method is commonly used to retrieve one matching document?",
+    "options": ["findOne()", "getOne()", "selectOne()", "readOne()"],
+    "answer": "findOne()",
+    "explanation": "findOne() returns a single document that matches the query filter."
+  },
+  {
+    "id": 22,
+    "question": "What is an index in MongoDB primarily used for?",
+    "options": [
+      "Improving query performance",
+      "Deleting documents",
+      "Creating collections",
+      "Encrypting data"
+    ],
+    "answer": "Improving query performance",
+    "explanation": "Indexes can improve query efficiency by allowing MongoDB to locate matching documents more efficiently."
+  },
+  {
+    "id": 23,
+    "question": "Which method creates an index?",
+    "options": ["createIndex()", "addIndex()", "newIndex()", "makeIndex()"],
+    "answer": "createIndex()",
+    "explanation": "createIndex() creates one or more indexes on a MongoDB collection."
+  },
+  {
+    "id": 24,
+    "question": "What is a unique index?",
+    "options": [
+      "An index that prevents duplicate values",
+      "An index used only once",
+      "A deleted index",
+      "A hidden index"
+    ],
+    "answer": "An index that prevents duplicate values",
+    "explanation": "A unique index ensures that indexed values do not violate uniqueness constraints."
+  },
+  {
+    "id": 25,
+    "question": "What is aggregation in MongoDB?",
+    "options": [
+      "Processing and transforming documents to calculate results",
+      "Creating a new database",
+      "Deleting duplicate documents",
+      "Backing up collections"
+    ],
+    "answer": "Processing and transforming documents to calculate results",
+    "explanation": "Aggregation processes documents through stages to filter, group, transform, and calculate results."
+  },
+  {
+    "id": 26,
+    "question": "Which aggregation stage filters documents?",
+    "options": ["$match", "$group", "$sort", "$project"],
+    "answer": "$match",
+    "explanation": "$match filters documents based on specified conditions."
+  },
+  {
+    "id": 27,
+    "question": "Which aggregation stage groups documents?",
+    "options": ["$match", "$group", "$sort", "$limit"],
+    "answer": "$group",
+    "explanation": "$group groups documents and can calculate aggregated values."
+  },
+  {
+    "id": 28,
+    "question": "Which aggregation stage sorts documents?",
+    "options": ["$order", "$sort", "$arrange", "$rank"],
+    "answer": "$sort",
+    "explanation": "$sort orders documents according to specified fields."
+  },
+  {
+    "id": 29,
+    "question": "Which aggregation stage limits the number of documents returned?",
+    "options": ["$limit", "$max", "$count", "$reduce"],
+    "answer": "$limit",
+    "explanation": "$limit restricts the number of documents passed to the next stage or returned."
+  },
+  {
+    "id": 30,
+    "question": "Which aggregation stage selects or reshapes document fields?",
+    "options": ["$select", "$project", "$fields", "$shape"],
+    "answer": "$project",
+    "explanation": "$project specifies which fields to include, exclude, or compute in aggregation results."
+  },
+
+  {
+    "id": 31,
+    "question": "What is a replica set in MongoDB?",
+    "options": [
+      "A group of MongoDB servers that maintain copies of the same data",
+      "A collection of duplicate databases",
+      "A group of indexes",
+      "A type of document"
+    ],
+    "answer": "A group of MongoDB servers that maintain copies of the same data",
+    "explanation": "A replica set provides redundancy and high availability by maintaining copies of data across multiple members."
+  },
+  {
+    "id": 32,
+    "question": "What is the primary node in a MongoDB replica set responsible for?",
+    "options": [
+      "Accepting write operations and coordinating replication",
+      "Only storing backups",
+      "Only reading data",
+      "Deleting secondary nodes"
+    ],
+    "answer": "Accepting write operations and coordinating replication",
+    "explanation": "The primary member accepts writes, and changes are replicated to secondary members."
+  },
+  {
+    "id": 33,
+    "question": "What is a secondary node in a replica set?",
+    "options": [
+      "A member that maintains a copy of the primary's data",
+      "A deleted database",
+      "A type of collection",
+      "A backup file only"
+    ],
+    "answer": "A member that maintains a copy of the primary's data",
+    "explanation": "Secondary members replicate data from the primary and may serve reads depending on read preferences."
+  },
+  {
+    "id": 34,
+    "question": "What is sharding in MongoDB?",
+    "options": [
+      "Distributing data across multiple machines",
+      "Encrypting a collection",
+      "Creating duplicate documents",
+      "Sorting data automatically"
+    ],
+    "answer": "Distributing data across multiple machines",
+    "explanation": "Sharding horizontally distributes data across multiple servers to support large datasets and workloads."
+  },
+  {
+    "id": 35,
+    "question": "What is a shard key?",
+    "options": [
+      "A field or fields used to distribute documents across shards",
+      "A database password",
+      "A type of primary key",
+      "An encryption key"
+    ],
+    "answer": "A field or fields used to distribute documents across shards",
+    "explanation": "A shard key determines how documents are distributed across shards in a sharded cluster."
+  },
+  {
+    "id": 36,
+    "question": "What is embedding in MongoDB?",
+    "options": [
+      "Storing related data inside the same document",
+      "Deleting related documents",
+      "Encrypting a document",
+      "Copying a database"
+    ],
+    "answer": "Storing related data inside the same document",
+    "explanation": "Embedding stores related data as nested documents or arrays within a single document."
+  },
+  {
+    "id": 37,
+    "question": "What is referencing in MongoDB?",
+    "options": [
+      "Storing a relationship using values that point to other documents",
+      "Creating CSS references",
+      "Deleting nested objects",
+      "Encrypting relationships"
+    ],
+    "answer": "Storing a relationship using values that point to other documents",
+    "explanation": "Referencing models relationships by storing identifiers or other values that refer to related documents."
+  },
+  {
+    "id": 38,
+    "question": "Which MongoDB data type can store an array?",
+    "options": ["Array", "String", "ObjectId", "Boolean"],
+    "answer": "Array",
+    "explanation": "MongoDB documents can contain array fields that store multiple values."
+  },
+  {
+    "id": 39,
+    "question": "Which MongoDB feature provides a flexible document structure?",
+    "options": [
+      "Flexible schema",
+      "Fixed rows",
+      "Mandatory columns",
+      "Static tables"
+    ],
+    "answer": "Flexible schema",
+    "explanation": "Documents in the same collection can have different fields, allowing flexible data modeling."
+  },
+  {
+    "id": 40,
+    "question": "Which method displays available databases in mongosh?",
+    "options": ["show dbs", "show databases()", "list dbs", "db.show()"],
+    "answer": "show dbs",
+    "explanation": "The show dbs command lists databases available to the current MongoDB deployment."
+  },
+
+  {
+    "id": 41,
+    "question": "Which command switches to or creates a database in MongoDB shell?",
+    "options": ["use databaseName", "connect databaseName", "open databaseName", "create databaseName"],
+    "answer": "use databaseName",
+    "explanation": "The use command switches the current database context; the database is typically created when data is first stored."
+  },
+  {
+    "id": 42,
+    "question": "Which command lists collections in the current database?",
+    "options": ["show collections", "list collections", "db.collections()", "get collections"],
+    "answer": "show collections",
+    "explanation": "The show collections command lists collections in the current database."
+  },
+  {
+    "id": 43,
+    "question": "What does db.collection.countDocuments() do?",
+    "options": [
+      "Counts documents matching a query",
+      "Deletes duplicate documents",
+      "Creates a document",
+      "Sorts documents"
+    ],
+    "answer": "Counts documents matching a query",
+    "explanation": "countDocuments() returns the number of documents that match the specified query."
+  },
+  {
+    "id": 44,
+    "question": "Which operator can add an element to an array field?",
+    "options": ["$push", "$add", "$append", "$insert"],
+    "answer": "$push",
+    "explanation": "$push adds a value to an array field."
+  },
+  {
+    "id": 45,
+    "question": "Which operator increments a numeric field?",
+    "options": ["$increase", "$add", "$inc", "$plus"],
+    "answer": "$inc",
+    "explanation": "$inc increases or decreases a numeric field by a specified amount."
+  },
+  {
+    "id": 46,
+    "question": "What is MongoDB Atlas?",
+    "options": [
+      "A managed cloud database service for MongoDB",
+      "A JavaScript framework",
+      "A local text editor",
+      "A SQL database"
+    ],
+    "answer": "A managed cloud database service for MongoDB",
+    "explanation": "MongoDB Atlas provides managed MongoDB database deployments in the cloud."
+  },
+  {
+    "id": 47,
+    "question": "What is a document database best suited for?",
+    "options": [
+      "Data with flexible or evolving structures",
+      "Only fixed spreadsheet data",
+      "Only numerical calculations",
+      "Only CSS styling"
+    ],
+    "answer": "Data with flexible or evolving structures",
+    "explanation": "Document databases are useful when application data has flexible, nested, or evolving structures."
+  },
+  {
+    "id": 48,
+    "question": "Which operator can remove a field from a document?",
+    "options": ["$unset", "$delete", "$remove", "$drop"],
+    "answer": "$unset",
+    "explanation": "$unset removes the specified field from a document."
+  },
+  {
+    "id": 49,
+    "question": "What is the purpose of the $lookup aggregation stage?",
+    "options": [
+      "Joining data from another collection",
+      "Creating a new database",
+      "Deleting duplicate documents",
+      "Creating an index"
+    ],
+    "answer": "Joining data from another collection",
+    "explanation": "$lookup performs a left outer join-like operation between collections within an aggregation pipeline."
+  },
+  {
+    "id": 50,
+    "question": "What is one major advantage of MongoDB's document model?",
+    "options": [
+      "It can represent nested and flexible application data naturally",
+      "It requires every document to have identical fields",
+      "It only supports fixed schemas",
+      "It cannot store arrays"
+    ],
+    "answer": "It can represent nested and flexible application data naturally",
+    "explanation": "MongoDB documents can contain nested objects and arrays, allowing many application data structures to be represented naturally."
+  }
+]
+

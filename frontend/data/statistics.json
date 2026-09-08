@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "question": "What is Statistics?",
+    "options": ["The study of collecting and analyzing data", "The study of programming only", "The study of hardware", "The study of networks"],
+    "answer": "The study of collecting and analyzing data",
+    "explanation": "Statistics involves collecting, organizing, analyzing, interpreting, and presenting data."
+  },
+  {
+    "id": 2,
+    "question": "What is data?",
+    "options": ["Facts and information collected for analysis", "Only computer programs", "Only images", "A programming language"],
+    "answer": "Facts and information collected for analysis",
+    "explanation": "Data consists of facts, observations, or measurements collected for analysis."
+  },
+  {
+    "id": 3,
+    "question": "What is a population in statistics?",
+    "options": ["The entire group being studied", "A small part of the group", "Only numerical data", "A graph"],
+    "answer": "The entire group being studied",
+    "explanation": "A population is the complete set of individuals, objects, or observations being studied."
+  },
+  {
+    "id": 4,
+    "question": "What is a sample?",
+    "options": ["A subset of a population", "The entire population", "A type of graph", "A statistical formula"],
+    "answer": "A subset of a population",
+    "explanation": "A sample is a smaller group selected from the population for analysis."
+  },
+  {
+    "id": 5,
+    "question": "What is the mean?",
+    "options": ["The average of values", "The middle value", "The most frequent value", "The largest value"],
+    "answer": "The average of values",
+    "explanation": "The mean is calculated by dividing the sum of all values by the number of values."
+  },
+  {
+    "id": 6,
+    "question": "What is the median?",
+    "options": ["The middle value in ordered data", "The average of values", "The most frequent value", "The smallest value"],
+    "answer": "The middle value in ordered data",
+    "explanation": "The median is the middle value after arranging the data in ascending or descending order."
+  },
+  {
+    "id": 7,
+    "question": "What is the mode?",
+    "options": ["The most frequently occurring value", "The middle value", "The average value", "The minimum value"],
+    "answer": "The most frequently occurring value",
+    "explanation": "The mode is the value that appears most often in a dataset."
+  },
+  {
+    "id": 8,
+    "question": "Which measure is most affected by extreme values?",
+    "options": ["Mean", "Median", "Mode", "Range"],
+    "answer": "Mean",
+    "explanation": "The mean is affected by very large or very small values called outliers."
+  },
+  {
+    "id": 9,
+    "question": "Which measure is usually less affected by outliers?",
+    "options": ["Median", "Mean", "Range", "Variance"],
+    "answer": "Median",
+    "explanation": "The median depends on the position of values, so extreme values usually have less effect."
+  },
+  {
+    "id": 10,
+    "question": "What is the range of a dataset?",
+    "options": ["Maximum value minus minimum value", "The average value", "The middle value", "The total number of values"],
+    "answer": "Maximum value minus minimum value",
+    "explanation": "Range measures spread by subtracting the smallest value from the largest value."
+  },
+  {
+    "id": 11,
+    "question": "What does variance measure?",
+    "options": ["The spread of data around the mean", "The middle value", "The most frequent value", "The number of observations"],
+    "answer": "The spread of data around the mean",
+    "explanation": "Variance measures how far values are spread from the mean using squared differences."
+  },
+  {
+    "id": 12,
+    "question": "What is standard deviation?",
+    "options": ["A measure of data spread", "The middle value", "The largest value", "A probability"],
+    "answer": "A measure of data spread",
+    "explanation": "Standard deviation measures how much the data values typically vary from the mean."
+  },
+  {
+    "id": 13,
+    "question": "What does a low standard deviation indicate?",
+    "options": ["Values are close to the mean", "Values are very spread out", "There is no data", "All values are negative"],
+    "answer": "Values are close to the mean",
+    "explanation": "A low standard deviation means the values are generally clustered near the mean."
+  },
+  {
+    "id": 14,
+    "question": "What does a high standard deviation indicate?",
+    "options": ["Values are widely spread", "All values are equal", "The mean is zero", "There is no variation"],
+    "answer": "Values are widely spread",
+    "explanation": "A high standard deviation indicates greater variation and spread in the data."
+  },
+  {
+    "id": 15,
+    "question": "What is probability?",
+    "options": ["The likelihood of an event occurring", "The average of data", "A type of chart", "The largest value"],
+    "answer": "The likelihood of an event occurring",
+    "explanation": "Probability measures how likely an event is to occur."
+  },
+  {
+    "id": 16,
+    "question": "What is the probability of a certain event?",
+    "options": ["1", "0", "0.5", "-1"],
+    "answer": "1",
+    "explanation": "A certain event has a probability of 1."
+  },
+  {
+    "id": 17,
+    "question": "What is the probability of an impossible event?",
+    "options": ["0", "1", "0.5", "100"],
+    "answer": "0",
+    "explanation": "An impossible event has a probability of 0."
+  },
+  {
+    "id": 18,
+    "question": "What is the possible range of probability?",
+    "options": ["0 to 1", "-1 to 1", "1 to 100", "-100 to 100"],
+    "answer": "0 to 1",
+    "explanation": "Probability values always range from 0 to 1."
+  },
+  {
+    "id": 19,
+    "question": "What is a random variable?",
+    "options": ["A variable whose value depends on a random outcome", "A fixed constant", "A programming function", "A database"],
+    "answer": "A variable whose value depends on a random outcome",
+    "explanation": "A random variable represents numerical outcomes of a random experiment."
+  },
+  {
+    "id": 20,
+    "question": "What is a discrete random variable?",
+    "options": ["A variable with countable values", "A variable with unlimited decimal values", "A constant value", "A graph"],
+    "answer": "A variable with countable values",
+    "explanation": "A discrete random variable takes countable values, such as 0, 1, 2, and 3."
+  },
+  {
+    "id": 21,
+    "question": "What is a continuous random variable?",
+    "options": ["A variable that can take any value within a range", "A variable with only whole numbers", "A fixed value", "A category"],
+    "answer": "A variable that can take any value within a range",
+    "explanation": "Continuous variables can take infinitely many possible values within an interval."
+  },
+  {
+    "id": 22,
+    "question": "What is correlation?",
+    "options": ["A measure of relationship between variables", "The average of data", "The total number of observations", "A type of population"],
+    "answer": "A measure of relationship between variables",
+    "explanation": "Correlation measures the strength and direction of the relationship between two variables."
+  },
+  {
+    "id": 23,
+    "question": "What does a positive correlation indicate?",
+    "options": ["Both variables tend to increase together", "One increases while the other decreases", "There is no relationship", "Both variables are always zero"],
+    "answer": "Both variables tend to increase together",
+    "explanation": "A positive correlation means the variables generally move in the same direction."
+  },
+  {
+    "id": 24,
+    "question": "What does a negative correlation indicate?",
+    "options": ["One variable increases while the other decreases", "Both increase together", "There is no variation", "The mean is zero"],
+    "answer": "One variable increases while the other decreases",
+    "explanation": "A negative correlation means the variables generally move in opposite directions."
+  },
+  {
+    "id": 25,
+    "question": "What does a correlation coefficient close to 0 indicate?",
+    "options": ["Little or no linear relationship", "Perfect positive relationship", "Perfect negative relationship", "Identical values"],
+    "answer": "Little or no linear relationship",
+    "explanation": "A correlation value near 0 generally indicates little or no linear relationship."
+  },
+  {
+    "id": 26,
+    "question": "What is a histogram mainly used for?",
+    "options": ["Showing the distribution of numerical data", "Showing program code", "Writing text", "Creating databases"],
+    "answer": "Showing the distribution of numerical data",
+    "explanation": "A histogram displays the frequency distribution of numerical data using intervals or bins."
+  },
+  {
+    "id": 27,
+    "question": "Which graph is useful for showing categories and their frequencies?",
+    "options": ["Bar chart", "Histogram only", "Scatter plot", "Line of code"],
+    "answer": "Bar chart",
+    "explanation": "A bar chart is commonly used to compare values across different categories."
+  },
+  {
+    "id": 28,
+    "question": "Which graph is commonly used to show the relationship between two numerical variables?",
+    "options": ["Scatter plot", "Pie chart", "Bar chart", "Histogram"],
+    "answer": "Scatter plot",
+    "explanation": "A scatter plot displays pairs of numerical values and helps identify relationships between variables."
+  },
+  {
+    "id": 29,
+    "question": "What is a frequency distribution?",
+    "options": ["A summary showing how often values occur", "A list of programming errors", "A type of database", "A probability of 2"],
+    "answer": "A summary showing how often values occur",
+    "explanation": "A frequency distribution shows the number of times each value or group of values occurs."
+  },
+  {
+    "id": 30,
+    "question": "What is an outlier?",
+    "options": ["A value significantly different from other values", "The average value", "The middle value", "The most frequent value"],
+    "answer": "A value significantly different from other values",
+    "explanation": "An outlier is an observation that is unusually far from the rest of the data."
+  },
+  {
+    "id": 31,
+    "question": "What is skewness?",
+    "options": ["A measure of asymmetry in a distribution", "A measure of sample size", "The total value", "A type of mean"],
+    "answer": "A measure of asymmetry in a distribution",
+    "explanation": "Skewness describes whether a distribution is symmetric or has a longer tail on one side."
+  },
+  {
+    "id": 32,
+    "question": "What does positive skewness generally indicate?",
+    "options": ["A longer tail on the right side", "A longer tail on the left side", "Perfect symmetry", "No data"],
+    "answer": "A longer tail on the right side",
+    "explanation": "A positively skewed distribution typically has a longer tail extending toward larger values."
+  },
+  {
+    "id": 33,
+    "question": "What does negative skewness generally indicate?",
+    "options": ["A longer tail on the left side", "A longer tail on the right side", "Perfect symmetry", "All values are equal"],
+    "answer": "A longer tail on the left side",
+    "explanation": "A negatively skewed distribution typically has a longer tail extending toward smaller values."
+  },
+  {
+    "id": 34,
+    "question": "What is a normal distribution?",
+    "options": ["A symmetric bell-shaped distribution", "A random bar chart", "A database table", "A programming loop"],
+    "answer": "A symmetric bell-shaped distribution",
+    "explanation": "A normal distribution is a continuous, symmetric distribution commonly represented by a bell-shaped curve."
+  },
+  {
+    "id": 35,
+    "question": "In a perfectly normal distribution, which measures are equal?",
+    "options": ["Mean, median, and mode", "Range and variance", "Minimum and maximum", "Sample and population"],
+    "answer": "Mean, median, and mode",
+    "explanation": "For a perfectly symmetric normal distribution, the mean, median, and mode occur at the same center point."
+  },
+  {
+    "id": 36,
+    "question": "What is a hypothesis?",
+    "options": ["A testable statement or assumption", "A confirmed fact always", "A type of chart", "A programming keyword"],
+    "answer": "A testable statement or assumption",
+    "explanation": "A hypothesis is a proposed statement that can be tested using data."
+  },
+  {
+    "id": 37,
+    "question": "What is the null hypothesis?",
+    "options": ["A statement usually representing no significant effect or difference", "The final conclusion always", "The sample size", "A graph"],
+    "answer": "A statement usually representing no significant effect or difference",
+    "explanation": "The null hypothesis, often written as H0, usually represents no effect, difference, or relationship."
+  },
+  {
+    "id": 38,
+    "question": "What is the alternative hypothesis?",
+    "options": ["A statement suggesting an effect or difference", "The same as the null hypothesis", "A data type", "A measure of spread"],
+    "answer": "A statement suggesting an effect or difference",
+    "explanation": "The alternative hypothesis, often written as H1 or Ha, represents the claim being tested against the null hypothesis."
+  },
+  {
+    "id": 39,
+    "question": "What is a p-value used for?",
+    "options": ["Assessing evidence against the null hypothesis", "Calculating only the mean", "Finding the mode", "Sorting data"],
+    "answer": "Assessing evidence against the null hypothesis",
+    "explanation": "A p-value helps assess how compatible the observed data is with the null hypothesis."
+  },
+  {
+    "id": 40,
+    "question": "What is a confidence interval?",
+    "options": ["A range of plausible values for a population parameter", "A range containing all data values", "The sample size", "A type of chart"],
+    "answer": "A range of plausible values for a population parameter",
+    "explanation": "A confidence interval provides a range of values used to estimate an unknown population parameter."
+  },
+  {
+    "id": 41,
+    "question": "What is regression mainly used for?",
+    "options": ["Modeling relationships and making predictions", "Deleting data", "Sorting categories only", "Finding only the mode"],
+    "answer": "Modeling relationships and making predictions",
+    "explanation": "Regression analyzes relationships between variables and can be used for prediction."
+  },
+  {
+    "id": 42,
+    "question": "What is simple linear regression?",
+    "options": ["A model using one independent variable to predict a dependent variable", "A model with no variables", "A probability chart", "A sorting algorithm"],
+    "answer": "A model using one independent variable to predict a dependent variable",
+    "explanation": "Simple linear regression models the relationship between one predictor and one outcome variable."
+  },
+  {
+    "id": 43,
+    "question": "What is the independent variable?",
+    "options": ["The predictor or input variable", "The output being predicted", "Always the mean", "The sample size"],
+    "answer": "The predictor or input variable",
+    "explanation": "The independent variable is typically used to explain or predict changes in another variable."
+  },
+  {
+    "id": 44,
+    "question": "What is the dependent variable?",
+    "options": ["The outcome or response variable", "Always the input", "A fixed constant", "A population"],
+    "answer": "The outcome or response variable",
+    "explanation": "The dependent variable is the outcome that may be explained or predicted by independent variables."
+  },
+  {
+    "id": 45,
+    "question": "What is sampling?",
+    "options": ["Selecting a subset from a population", "Using the entire population always", "Deleting observations", "Creating graphs only"],
+    "answer": "Selecting a subset from a population",
+    "explanation": "Sampling is the process of selecting observations from a larger population."
+  },
+  {
+    "id": 46,
+    "question": "What is random sampling?",
+    "options": ["Selecting members so each has a chance of being chosen", "Selecting only the largest values", "Selecting only friends", "Selecting the same value repeatedly"],
+    "answer": "Selecting members so each has a chance of being chosen",
+    "explanation": "Random sampling uses a selection process designed to give population members a chance of being selected."
+  },
+  {
+    "id": 47,
+    "question": "What is categorical data?",
+    "options": ["Data representing groups or labels", "Only decimal numbers", "Only continuous measurements", "A statistical formula"],
+    "answer": "Data representing groups or labels",
+    "explanation": "Categorical data represents categories, groups, or labels such as colors or departments."
+  },
+  {
+    "id": 48,
+    "question": "What is quantitative data?",
+    "options": ["Numerical data representing amounts or measurements", "Only text labels", "Only categories", "A graph type"],
+    "answer": "Numerical data representing amounts or measurements",
+    "explanation": "Quantitative data consists of numerical values that can represent counts or measurements."
+  },
+  {
+    "id": 49,
+    "question": "Which measure represents the middle 50 percent of ordered data?",
+    "options": ["Interquartile Range", "Mean", "Mode", "Correlation"],
+    "answer": "Interquartile Range",
+    "explanation": "The interquartile range measures the spread between the first quartile and third quartile, covering the middle 50 percent of the data."
+  },
+  {
+    "id": 50,
+    "question": "Why is statistics important in Data Science?",
+    "options": ["It helps analyze data and make informed decisions", "It is only used to write code", "It replaces programming completely", "It is only used for databases"],
+    "answer": "It helps analyze data and make informed decisions",
+    "explanation": "Statistics helps Data Science professionals summarize data, identify patterns, test hypotheses, and make data-driven decisions."
+  }
+]

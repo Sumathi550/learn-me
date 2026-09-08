@@ -1,0 +1,457 @@
+ [
+  {
+    "id": 1,
+    "question": "What is a data structure?",
+    "options": [
+      "A way of organizing and storing data",
+      "A programming language",
+      "A database server",
+      "An operating system"
+    ],
+    "answer": "A way of organizing and storing data",
+    "explanation": "A data structure is a method of organizing, storing, and managing data so it can be accessed and modified efficiently."
+  },
+  {
+    "id": 2,
+    "question": "Which data structure stores elements in contiguous memory locations?",
+    "options": ["Linked List", "Array", "Tree", "Graph"],
+    "answer": "Array",
+    "explanation": "An array stores its elements in contiguous memory locations, allowing efficient indexed access."
+  },
+  {
+    "id": 3,
+    "question": "What is the time complexity of accessing an element by index in an array?",
+    "options": ["O(1)", "O(n)", "O(log n)", "O(nÂ²)"],
+    "answer": "O(1)",
+    "explanation": "Arrays provide direct access using an index, so accessing an element takes constant time."
+  },
+  {
+    "id": 4,
+    "question": "Which data structure follows the LIFO principle?",
+    "options": ["Queue", "Stack", "Linked List", "Tree"],
+    "answer": "Stack",
+    "explanation": "A stack follows Last In, First Out, meaning the most recently added element is removed first."
+  },
+  {
+    "id": 5,
+    "question": "Which data structure follows the FIFO principle?",
+    "options": ["Stack", "Queue", "Tree", "Graph"],
+    "answer": "Queue",
+    "explanation": "A queue follows First In, First Out, meaning the first inserted element is removed first."
+  },
+  {
+    "id": 6,
+    "question": "Which operation adds an element to a stack?",
+    "options": ["enqueue", "push", "insert", "append"],
+    "answer": "push",
+    "explanation": "The push operation adds a new element to the top of a stack."
+  },
+  {
+    "id": 7,
+    "question": "Which operation removes an element from a stack?",
+    "options": ["dequeue", "pop", "delete", "remove"],
+    "answer": "pop",
+    "explanation": "The pop operation removes and returns the top element of a stack."
+  },
+  {
+    "id": 8,
+    "question": "Which operation adds an element to a queue?",
+    "options": ["push", "enqueue", "pop", "dequeue"],
+    "answer": "enqueue",
+    "explanation": "Enqueue adds an element to the rear of a queue."
+  },
+  {
+    "id": 9,
+    "question": "Which operation removes an element from a queue?",
+    "options": ["pop", "push", "enqueue", "dequeue"],
+    "answer": "dequeue",
+    "explanation": "Dequeue removes an element from the front of a queue."
+  },
+  {
+    "id": 10,
+    "question": "What is a linked list?",
+    "options": [
+      "A collection of nodes connected through links or references",
+      "A fixed-size array",
+      "A sorting algorithm",
+      "A database table"
+    ],
+    "answer": "A collection of nodes connected through links or references",
+    "explanation": "A linked list stores elements as nodes, where each node contains data and a reference to another node."
+  },
+
+  {
+    "id": 11,
+    "question": "What is the main advantage of a linked list over a fixed-size array?",
+    "options": [
+      "Dynamic size and easier insertions or deletions at known positions",
+      "Constant-time access by index",
+      "Lower memory usage in every case",
+      "Automatic sorting"
+    ],
+    "answer": "Dynamic size and easier insertions or deletions at known positions",
+    "explanation": "Linked lists can grow dynamically and can insert or remove nodes efficiently when the position is already known."
+  },
+  {
+    "id": 12,
+    "question": "What is the time complexity of linear search in an unsorted array?",
+    "options": ["O(1)", "O(log n)", "O(n)", "O(nÂ²)"],
+    "answer": "O(n)",
+    "explanation": "In the worst case, linear search may need to examine every element."
+  },
+  {
+    "id": 13,
+    "question": "Which search algorithm requires sorted data?",
+    "options": ["Linear Search", "Binary Search", "DFS", "BFS"],
+    "answer": "Binary Search",
+    "explanation": "Binary search repeatedly divides a sorted search range into halves."
+  },
+  {
+    "id": 14,
+    "question": "What is the typical time complexity of binary search?",
+    "options": ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
+    "answer": "O(log n)",
+    "explanation": "Binary search halves the remaining search space during each comparison."
+  },
+  {
+    "id": 15,
+    "question": "Which sorting algorithm repeatedly compares adjacent elements and swaps them when necessary?",
+    "options": ["Merge Sort", "Bubble Sort", "Selection Sort", "Quick Sort"],
+    "answer": "Bubble Sort",
+    "explanation": "Bubble sort repeatedly compares adjacent elements and swaps them when they are in the wrong order."
+  },
+  {
+    "id": 16,
+    "question": "What is the worst-case time complexity of Bubble Sort?",
+    "options": ["O(log n)", "O(n)", "O(nÂ²)", "O(n log n)"],
+    "answer": "O(nÂ²)",
+    "explanation": "In the worst case, bubble sort performs a quadratic number of comparisons and swaps."
+  },
+  {
+    "id": 17,
+    "question": "Which sorting algorithm divides an array into smaller parts and then merges sorted parts?",
+    "options": ["Bubble Sort", "Selection Sort", "Merge Sort", "Insertion Sort"],
+    "answer": "Merge Sort",
+    "explanation": "Merge sort uses divide and conquer by splitting the data, sorting the parts, and merging them."
+  },
+  {
+    "id": 18,
+    "question": "What is the typical worst-case time complexity of Merge Sort?",
+    "options": ["O(nÂ²)", "O(n log n)", "O(log n)", "O(n)"],
+    "answer": "O(n log n)",
+    "explanation": "Merge sort divides the input into logarithmic levels and processes all elements at each level."
+  },
+  {
+    "id": 19,
+    "question": "Which sorting algorithm selects a pivot and partitions elements around it?",
+    "options": ["Merge Sort", "Quick Sort", "Bubble Sort", "Heap Sort"],
+    "answer": "Quick Sort",
+    "explanation": "Quick sort partitions elements around a selected pivot and recursively sorts the resulting partitions."
+  },
+  {
+    "id": 20,
+    "question": "What is the average-case time complexity of Quick Sort?",
+    "options": ["O(n)", "O(log n)", "O(n log n)", "O(nÂ²)"],
+    "answer": "O(n log n)",
+    "explanation": "With reasonably balanced partitions, quick sort has an average time complexity of O(n log n)."
+  },
+
+  {
+    "id": 21,
+    "question": "What is a tree data structure?",
+    "options": [
+      "A hierarchical collection of nodes",
+      "A linear collection of elements",
+      "A type of array only",
+      "A database query"
+    ],
+    "answer": "A hierarchical collection of nodes",
+    "explanation": "A tree organizes nodes in a hierarchical structure using parent-child relationships."
+  },
+  {
+    "id": 22,
+    "question": "What is the topmost node in a tree called?",
+    "options": ["Leaf", "Root", "Parent", "Child"],
+    "answer": "Root",
+    "explanation": "The root is the topmost node and has no parent."
+  },
+  {
+    "id": 23,
+    "question": "What is a node with no children called?",
+    "options": ["Root", "Parent", "Leaf", "Branch"],
+    "answer": "Leaf",
+    "explanation": "A leaf node is a node that does not have any children."
+  },
+  {
+    "id": 24,
+    "question": "What is a Binary Tree?",
+    "options": [
+      "A tree where each node has at most two children",
+      "A tree containing only two nodes",
+      "A tree with exactly one child per node",
+      "A sorted linked list"
+    ],
+    "answer": "A tree where each node has at most two children",
+    "explanation": "Each node in a binary tree can have zero, one, or two children."
+  },
+  {
+    "id": 25,
+    "question": "In a Binary Search Tree, where are values smaller than a node generally stored?",
+    "options": [
+      "Left subtree",
+      "Right subtree",
+      "Root only",
+      "Outside the tree"
+    ],
+    "answer": "Left subtree",
+    "explanation": "In a conventional BST, values smaller than a node are stored in its left subtree."
+  },
+  {
+    "id": 26,
+    "question": "Which traversal visits Root, Left, Right?",
+    "options": ["Inorder", "Preorder", "Postorder", "Level Order"],
+    "answer": "Preorder",
+    "explanation": "Preorder traversal processes the root first, followed by the left and right subtrees."
+  },
+  {
+    "id": 27,
+    "question": "Which traversal visits Left, Root, Right?",
+    "options": ["Preorder", "Postorder", "Inorder", "Level Order"],
+    "answer": "Inorder",
+    "explanation": "Inorder traversal visits the left subtree, then the root, and finally the right subtree."
+  },
+  {
+    "id": 28,
+    "question": "Which traversal visits Left, Right, Root?",
+    "options": ["Preorder", "Inorder", "Postorder", "BFS"],
+    "answer": "Postorder",
+    "explanation": "Postorder traversal processes both subtrees before visiting the root."
+  },
+  {
+    "id": 29,
+    "question": "What is a graph?",
+    "options": [
+      "A collection of vertices connected by edges",
+      "A fixed-size array",
+      "A stack implementation",
+      "A sorting technique"
+    ],
+    "answer": "A collection of vertices connected by edges",
+    "explanation": "A graph consists of vertices, also called nodes, and edges representing relationships between them."
+  },
+  {
+    "id": 30,
+    "question": "Which traversal algorithm explores a graph level by level?",
+    "options": ["DFS", "BFS", "Binary Search", "Quick Sort"],
+    "answer": "BFS",
+    "explanation": "Breadth-First Search explores nodes in increasing distance from the starting node and commonly uses a queue."
+  },
+
+  {
+    "id": 31,
+    "question": "Which data structure is commonly used to implement BFS?",
+    "options": ["Stack", "Queue", "Array only", "Tree"],
+    "answer": "Queue",
+    "explanation": "BFS typically uses a queue to process vertices in first-in, first-out order."
+  },
+  {
+    "id": 32,
+    "question": "Which data structure is commonly associated with iterative DFS?",
+    "options": ["Queue", "Stack", "Heap", "Hash Table"],
+    "answer": "Stack",
+    "explanation": "Iterative Depth-First Search commonly uses a stack to explore nodes deeply before backtracking."
+  },
+  {
+    "id": 33,
+    "question": "What is recursion?",
+    "options": [
+      "A technique where a function calls itself",
+      "A type of database",
+      "A sorting algorithm only",
+      "A method that cannot return a value"
+    ],
+    "answer": "A technique where a function calls itself",
+    "explanation": "Recursion solves a problem by calling the same function on smaller subproblems until a base case is reached."
+  },
+  {
+    "id": 34,
+    "question": "Why is a base case important in recursion?",
+    "options": [
+      "It stops recursive calls from continuing indefinitely",
+      "It makes recursion always O(1)",
+      "It automatically sorts data",
+      "It creates a new thread"
+    ],
+    "answer": "It stops recursive calls from continuing indefinitely",
+    "explanation": "The base case defines when recursion should stop and return a result."
+  },
+  {
+    "id": 35,
+    "question": "What is a hash table primarily used for?",
+    "options": [
+      "Fast key-based storage and lookup",
+      "Sorting elements automatically",
+      "Creating binary trees",
+      "Managing recursion"
+    ],
+    "answer": "Fast key-based storage and lookup",
+    "explanation": "Hash tables use a hash function to map keys to locations, enabling efficient average-case lookup."
+  },
+  {
+    "id": 36,
+    "question": "What is the average-case lookup complexity of a well-designed hash table?",
+    "options": ["O(1)", "O(log n)", "O(n)", "O(nÂ²)"],
+    "answer": "O(1)",
+    "explanation": "With good hashing and a controlled load factor, hash table lookup is typically O(1) on average."
+  },
+  {
+    "id": 37,
+    "question": "What is a collision in a hash table?",
+    "options": [
+      "When different keys map to the same hash location",
+      "When a stack becomes empty",
+      "When two arrays are merged",
+      "When a tree has two roots"
+    ],
+    "answer": "When different keys map to the same hash location",
+    "explanation": "A collision occurs when multiple keys are assigned to the same hash bucket or index."
+  },
+  {
+    "id": 38,
+    "question": "Which technique can handle hash table collisions?",
+    "options": ["Chaining", "Recursion only", "Binary search", "Bubble sorting"],
+    "answer": "Chaining",
+    "explanation": "Chaining stores multiple entries that map to the same location in an associated collection or linked structure."
+  },
+  {
+    "id": 39,
+    "question": "What does Big O notation describe?",
+    "options": [
+      "The growth rate of an algorithm's resource usage",
+      "The exact execution time in seconds",
+      "Only the memory address",
+      "The number of programming languages"
+    ],
+    "answer": "The growth rate of an algorithm's resource usage",
+    "explanation": "Big O notation describes how time or space requirements grow as input size increases, usually as an upper-bound growth classification."
+  },
+  {
+    "id": 40,
+    "question": "Which time complexity generally grows the fastest?",
+    "options": ["O(log n)", "O(n)", "O(n log n)", "O(nÂ²)"],
+    "answer": "O(nÂ²)",
+    "explanation": "For sufficiently large input sizes, quadratic growth O(nÂ²) increases faster than the other listed complexities."
+  },
+
+  {
+    "id": 41,
+    "question": "What is dynamic programming?",
+    "options": [
+      "Solving problems by storing and reusing results of overlapping subproblems",
+      "Writing code dynamically at runtime",
+      "A type of database",
+      "Only using recursion"
+    ],
+    "answer": "Solving problems by storing and reusing results of overlapping subproblems",
+    "explanation": "Dynamic programming avoids repeated work by storing solutions to subproblems and reusing them."
+  },
+  {
+    "id": 42,
+    "question": "What is memoization?",
+    "options": [
+      "Caching results of previously solved function calls",
+      "Sorting an array",
+      "Deleting duplicate values",
+      "Creating a linked list"
+    ],
+    "answer": "Caching results of previously solved function calls",
+    "explanation": "Memoization stores previously computed results so repeated calls with the same inputs can reuse them."
+  },
+  {
+    "id": 43,
+    "question": "What is the main idea behind a greedy algorithm?",
+    "options": [
+      "Making the best local choice at each step",
+      "Trying every possible solution",
+      "Always using recursion",
+      "Sorting data randomly"
+    ],
+    "answer": "Making the best local choice at each step",
+    "explanation": "A greedy algorithm repeatedly chooses what appears to be the best local option, which is optimal only for problems with suitable properties."
+  },
+  {
+    "id": 44,
+    "question": "What is a heap?",
+    "options": [
+      "A tree-based structure that satisfies a heap property",
+      "A linear linked list",
+      "A type of database",
+      "A sorting error"
+    ],
+    "answer": "A tree-based structure that satisfies a heap property",
+    "explanation": "A heap is commonly represented as a complete binary tree where parent-child values follow either min-heap or max-heap ordering."
+  },
+  {
+    "id": 45,
+    "question": "In a max heap, where is the largest element stored?",
+    "options": [
+      "At the root",
+      "At the last leaf",
+      "In the middle",
+      "Outside the heap"
+    ],
+    "answer": "At the root",
+    "explanation": "A max heap maintains the largest value at the root."
+  },
+  {
+    "id": 46,
+    "question": "Which data structure is commonly used to implement a priority queue?",
+    "options": ["Heap", "Linked List only", "Stack", "Simple Array only"],
+    "answer": "Heap",
+    "explanation": "A heap is commonly used to implement priority queues efficiently."
+  },
+  {
+    "id": 47,
+    "question": "What is the worst-case time complexity of linear search?",
+    "options": ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
+    "answer": "O(n)",
+    "explanation": "Linear search may inspect every element before finding the target or determining that it is absent."
+  },
+  {
+    "id": 48,
+    "question": "Which technique breaks a problem into smaller subproblems, solves them, and combines the results?",
+    "options": [
+      "Divide and Conquer",
+      "Greedy Method",
+      "Linear Search",
+      "Hashing"
+    ],
+    "answer": "Divide and Conquer",
+    "explanation": "Divide and conquer recursively breaks a problem into smaller parts, solves them, and combines their results."
+  },
+  {
+    "id": 49,
+    "question": "What is space complexity?",
+    "options": [
+      "The amount of memory an algorithm requires relative to input size",
+      "The execution time of an algorithm",
+      "The number of lines of code",
+      "The disk size of the program only"
+    ],
+    "answer": "The amount of memory an algorithm requires relative to input size",
+    "explanation": "Space complexity describes how an algorithm's memory requirements grow as the input size increases."
+  },
+  {
+    "id": 50,
+    "question": "Why are Data Structures and Algorithms important in software development?",
+    "options": [
+      "They help design efficient and scalable solutions",
+      "They replace all programming languages",
+      "They eliminate the need for databases",
+      "They only matter for theoretical exams"
+    ],
+    "answer": "They help design efficient and scalable solutions",
+    "explanation": "Understanding DSA helps developers choose appropriate ways to organize data and solve problems efficiently as applications grow."
+  }
+]
+

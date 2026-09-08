@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Assessment | Learn Me</title>
+    <link rel="icon" href="assets/learnme-logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/style.css?v=2" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+    <!-- Certificate generation libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        .quiz-portal-container {
+            max-width: 900px;
+            margin: 40px auto 80px;
+            padding: 0 20px;
+        }
+        .quiz-card {
+            background: var(--bg-panel, #ffffff);
+            border: 1px solid var(--glass-border, rgba(13, 27, 61, 0.12));
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(13, 27, 61, 0.05);
+        }
+        .course-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .course-pick-item {
+            background: rgba(13, 27, 61, 0.02);
+            border: 1px solid var(--glass-border, rgba(13, 27, 61, 0.1));
+            border-radius: 14px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .course-pick-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-accent, #2563eb);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.12);
+            background: #ffffff;
+        }
+        .course-pick-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: rgba(37, 99, 235, 0.08);
+            color: var(--primary-accent, #2563eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .quiz-opt-label {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            background: rgba(13, 27, 61, 0.02);
+            border: 1.5px solid rgba(13, 27, 61, 0.1);
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+        }
+        .quiz-opt-label:hover {
+            background: rgba(37, 99, 235, 0.04);
+            border-color: rgba(37, 99, 235, 0.4);
+        }
+        .quiz-opt-label.selected {
+            background: rgba(37, 99, 235, 0.08);
+            border-color: var(--primary-accent, #2563eb);
+            font-weight: 600;
+        }
+        .palette-item {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid rgba(13, 27, 61, 0.15);
+            background: #f8fafc;
+            color: var(--text-main, #0f172a);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 4px;
+        }
+        .palette-item.answered {
+            background: #10b981;
+            color: #ffffff;
+            border-color: #10b981;
+        }
+        .palette-item.current {
+            border: 2px solid #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+        .palette-item.marked {
+            background: #f59e0b;
+            color: #ffffff;
+            border-color: #f59e0b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER & NAVIGATION ================= -->
+    <header>
+        <nav class="container">
+            <div class="logo" onclick="window.location.href='index.html#home'" style="cursor: pointer;">
+                <img src="assets/learnme-logo.png" alt="Learn Me Logo" />
+            </div>
+
+            <div class="menu-btn" id="menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <ul id="nav-menu">
+                <li><a href="index.html#home" class="nav-link" onclick="navigateTo('home'); return false;">Home</a></li>
+                <li><a href="index.html#courses" class="nav-link" onclick="navigateTo('courses'); return false;">Courses</a></li>
+                <li><a href="index.html#dashboard" class="nav-link" onclick="navigateTo('dashboard'); return false;">Dashboard</a></li>
+                <li><a href="quize.html" class="nav-link active" onclick="navigateTo('quiz'); return false;">Quiz</a></li>
+                <li><a href="verify.html" class="nav-link" onclick="navigateTo('verify'); return false;">Verify</a></li>
+                <li id="secret-admin-nav" style="display: none;">
+                    <a href="admin.html" class="nav-link" style="color: var(--primary-accent); font-weight: 700;">
+                        <i class="fas fa-lock"></i> Admin
+                    </a>
+                </li>
+            </ul>
+
+            <div class="user-auth-section" id="user-auth-section" style="display: flex; gap: 12px; align-items: center;">
+                <div id="auth-section" style="display: flex; align-items: center; gap: 8px;">
+                    <button class="btn btn-sm btn-primary" onclick="openAuthModal('login')" style="padding: 8px 18px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fas fa-sign-in-alt"></i> Sign In / Register
+                    </button>
+                </div>
+                <div id="user-section" style="display: none; align-items: center; position: relative;">
+                    <div id="user-avatar" style="width: 38px; height: 38px; border-radius: 50%; background: #ffffff; color: var(--primary-accent); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; cursor: pointer;" onclick="toggleProfileMenu()">L</div>
+                    <div id="profile-menu" style="position: absolute; top: 120%; right: 0; background: #ffffff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: none; flex-direction: column; gap: 10px; min-width: 200px; z-index: 1000;">
+                        <div style="border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 5px;">
+                            <strong id="menu-user-name" style="display: block; color: var(--primary-accent);">Learner</strong>
+                            <small id="menu-user-email" style="color: var(--text-muted);">Self-Paced Learning</small>
+                        </div>
+                        <a href="index.html#dashboard" style="color: var(--text-main); text-decoration: none; padding: 5px 0;"><i class="fas fa-certificate"></i> My Certificates</a>
+                        <div style="border-top: 1px solid #eee; padding-top: 8px; margin-top: 4px;">
+                            <button onclick="logoutUser()" style="width: 100%; text-align: left; background: none; border: none; color: var(--danger); font-weight: 700; cursor: pointer; padding: 6px 0; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-sign-out-alt"></i> Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="quiz-portal-container">
+        
+        <!-- STEP 1: Select Course View -->
+        <div id="quiz-course-picker" style="display: none;">
+            <div class="view-header" style="text-align: center; margin-bottom: 30px;">
+                <div style="width:64px; height:64px; border-radius:50%; background:rgba(37,99,235,0.1); color:var(--primary-accent); display:inline-flex; align-items:center; justify-content:center; font-size:26px; margin-bottom:14px;">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h1 style="font-size: 32px; color: var(--primary-accent);">Interactive Quiz Center</h1>
+                <p style="color: var(--text-muted); max-width: 540px; margin: 8px auto 0;">
+                    Choose a track below to start your smart assessment, test your mastery, and earn your verified certification.
+                </p>
+            </div>
+
+            <div class="course-picker-grid" id="picker-courses-grid">
+                <!-- Courses injected via JS -->
+            </div>
+        </div>
+
+        <!-- STEP 2: Live Assessment View -->
+        <div id="quiz-active-card" class="quiz-card" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(13,27,61,0.08); padding-bottom: 20px; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+                <div>
+                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
+                        <span id="quiz-course-badge" style="background: rgba(37,99,235,0.1); color: var(--primary-accent); font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 20px; display: inline-block;">Python Programming</span>
+                        <span style="background: rgba(16,185,129,0.1); color: #059669; font-weight: 700; font-size: 11px; padding: 3px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fas fa-layer-group"></i> 5 Questions (from 50 Total)
+                        </span>
+                    </div>
+                    <h2 id="quiz-title" style="font-size: 24px; margin: 0; color: var(--text-main);">Final Assessment</h2>
+                </div>
+                <div style="display: flex; align-items: center; gap: 18px;">
+                    <div style="font-size: 14px; color: var(--text-muted);">
+                        <i class="fas fa-clock"></i> <strong id="quiz-timer" style="color: var(--text-main); font-size: 18px; margin-left: 4px;">00:00</strong>
+                    </div>
+                    <button class="btn btn-secondary" onclick="exitQuiz()" style="padding: 8px 16px; font-size: 13px;">
+                        <i class="fas fa-times"></i> Exit
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div style="margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 6px;">
+                    <span id="quiz-q-counter">Question 1 of 5</span>
+                    <span id="quiz-pct-counter">20%</span>
+                </div>
+                <div style="height: 8px; background: #e2e8f0; border-radius: 8px; overflow: hidden;">
+                    <div id="quiz-progress-bar" style="height: 100%; width: 20%; background: var(--primary-accent); transition: width 0.3s ease;"></div>
+                </div>
+            </div>
+
+            <!-- Question Content -->
+            <div style="margin-bottom: 28px;">
+                <h3 id="quiz-question-text" style="font-size: 19px; line-height: 1.5; color: var(--text-main); margin-bottom: 20px;">
+                    1. Question text will be displayed here?
+                </h3>
+                <div id="quiz-options-list">
+                    <!-- Options injected here -->
+                </div>
+            </div>
+
+            <!-- Review / Palette Toggle -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; margin-bottom: 28px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <span style="font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Question Palette</span>
+                    <button id="quiz-mark-btn" class="btn btn-secondary" onclick="toggleQuizMark()" style="padding: 6px 14px; font-size: 12px;">
+                        <i class="fas fa-bookmark"></i> Mark for Review
+                    </button>
+                </div>
+                <div id="quiz-palette-container" style="display: flex; flex-wrap: wrap; gap: 6px; max-height: 180px; overflow-y: auto; padding: 4px;">
+                    <!-- Question buttons injected here -->
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <button id="quiz-prev-btn" class="btn btn-secondary" onclick="prevQuestion()" disabled>
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <div style="display: flex; gap: 10px;">
+                    <button id="quiz-next-btn" class="btn btn-primary" onclick="nextQuestion()">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button id="quiz-submit-btn" class="btn btn-success" onclick="submitQuiz()" style="display: none;">
+                        <i class="fas fa-check-circle"></i> Submit Quiz
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: Results View -->
+        <div id="quiz-result-card" class="quiz-card" style="display: none; text-align: center; max-width: 720px; margin: 0 auto;">
+            <div id="result-icon-box" style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; font-size: 36px; background: rgba(16,185,129,0.1); color: var(--success);">
+                <i class="fas fa-trophy"></i>
+            </div>
+            
+            <span id="result-badge" style="display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 800; font-size: 13px; margin-bottom: 12px; text-transform: uppercase; background: rgba(16,185,129,0.15); color: #059669;">
+                Passed & Certified
+            </span>
+
+            <h2 id="result-heading" style="font-size: 26px; color: var(--text-main); margin-bottom: 6px; line-height: 1.3;">
+                Master Assessment Completed: <span id="result-course-title" style="color: var(--primary-accent);">Course Title</span> 🎉
+            </h2>
+
+            <div id="result-student-info" style="font-size: 15px; color: #334155; font-weight: 600; margin-bottom: 6px;">
+                Learner: <span id="result-student-name" style="color: var(--primary-accent);">Learner</span>
+            </div>
+
+            <p id="result-subheading" style="color: var(--text-muted); font-size: 15px; margin-bottom: 24px;">
+                You achieved a score of <strong id="result-score-val" style="color: var(--primary-accent); font-size: 24px;">85%</strong> on this master assessment.
+            </p>
+
+            <!-- Metrics Grid -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px; margin-bottom: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                <div>
+                    <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Correct Answers</span>
+                    <strong id="result-correct-count" style="font-size: 22px; color: var(--success);">0</strong>
+                </div>
+                <div>
+                    <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Total Questions</span>
+                    <strong id="result-total-count" style="font-size: 22px; color: var(--text-main);">0</strong>
+                </div>
+                <div>
+                    <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Time Elapsed</span>
+                    <strong id="result-time-taken" style="font-size: 22px; color: var(--primary-accent);">00:00</strong>
+                </div>
+            </div>
+
+            <!-- Certificate Unlocked Box -->
+            <div id="result-cert-box" style="display: none; background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.25); border-radius: 16px; padding: 24px; margin-bottom: 24px; text-align: center;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--success); margin-bottom: 10px;">
+                    <i class="fas fa-award" style="font-size: 26px;"></i>
+                    <h3 style="font-size: 18px; margin: 0; color: var(--text-main);">Official Verified Certificate</h3>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); max-width: 520px; margin: 0 auto 16px; line-height: 1.5;">
+                    Congratulations! Your official Learn Me credential with tamper-proof online verification ID and QR code is ready. Click below to download your PDF certificate.
+                </p>
+                <button id="result-cert-btn" class="btn btn-success" onclick="generateCertificate(quizState.courseId)" style="padding: 14px 28px; font-size: 15px; font-weight: 700; box-shadow: 0 4px 14px rgba(16,185,129,0.35);">
+                    <i class="fas fa-download"></i> Download Verified Certificate
+                </button>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <button class="btn btn-secondary" onclick="reviewQuizAnswers()" style="padding: 10px 20px;">
+                    <i class="fas fa-list-check"></i> Review Answers
+                </button>
+                <button class="btn btn-secondary" onclick="retakeCurrentQuiz()" style="padding: 10px 20px;">
+                    <i class="fas fa-redo"></i> Retake Quiz
+                </button>
+                <button class="btn btn-secondary" onclick="window.location.href='index.html#dashboard'" style="padding: 10px 20px;">
+                    <i class="fas fa-home"></i> My Dashboard
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 4: Answer Review View -->
+        <div id="quiz-review-card" class="quiz-card" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px;">
+                <div>
+                    <h2 style="font-size: 24px; margin: 0; color: var(--text-main);">Assessment Review</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; margin: 4px 0 0;">Check question solutions and detailed explanations below.</p>
+                </div>
+                <button class="btn btn-secondary" onclick="showResultsView()">
+                    <i class="fas fa-arrow-left"></i> Back to Result
+                </button>
+            </div>
+            <div id="quiz-review-list">
+                <!-- Question breakdowns injected here -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================= HIDDEN CERTIFICATE TEMPLATE ================= -->
+    <div
+        id="certificate-template"
+        style="
+            position:absolute;
+            left:-9999px;
+            top:0;
+            background:#fff;
+            color:#1f2937;
+            width:800px;
+            height:600px;
+            box-sizing:border-box;
+            text-align:center;
+            font-family:Georgia, 'Times New Roman', serif;
+            overflow:hidden;
+        "
+    >
+        <div style="position:absolute; inset:16px; border:3px solid #d8bd78;"></div>
+        <div style="position:absolute; inset:28px; border:2px solid #172b56;"></div>
+
+        <div style="position:relative; height:100%; box-sizing:border-box;">
+            <img
+                src="assets/learnme-logo.png"
+                alt="Learn Me"
+                crossorigin="anonymous"
+                style="position:absolute; left:76px; top:44px; width:112px; height:auto;"
+            />
+
+            <h1 style="position:absolute; left:0; top:93px; width:100%; height:62px; font-size:54px; line-height:1.1; font-weight:500; color:#172b56; margin:0; text-align:center;">
+                CERTIFICATE
+            </h1>
+
+            <div style="position:absolute; left:0; top:163px; width:100%; height:28px; font-family:Arial, sans-serif; font-size:22px; line-height:28px; color:#3d3d3d; letter-spacing:.3px; text-align:center;">
+                FOR APPRECIATION
+            </div>
+
+            <p style="position:absolute; left:0; top:204px; width:100%; height:22px; font-family:Arial, sans-serif; font-size:16px; line-height:22px; margin:0; text-align:center;">
+                This award was given to
+            </p>
+
+            <h2 id="cert-student-name" style="position:absolute; left:130px; top:239px; width:540px; height:43px; overflow:hidden; font-family:Arial, sans-serif; font-size:29px; line-height:35px; color:#172b56; margin:0; border-bottom:1px solid #d8bd78; padding:0 20px 6px; box-sizing:border-box; text-align:center;">
+                Student Name
+            </h2>
+
+            <p style="position:absolute; left:0; top:293px; width:100%; height:20px; font-family:Arial, sans-serif; font-size:14px; line-height:20px; margin:0; text-align:center;">
+                for successfully completing
+            </p>
+
+            <h3 id="cert-course-name" style="position:absolute; left:120px; top:318px; width:560px; height:31px; overflow:hidden; font-family:Arial, sans-serif; font-size:22px; line-height:28px; color:#172b56; margin:0; text-align:center;">
+                Course Name
+            </h3>
+
+            <p style="position:absolute; left:0; top:352px; width:100%; height:20px; font-family:Arial, sans-serif; font-size:14px; line-height:20px; margin:0; text-align:center;">
+                with a score of <strong id="cert-score">0 / 0</strong> (<strong id="cert-percentage">0%</strong>)
+            </p>
+
+            <div style="position:absolute; left:217px; top:405px; width:365px; border-top:1px solid #d8bd78;"></div>
+
+            <p style="position:absolute; left:0; top:414px; width:100%; height:16px; font-family:Arial, sans-serif; font-size:10px; line-height:16px; color:#555; margin:0; text-align:center;">
+                Knowledge is everywhere. Your journey to master it starts with Learn Me.
+            </p>
+
+            <div style="position:absolute; left:72px; right:72px; bottom:45px; display:flex; justify-content:space-between; align-items:flex-end; font-family:Arial, sans-serif; font-size:11px; line-height:14px; color:#555;">
+                <div style="text-align:left;">
+                    <div id="cert-date" style="font-weight:bold; color:#172b56; margin-bottom:2px;">Date</div>
+                    <div>DATE</div>
+                </div>
+                <div style="text-align:center;">
+                    <div id="cert-id" style="font-family:monospace; font-weight:bold; font-size:10px; color:#172b56; margin-bottom:2px;">LM-CERT-000</div>
+                    <div>CERTIFICATE ID</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-weight:bold; color:#172b56; margin-bottom:2px;">Learn Me Institute</div>
+                    <div>SIGNATURE</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container" style="text-align: center; padding: 30px 0; color: var(--text-muted); font-size: 14px; border-top: 1px solid rgba(13,27,61,0.08);">
+            <p>&copy; 2026 Learn Me Institute. All rights reserved. <a href="index.html" style="color: var(--primary-accent); margin-left: 10px;">Return to Home</a></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/questions-data.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        let quizState = {
+            courseId: null,
+            course: null,
+            questions: [],
+            currentQ: 0,
+            answers: {},
+            marked: {},
+            startedAt: null,
+            timerInterval: null,
+            timeElapsed: 0,
+            paidCertificate: null
+        };
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Restore user session
+            await restoreSession();
+            const storedUser = JSON.parse(localStorage.getItem('learnMeCurrentUser') || localStorage.getItem('learnMeUser') || 'null');
+            if (typeof updateAuthUI === 'function') updateAuthUI(storedUser);
+
+            // Check query param for course and module/topic
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseParam = urlParams.get('course') || urlParams.get('id');
+            const moduleParam = urlParams.get('module') || urlParams.get('topic');
+
+            if (courseParam) {
+                if (moduleParam) {
+                    startQuizForCourse(courseParam, moduleParam);
+                } else {
+                    showCoursePicker(courseParam);
+                }
+            } else {
+                showCoursePicker();
+            }
+        });
+
+        function getModuleQuestions(course, moduleName) {
+            const allQuestions = (course && course.questions && course.questions.length > 0)
+                ? course.questions
+                : (typeof COURSE_QUESTIONS_BANK !== 'undefined' && COURSE_QUESTIONS_BANK[course.id])
+                    ? COURSE_QUESTIONS_BANK[course.id]
+                    : [];
+
+            if (!allQuestions.length) return [];
+            if (!moduleName || moduleName === 'Final Assessment' || moduleName === 'Full Assessment') {
+                return allQuestions;
+            }
+
+            const normTarget = moduleName.toLowerCase().trim();
+
+            const topicMatches = allQuestions.filter(q => {
+                const topicStr = (q.topic || q.category || '').toLowerCase().trim();
+                const textStr = (q.question || q.q || '').toLowerCase();
+                return topicStr.includes(normTarget) || normTarget.includes(topicStr) || textStr.includes(normTarget);
+            });
+
+            if (topicMatches.length >= 5) {
+                return topicMatches;
+            }
+
+            const nonFinalModules = (course.modules || []).filter(m => m !== 'Final Assessment' && m !== 'Full Assessment');
+            const modIdx = nonFinalModules.findIndex(m => m.toLowerCase().trim() === normTarget);
+
+            if (modIdx !== -1 && nonFinalModules.length > 0) {
+                const chunkSize = Math.ceil(allQuestions.length / nonFinalModules.length);
+                const start = modIdx * chunkSize;
+                const end = Math.min(allQuestions.length, start + chunkSize);
+                const sliced = allQuestions.slice(start, end);
+                if (sliced.length > 0) return sliced;
+            }
+
+            return allQuestions;
+        }
+
+        function showCoursePicker(selectedCourseId) {
+            document.getElementById('quiz-course-picker').style.display = 'block';
+            document.getElementById('quiz-active-card').style.display = 'none';
+            document.getElementById('quiz-result-card').style.display = 'none';
+            document.getElementById('quiz-review-card').style.display = 'none';
+
+            const grid = document.getElementById('picker-courses-grid');
+            const headerTitle = document.querySelector('#quiz-course-picker h1');
+            const headerSub = document.querySelector('#quiz-course-picker p');
+
+            if (selectedCourseId) {
+                const course = coursesData.find(c => c.id === selectedCourseId || (c.id && c.id.toLowerCase() === selectedCourseId.toLowerCase()));
+                if (course) {
+                    headerTitle.textContent = `${course.title} Quiz Topics`;
+                    headerSub.innerHTML = `Select a topic below to start focused practice or take the full <strong>${course.title}</strong> exam.<br><a href="quize.html" style="color:var(--primary-accent); font-weight:700; margin-top:8px; display:inline-block;"><i class="fas fa-arrow-left"></i> Change Course Track</a>`;
+
+                    const modules = Array.isArray(course.modules) ? course.modules : ["Module 1", "Module 2", "Module 3", "Final Assessment"];
+
+                    grid.innerHTML = modules.map((mod, idx) => `
+                        <div class="course-pick-item" onclick="startQuizForCourse('${course.id}', '${mod.replace(/'/g, "\\'")}')">
+                            <div class="course-pick-icon" style="background:rgba(37,99,235,0.1);">
+                                <i class="fas ${mod.includes('Final') ? 'fa-award' : 'fa-list-check'}"></i>
+                            </div>
+                            <div>
+                                <strong style="display:block; font-size:15px; color:var(--text-main); margin-bottom:2px;">${mod}</strong>
+                                <small style="color:var(--text-muted); display:block; margin-bottom:4px;">${course.title} Topic</small>
+                                <span style="display:inline-block; font-size:11px; font-weight:700; color:var(--primary-accent); background:rgba(37,99,235,0.08); padding:2px 8px; border-radius:6px;">
+                                    <i class="fas fa-bolt"></i> Start ${mod} Quiz
+                                </span>
+                            </div>
+                        </div>
+                    `).join('');
+                    return;
+                }
+            }
+
+            headerTitle.textContent = "Interactive Quiz Center";
+            headerSub.textContent = "Choose a track below to start your smart assessment, test your mastery, and earn your verified certification.";
+
+            grid.innerHTML = coursesData.map(c => `
+                <div class="course-pick-item" onclick="showCoursePicker('${c.id}')">
+                    <div class="course-pick-icon">
+                        <i class="${c.iconType || 'fas'} ${c.icon}"></i>
+                    </div>
+                    <div>
+                        <strong style="display:block; font-size:15px; color:var(--text-main); margin-bottom:2px;">${c.title}</strong>
+                        <small style="color:var(--text-muted); display:block; margin-bottom:4px;">${c.duration} • ${c.difficulty}</small>
+                        <span style="display:inline-block; font-size:11px; font-weight:700; color:var(--primary-accent); background:rgba(37,99,235,0.08); padding:2px 8px; border-radius:6px;">
+                            <i class="fas fa-layer-group"></i> ${c.modules ? c.modules.length : 4} Topic Quizzes
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function ensureCourseQuestions(course) {
+            if (typeof COURSE_QUESTIONS_BANK !== 'undefined' && COURSE_QUESTIONS_BANK[course.id] && COURSE_QUESTIONS_BANK[course.id].length >= 50) {
+                course.questions = COURSE_QUESTIONS_BANK[course.id];
+                return course.questions;
+            }
+            if (Array.isArray(course.questions) && course.questions.length >= 50 && typeof course.questions[0].answer === 'number') {
+                return course.questions;
+            }
+            const fileUrl = course.questionsUrl || `data/${course.id}.json`;
+            try {
+                const res = await fetch(fileUrl);
+                if (res.ok) {
+                    const rawList = await res.json();
+                    if (Array.isArray(rawList) && rawList.length > 0) {
+                        course.questions = rawList.map((item, idx) => {
+                            const qText = item.q || item.question || `Question ${idx + 1}`;
+                            const rawOptions = (item.options || item.answers || []).map(opt =>
+                                typeof opt === 'object' ? (opt.text || opt.label || String(opt)) : String(opt)
+                            );
+                            const options = rawOptions.length > 0 ? rawOptions : ["Option A", "Option B", "Option C", "Option D"];
+                            let answerIdx = 0;
+                            if (typeof item.answer === 'number') {
+                                answerIdx = item.answer;
+                            } else if (typeof item.answer === 'string') {
+                                const found = options.findIndex(opt => opt.trim() === item.answer.trim());
+                                answerIdx = found !== -1 ? found : 0;
+                            }
+                            return {
+                                id: idx,
+                                qId: idx,
+                                q: qText,
+                                question: qText,
+                                options,
+                                answer: answerIdx,
+                                explanation: item.explanation || `The correct answer is "${options[answerIdx]}".`
+                            };
+                        });
+                        return course.questions;
+                    }
+                }
+            } catch(e) {
+                console.warn('Failed to fetch from', fileUrl, e);
+            }
+            return course.questions || [];
+        }
+
+        async function startQuizForCourse(courseId, moduleName) {
+            let course = coursesData.find(c => c.id === courseId);
+            if (!course) {
+                course = coursesData.find(c => c.id && c.id.toLowerCase() === (courseId || '').toLowerCase());
+            }
+            if (!course) {
+                alert('Course not found.');
+                return showCoursePicker();
+            }
+
+            await ensureCourseQuestions(course);
+
+            const pool = getModuleQuestions(course, moduleName);
+            const shuffledPool = typeof shuffleArray === 'function' ? shuffleArray(pool) : [...pool].sort(() => 0.5 - Math.random());
+            const count = (!moduleName || moduleName === 'Final Assessment') ? 10 : 5;
+            const selectedQuestions = shuffledPool.slice(0, Math.min(count, shuffledPool.length));
+
+            quizState.courseId = courseId;
+            quizState.course = course;
+            quizState.moduleName = moduleName || 'Final Assessment';
+            quizState.questions = selectedQuestions.length > 0 ? selectedQuestions : pool.slice(0, 5);
+            quizState.totalBankCount = pool.length;
+            quizState.currentQ = 0;
+            quizState.answers = {};
+            quizState.marked = {};
+            quizState.startedAt = Date.now();
+            quizState.paidCertificate = null;
+
+            document.getElementById('quiz-course-picker').style.display = 'none';
+            document.getElementById('quiz-result-card').style.display = 'none';
+            document.getElementById('quiz-review-card').style.display = 'none';
+            document.getElementById('quiz-active-card').style.display = 'block';
+
+            const displayTopic = (moduleName && moduleName !== 'Final Assessment') ? `${course.title} • ${moduleName}` : course.title;
+            const displayTitle = (moduleName && moduleName !== 'Final Assessment') ? `${moduleName} Topic Quiz` : `${course.title} Master Quiz`;
+
+            document.getElementById('quiz-course-badge').textContent = displayTopic;
+            document.getElementById('quiz-title').textContent = displayTitle;
+
+            startQuizTimer();
+            renderQuestion();
+        }
+
+        function startQuizTimer() {
+            clearInterval(quizState.timerInterval);
+            const timerEl = document.getElementById('quiz-timer');
+            quizState.timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - quizState.startedAt) / 1000);
+                quizState.timeElapsed = elapsed;
+                const minutes = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                const seconds = String(elapsed % 60).padStart(2, '0');
+                if (timerEl) timerEl.textContent = `${minutes}:${seconds}`;
+            }, 1000);
+        }
+
+        function renderQuestion() {
+            const qIdx = quizState.currentQ;
+            const q = quizState.questions[qIdx];
+            const total = quizState.questions.length;
+            const pct = Math.round(((qIdx + 1) / total) * 100);
+
+            document.getElementById('quiz-q-counter').textContent = `Question ${qIdx + 1} of ${total}`;
+            document.getElementById('quiz-pct-counter').textContent = `${pct}%`;
+            document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+
+            document.getElementById('quiz-question-text').textContent = `${qIdx + 1}. ${q.question || q.q}`;
+
+            const optionsList = document.getElementById('quiz-options-list');
+            optionsList.innerHTML = q.options.map((opt, oIdx) => {
+                const isSelected = quizState.answers[qIdx] === oIdx;
+                return `
+                    <div class="quiz-opt-label ${isSelected ? 'selected' : ''}" onclick="selectQuizOption(${oIdx})">
+                        <input type="radio" name="quiz_opt" value="${oIdx}" ${isSelected ? 'checked' : ''} style="cursor:pointer;" />
+                        <span>${opt}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // Palette
+            const palette = document.getElementById('quiz-palette-container');
+            palette.innerHTML = quizState.questions.map((_, idx) => {
+                const isAnswered = quizState.answers[idx] !== undefined;
+                const isCurrent = idx === qIdx;
+                const isMarked = quizState.marked[idx];
+                return `
+                    <button class="palette-item ${isAnswered ? 'answered' : ''} ${isMarked ? 'marked' : ''} ${isCurrent ? 'current' : ''}" onclick="jumpToQuestion(${idx})">
+                        ${idx + 1}
+                    </button>
+                `;
+            }).join('');
+
+            document.getElementById('quiz-prev-btn').disabled = qIdx === 0;
+            const isLast = qIdx === total - 1;
+            document.getElementById('quiz-next-btn').style.display = isLast ? 'none' : 'inline-flex';
+            document.getElementById('quiz-submit-btn').style.display = isLast ? 'inline-flex' : 'none';
+
+            const markBtn = document.getElementById('quiz-mark-btn');
+            markBtn.innerHTML = quizState.marked[qIdx]
+                ? '<i class="fas fa-bookmark" style="color:#f59e0b;"></i> Marked'
+                : '<i class="far fa-bookmark"></i> Mark for Review';
+        }
+
+        function selectQuizOption(optIdx) {
+            quizState.answers[quizState.currentQ] = optIdx;
+            renderQuestion();
+        }
+
+        function toggleQuizMark() {
+            quizState.marked[quizState.currentQ] = !quizState.marked[quizState.currentQ];
+            renderQuestion();
+        }
+
+        function jumpToQuestion(idx) {
+            quizState.currentQ = idx;
+            renderQuestion();
+        }
+
+        function prevQuestion() {
+            if (quizState.currentQ > 0) {
+                quizState.currentQ--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (quizState.currentQ < quizState.questions.length - 1) {
+                quizState.currentQ++;
+                renderQuestion();
+            }
+        }
+
+        async function submitQuiz() {
+            clearInterval(quizState.timerInterval);
+
+            let correctCount = 0;
+            const reviewData = [];
+            const bankCourse = (typeof COURSE_QUESTIONS_BANK !== 'undefined' && COURSE_QUESTIONS_BANK[quizState.courseId]) ? COURSE_QUESTIONS_BANK[quizState.courseId] : null;
+
+            quizState.questions.forEach((q, idx) => {
+                const selected = quizState.answers[idx];
+                const isAnswered = typeof selected === 'number' && selected >= 0;
+
+                let trueQuestion = q;
+                if (typeof trueQuestion.answer !== 'number' && bankCourse) {
+                    const match = bankCourse.find(b => (b.question || b.q) === (q.question || q.q));
+                    if (match) trueQuestion = match;
+                    else if (bankCourse[idx]) trueQuestion = bankCourse[idx];
+                }
+
+                const correctIdx = typeof trueQuestion.answer === 'number'
+                    ? trueQuestion.answer
+                    : (typeof trueQuestion.correctAnswer === 'number' ? trueQuestion.correctAnswer : 0);
+
+                const isCorrect = isAnswered && (selected === correctIdx);
+                if (isCorrect) correctCount++;
+
+                const qText = trueQuestion.question || trueQuestion.q || `Question ${idx + 1}`;
+                const options = trueQuestion.options || q.options || [];
+                const correctText = (options && options[correctIdx]) ? options[correctIdx] : 'Correct Option';
+                const selectedText = (isAnswered && options && options[selected]) ? options[selected] : 'Not answered';
+
+                reviewData.push({
+                    q: qText,
+                    question: qText,
+                    options: options,
+                    answer: correctIdx,
+                    correctAnswer: correctIdx,
+                    correctOption: correctText,
+                    userAnswer: isAnswered ? selected : undefined,
+                    selectedAnswer: isAnswered ? selected : undefined,
+                    selectedOption: selectedText,
+                    selectedText: selectedText,
+                    isCorrect: Boolean(isCorrect),
+                    explanation: trueQuestion.explanation || `The correct answer is "${correctText}". This option matches the question accurately.`
+                });
+            });
+
+            const score = quizState.questions.length > 0 ? Math.round((correctCount / quizState.questions.length) * 100) : 0;
+            const passed = score >= 70;
+
+            const currentUser = JSON.parse(localStorage.getItem('learnMeCurrentUser') || localStorage.getItem('learnMeUser') || '{}');
+            const studentName = currentUser.name || appState.studentName || 'Learner';
+
+            // Save in appState & LocalStorage
+            appState.progress[quizState.courseId] = {
+                score,
+                passed,
+                correct: correctCount,
+                total: quizState.questions.length,
+                reviewData,
+                title: quizState.course.title,
+                courseCompleted: passed,
+                answers: quizState.answers
+            };
+            localStorage.setItem('learnMeProgress_v2', JSON.stringify(appState.progress));
+
+            // Sync with backend API if logged in
+            const token = localStorage.getItem('learnMeAuthToken');
+            if (token) {
+                fetch(`${API_BASE}/progress/${quizState.courseId}/assessment`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                    body: JSON.stringify({
+                        score,
+                        passed,
+                        correct: correctCount,
+                        total: quizState.questions.length,
+                        title: quizState.course.title
+                    })
+                }).catch(err => console.warn('Failed to sync progress to backend', err));
+
+                if (passed) {
+                    fetch(`${API_BASE}/enrollments/${quizState.courseId}/complete`, {
+                        method: 'PUT',
+                        headers: { Authorization: `Bearer ${token}` }
+                    }).catch(() => {});
+                }
+            }
+
+            // Render Results Card
+            document.getElementById('quiz-active-card').style.display = 'none';
+            document.getElementById('quiz-result-card').style.display = 'block';
+
+            const badge = document.getElementById('result-badge');
+            const heading = document.getElementById('result-heading');
+            const iconBox = document.getElementById('result-icon-box');
+            const courseTitleEl = document.getElementById('result-course-title');
+            const studentNameEl = document.getElementById('result-student-name');
+            const certBox = document.getElementById('result-cert-box');
+
+            if (courseTitleEl) courseTitleEl.textContent = quizState.course.title;
+            if (studentNameEl) studentNameEl.textContent = studentName;
+
+            if (passed) {
+                badge.textContent = 'Passed & Certified';
+                badge.style.background = 'rgba(16,185,129,0.15)';
+                badge.style.color = '#059669';
+                heading.innerHTML = `Master Assessment Completed: <span style="color: var(--primary-accent);">${quizState.course.title}</span> 🎉`;
+                iconBox.innerHTML = '<i class="fas fa-trophy"></i>';
+                iconBox.style.background = 'rgba(16,185,129,0.1)';
+                iconBox.style.color = '#10b981';
+                if (certBox) certBox.style.display = 'block';
+
+                const certBtn = document.getElementById('result-cert-btn');
+                if (certBtn) {
+                    certBtn.innerHTML = `<i class="fas fa-download"></i> Download Verified Certificate (PDF)`;
+                    certBtn.onclick = () => generateCertificate(quizState.courseId);
+                }
+            } else {
+                badge.textContent = 'Assessment Failed';
+                badge.style.background = 'rgba(239,68,68,0.15)';
+                badge.style.color = '#dc2626';
+                heading.innerHTML = `Assessment Result: <span style="color: var(--primary-accent);">${quizState.course.title}</span> 💪`;
+                iconBox.innerHTML = '<i class="fas fa-redo"></i>';
+                iconBox.style.background = 'rgba(239,68,68,0.1)';
+                iconBox.style.color = '#ef4444';
+                if (certBox) certBox.style.display = 'none';
+            }
+
+            document.getElementById('result-score-val').textContent = `${score}%`;
+            document.getElementById('result-correct-count').textContent = correctCount;
+            document.getElementById('result-total-count').textContent = quizState.questions.length;
+
+            const minutes = String(Math.floor(quizState.timeElapsed / 60)).padStart(2, '0');
+            const seconds = String(quizState.timeElapsed % 60).padStart(2, '0');
+            document.getElementById('result-time-taken').textContent = `${minutes}:${seconds}`;
+        }
+
+        function reviewQuizAnswers() {
+            document.getElementById('quiz-result-card').style.display = 'none';
+            document.getElementById('quiz-review-card').style.display = 'block';
+
+            const list = document.getElementById('quiz-review-list');
+            const prog = appState.progress[quizState.courseId];
+            if (!prog || !prog.reviewData) return;
+
+            const bankCourse = (typeof COURSE_QUESTIONS_BANK !== 'undefined' && COURSE_QUESTIONS_BANK[quizState.courseId]) ? COURSE_QUESTIONS_BANK[quizState.courseId] : null;
+
+            list.innerHTML = prog.reviewData.map((rawItem, idx) => {
+                const fallbackQ = bankCourse && bankCourse[idx] ? bankCourse[idx] : null;
+
+                let questionText = rawItem.question || rawItem.q;
+                if (!questionText || questionText === 'undefined' || questionText.includes('undefined')) {
+                    questionText = fallbackQ ? (fallbackQ.question || fallbackQ.q) : `Question ${idx + 1}`;
+                }
+
+                let options = Array.isArray(rawItem.options) && rawItem.options.length > 0
+                    ? rawItem.options
+                    : (fallbackQ ? fallbackQ.options : ["Option A", "Option B", "Option C", "Option D"]);
+
+                let answerIdx = typeof rawItem.answer === 'number'
+                    ? rawItem.answer
+                    : (typeof rawItem.correctAnswer === 'number' ? rawItem.correctAnswer : (fallbackQ ? fallbackQ.answer : 0));
+
+                let correctOptionText = options[answerIdx] || rawItem.correctOption || (fallbackQ ? fallbackQ.options[fallbackQ.answer] : 'Correct Option');
+                if (!correctOptionText || correctOptionText === 'undefined') {
+                    correctOptionText = options[0] || 'Correct Option';
+                }
+
+                let userIdx = typeof rawItem.userAnswer === 'number'
+                    ? rawItem.userAnswer
+                    : (typeof rawItem.selectedAnswer === 'number' ? rawItem.selectedAnswer : undefined);
+
+                let userSelectedText = 'Not answered';
+                if (userIdx !== undefined && options[userIdx]) {
+                    userSelectedText = options[userIdx];
+                } else if (rawItem.selectedOption && rawItem.selectedOption !== 'Not Answered' && rawItem.selectedOption !== 'Not answered' && rawItem.selectedOption !== 'undefined') {
+                    userSelectedText = rawItem.selectedOption;
+                } else if (rawItem.selectedText && rawItem.selectedText !== 'Not answered' && rawItem.selectedText !== 'undefined') {
+                    userSelectedText = rawItem.selectedText;
+                }
+
+                const isAnswered = userSelectedText !== 'Not answered' && userSelectedText !== 'undefined';
+                const isCorrect = isAnswered && (rawItem.isCorrect !== undefined ? Boolean(rawItem.isCorrect) : (userSelectedText.trim() === correctOptionText.trim()));
+
+                const statusText = isCorrect ? 'Correct' : (!isAnswered ? 'Unanswered' : 'Incorrect');
+                const statusColor = isCorrect ? '#059669' : (!isAnswered ? '#d97706' : '#dc2626');
+                const statusBg = isCorrect ? 'rgba(16,185,129,0.12)' : (!isAnswered ? 'rgba(245,158,11,0.12)' : 'rgba(239,68,68,0.12)');
+                const statusBorder = isCorrect ? 'rgba(16,185,129,0.3)' : (!isAnswered ? 'rgba(245,158,11,0.3)' : 'rgba(239,68,68,0.3)');
+                const statusIcon = isCorrect ? '<i class="fas fa-check-circle"></i>' : (!isAnswered ? '<i class="fas fa-exclamation-circle"></i>' : '<i class="fas fa-times-circle"></i>');
+
+                let explanation = rawItem.explanation;
+                if (!explanation || explanation === 'undefined' || explanation.includes('undefined')) {
+                    explanation = fallbackQ ? fallbackQ.explanation : `The correct answer is "${correctOptionText}". This option accurately answers the question.`;
+                }
+
+                return `
+                    <div style="border-bottom: 1px solid #e2e8f0; padding: 22px 0; text-align: left;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom: 14px;">
+                            <h4 style="font-size: 16px; margin: 0; color: var(--text-main, #0f172a); line-height: 1.5; font-weight: 700;">
+                                ${idx + 1}. ${questionText}
+                            </h4>
+                            <span style="display:inline-flex; align-items:center; gap:5px; background:${statusBg}; color:${statusColor}; border:1px solid ${statusBorder}; font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 999px; flex-shrink: 0;">
+                                ${statusIcon} ${statusText}
+                            </span>
+                        </div>
+
+                        <div style="margin-bottom: 14px;">
+                            <small style="display:block; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted, #64748b); margin-bottom:8px;">
+                                <i class="fas fa-list-ul"></i> Options:
+                            </small>
+                            <div style="display:flex; flex-direction:column; gap:6px;">
+                                ${options.map((opt, oi) => {
+                                    const isThisCorrect = (oi === answerIdx) || (opt.trim() === correctOptionText.trim());
+                                    const isThisSelected = isAnswered && ((userIdx !== undefined && oi === userIdx) || (opt.trim() === userSelectedText.trim()));
+
+                                    let optBorder = 'rgba(13, 27, 61, 0.1)';
+                                    let optBg = '#f8fafc';
+                                    let optColor = 'var(--text-main, #0f172a)';
+                                    let badge = '';
+
+                                    if (isThisCorrect && isThisSelected) {
+                                        optBorder = '#10b981';
+                                        optBg = 'rgba(16, 185, 129, 0.08)';
+                                        badge = `<span style="font-size:11px; font-weight:700; color:#059669; background:rgba(16,185,129,0.18); padding:3px 8px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-check"></i> Your Answer (Correct)</span>`;
+                                    } else if (isThisCorrect) {
+                                        optBorder = '#10b981';
+                                        optBg = 'rgba(16, 185, 129, 0.06)';
+                                        badge = `<span style="font-size:11px; font-weight:700; color:#059669; background:rgba(16,185,129,0.18); padding:3px 8px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-check-circle"></i> Correct Option</span>`;
+                                    } else if (isThisSelected) {
+                                        optBorder = '#ef4444';
+                                        optBg = 'rgba(239, 68, 68, 0.06)';
+                                        badge = `<span style="font-size:11px; font-weight:700; color:#dc2626; background:rgba(239,68,68,0.14); padding:3px 8px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-times"></i> Your Answer (Incorrect)</span>`;
+                                    } else {
+                                        optColor = '#64748b';
+                                    }
+
+                                    const letter = ['A', 'B', 'C', 'D', 'E', 'F'][oi] || (oi + 1);
+                                    return `
+                                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border-radius:8px; border:1.5px solid ${optBorder}; background:${optBg}; gap:10px; flex-wrap:wrap;">
+                                            <div style="display:flex; align-items:center; gap:8px;">
+                                                <span style="display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:5px; font-size:11px; font-weight:700; background:${isThisCorrect ? '#10b981' : (isThisSelected ? '#ef4444' : '#e2e8f0')}; color:${isThisCorrect || isThisSelected ? '#ffffff' : '#64748b'}; flex-shrink:0;">
+                                                    ${letter}
+                                                </span>
+                                                <span style="font-size:13px; font-weight:${isThisCorrect || isThisSelected ? '600' : '400'}; color:${optColor};">
+                                                    ${opt}
+                                                </span>
+                                            </div>
+                                            ${badge}
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(37,99,235,0.05); border: 1px solid rgba(37,99,235,0.12); border-left: 3px solid var(--primary-accent, #2563eb); border-radius: 10px; padding: 12px 14px;">
+                            <strong style="display:flex; align-items:center; gap:5px; font-size:12px; text-transform:uppercase; letter-spacing:0.04em; color:var(--primary-accent, #2563eb); margin-bottom:4px;">
+                                <i class="fas fa-lightbulb"></i> Explanation
+                            </strong>
+                            <div style="font-size: 13px; line-height: 1.6; color: var(--text-main, #0f172a);">
+                                ${explanation}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showResultsView() {
+            document.getElementById('quiz-review-card').style.display = 'none';
+            document.getElementById('quiz-result-card').style.display = 'block';
+        }
+
+        function retakeCurrentQuiz() {
+            startQuizForCourse(quizState.courseId, quizState.moduleName);
+        }
+
+        function exitQuiz() {
+            if (confirm('Are you sure you want to exit? Your progress on this quiz will not be saved.')) {
+                clearInterval(quizState.timerInterval);
+                showCoursePicker();
+            }
+        }
+
+        function logoutQuizUser() {
+            logoutUser();
+            window.location.reload();
+        }
+
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profile-menu');
+            if (!menu) return;
+            menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('profile-menu');
+            const avatar = document.getElementById('user-avatar');
+            if (menu && avatar && !avatar.contains(e.target) && !menu.contains(e.target)) {
+                menu.style.display = 'none';
+            }
+        });
+
+        // Secret Admin Toggle (Alt + A)
+    </script>
+
+    <!-- ================= AUTHENTICATION MODAL ================= -->
+    <div id="auth-modal" class="auth-modal" style="display: none; position: fixed; inset: 0; background: rgba(11, 23, 54, 0.75); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
+        <div style="position: relative; background: #ffffff; width: min(450px, 100%); padding: 36px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);">
+            <button onclick="closeAuthModal()" style="position: absolute; top: 16px; right: 16px; border: none; background: transparent; font-size: 20px; color: var(--text-muted); cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background: rgba(37, 99, 235, 0.1); color: var(--primary-accent); display: inline-flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 10px;">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2 id="auth-title" style="font-size: 24px; color: var(--primary-accent); font-weight: 800; margin-bottom: 4px;">Student Sign In</h2>
+                <p style="font-size: 14px; color: var(--text-muted);">Access your course tracks, assessments & certificates</p>
+            </div>
+
+            <form id="student-auth-form">
+                <div id="auth-name-group" style="display: none; margin-bottom: 16px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Full Name</label>
+                    <input type="text" id="student-auth-name" placeholder="John Doe" style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 15px; outline: none;" />
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Email Address</label>
+                    <input type="email" id="student-auth-email" required placeholder="student@example.com" style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 15px; outline: none;" />
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Password</label>
+                    <input type="password" id="student-auth-password" required placeholder="••••••••" style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 15px; outline: none;" />
+                </div>
+
+                <div id="auth-error-msg" style="color: var(--danger); font-size: 13px; font-weight: 600; margin-bottom: 14px; text-align: center;"></div>
+
+                <button type="submit" id="auth-submit-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border-radius: 10px;">
+                    Sign In
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-muted);">
+                <span id="auth-toggle-msg">Don't have an account?</span>
+                <a href="#" id="auth-toggle-link" onclick="toggleAuthMode(); return false;" style="color: var(--primary-accent); font-weight: 700; margin-left: 4px; text-decoration: underline;">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "question": "What is Pandas?",
+    "options": ["A Python library for data analysis", "A web framework", "A database", "A programming language"],
+    "answer": "A Python library for data analysis",
+    "explanation": "Pandas is a Python library used for data manipulation, analysis, and working with structured data."
+  },
+  {
+    "id": 2,
+    "question": "What is the commonly used alias for Pandas?",
+    "options": ["pd", "np", "py", "pn"],
+    "answer": "pd",
+    "explanation": "Pandas is commonly imported using the alias pd."
+  },
+  {
+    "id": 3,
+    "question": "Which statement correctly imports Pandas?",
+    "options": ["import pandas as pd", "import pandas as np", "include pandas", "using pandas"],
+    "answer": "import pandas as pd",
+    "explanation": "The standard way to import Pandas is import pandas as pd."
+  },
+  {
+    "id": 4,
+    "question": "What are the two main data structures in Pandas?",
+    "options": ["Series and DataFrame", "List and Tuple", "Array and Dictionary", "Stack and Queue"],
+    "answer": "Series and DataFrame",
+    "explanation": "Series and DataFrame are the two primary data structures provided by Pandas."
+  },
+  {
+    "id": 5,
+    "question": "What is a Pandas Series?",
+    "options": ["A one-dimensional labeled data structure", "A two-dimensional table only", "A database", "A Python loop"],
+    "answer": "A one-dimensional labeled data structure",
+    "explanation": "A Series stores one-dimensional data with associated labels called an index."
+  },
+  {
+    "id": 6,
+    "question": "What is a Pandas DataFrame?",
+    "options": ["A two-dimensional labeled table", "A single variable", "A Python function", "A database connection"],
+    "answer": "A two-dimensional labeled table",
+    "explanation": "A DataFrame organizes data into rows and columns with labels."
+  },
+  {
+    "id": 7,
+    "question": "Which function is commonly used to read a CSV file?",
+    "options": ["pd.read_csv()", "pd.open_csv()", "pd.load_csv()", "pd.import_csv()"],
+    "answer": "pd.read_csv()",
+    "explanation": "pd.read_csv() reads data from a CSV file into a Pandas DataFrame."
+  },
+  {
+    "id": 8,
+    "question": "Which function displays the first five rows by default?",
+    "options": ["head()", "tail()", "top()", "first()"],
+    "answer": "head()",
+    "explanation": "The head() method displays the first five rows of a DataFrame by default."
+  },
+  {
+    "id": 9,
+    "question": "Which function displays the last five rows by default?",
+    "options": ["tail()", "head()", "lastrow()", "bottom()"],
+    "answer": "tail()",
+    "explanation": "The tail() method displays the last five rows of a DataFrame by default."
+  },
+  {
+    "id": 10,
+    "question": "What does df.shape return?",
+    "options": ["Number of rows and columns", "Column names only", "Data types only", "Missing values only"],
+    "answer": "Number of rows and columns",
+    "explanation": "The shape attribute returns the dimensions of a DataFrame as rows and columns."
+  },
+  {
+    "id": 11,
+    "question": "What does df.columns return?",
+    "options": ["Column names", "Row values", "Data types", "Indexes only"],
+    "answer": "Column names",
+    "explanation": "The columns attribute returns the labels of all columns in a DataFrame."
+  },
+  {
+    "id": 12,
+    "question": "What does df.index represent?",
+    "options": ["Row labels", "Column values", "Data types", "File names"],
+    "answer": "Row labels",
+    "explanation": "The index represents the labels used to identify rows in a DataFrame."
+  },
+  {
+    "id": 13,
+    "question": "Which method provides a summary of a DataFrame?",
+    "options": ["info()", "summary()", "details()", "describe_info()"],
+    "answer": "info()",
+    "explanation": "The info() method displays information about columns, data types, and non-null values."
+  },
+  {
+    "id": 14,
+    "question": "Which method provides descriptive statistics?",
+    "options": ["describe()", "statistics()", "summary()", "analyze()"],
+    "answer": "describe()",
+    "explanation": "describe() provides statistical information such as count, mean, minimum, and maximum."
+  },
+  {
+    "id": 15,
+    "question": "How can you select a column named Age?",
+    "options": ["df['Age']", "df(Age)", "df.Age()", "df->Age"],
+    "answer": "df['Age']",
+    "explanation": "A column can be selected using square brackets with the column name."
+  },
+  {
+    "id": 16,
+    "question": "Which method is mainly used for label-based indexing?",
+    "options": ["loc[]", "iloc[]", "index()", "select()"],
+    "answer": "loc[]",
+    "explanation": "loc[] selects rows and columns using labels."
+  },
+  {
+    "id": 17,
+    "question": "Which method is mainly used for integer-position indexing?",
+    "options": ["iloc[]", "loc[]", "position()", "index()"],
+    "answer": "iloc[]",
+    "explanation": "iloc[] selects rows and columns using integer positions."
+  },
+  {
+    "id": 18,
+    "question": "How do you check for missing values?",
+    "options": ["isnull()", "missing()", "checknull()", "empty()"],
+    "answer": "isnull()",
+    "explanation": "isnull() returns True for missing values and False for available values."
+  },
+  {
+    "id": 19,
+    "question": "Which method removes rows containing missing values?",
+    "options": ["dropna()", "removenull()", "delete()", "clean()"],
+    "answer": "dropna()",
+    "explanation": "dropna() removes rows or columns containing missing values."
+  },
+  {
+    "id": 20,
+    "question": "Which method can replace missing values?",
+    "options": ["fillna()", "replacenull()", "addna()", "fixnull()"],
+    "answer": "fillna()",
+    "explanation": "fillna() replaces missing values with a specified value or method."
+  },
+  {
+    "id": 21,
+    "question": "Which method removes a column or row?",
+    "options": ["drop()", "remove()", "delete()", "clear()"],
+    "answer": "drop()",
+    "explanation": "drop() is used to remove specified rows or columns from a DataFrame."
+  },
+  {
+    "id": 22,
+    "question": "Which method sorts values in a DataFrame?",
+    "options": ["sort_values()", "order()", "arrange()", "sort()"],
+    "answer": "sort_values()",
+    "explanation": "sort_values() sorts a DataFrame based on one or more column values."
+  },
+  {
+    "id": 23,
+    "question": "Which method sorts a DataFrame by its index?",
+    "options": ["sort_index()", "sort_values()", "index_sort()", "arrange_index()"],
+    "answer": "sort_index()",
+    "explanation": "sort_index() sorts the DataFrame according to its row or column labels."
+  },
+  {
+    "id": 24,
+    "question": "Which method counts unique values?",
+    "options": ["value_counts()", "unique_count()", "count_values()", "frequency()"],
+    "answer": "value_counts()",
+    "explanation": "value_counts() returns the frequency of each unique value."
+  },
+  {
+    "id": 25,
+    "question": "Which method returns unique values?",
+    "options": ["unique()", "distinct()", "different()", "only()"],
+    "answer": "unique()",
+    "explanation": "unique() returns the distinct values present in a Series."
+  },
+  {
+    "id": 26,
+    "question": "What does duplicated() check?",
+    "options": ["Duplicate rows or values", "Missing values", "Data types", "Column names"],
+    "answer": "Duplicate rows or values",
+    "explanation": "duplicated() identifies rows or values that are duplicates."
+  },
+  {
+    "id": 27,
+    "question": "Which method removes duplicate rows?",
+    "options": ["drop_duplicates()", "remove_duplicates()", "unique()", "delete_duplicates()"],
+    "answer": "drop_duplicates()",
+    "explanation": "drop_duplicates() removes repeated rows from a DataFrame."
+  },
+  {
+    "id": 28,
+    "question": "What is filtering in Pandas?",
+    "options": ["Selecting data based on a condition", "Deleting all data", "Changing Python versions", "Creating a database"],
+    "answer": "Selecting data based on a condition",
+    "explanation": "Filtering selects rows that satisfy a specified condition."
+  },
+  {
+    "id": 29,
+    "question": "Which operation can calculate the average of a column?",
+    "options": ["mean()", "sum()", "count()", "max()"],
+    "answer": "mean()",
+    "explanation": "mean() calculates the arithmetic average of numerical values."
+  },
+  {
+    "id": 30,
+    "question": "Which method calculates the total of numerical values?",
+    "options": ["sum()", "total()", "addall()", "count()"],
+    "answer": "sum()",
+    "explanation": "sum() adds all numerical values in a Series or DataFrame."
+  },
+  {
+    "id": 31,
+    "question": "Which method groups data based on categories?",
+    "options": ["groupby()", "categorize()", "cluster()", "split()"],
+    "answer": "groupby()",
+    "explanation": "groupby() groups data based on common values and allows aggregation."
+  },
+  {
+    "id": 32,
+    "question": "What is aggregation in Pandas?",
+    "options": ["Combining values into summary results", "Deleting columns", "Creating files", "Changing indexes only"],
+    "answer": "Combining values into summary results",
+    "explanation": "Aggregation summarizes data using operations such as sum, mean, minimum, or maximum."
+  },
+  {
+    "id": 33,
+    "question": "Which function can combine DataFrames vertically or horizontally?",
+    "options": ["pd.concat()", "pd.joinonly()", "pd.combine()", "pd.attach()"],
+    "answer": "pd.concat()",
+    "explanation": "pd.concat() combines multiple Series or DataFrames along a specified axis."
+  },
+  {
+    "id": 34,
+    "question": "Which operation combines DataFrames using common columns?",
+    "options": ["merge()", "append()", "stack()", "split()"],
+    "answer": "merge()",
+    "explanation": "merge() combines DataFrames based on matching values in common columns."
+  },
+  {
+    "id": 35,
+    "question": "What is a left join?",
+    "options": ["Keeps all rows from the left DataFrame", "Keeps only matching rows", "Keeps all rows from the right DataFrame", "Removes duplicate rows"],
+    "answer": "Keeps all rows from the left DataFrame",
+    "explanation": "A left join keeps every row from the left DataFrame and adds matching data from the right."
+  },
+  {
+    "id": 36,
+    "question": "Which function writes a DataFrame to a CSV file?",
+    "options": ["to_csv()", "write_csv()", "save_csv()", "export_csv()"],
+    "answer": "to_csv()",
+    "explanation": "to_csv() saves a Pandas DataFrame into a CSV file."
+  },
+  {
+    "id": 37,
+    "question": "Which function reads an Excel file?",
+    "options": ["pd.read_excel()", "pd.open_excel()", "pd.load_excel()", "pd.import_excel()"],
+    "answer": "pd.read_excel()",
+    "explanation": "pd.read_excel() loads data from an Excel file into a DataFrame."
+  },
+  {
+    "id": 38,
+    "question": "Which function saves a DataFrame to an Excel file?",
+    "options": ["to_excel()", "save_excel()", "write_excel()", "export_excel()"],
+    "answer": "to_excel()",
+    "explanation": "to_excel() writes a DataFrame to an Excel file."
+  },
+  {
+    "id": 39,
+    "question": "What does reset_index() do?",
+    "options": ["Resets the DataFrame index", "Deletes the DataFrame", "Sorts all columns", "Removes duplicates"],
+    "answer": "Resets the DataFrame index",
+    "explanation": "reset_index() replaces the current index with a default integer index."
+  },
+  {
+    "id": 40,
+    "question": "What does set_index() do?",
+    "options": ["Sets a column as the index", "Deletes an index", "Creates a new DataFrame", "Sorts values"],
+    "answer": "Sets a column as the index",
+    "explanation": "set_index() uses one or more columns as the row index."
+  },
+  {
+    "id": 41,
+    "question": "Which method changes a column name?",
+    "options": ["rename()", "change_name()", "set_name()", "replace_name()"],
+    "answer": "rename()",
+    "explanation": "rename() can change row labels or column names."
+  },
+  {
+    "id": 42,
+    "question": "What does apply() do in Pandas?",
+    "options": ["Applies a function to data", "Deletes missing values", "Reads CSV files", "Creates indexes"],
+    "answer": "Applies a function to data",
+    "explanation": "apply() is used to apply a function across rows, columns, or Series values."
+  },
+  {
+    "id": 43,
+    "question": "What is boolean indexing?",
+    "options": ["Selecting data using True or False conditions", "Using only strings", "Sorting Boolean values", "Creating dictionaries"],
+    "answer": "Selecting data using True or False conditions",
+    "explanation": "Boolean indexing filters data using conditions that evaluate to True or False."
+  },
+  {
+    "id": 44,
+    "question": "Which method can display random rows from a DataFrame?",
+    "options": ["sample()", "random()", "pick()", "choose()"],
+    "answer": "sample()",
+    "explanation": "sample() returns randomly selected rows from a DataFrame."
+  },
+  {
+    "id": 45,
+    "question": "What does nlargest() do?",
+    "options": ["Returns the largest values", "Returns the smallest values", "Counts null values", "Sorts indexes"],
+    "answer": "Returns the largest values",
+    "explanation": "nlargest() returns rows containing the highest values for a specified column."
+  },
+  {
+    "id": 46,
+    "question": "What does nsmallest() do?",
+    "options": ["Returns the smallest values", "Returns the largest values", "Removes small values", "Counts values"],
+    "answer": "Returns the smallest values",
+    "explanation": "nsmallest() returns rows containing the lowest values for a specified column."
+  },
+  {
+    "id": 47,
+    "question": "Why is Pandas widely used in Data Science?",
+    "options": ["It provides powerful tools for data manipulation and analysis", "It is only used for games", "It replaces Python", "It only works with text"],
+    "answer": "It provides powerful tools for data manipulation and analysis",
+    "explanation": "Pandas makes it easier to clean, transform, analyze, and manage structured data."
+  },
+  {
+    "id": 48,
+    "question": "What does df.copy() create?",
+    "options": ["An independent copy of a DataFrame", "A reference only", "An empty DataFrame", "A sorted DataFrame"],
+    "answer": "An independent copy of a DataFrame",
+    "explanation": "copy() creates a separate copy so modifications can be made independently."
+  },
+  {
+    "id": 49,
+    "question": "What is the main advantage of a DataFrame?",
+    "options": ["It organizes data into labeled rows and columns", "It can only store one value", "It cannot handle missing data", "It only stores strings"],
+    "answer": "It organizes data into labeled rows and columns",
+    "explanation": "A DataFrame provides a flexible tabular structure for storing and analyzing different types of data."
+  },
+  {
+    "id": 50,
+    "question": "What is the main purpose of Pandas?",
+    "options": ["Data manipulation and analysis", "Web development only", "Operating system development", "Computer networking"],
+    "answer": "Data manipulation and analysis",
+    "explanation": "Pandas is mainly used to load, clean, transform, analyze, and organize data efficiently."
+  }
+]

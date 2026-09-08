@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "question": "What is Python?",
+    "options": ["A high-level programming language", "A database", "An operating system", "A web browser"],
+    "answer": "A high-level programming language",
+    "explanation": "Python is a high-level, general-purpose programming language."
+  },
+  {
+    "id": 2,
+    "question": "Which symbol is used for a single-line comment in Python?",
+    "options": ["#", "//", "/*", "--"],
+    "answer": "#",
+    "explanation": "The # symbol is used to write a single-line comment in Python."
+  },
+  {
+    "id": 3,
+    "question": "Which function is used to display output in Python?",
+    "options": ["print()", "display()", "show()", "output()"],
+    "answer": "print()",
+    "explanation": "The print() function displays output on the screen."
+  },
+  {
+    "id": 4,
+    "question": "Which function is used to get user input?",
+    "options": ["input()", "get()", "scan()", "read()"],
+    "answer": "input()",
+    "explanation": "The input() function is used to receive input from the user."
+  },
+  {
+    "id": 5,
+    "question": "Which of the following is a valid Python variable name?",
+    "options": ["my_variable", "2variable", "my-variable", "class"],
+    "answer": "my_variable",
+    "explanation": "Variable names can contain letters, numbers, and underscores, but cannot start with a number or use reserved keywords."
+  },
+  {
+    "id": 6,
+    "question": "Which data type is used for whole numbers?",
+    "options": ["int", "float", "str", "bool"],
+    "answer": "int",
+    "explanation": "The int data type is used to store integer values."
+  },
+  {
+    "id": 7,
+    "question": "Which data type is used for decimal numbers?",
+    "options": ["float", "int", "str", "list"],
+    "answer": "float",
+    "explanation": "The float data type stores decimal or floating-point numbers."
+  },
+  {
+    "id": 8,
+    "question": "Which data type is used for text?",
+    "options": ["str", "int", "float", "bool"],
+    "answer": "str",
+    "explanation": "The str data type is used to store text or strings."
+  },
+  {
+    "id": 9,
+    "question": "Which data type stores True or False?",
+    "options": ["bool", "str", "int", "list"],
+    "answer": "bool",
+    "explanation": "The bool data type stores Boolean values: True or False."
+  },
+  {
+    "id": 10,
+    "question": "Which operator is used for exponentiation?",
+    "options": ["**", "*", "//", "%"],
+    "answer": "**",
+    "explanation": "The ** operator raises a number to a power."
+  },
+  {
+    "id": 11,
+    "question": "Which operator returns the remainder?",
+    "options": ["%", "/", "//", "**"],
+    "answer": "%",
+    "explanation": "The modulus operator % returns the remainder after division."
+  },
+  {
+    "id": 12,
+    "question": "Which operator performs floor division?",
+    "options": ["//", "/", "%", "**"],
+    "answer": "//",
+    "explanation": "The // operator performs floor division and returns the quotient rounded down."
+  },
+  {
+    "id": 13,
+    "question": "Which keyword is used for a condition in Python?",
+    "options": ["if", "when", "check", "condition"],
+    "answer": "if",
+    "explanation": "The if keyword is used to execute code based on a condition."
+  },
+  {
+    "id": 14,
+    "question": "Which keyword is used when the if condition is false?",
+    "options": ["else", "elif", "except", "finally"],
+    "answer": "else",
+    "explanation": "The else block executes when the if condition is false."
+  },
+  {
+    "id": 15,
+    "question": "What is elif used for?",
+    "options": ["Checking another condition", "Creating a loop", "Defining a function", "Handling files"],
+    "answer": "Checking another condition",
+    "explanation": "elif allows multiple conditions to be checked after an if statement."
+  },
+  {
+    "id": 16,
+    "question": "Which loop is commonly used to iterate over a sequence?",
+    "options": ["for", "while", "if", "try"],
+    "answer": "for",
+    "explanation": "A for loop is commonly used to iterate through sequences such as lists, strings, and ranges."
+  },
+  {
+    "id": 17,
+    "question": "Which loop continues while a condition is True?",
+    "options": ["while", "for", "if", "elif"],
+    "answer": "while",
+    "explanation": "A while loop repeatedly executes as long as its condition remains True."
+  },
+  {
+    "id": 18,
+    "question": "Which statement immediately exits a loop?",
+    "options": ["break", "continue", "pass", "return"],
+    "answer": "break",
+    "explanation": "The break statement immediately terminates the current loop."
+  },
+  {
+    "id": 19,
+    "question": "Which statement skips the current iteration?",
+    "options": ["continue", "break", "pass", "exit"],
+    "answer": "continue",
+    "explanation": "The continue statement skips the remaining code in the current iteration and moves to the next one."
+  },
+  {
+    "id": 20,
+    "question": "What is pass used for?",
+    "options": ["A placeholder statement", "To stop a loop", "To return a value", "To import a module"],
+    "answer": "A placeholder statement",
+    "explanation": "The pass statement does nothing and is used when Python syntax requires a statement."
+  },
+  {
+    "id": 21,
+    "question": "Which keyword is used to define a function?",
+    "options": ["def", "function", "func", "define"],
+    "answer": "def",
+    "explanation": "The def keyword is used to define a function in Python."
+  },
+  {
+    "id": 22,
+    "question": "Which statement sends a value back from a function?",
+    "options": ["return", "print", "break", "pass"],
+    "answer": "return",
+    "explanation": "The return statement sends a result from a function back to the caller."
+  },
+  {
+    "id": 23,
+    "question": "Which collection is ordered and mutable?",
+    "options": ["list", "tuple", "set", "dictionary"],
+    "answer": "list",
+    "explanation": "A list is an ordered collection that can be modified after creation."
+  },
+  {
+    "id": 24,
+    "question": "Which collection is ordered and immutable?",
+    "options": ["tuple", "list", "set", "dictionary"],
+    "answer": "tuple",
+    "explanation": "A tuple is ordered but cannot be modified after it is created."
+  },
+  {
+    "id": 25,
+    "question": "Which collection stores unique values?",
+    "options": ["set", "list", "tuple", "string"],
+    "answer": "set",
+    "explanation": "A set stores unique elements and automatically removes duplicates."
+  },
+  {
+    "id": 26,
+    "question": "Which collection stores data as key-value pairs?",
+    "options": ["dictionary", "list", "tuple", "set"],
+    "answer": "dictionary",
+    "explanation": "A dictionary stores data using key-value pairs."
+  },
+  {
+    "id": 27,
+    "question": "Which method adds an element to the end of a list?",
+    "options": ["append()", "add()", "insert_end()", "push()"],
+    "answer": "append()",
+    "explanation": "append() adds a single element to the end of a list."
+  },
+  {
+    "id": 28,
+    "question": "Which method removes and returns the last element of a list by default?",
+    "options": ["pop()", "remove()", "delete()", "clear()"],
+    "answer": "pop()",
+    "explanation": "pop() removes and returns the last list element when no index is provided."
+  },
+  {
+    "id": 29,
+    "question": "Which function returns the number of items in an object?",
+    "options": ["len()", "count()", "size()", "length()"],
+    "answer": "len()",
+    "explanation": "The len() function returns the number of items in an object."
+  },
+  {
+    "id": 30,
+    "question": "What is the index of the first element in Python?",
+    "options": ["0", "1", "-1", "None"],
+    "answer": "0",
+    "explanation": "Python uses zero-based indexing, so the first element has index 0."
+  },
+  {
+    "id": 31,
+    "question": "What does negative index -1 represent?",
+    "options": ["The last element", "The first element", "An error always", "The middle element"],
+    "answer": "The last element",
+    "explanation": "Negative indexing starts from the end, so -1 represents the last element."
+  },
+  {
+    "id": 32,
+    "question": "Which function generates a sequence of numbers?",
+    "options": ["range()", "sequence()", "numbers()", "generate()"],
+    "answer": "range()",
+    "explanation": "range() generates a sequence of numbers commonly used with loops."
+  },
+  {
+    "id": 33,
+    "question": "Which keyword is used to import a module?",
+    "options": ["import", "include", "using", "require"],
+    "answer": "import",
+    "explanation": "The import keyword is used to load modules and libraries."
+  },
+  {
+    "id": 34,
+    "question": "What is an exception in Python?",
+    "options": ["An error that occurs during program execution", "A Python variable", "A loop type", "A list method"],
+    "answer": "An error that occurs during program execution",
+    "explanation": "An exception is an event or error that occurs while a program is running."
+  },
+  {
+    "id": 35,
+    "question": "Which block is used to handle exceptions?",
+    "options": ["try-except", "if-else", "for-while", "def-return"],
+    "answer": "try-except",
+    "explanation": "The try block contains code that may raise an exception, and except handles the error."
+  },
+  {
+    "id": 36,
+    "question": "Which keyword is used to create a class?",
+    "options": ["class", "object", "new", "define"],
+    "answer": "class",
+    "explanation": "The class keyword is used to define a class in Python."
+  },
+  {
+    "id": 37,
+    "question": "What is an object?",
+    "options": ["An instance of a class", "A type of loop", "A Python keyword", "A module"],
+    "answer": "An instance of a class",
+    "explanation": "An object is created from a class and contains its attributes and methods."
+  },
+  {
+    "id": 38,
+    "question": "What is __init__()?",
+    "options": ["A constructor method", "A destructor only", "A loop", "An import statement"],
+    "answer": "A constructor method",
+    "explanation": "The __init__() method is commonly used to initialize an object's attributes when it is created."
+  },
+  {
+    "id": 39,
+    "question": "What does self refer to in a class?",
+    "options": ["The current object instance", "The parent class only", "A global variable", "A module"],
+    "answer": "The current object instance",
+    "explanation": "self refers to the current instance of the class and is used to access its attributes and methods."
+  },
+  {
+    "id": 40,
+    "question": "What is inheritance?",
+    "options": ["A class acquiring features from another class", "Deleting a class", "Creating a list", "Handling errors"],
+    "answer": "A class acquiring features from another class",
+    "explanation": "Inheritance allows a child class to reuse and extend the attributes and methods of a parent class."
+  },
+  {
+    "id": 41,
+    "question": "Which function converts a value to an integer?",
+    "options": ["int()", "str()", "float()", "bool()"],
+    "answer": "int()",
+    "explanation": "int() converts a compatible value into an integer."
+  },
+  {
+    "id": 42,
+    "question": "Which function converts a value to a string?",
+    "options": ["str()", "int()", "float()", "list()"],
+    "answer": "str()",
+    "explanation": "str() converts a value into its string representation."
+  },
+  {
+    "id": 43,
+    "question": "Which function returns the type of an object?",
+    "options": ["type()", "datatype()", "kind()", "typeof()"],
+    "answer": "type()",
+    "explanation": "type() returns the data type or class of an object."
+  },
+  {
+    "id": 44,
+    "question": "What is a lambda function?",
+    "options": ["A small anonymous function", "A Python class", "A loop", "A file type"],
+    "answer": "A small anonymous function",
+    "explanation": "A lambda function is a short anonymous function often used for simple operations."
+  },
+  {
+    "id": 45,
+    "question": "Which keyword creates a lambda function?",
+    "options": ["lambda", "def", "function", "anon"],
+    "answer": "lambda",
+    "explanation": "The lambda keyword is used to create an anonymous function."
+  },
+  {
+    "id": 46,
+    "question": "Which mode opens a file for reading?",
+    "options": ["r", "w", "a", "x"],
+    "answer": "r",
+    "explanation": "The r mode opens a file for reading."
+  },
+  {
+    "id": 47,
+    "question": "Which mode opens a file for writing and overwrites existing content?",
+    "options": ["w", "r", "a", "x"],
+    "answer": "w",
+    "explanation": "The w mode opens a file for writing and overwrites existing content."
+  },
+  {
+    "id": 48,
+    "question": "Which mode adds content to the end of a file?",
+    "options": ["a", "w", "r", "x"],
+    "answer": "a",
+    "explanation": "The a mode opens a file for appending and adds new content to the end."
+  },
+  {
+    "id": 49,
+    "question": "What is recursion?",
+    "options": ["A function calling itself", "A loop stopping", "An exception", "A data type"],
+    "answer": "A function calling itself",
+    "explanation": "Recursion is a technique where a function calls itself to solve a problem, usually with a base case."
+  },
+  {
+    "id": 50,
+    "question": "What is Python mainly known for?",
+    "options": ["Simple and readable syntax", "Only database management", "Only web browsing", "Only hardware programming"],
+    "answer": "Simple and readable syntax",
+    "explanation": "Python is widely known for its simple, readable syntax and broad range of applications."
+  }
+]

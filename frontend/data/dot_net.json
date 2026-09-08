@@ -1,0 +1,487 @@
+ [
+    {
+        "id": 1,
+        "question": "What is .NET?",
+        "options": [
+            "A programming language",
+            "A development platform for building applications",
+            "A database",
+            "An operating system"
+        ],
+        "answer": "A development platform for building applications",
+        "explanation": ".NET is a developer platform used to build different types of applications such as web, desktop, cloud, and services."
+    },
+    {
+        "id": 2,
+        "question": "Which programming language is most commonly associated with .NET?",
+        "options": ["Python", "Java", "C#", "PHP"],
+        "answer": "C#",
+        "explanation": "C# is one of the primary programming languages used with the .NET platform."
+    },
+    {
+        "id": 3,
+        "question": "What is the CLR in .NET?",
+        "options": [
+            "Common Language Runtime",
+            "Common Library Resource",
+            "Code Loading Runtime",
+            "Class Language Repository"
+        ],
+        "answer": "Common Language Runtime",
+        "explanation": "CLR is the execution environment responsible for running managed .NET applications and providing services such as memory management and exception handling."
+    },
+    {
+        "id": 4,
+        "question": "What is managed code?",
+        "options": [
+            "Code executed under the control of the CLR",
+            "Code written only in C++",
+            "Code without memory management",
+            "Code that cannot be compiled"
+        ],
+        "answer": "Code executed under the control of the CLR",
+        "explanation": "Managed code runs under the CLR, which provides services such as garbage collection, type safety, and exception handling."
+    },
+    {
+        "id": 5,
+        "question": "Which method is commonly the entry point of a traditional C# application?",
+        "options": ["Start()", "Run()", "Main()", "Init()"],
+        "answer": "Main()",
+        "explanation": "The Main() method is the traditional entry point where execution of a C# application begins."
+    },
+
+    {
+        "id": 6,
+        "question": "Which keyword is used to define a class in C#?",
+        "options": ["object", "class", "struct", "define"],
+        "answer": "class",
+        "explanation": "The class keyword is used to define a class in C#."
+    },
+    {
+        "id": 7,
+        "question": "Which keyword is used to create an object?",
+        "options": ["create", "object", "new", "make"],
+        "answer": "new",
+        "explanation": "The new keyword creates an object and invokes its constructor."
+    },
+    {
+        "id": 8,
+        "question": "What is a constructor?",
+        "options": [
+            "A method used to delete an object",
+            "A special method used to initialize an object",
+            "A type of loop",
+            "A database function"
+        ],
+        "answer": "A special method used to initialize an object",
+        "explanation": "A constructor is called when an object is created and is commonly used to initialize its state."
+    },
+    {
+        "id": 9,
+        "question": "Which keyword is used for inheritance in C#?",
+        "options": ["extends", "inherits", ":", "implements"],
+        "answer": ":",
+        "explanation": "C# uses a colon (:) to specify inheritance or interface implementation."
+    },
+    {
+        "id": 10,
+        "question": "Which keyword prevents a class from being inherited?",
+        "options": ["static", "const", "sealed", "private"],
+        "answer": "sealed",
+        "explanation": "A sealed class cannot be used as a base class for inheritance."
+    },
+
+    {
+        "id": 11,
+        "question": "What is method overloading?",
+        "options": [
+            "Same method name with different parameter lists",
+            "Replacing a parent method",
+            "Deleting methods",
+            "Calling a method repeatedly"
+        ],
+        "answer": "Same method name with different parameter lists",
+        "explanation": "Method overloading allows multiple methods with the same name when their parameter lists differ."
+    },
+    {
+        "id": 12,
+        "question": "What is method overriding?",
+        "options": [
+            "Creating multiple methods",
+            "Providing a new implementation of an inherited virtual method",
+            "Deleting a method",
+            "Creating a constructor"
+        ],
+        "answer": "Providing a new implementation of an inherited virtual method",
+        "explanation": "Method overriding allows a derived class to provide its own implementation of an inherited virtual or abstract method."
+    },
+    {
+        "id": 13,
+        "question": "Which keyword is commonly used to allow a method to be overridden?",
+        "options": ["static", "virtual", "sealed", "const"],
+        "answer": "virtual",
+        "explanation": "A method marked virtual can be overridden in a derived class."
+    },
+    {
+        "id": 14,
+        "question": "Which keyword is used in a derived class to override a virtual method?",
+        "options": ["extends", "override", "virtual", "new"],
+        "answer": "override",
+        "explanation": "The override keyword provides a new implementation for a virtual or abstract method."
+    },
+    {
+        "id": 15,
+        "question": "What is encapsulation?",
+        "options": [
+            "Combining data and related behavior into a single unit",
+            "Deleting objects",
+            "Creating multiple loops",
+            "Importing libraries"
+        ],
+        "answer": "Combining data and related behavior into a single unit",
+        "explanation": "Encapsulation groups data and behavior together and can control access to an object's internal state."
+    },
+
+    {
+        "id": 16,
+        "question": "Which access modifier allows access from anywhere?",
+        "options": ["private", "protected", "public", "internal"],
+        "answer": "public",
+        "explanation": "Public members can be accessed from other code that has access to the containing type."
+    },
+    {
+        "id": 17,
+        "question": "Which access modifier restricts access to the containing class?",
+        "options": ["public", "private", "protected", "internal"],
+        "answer": "private",
+        "explanation": "Private members are accessible only within the containing type."
+    },
+    {
+        "id": 18,
+        "question": "Which keyword is used to define an interface?",
+        "options": ["abstract", "interface", "class", "contract"],
+        "answer": "interface",
+        "explanation": "The interface keyword is used to define a contract that classes or structs can implement."
+    },
+    {
+        "id": 19,
+        "question": "Can a C# class implement multiple interfaces?",
+        "options": ["Yes", "No", "Only two", "Only one"],
+        "answer": "Yes",
+        "explanation": "A class can implement multiple interfaces, allowing it to support multiple contracts."
+    },
+    {
+        "id": 20,
+        "question": "What is an abstract class?",
+        "options": [
+            "A class that cannot be directly instantiated",
+            "A class that cannot contain methods",
+            "A class used only for databases",
+            "A static collection"
+        ],
+        "answer": "A class that cannot be directly instantiated",
+        "explanation": "An abstract class cannot be instantiated directly and can contain abstract and non-abstract members."
+    },
+
+    {
+        "id": 21,
+        "question": "What is the purpose of exception handling?",
+        "options": [
+            "Handle unexpected runtime conditions",
+            "Create arrays",
+            "Increase CPU speed",
+            "Define classes"
+        ],
+        "answer": "Handle unexpected runtime conditions",
+        "explanation": "Exception handling provides a structured way to detect and respond to exceptional runtime conditions."
+    },
+    {
+        "id": 22,
+        "question": "Which keywords are commonly used for exception handling?",
+        "options": [
+            "try, catch, finally",
+            "if, else, throw",
+            "begin, handle, end",
+            "check, error, catch"
+        ],
+        "answer": "try, catch, finally",
+        "explanation": "C# commonly uses try blocks for risky code, catch blocks for handling exceptions, and finally for cleanup code."
+    },
+    {
+        "id": 23,
+        "question": "Which keyword explicitly throws an exception?",
+        "options": ["throws", "throw", "catch", "error"],
+        "answer": "throw",
+        "explanation": "The throw keyword is used to explicitly raise an exception."
+    },
+    {
+        "id": 24,
+        "question": "Which block is commonly used for cleanup regardless of whether an exception occurs?",
+        "options": ["try", "catch", "finally", "throw"],
+        "answer": "finally",
+        "explanation": "The finally block is commonly used for cleanup because it executes after try/catch processing."
+    },
+    {
+        "id": 25,
+        "question": "What is garbage collection in .NET?",
+        "options": [
+            "Automatic memory management for unreachable objects",
+            "Manual deletion of all variables",
+            "Sorting unused data",
+            "Deleting source code"
+        ],
+        "answer": "Automatic memory management for unreachable objects",
+        "explanation": "The .NET garbage collector automatically reclaims memory occupied by managed objects that are no longer reachable."
+    },
+
+    {
+        "id": 26,
+        "question": "Which collection stores key-value pairs?",
+        "options": ["List", "Dictionary", "Queue", "Stack"],
+        "answer": "Dictionary",
+        "explanation": "Dictionary<TKey, TValue> stores data as key-value pairs."
+    },
+    {
+        "id": 27,
+        "question": "Which collection follows First In, First Out (FIFO)?",
+        "options": ["Stack", "Queue", "List", "Dictionary"],
+        "answer": "Queue",
+        "explanation": "A Queue processes elements in FIFO order, meaning the first element added is the first removed."
+    },
+    {
+        "id": 28,
+        "question": "Which collection follows Last In, First Out (LIFO)?",
+        "options": ["Queue", "Stack", "Dictionary", "HashSet"],
+        "answer": "Stack",
+        "explanation": "A Stack processes elements in LIFO order, meaning the most recently added item is removed first."
+    },
+    {
+        "id": 29,
+        "question": "Which collection is designed to store unique values?",
+        "options": ["List", "Dictionary", "HashSet", "Queue"],
+        "answer": "HashSet",
+        "explanation": "HashSet<T> stores unique elements and does not allow duplicates."
+    },
+    {
+        "id": 30,
+        "question": "What does the var keyword do in C#?",
+        "options": [
+            "Allows the compiler to infer the variable type",
+            "Creates a global variable",
+            "Creates a constant",
+            "Makes a variable dynamic"
+        ],
+        "answer": "Allows the compiler to infer the variable type",
+        "explanation": "The var keyword lets the compiler infer the variable's static type from its initializer."
+    },
+
+    {
+        "id": 31,
+        "question": "What is LINQ primarily used for?",
+        "options": [
+            "Querying and manipulating data using a consistent syntax",
+            "Creating only databases",
+            "Handling exceptions",
+            "Managing threads"
+        ],
+        "answer": "Querying and manipulating data using a consistent syntax",
+        "explanation": "LINQ provides query capabilities for collections, databases, XML, and other data sources."
+    },
+    {
+        "id": 32,
+        "question": "Which LINQ method is commonly used to filter elements based on a condition?",
+        "options": ["Select()", "Where()", "OrderBy()", "GroupBy()"],
+        "answer": "Where()",
+        "explanation": "Where() filters elements based on a specified condition."
+    },
+    {
+        "id": 33,
+        "question": "Which LINQ method is commonly used to transform each element?",
+        "options": ["Where()", "Select()", "First()", "Count()"],
+        "answer": "Select()",
+        "explanation": "Select() projects each source element into a new form."
+    },
+    {
+        "id": 34,
+        "question": "What does async allow a method to do?",
+        "options": [
+            "Use await for asynchronous operations",
+            "Run only synchronously",
+            "Create an interface",
+            "Delete a thread"
+        ],
+        "answer": "Use await for asynchronous operations",
+        "explanation": "The async modifier enables the use of await and allows asynchronous operations to be expressed naturally."
+    },
+    {
+        "id": 35,
+        "question": "What does await do?",
+        "options": [
+            "Asynchronously waits for an awaitable operation to complete",
+            "Stops the entire application permanently",
+            "Deletes a task",
+            "Creates a new class"
+        ],
+        "answer": "Asynchronously waits for an awaitable operation to complete",
+        "explanation": "await asynchronously waits for an awaitable operation and then resumes execution when the operation completes."
+    },
+
+    {
+        "id": 36,
+        "question": "What is ASP.NET Core primarily used for?",
+        "options": [
+            "Building web applications and services",
+            "Creating only desktop applications",
+            "Writing operating systems",
+            "Managing hardware drivers"
+        ],
+        "answer": "Building web applications and services",
+        "explanation": "ASP.NET Core is a .NET framework for building web applications, APIs, services, and other server-side applications."
+    },
+    {
+        "id": 37,
+        "question": "What is an API?",
+        "options": [
+            "A way for software applications to communicate",
+            "A type of database only",
+            "A C# data type",
+            "A garbage collector"
+        ],
+        "answer": "A way for software applications to communicate",
+        "explanation": "An Application Programming Interface defines ways for different software components or systems to interact."
+    },
+    {
+        "id": 38,
+        "question": "What is a controller commonly responsible for in an ASP.NET Core MVC application?",
+        "options": [
+            "Handling requests and coordinating application responses",
+            "Only designing CSS",
+            "Storing database files",
+            "Compiling the CLR"
+        ],
+        "answer": "Handling requests and coordinating application responses",
+        "explanation": "Controllers commonly receive requests, coordinate application logic, and return responses or views."
+    },
+    {
+        "id": 39,
+        "question": "What is Entity Framework Core?",
+        "options": [
+            "An ORM for working with databases using .NET objects",
+            "A frontend CSS framework",
+            "A programming language",
+            "A web browser"
+        ],
+        "answer": "An ORM for working with databases using .NET objects",
+        "explanation": "Entity Framework Core is an Object-Relational Mapper that helps .NET applications work with relational databases using objects and LINQ."
+    },
+    {
+        "id": 40,
+        "question": "What is DbContext in Entity Framework Core?",
+        "options": [
+            "A class that manages database interaction and entity tracking",
+            "A frontend component",
+            "A type of exception",
+            "A C# compiler"
+        ],
+        "answer": "A class that manages database interaction and entity tracking",
+        "explanation": "DbContext represents a session with the database and is used for querying, tracking, and saving entity changes."
+    },
+
+    {
+        "id": 41,
+        "question": "What is dependency injection?",
+        "options": [
+            "Providing required dependencies to an object from outside",
+            "Creating multiple databases",
+            "Deleting dependencies",
+            "Injecting SQL into a query"
+        ],
+        "answer": "Providing required dependencies to an object from outside",
+        "explanation": "Dependency injection supplies an object's dependencies externally, helping improve modularity and testability."
+    },
+    {
+        "id": 42,
+        "question": "What is middleware in ASP.NET Core?",
+        "options": [
+            "Components that process HTTP requests and responses in a pipeline",
+            "A database table",
+            "A C# keyword",
+            "A frontend framework"
+        ],
+        "answer": "Components that process HTTP requests and responses in a pipeline",
+        "explanation": "Middleware components are arranged in a request pipeline and can process requests and responses."
+    },
+    {
+        "id": 43,
+        "question": "Which HTTP method is commonly used to retrieve data?",
+        "options": ["POST", "PUT", "DELETE", "GET"],
+        "answer": "GET",
+        "explanation": "GET is commonly used to retrieve or read resources from a server."
+    },
+    {
+        "id": 44,
+        "question": "Which HTTP method is commonly used to create a new resource?",
+        "options": ["GET", "POST", "DELETE", "HEAD"],
+        "answer": "POST",
+        "explanation": "POST is commonly used to submit data and create a new resource."
+    },
+    {
+        "id": 45,
+        "question": "Which HTTP method is commonly used to delete a resource?",
+        "options": ["GET", "POST", "PUT", "DELETE"],
+        "answer": "DELETE",
+        "explanation": "DELETE is commonly used to request removal of a resource."
+    },
+
+    {
+        "id": 46,
+        "question": "What is the output of the following code?\n\nint x = 10;\nConsole.WriteLine(x++);",
+        "options": ["10", "11", "9", "Error"],
+        "answer": "10",
+        "explanation": "The post-increment operator uses the current value first and increments the variable afterward."
+    },
+    {
+        "id": 47,
+        "question": "What is the output of the following code?\n\nint x = 10;\nConsole.WriteLine(++x);",
+        "options": ["10", "11", "9", "Error"],
+        "answer": "11",
+        "explanation": "The pre-increment operator increments the value before it is used."
+    },
+    {
+        "id": 48,
+        "question": "What is the difference between == and Equals() for reference types?",
+        "options": [
+            "== may compare according to the type's operator implementation, while Equals() checks equality according to its implementation",
+            "They always behave identically",
+            "Equals() only works with integers",
+            "== cannot be used in C#"
+        ],
+        "answer": "== may compare according to the type's operator implementation, while Equals() checks equality according to its implementation",
+        "explanation": "For reference types, equality behavior depends on operator overloads and Equals() overrides or implementations."
+    },
+    {
+        "id": 49,
+        "question": "What does the using statement commonly help with?",
+        "options": [
+            "Ensuring IDisposable resources are disposed",
+            "Creating a loop",
+            "Creating inheritance",
+            "Allocating unmanaged memory manually"
+        ],
+        "answer": "Ensuring IDisposable resources are disposed",
+        "explanation": "The using statement ensures that an IDisposable resource is disposed when execution leaves the associated scope."
+    },
+    {
+        "id": 50,
+        "question": "Which statement best describes the purpose of appsettings.json in an ASP.NET Core application?",
+        "options": [
+            "It commonly stores application configuration settings",
+            "It stores only C# source code",
+            "It replaces the database",
+            "It compiles the application"
+        ],
+        "answer": "It commonly stores application configuration settings",
+        "explanation": "appsettings.json is commonly used to store configuration values such as connection strings and application settings."
+    }
+]
+

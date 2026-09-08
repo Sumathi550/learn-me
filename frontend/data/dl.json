@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "question": "What is Deep Learning?",
+    "options": ["A programming language", "A subset of Machine Learning that uses neural networks with multiple layers", "A database system", "A web framework"],
+    "answer": "A subset of Machine Learning that uses neural networks with multiple layers",
+    "explanation": "Deep Learning is a branch of Machine Learning that uses neural networks with multiple layers to learn complex patterns from data."
+  },
+  {
+    "id": 2,
+    "question": "Deep Learning is a subset of which field?",
+    "options": ["Computer Networks", "Machine Learning", "Cloud Computing", "Cyber Security"],
+    "answer": "Machine Learning",
+    "explanation": "Deep Learning is a specialized area within the broader field of Machine Learning."
+  },
+  {
+    "id": 3,
+    "question": "Which component is the foundation of Deep Learning models?",
+    "options": ["Decision Trees", "Artificial Neural Networks", "Databases", "Operating Systems"],
+    "answer": "Artificial Neural Networks",
+    "explanation": "Deep Learning models are primarily built using artificial neural networks with multiple layers."
+  },
+  {
+    "id": 4,
+    "question": "Which library is widely used for Deep Learning in Python?",
+    "options": ["Pandas", "TensorFlow", "NumPy", "Matplotlib"],
+    "answer": "TensorFlow",
+    "explanation": "TensorFlow is a popular Python framework used to build, train, and deploy Deep Learning models."
+  },
+  {
+    "id": 5,
+    "question": "Which Facebook-developed Deep Learning framework is popular for research?",
+    "options": ["PyTorch", "Flask", "OpenCV", "SciPy"],
+    "answer": "PyTorch",
+    "explanation": "PyTorch is a Deep Learning framework developed by Meta and is widely used in research."
+  },
+  {
+    "id": 6,
+    "question": "What is the main purpose of Deep Learning?",
+    "options": ["Store large amounts of data", "Automatically learn complex patterns from data", "Create databases", "Develop websites"],
+    "answer": "Automatically learn complex patterns from data",
+    "explanation": "Deep Learning automatically learns useful features and complex patterns from training data."
+  },
+  {
+    "id": 7,
+    "question": "Which type of data is Deep Learning especially effective for?",
+    "options": ["Images", "Audio", "Text", "All of the above"],
+    "answer": "All of the above",
+    "explanation": "Deep Learning can effectively process images, audio, text, and many other types of data."
+  },
+  {
+    "id": 8,
+    "question": "Compared to traditional Machine Learning, Deep Learning generally requires:",
+    "options": ["Less data", "More data", "No data", "Only text data"],
+    "answer": "More data",
+    "explanation": "Deep Learning models usually require large amounts of training data to learn effectively."
+  },
+  {
+    "id": 9,
+    "question": "Which hardware is commonly used to speed up Deep Learning training?",
+    "options": ["GPU", "Printer", "Scanner", "Keyboard"],
+    "answer": "GPU",
+    "explanation": "GPUs can perform many calculations in parallel, making Deep Learning training faster."
+  },
+  {
+    "id": 10,
+    "question": "Which of the following is a real-world application of Deep Learning?",
+    "options": ["Face Recognition", "Speech Recognition", "Self-driving Cars", "All of the above"],
+    "answer": "All of the above",
+    "explanation": "Deep Learning is used in face recognition, speech recognition, autonomous vehicles, and many other applications."
+  },
+  {
+    "id": 11,
+    "question": "What does ANN stand for?",
+    "options": ["Artificial Neural Network", "Advanced Neural Network", "Automatic Neural Node", "Artificial Network Node"],
+    "answer": "Artificial Neural Network",
+    "explanation": "ANN stands for Artificial Neural Network, a computing model inspired by biological neural networks."
+  },
+  {
+    "id": 12,
+    "question": "Which layer receives the input data in an Artificial Neural Network?",
+    "options": ["Hidden Layer", "Output Layer", "Input Layer", "Activation Layer"],
+    "answer": "Input Layer",
+    "explanation": "The input layer receives the initial data and passes it to the hidden layers."
+  },
+  {
+    "id": 13,
+    "question": "Which layer performs most of the computations in a neural network?",
+    "options": ["Input Layer", "Hidden Layer", "Output Layer", "Feature Layer"],
+    "answer": "Hidden Layer",
+    "explanation": "Hidden layers process input data and learn patterns through weighted computations."
+  },
+  {
+    "id": 14,
+    "question": "Which layer produces the final prediction of a neural network?",
+    "options": ["Input Layer", "Hidden Layer", "Output Layer", "Bias Layer"],
+    "answer": "Output Layer",
+    "explanation": "The output layer provides the final prediction or classification produced by the neural network."
+  },
+  {
+    "id": 15,
+    "question": "What is the purpose of weights in a neural network?",
+    "options": ["Store the dataset", "Determine the importance of input features", "Increase image size", "Reduce memory usage"],
+    "answer": "Determine the importance of input features",
+    "explanation": "Weights control how strongly each input influences the output of a neuron."
+  },
+  {
+    "id": 16,
+    "question": "What is the purpose of a bias in a neural network?",
+    "options": ["Reduce training time", "Shift the activation function to improve learning", "Store model parameters", "Normalize the dataset"],
+    "answer": "Shift the activation function to improve learning",
+    "explanation": "Bias allows the activation function to shift, helping the neural network learn more flexible patterns."
+  },
+  {
+    "id": 17,
+    "question": "Which activation function outputs values between 0 and 1?",
+    "options": ["ReLU", "Sigmoid", "Tanh", "Softmax"],
+    "answer": "Sigmoid",
+    "explanation": "The Sigmoid activation function converts values into a range between 0 and 1."
+  },
+  {
+    "id": 18,
+    "question": "Which activation function is most commonly used in hidden layers of deep neural networks?",
+    "options": ["Sigmoid", "ReLU", "Linear", "Step Function"],
+    "answer": "ReLU",
+    "explanation": "ReLU is widely used because it is computationally efficient and helps reduce vanishing gradient problems."
+  },
+  {
+    "id": 19,
+    "question": "What is Forward Propagation?",
+    "options": ["Updating weights", "Passing input data through the network to produce predictions", "Removing neurons", "Splitting the dataset"],
+    "answer": "Passing input data through the network to produce predictions",
+    "explanation": "Forward propagation moves input data through the network layers to generate an output prediction."
+  },
+  {
+    "id": 20,
+    "question": "Which algorithm is used to update weights during neural network training?",
+    "options": ["Backpropagation", "K-Means", "Decision Tree", "Random Forest"],
+    "answer": "Backpropagation",
+    "explanation": "Backpropagation calculates errors and gradients that are used to update neural network weights."
+  },
+  {
+    "id": 21,
+    "question": "What does CNN stand for?",
+    "options": ["Convolutional Neural Network", "Computer Neural Network", "Connected Neural Network", "Central Neural Network"],
+    "answer": "Convolutional Neural Network",
+    "explanation": "CNN stands for Convolutional Neural Network and is especially useful for image-related tasks."
+  },
+  {
+    "id": 22,
+    "question": "CNN is primarily used for which type of data?",
+    "options": ["Text Data", "Image Data", "Audio Data", "Tabular Data"],
+    "answer": "Image Data",
+    "explanation": "CNNs are mainly designed to automatically learn spatial features from images."
+  },
+  {
+    "id": 23,
+    "question": "Which layer extracts features such as edges and textures in a CNN?",
+    "options": ["Pooling Layer", "Convolution Layer", "Output Layer", "Flatten Layer"],
+    "answer": "Convolution Layer",
+    "explanation": "The convolution layer uses filters to detect features such as edges, shapes, and textures."
+  },
+  {
+    "id": 24,
+    "question": "What is the main purpose of the Pooling Layer in CNN?",
+    "options": ["Increase image size", "Reduce feature map dimensions", "Store model weights", "Generate labels"],
+    "answer": "Reduce feature map dimensions",
+    "explanation": "Pooling reduces the size of feature maps while retaining important information."
+  },
+  {
+    "id": 25,
+    "question": "Which pooling method selects the maximum value from a region?",
+    "options": ["Average Pooling", "Max Pooling", "Global Pooling", "Random Pooling"],
+    "answer": "Max Pooling",
+    "explanation": "Max Pooling selects the highest value from each selected region of the feature map."
+  },
+  {
+    "id": 26,
+    "question": "What does RNN stand for?",
+    "options": ["Random Neural Network", "Recursive Neural Network", "Recurrent Neural Network", "Repeated Neural Network"],
+    "answer": "Recurrent Neural Network",
+    "explanation": "RNN stands for Recurrent Neural Network and is designed to handle sequential information."
+  },
+  {
+    "id": 27,
+    "question": "RNN is mainly designed to process which type of data?",
+    "options": ["Image Data", "Sequential Data", "Tabular Data", "Database Records"],
+    "answer": "Sequential Data",
+    "explanation": "RNNs are useful for sequences where previous information can influence later outputs."
+  },
+  {
+    "id": 28,
+    "question": "Which RNN variant is designed to overcome the vanishing gradient problem?",
+    "options": ["CNN", "LSTM", "KNN", "Decision Tree"],
+    "answer": "LSTM",
+    "explanation": "LSTM uses memory cells and gates to better preserve information across long sequences."
+  },
+  {
+    "id": 29,
+    "question": "What does GRU stand for?",
+    "options": ["General Recurrent Unit", "Gated Recurrent Unit", "Grouped Recurrent Unit", "Global Recurrent Unit"],
+    "answer": "Gated Recurrent Unit",
+    "explanation": "GRU stands for Gated Recurrent Unit and uses gates to control information flow."
+  },
+  {
+    "id": 30,
+    "question": "Which of the following is a common application of RNNs?",
+    "options": ["Language Translation", "Sentiment Analysis", "Speech Recognition", "All of the above"],
+    "answer": "All of the above",
+    "explanation": "RNNs can process sequential data for language translation, sentiment analysis, and speech recognition."
+  },
+  {
+    "id": 31,
+    "question": "What is an epoch in Deep Learning?",
+    "options": ["A single neuron", "One complete pass of the training dataset through the model", "A loss function", "A hidden layer"],
+    "answer": "One complete pass of the training dataset through the model",
+    "explanation": "One epoch means the model has processed the entire training dataset once."
+  },
+  {
+    "id": 32,
+    "question": "What is batch size in Deep Learning?",
+    "options": ["The number of hidden layers", "The number of samples processed before updating model weights", "The number of epochs", "The learning rate"],
+    "answer": "The number of samples processed before updating model weights",
+    "explanation": "Batch size determines how many training samples are processed before the model updates its weights."
+  },
+  {
+    "id": 33,
+    "question": "What is the learning rate?",
+    "options": ["The number of neurons", "The speed at which model weights are updated during training", "The size of the dataset", "The number of output classes"],
+    "answer": "The speed at which model weights are updated during training",
+    "explanation": "The learning rate controls the size of the steps taken when updating model weights."
+  },
+  {
+    "id": 34,
+    "question": "What is the purpose of a loss function?",
+    "options": ["To measure how far the model's predictions are from the actual values", "To increase the dataset size", "To create new features", "To display graphs"],
+    "answer": "To measure how far the model's predictions are from the actual values",
+    "explanation": "A loss function measures the difference between predicted results and actual values."
+  },
+  {
+    "id": 35,
+    "question": "Which optimizer is one of the most commonly used in Deep Learning?",
+    "options": ["Adam", "Bubble Sort", "K-Means", "Decision Tree"],
+    "answer": "Adam",
+    "explanation": "Adam is a popular optimization algorithm used to efficiently update neural network parameters."
+  },
+  {
+    "id": 36,
+    "question": "Gradient Descent is mainly used to:",
+    "options": ["Increase the loss", "Optimize model weights by minimizing the loss function", "Reduce dataset size", "Generate random predictions"],
+    "answer": "Optimize model weights by minimizing the loss function",
+    "explanation": "Gradient Descent adjusts model parameters in a direction that reduces the loss."
+  },
+  {
+    "id": 37,
+    "question": "What is the main purpose of the Adam Optimizer?",
+    "options": ["To simplify datasets", "To optimize neural network weights efficiently", "To classify images", "To remove outliers"],
+    "answer": "To optimize neural network weights efficiently",
+    "explanation": "Adam efficiently updates neural network weights using adaptive learning techniques."
+  },
+  {
+    "id": 38,
+    "question": "Which technique is commonly used to reduce overfitting in neural networks?",
+    "options": ["Dropout", "Pooling", "Flattening", "Clustering"],
+    "answer": "Dropout",
+    "explanation": "Dropout randomly disables some neurons during training to help reduce overfitting."
+  },
+  {
+    "id": 39,
+    "question": "What is Overfitting in Deep Learning?",
+    "options": ["The model performs well on training data but poorly on unseen data", "The model performs poorly on all data", "The model has too few neurons", "The model has no hidden layers"],
+    "answer": "The model performs well on training data but poorly on unseen data",
+    "explanation": "Overfitting happens when a model memorizes training data and fails to generalize to new data."
+  },
+  {
+    "id": 40,
+    "question": "Which technique stops training when the validation performance no longer improves?",
+    "options": ["Early Stopping", "Late Training", "Batch Normalization", "Cross Validation"],
+    "answer": "Early Stopping",
+    "explanation": "Early Stopping prevents unnecessary training when validation performance stops improving."
+  },
+  {
+    "id": 41,
+    "question": "What is Transfer Learning in Deep Learning?",
+    "options": ["Training a model from scratch every time", "Using a pre-trained model for a new but related task", "Transferring data between databases", "Moving a model to another computer"],
+    "answer": "Using a pre-trained model for a new but related task",
+    "explanation": "Transfer Learning reuses knowledge from a previously trained model for a related task."
+  },
+  {
+    "id": 42,
+    "question": "Which of the following is a popular pre-trained CNN model?",
+    "options": ["VGG16", "Decision Tree", "K-Means", "Naive Bayes"],
+    "answer": "VGG16",
+    "explanation": "VGG16 is a well-known pre-trained Convolutional Neural Network model."
+  },
+  {
+    "id": 43,
+    "question": "What is Fine-Tuning in Deep Learning?",
+    "options": ["Deleting layers from a model", "Adjusting the weights of a pre-trained model for a specific task", "Reducing dataset size", "Changing the optimizer only"],
+    "answer": "Adjusting the weights of a pre-trained model for a specific task",
+    "explanation": "Fine-Tuning modifies a pre-trained model by further training it for a specific task."
+  },
+  {
+    "id": 44,
+    "question": "What is an Autoencoder mainly used for?",
+    "options": ["Data Compression and Feature Learning", "Image Classification", "Sorting Data", "Object Detection"],
+    "answer": "Data Compression and Feature Learning",
+    "explanation": "Autoencoders learn compact representations of data and are commonly used for feature learning and compression."
+  },
+  {
+    "id": 45,
+    "question": "What does GAN stand for?",
+    "options": ["General Artificial Network", "Generative Adversarial Network", "Graph Analysis Network", "Global Attention Network"],
+    "answer": "Generative Adversarial Network",
+    "explanation": "GAN stands for Generative Adversarial Network, which uses competing neural networks to generate data."
+  },
+  {
+    "id": 46,
+    "question": "GAN consists of which two neural networks?",
+    "options": ["Generator and Discriminator", "Encoder and Decoder", "Input and Output", "CNN and RNN"],
+    "answer": "Generator and Discriminator",
+    "explanation": "A GAN contains a Generator that creates data and a Discriminator that evaluates whether it appears real."
+  },
+  {
+    "id": 47,
+    "question": "Which architecture revolutionized Natural Language Processing using self-attention mechanisms?",
+    "options": ["CNN", "Transformer", "KNN", "Decision Tree"],
+    "answer": "Transformer",
+    "explanation": "Transformers use self-attention mechanisms to understand relationships between elements in a sequence."
+  },
+  {
+    "id": 48,
+    "question": "What does BERT stand for?",
+    "options": ["Bidirectional Encoder Representations from Transformers", "Binary Encoding Representation Tool", "Basic Encoder Recognition Technique", "Bidirectional Embedded Retrieval Transformer"],
+    "answer": "Bidirectional Encoder Representations from Transformers",
+    "explanation": "BERT is a Transformer-based language model that learns contextual relationships in both directions."
+  },
+  {
+    "id": 49,
+    "question": "GPT models are mainly designed for:",
+    "options": ["Image Segmentation", "Text Generation and Language Understanding", "Audio Compression", "Database Management"],
+    "answer": "Text Generation and Language Understanding",
+    "explanation": "GPT models are primarily used for understanding, generating, and working with natural language text."
+  },
+  {
+    "id": 50,
+    "question": "Which of the following is a real-world application of Deep Learning?",
+    "options": ["Medical Image Diagnosis", "Autonomous Vehicles", "Voice Assistants", "All of the above"],
+    "answer": "All of the above",
+    "explanation": "Deep Learning is used in medical imaging, self-driving vehicles, voice assistants, and many other real-world systems."
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "name": "learn-me-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Learn Me - AI Learning Platform",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "backend": "node backend/server.js",
+    "frontend": "node backend/server.js",
+    "app": "node backend/server.js",
+    "server": "node backend/server.js",
+    "db:view": "node scripts_and_seeds/view_db.js"
+  }
+}

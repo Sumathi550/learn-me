@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "question": "What is NumPy?",
+    "options": ["A Python library for numerical computing", "A web framework", "A database", "A programming language"],
+    "answer": "A Python library for numerical computing",
+    "explanation": "NumPy is a Python library mainly used for numerical computing and efficient array operations."
+  },
+  {
+    "id": 2,
+    "question": "What does NumPy stand for?",
+    "options": ["Numerical Python", "Number Python", "New Python", "Numeric Program"],
+    "answer": "Numerical Python",
+    "explanation": "NumPy stands for Numerical Python."
+  },
+  {
+    "id": 3,
+    "question": "Which is the main data structure in NumPy?",
+    "options": ["List", "Tuple", "ndarray", "Dictionary"],
+    "answer": "ndarray",
+    "explanation": "The ndarray, or N-dimensional array, is the main data structure used in NumPy."
+  },
+  {
+    "id": 4,
+    "question": "Which keyword is commonly used to import NumPy?",
+    "options": ["import numpy as np", "import numpy as num", "include numpy", "using numpy"],
+    "answer": "import numpy as np",
+    "explanation": "NumPy is commonly imported using the alias np."
+  },
+  {
+    "id": 5,
+    "question": "Which function creates a NumPy array?",
+    "options": ["np.array()", "np.list()", "np.create()", "np.make()"],
+    "answer": "np.array()",
+    "explanation": "np.array() is used to create a NumPy array from a list, tuple, or other compatible data."
+  },
+  {
+    "id": 6,
+    "question": "What does ndim return?",
+    "options": ["Number of dimensions", "Number of elements", "Data type", "Array size in bytes"],
+    "answer": "Number of dimensions",
+    "explanation": "The ndim attribute returns the number of dimensions or axes of an array."
+  },
+  {
+    "id": 7,
+    "question": "What does shape return?",
+    "options": ["Array dimensions", "Data type", "Sum of elements", "Largest value"],
+    "answer": "Array dimensions",
+    "explanation": "The shape attribute returns the size of the array along each dimension."
+  },
+  {
+    "id": 8,
+    "question": "What does size return?",
+    "options": ["Total number of elements", "Number of dimensions", "Data type", "Memory address"],
+    "answer": "Total number of elements",
+    "explanation": "The size attribute returns the total number of elements in the array."
+  },
+  {
+    "id": 9,
+    "question": "Which function creates an array filled with zeros?",
+    "options": ["np.zeros()", "np.empty()", "np.zero()", "np.null()"],
+    "answer": "np.zeros()",
+    "explanation": "np.zeros() creates an array where every element is initialized to zero."
+  },
+  {
+    "id": 10,
+    "question": "Which function creates an array filled with ones?",
+    "options": ["np.ones()", "np.one()", "np.fill()", "np.fullone()"],
+    "answer": "np.ones()",
+    "explanation": "np.ones() creates an array where every element is initialized to one."
+  },
+  {
+    "id": 11,
+    "question": "Which function creates an identity matrix?",
+    "options": ["np.eye()", "np.identity_matrix()", "np.diagonal()", "np.matrix()"],
+    "answer": "np.eye()",
+    "explanation": "np.eye() creates a two-dimensional array with ones on the main diagonal."
+  },
+  {
+    "id": 12,
+    "question": "Which function creates values with a specified interval?",
+    "options": ["np.arange()", "np.range()", "np.interval()", "np.sequence()"],
+    "answer": "np.arange()",
+    "explanation": "np.arange() creates evenly spaced values within a specified range."
+  },
+  {
+    "id": 13,
+    "question": "Which function creates evenly spaced numbers between two values?",
+    "options": ["np.linspace()", "np.arange()", "np.space()", "np.divide()"],
+    "answer": "np.linspace()",
+    "explanation": "np.linspace() creates a specified number of evenly spaced values between a start and stop value."
+  },
+  {
+    "id": 14,
+    "question": "How do you access the first element of an array?",
+    "options": ["arr[0]", "arr[1]", "arr.first()", "arr(0)"],
+    "answer": "arr[0]",
+    "explanation": "Python and NumPy use zero-based indexing, so the first element is accessed using index 0."
+  },
+  {
+    "id": 15,
+    "question": "How do you access the last element of an array?",
+    "options": ["arr[-1]", "arr[last]", "arr[0]", "arr[end]"],
+    "answer": "arr[-1]",
+    "explanation": "Negative indexing allows arr[-1] to access the last element."
+  },
+  {
+    "id": 16,
+    "question": "What does slicing allow you to do?",
+    "options": ["Access a portion of an array", "Delete NumPy", "Change Python version", "Create only dictionaries"],
+    "answer": "Access a portion of an array",
+    "explanation": "Slicing is used to select a range or portion of elements from an array."
+  },
+  {
+    "id": 17,
+    "question": "Which operation changes the shape of an array?",
+    "options": ["reshape()", "resize_only()", "shape()", "dimension()"],
+    "answer": "reshape()",
+    "explanation": "reshape() changes the dimensions of an array without changing its data."
+  },
+  {
+    "id": 18,
+    "question": "What does flatten() do?",
+    "options": ["Converts an array into one dimension", "Adds dimensions", "Sorts the array", "Deletes the array"],
+    "answer": "Converts an array into one dimension",
+    "explanation": "flatten() returns a one-dimensional copy of a multi-dimensional array."
+  },
+  {
+    "id": 19,
+    "question": "Which function calculates the sum of array elements?",
+    "options": ["np.sum()", "np.addall()", "np.total()", "np.plus()"],
+    "answer": "np.sum()",
+    "explanation": "np.sum() calculates the sum of elements in a NumPy array."
+  },
+  {
+    "id": 20,
+    "question": "Which function calculates the average of array elements?",
+    "options": ["np.mean()", "np.averageonly()", "np.mid()", "np.center()"],
+    "answer": "np.mean()",
+    "explanation": "np.mean() calculates the arithmetic mean of the array elements."
+  },
+  {
+    "id": 21,
+    "question": "Which function finds the maximum value?",
+    "options": ["np.max()", "np.high()", "np.maximumvalue()", "np.top()"],
+    "answer": "np.max()",
+    "explanation": "np.max() returns the largest value in an array."
+  },
+  {
+    "id": 22,
+    "question": "Which function finds the minimum value?",
+    "options": ["np.min()", "np.low()", "np.minimumvalue()", "np.bottom()"],
+    "answer": "np.min()",
+    "explanation": "np.min() returns the smallest value in an array."
+  },
+  {
+    "id": 23,
+    "question": "What does np.sort() do?",
+    "options": ["Sorts array elements", "Deletes duplicate values", "Reverses dimensions", "Changes data type"],
+    "answer": "Sorts array elements",
+    "explanation": "np.sort() returns the elements of an array in sorted order."
+  },
+  {
+    "id": 24,
+    "question": "What does np.concatenate() do?",
+    "options": ["Joins arrays together", "Deletes arrays", "Sorts arrays", "Multiplies dimensions"],
+    "answer": "Joins arrays together",
+    "explanation": "np.concatenate() combines two or more arrays along an existing axis."
+  },
+  {
+    "id": 25,
+    "question": "What does np.vstack() do?",
+    "options": ["Stacks arrays vertically", "Stacks arrays horizontally", "Deletes rows", "Creates a vector only"],
+    "answer": "Stacks arrays vertically",
+    "explanation": "np.vstack() stacks arrays vertically, increasing the number of rows."
+  },
+  {
+    "id": 26,
+    "question": "What does np.hstack() do?",
+    "options": ["Stacks arrays horizontally", "Stacks arrays vertically", "Sorts columns", "Deletes columns"],
+    "answer": "Stacks arrays horizontally",
+    "explanation": "np.hstack() joins arrays horizontally, usually by adding columns."
+  },
+  {
+    "id": 27,
+    "question": "What is broadcasting in NumPy?",
+    "options": ["Performing operations on arrays of compatible shapes", "Sending arrays over the internet", "Printing arrays", "Saving arrays only"],
+    "answer": "Performing operations on arrays of compatible shapes",
+    "explanation": "Broadcasting allows NumPy to perform operations between arrays with compatible but different shapes."
+  },
+  {
+    "id": 28,
+    "question": "What does arr.dtype return?",
+    "options": ["Data type of array elements", "Number of dimensions", "Number of elements", "Array shape"],
+    "answer": "Data type of array elements",
+    "explanation": "The dtype attribute shows the data type used to store the array elements."
+  },
+  {
+    "id": 29,
+    "question": "Which function converts an array to another data type?",
+    "options": ["astype()", "dtype()", "convert()", "change_type()"],
+    "answer": "astype()",
+    "explanation": "astype() creates an array with elements converted to a specified data type."
+  },
+  {
+    "id": 30,
+    "question": "What does np.random.rand() generate?",
+    "options": ["Random values between 0 and 1", "Only integers", "Only negative numbers", "Sorted values"],
+    "answer": "Random values between 0 and 1",
+    "explanation": "np.random.rand() generates random floating-point values from a uniform distribution between 0 and 1."
+  },
+  {
+    "id": 31,
+    "question": "Which function can generate random integers?",
+    "options": ["np.random.randint()", "np.random.integeronly()", "np.random.int()", "np.randint()"],
+    "answer": "np.random.randint()",
+    "explanation": "np.random.randint() generates random integers within a specified range."
+  },
+  {
+    "id": 32,
+    "question": "What does np.unique() return?",
+    "options": ["Unique values", "Duplicate values only", "Sorted indexes only", "Array dimensions"],
+    "answer": "Unique values",
+    "explanation": "np.unique() returns the distinct values found in an array."
+  },
+  {
+    "id": 33,
+    "question": "What does np.where() do?",
+    "options": ["Returns indices or values based on a condition", "Creates a database", "Deletes conditions", "Only sorts values"],
+    "answer": "Returns indices or values based on a condition",
+    "explanation": "np.where() can identify positions that satisfy a condition or choose values based on a condition."
+  },
+  {
+    "id": 34,
+    "question": "What is a 1D NumPy array?",
+    "options": ["An array with one axis", "An array with one element only", "An array with two axes", "A Python dictionary"],
+    "answer": "An array with one axis",
+    "explanation": "A one-dimensional NumPy array has a single axis and is similar to a mathematical vector."
+  },
+  {
+    "id": 35,
+    "question": "What is a 2D NumPy array commonly similar to?",
+    "options": ["A matrix", "A dictionary", "A string", "A function"],
+    "answer": "A matrix",
+    "explanation": "A two-dimensional array has rows and columns, similar to a mathematical matrix."
+  },
+  {
+    "id": 36,
+    "question": "Which operator performs element-wise addition on NumPy arrays?",
+    "options": ["+", "*", "/", "%"],
+    "answer": "+",
+    "explanation": "Using + between compatible NumPy arrays adds their corresponding elements."
+  },
+  {
+    "id": 37,
+    "question": "Which operator performs element-wise multiplication?",
+    "options": ["*", "+", "-", "//"],
+    "answer": "*",
+    "explanation": "The * operator multiplies corresponding elements of compatible NumPy arrays."
+  },
+  {
+    "id": 38,
+    "question": "Which function calculates the dot product?",
+    "options": ["np.dot()", "np.multiply()", "np.crossonly()", "np.product()"],
+    "answer": "np.dot()",
+    "explanation": "np.dot() calculates the dot product of vectors or performs matrix multiplication depending on the input dimensions."
+  },
+  {
+    "id": 39,
+    "question": "What does the axis parameter usually specify?",
+    "options": ["The dimension along which an operation is performed", "The array data type", "The memory size", "The number of arrays"],
+    "answer": "The dimension along which an operation is performed",
+    "explanation": "The axis parameter determines the direction along which operations such as sum or mean are calculated."
+  },
+  {
+    "id": 40,
+    "question": "What does np.transpose() do?",
+    "options": ["Swaps rows and columns", "Deletes rows", "Sorts values", "Changes integers to strings"],
+    "answer": "Swaps rows and columns",
+    "explanation": "np.transpose() rearranges the axes of an array; for a matrix, it swaps rows and columns."
+  },
+  {
+    "id": 41,
+    "question": "What does np.copy() create?",
+    "options": ["An independent copy of an array", "A new reference only", "A sorted array always", "An empty array"],
+    "answer": "An independent copy of an array",
+    "explanation": "np.copy() creates a separate array so changes to it do not affect the original array."
+  },
+  {
+    "id": 42,
+    "question": "What is a NumPy view?",
+    "options": ["An array sharing data with the original array", "A printed image", "A deleted array", "A database table"],
+    "answer": "An array sharing data with the original array",
+    "explanation": "A NumPy view can share the same underlying data as the original array, so changes may affect both."
+  },
+  {
+    "id": 43,
+    "question": "Which function can find the index of the maximum value?",
+    "options": ["np.argmax()", "np.maxindex()", "np.indexmax()", "np.highindex()"],
+    "answer": "np.argmax()",
+    "explanation": "np.argmax() returns the index of the maximum value in an array."
+  },
+  {
+    "id": 44,
+    "question": "Which function can find the index of the minimum value?",
+    "options": ["np.argmin()", "np.minindex()", "np.indexmin()", "np.lowindex()"],
+    "answer": "np.argmin()",
+    "explanation": "np.argmin() returns the index of the minimum value in an array."
+  },
+  {
+    "id": 45,
+    "question": "What does np.any() check?",
+    "options": ["Whether at least one element is True", "Whether all elements are True", "Whether an array is empty", "Whether values are sorted"],
+    "answer": "Whether at least one element is True",
+    "explanation": "np.any() returns True if at least one element in the array evaluates to True."
+  },
+  {
+    "id": 46,
+    "question": "What does np.all() check?",
+    "options": ["Whether all elements are True", "Whether one element is True", "Whether all values are zero", "Whether the array is sorted"],
+    "answer": "Whether all elements are True",
+    "explanation": "np.all() returns True only when every element in the array evaluates to True."
+  },
+  {
+    "id": 47,
+    "question": "Why is NumPy often faster than Python lists for numerical operations?",
+    "options": ["It uses optimized array operations", "It does not use memory", "It only works with integers", "It removes all loops automatically"],
+    "answer": "It uses optimized array operations",
+    "explanation": "NumPy uses optimized low-level implementations and efficient array operations for numerical computation."
+  },
+  {
+    "id": 48,
+    "question": "What is vectorization in NumPy?",
+    "options": ["Performing operations on entire arrays without explicit Python loops", "Converting data into text", "Creating only vectors", "Drawing graphs"],
+    "answer": "Performing operations on entire arrays without explicit Python loops",
+    "explanation": "Vectorization allows operations to be applied to entire arrays efficiently instead of writing explicit loops."
+  },
+  {
+    "id": 49,
+    "question": "Which NumPy function can save an array in binary format?",
+    "options": ["np.save()", "np.store()", "np.writearray()", "np.export()"],
+    "answer": "np.save()",
+    "explanation": "np.save() stores a NumPy array in NumPy's binary .npy format."
+  },
+  {
+    "id": 50,
+    "question": "What is the main purpose of NumPy?",
+    "options": ["Efficient numerical and array computing in Python", "Building websites only", "Managing databases only", "Creating operating systems"],
+    "answer": "Efficient numerical and array computing in Python",
+    "explanation": "NumPy provides efficient arrays and mathematical tools that form a foundation for numerical computing and many data science libraries."
+  }
+]
