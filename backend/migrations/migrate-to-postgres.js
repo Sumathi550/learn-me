@@ -54,13 +54,19 @@ async function runMigration() {
                 require: true,
                 rejectUnauthorized: false
             }
+        },
+        define: {
+            underscored: true
         }
     });
 
     const sqliteSequelize = new Sequelize({
         dialect: 'sqlite',
         storage: sqlitePath,
-        logging: false
+        logging: false,
+        define: {
+            underscored: true
+        }
     });
 
     try {
