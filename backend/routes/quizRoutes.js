@@ -59,7 +59,7 @@ router.get('/questions/:courseId', async (req, res) => {
 // Secure Server-Side Quiz Answer Evaluation
 router.post('/submit', requireAuth, async (req, res) => {
     try {
-        let { courseId, answers, timeTakenSeconds, questionIds } = req.body;
+        let { courseId, answers, timeTakenSeconds, questionIds, quizId = 'final' } = req.body;
         
         let answersArray = [];
         if (Array.isArray(answers)) {
@@ -87,10 +87,13 @@ router.post('/submit', requireAuth, async (req, res) => {
         let activeQuestions = [];
         let normalizedAnswers = [];
 
-        if (Array.isArray(questionIds) && questionIds.length === answersArray.length) {
+        if (Array.isArray(questionIds) && questionIds.length === answersArray.length && questionIds.some(id => typeof id === 'number' && !isNaN(id))) {
             questionIds.forEach((qId, i) => {
-                if (dbQuestions[qId]) {
+                if (typeof qId === 'number' && dbQuestions[qId]) {
                     activeQuestions.push(dbQuestions[qId]);
+                    normalizedAnswers.push(typeof answersArray[i] === 'number' ? answersArray[i] : (answersArray[i]?.selectedOption ?? answersArray[i]?.answer));
+                } else if (dbQuestions[i]) {
+                    activeQuestions.push(dbQuestions[i]);
                     normalizedAnswers.push(typeof answersArray[i] === 'number' ? answersArray[i] : (answersArray[i]?.selectedOption ?? answersArray[i]?.answer));
                 }
             });
@@ -110,13 +113,21 @@ router.post('/submit', requireAuth, async (req, res) => {
             normalizedAnswers = answersArray.map(a => typeof a === 'number' ? a : (a?.selectedOption ?? a?.answer));
         }
 
+        if (activeQuestions.length === 0) {
+            activeQuestions = dbQuestions.slice(0, Math.max(1, answersArray.length));
+            normalizedAnswers = answersArray;
+        }
+
         let correctCount = 0;
         const reviewData = activeQuestions.map((q, idx) => {
             const raw = normalizedAnswers[idx];
             const userAnswer = (typeof raw === 'object' && raw !== null)
                 ? (typeof raw.selectedOption === 'number' ? raw.selectedOption : raw.answer)
                 : (typeof raw === 'number' ? raw : (raw !== undefined && raw !== null ? Number(raw) : undefined));
-            const isCorrect = typeof userAnswer === 'number' && !isNaN(userAnswer) && userAnswer === q.answer;
+            let isCorrect = typeof userAnswer === 'number' && !isNaN(userAnswer) && userAnswer === q.answer;
+            if (!isCorrect && typeof raw === 'string' && q.options && q.options[q.answer]) {
+                isCorrect = raw.trim().toLowerCase() === q.options[q.answer].trim().toLowerCase();
+            }
             if (isCorrect) correctCount++;
 
             return {
@@ -129,10 +140,11 @@ router.post('/submit', requireAuth, async (req, res) => {
             };
         });
 
-        const totalQuestions = activeQuestions.length;
+        const totalQuestions = Math.max(1, activeQuestions.length);
         const percentage = Math.round((correctCount / totalQuestions) * 100);
-        const passingScore = course.passingScore || 70;
-        const passed = percentage >= passingScore;
+        // RULE: A quiz is counted toward completion ONLY when it is passed with a score of at least 70%
+        const passingScore = Math.max(70, Number(course.passingScore) || 70);
+        const passed = percentage >= passingScore && percentage >= 70;
 
         // Count previous attempts
         const previousAttempts = await QuizAttempt.countDocuments({
@@ -161,20 +173,45 @@ router.post('/submit', requireAuth, async (req, res) => {
             progress = new Progress({
                 userId: req.user._id,
                 courseId: course.courseId,
-                totalLessons: (course.lessons || []).length || 1
+                completedLessonIds: [],
+                completedModules: [],
+                completedLessons: 0,
+                completedQuizzes: []
             });
         }
 
         // Keep highest score
         if (percentage >= (progress.quizScore || 0)) {
             progress.quizScore = percentage;
-        }
-        if (passed) {
+            progress.quizPassed = Boolean(passed);
+        } else if (passed) {
             progress.quizPassed = true;
-            progress.eligibleForCertificate = true;
-            progress.percentage = 100;
-            progress.status = 'Completed';
         }
+
+        // Update completedQuizzes list
+        let completedQuizzes = [];
+        if (Array.isArray(progress.completedQuizzes)) {
+            completedQuizzes = [...progress.completedQuizzes];
+        } else if (typeof progress.completedQuizzes === 'string') {
+            try { completedQuizzes = JSON.parse(progress.completedQuizzes) || []; } catch(e) { completedQuizzes = []; }
+        }
+        const cleanQuizId = String(quizId || 'final').trim();
+        if (passed && !completedQuizzes.includes(cleanQuizId)) {
+            completedQuizzes.push(cleanQuizId);
+        }
+        progress.completedQuizzes = completedQuizzes;
+
+        // Recalculate full course metrics using courseProgressHelper
+        const { getCourseMetrics } = require('../utils/courseProgressHelper');
+        const metrics = getCourseMetrics(course, progress);
+        progress.completedModules = metrics.completedModules;
+        progress.totalModules = metrics.totalModules;
+        progress.quizzesCompleted = metrics.quizzesCompleted;
+        progress.totalQuizzes = metrics.totalQuizzes;
+        progress.percentage = metrics.overallPercentage;
+        // eligibleForCertificate is ONLY true when 100% of course (modules + quizzes) is completed
+        progress.eligibleForCertificate = metrics.eligibleForCertificate;
+        progress.status = metrics.status;
         progress.lastAccessed = new Date();
         await progress.save();
 
@@ -182,7 +219,7 @@ router.post('/submit', requireAuth, async (req, res) => {
         await Activity.create({
             userId: req.user._id,
             action: 'QUIZ_SUBMITTED',
-            details: `Submitted quiz for ${course.title} - Score: ${percentage}% (${correctCount}/${totalQuestions})`,
+            details: `Submitted quiz for ${course.title} - Score: ${percentage}% (${correctCount}/${totalQuestions}, Overall Course: ${metrics.overallPercentage}%)`,
             ipAddress: req.ip || req.headers['x-forwarded-for'] || '127.0.0.1'
         });
 
@@ -190,33 +227,16 @@ router.post('/submit', requireAuth, async (req, res) => {
             await Activity.create({
                 userId: req.user._id,
                 action: 'QUIZ_PASSED',
-                details: `Passed ${course.title} assessment with ${percentage}%`,
+                details: `Passed ${course.title} assessment with ${percentage}% (Overall Course Progress: ${metrics.overallPercentage}%)`,
                 ipAddress: req.ip || req.headers['x-forwarded-for'] || '127.0.0.1'
             });
 
-            await Activity.create({
-                userId: req.user._id,
-                action: 'CERTIFICATE_ELIGIBLE',
-                details: `Earned eligibility for ${course.title} certificate`,
-                ipAddress: req.ip || req.headers['x-forwarded-for'] || '127.0.0.1'
-            });
-
-            // Check if certificate already exists or create pending certificate
-            let cert = await Certificate.findOne({ userId: req.user._id, courseId: course.courseId });
-            if (!cert) {
-                const randomId = Math.random().toString(36).substring(2, 8).toUpperCase();
-                const certCode = `LM-${course.courseId.toUpperCase()}-${new Date().getFullYear()}-${randomId}`;
-                cert = await Certificate.create({
-                    certificateId: certCode,
+            if (metrics.eligibleForCertificate) {
+                await Activity.create({
                     userId: req.user._id,
-                    userName: req.user.name,
-                    courseId: course.courseId,
-                    courseName: course.title,
-                    score: percentage,
-                    percentage,
-                    verificationCode: certCode,
-                    status: 'valid',
-                    paymentStatus: 'pending'
+                    action: 'CERTIFICATE_ELIGIBLE',
+                    details: `Earned eligibility for ${course.title} certificate upon 100% course completion`,
+                    ipAddress: req.ip || req.headers['x-forwarded-for'] || '127.0.0.1'
                 });
             }
         } else {
@@ -236,7 +256,16 @@ router.post('/submit', requireAuth, async (req, res) => {
             passingScore,
             reviewData,
             certificatePrice: course.certificatePrice || (course.category === 'Aptitude' || course.courseId.includes('aptitude') ? 100 : 10),
-            eligibleForCertificate: progress.eligibleForCertificate
+            eligibleForCertificate: metrics.eligibleForCertificate,
+            courseProgress: metrics.overallPercentage,
+            readingPercentage: metrics.readingPercentage,
+            practiceQuizPercentage: metrics.practiceQuizPercentage,
+            finalExamPercentage: metrics.finalExamPercentage,
+            modulesCompleted: metrics.completedModulesCount,
+            totalModules: metrics.totalModules,
+            quizzesCompleted: metrics.quizzesCompleted,
+            totalQuizzes: metrics.totalQuizzes,
+            isCourseCompleted: metrics.isFullyCompleted
         });
     } catch (error) {
         res.status(500).json({ message: 'Error evaluating quiz.', error: error.message });

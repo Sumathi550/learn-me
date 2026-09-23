@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <title>Learn Me - Premium AI Learning Platform</title>
+    <link rel="icon" href="assets/learnme-logo.png" type="image/png" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0d1b3d" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Learn Me" />
+    <link rel="apple-touch-icon" href="assets/learnme-logo.png" />
+    <link rel="stylesheet" href="css/style.css?v=3" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+    <!-- Certificate generation libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+    <!-- ================= HEADER & NAVIGATION ================= -->
+    <header>
+        <nav class="container">
+            <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+                <img src="assets/learnme-logo.png" alt="Learn Me Logo" width="116" height="34" />
+            </div>
+
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="courses.html" class="nav-link">Courses</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+                <li><a href="verify.html" class="nav-link">Verify</a></li>
+            </ul>
+
+            <div class="user-auth-section" id="user-auth-section">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <a href="login.html" class="btn btn-sm btn-outline" style="padding: 6px 14px; font-size: 13.5px; color: #ffffff; border-color: rgba(255,255,255,0.3); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px;">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </a>
+                    <a href="signup.html" class="btn btn-sm btn-primary" style="padding: 6px 14px; font-size: 13.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px;">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </a>
+                </div>
+                <div class="menu-btn" id="menu-btn" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="nav-backdrop" id="nav-backdrop"></div>
+
+    <!-- ================= MAIN CONTENT VIEWS ================= -->
+    <main>
+
+        <!-- ================= VIEW: HOME ================= -->
+        <section id="view-home" class="view active">
+            <div class="hero container">
+                <div class="hero-badge">
+                    <i class="fas fa-sparkles"></i> AI-Powered Education
+                </div>
+
+                <h1 class="hero-title">
+                    Master Any Subject with
+                    <span class="gradient-text">Learn Me</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Interactive AI learning platform with structured courses,
+                    instant smart assessments, and verified certifications.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="courses.html" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                        Explore Courses <i class="fas fa-arrow-right"></i>
+                    </a>
+
+                    <a href="dashboard.html" class="btn btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center;">
+                        My Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Ribbon -->
+            <div class="stats-ribbon container">
+                <div class="stat-item">
+                    <span class="stat-number">20+</span>
+                    <span class="stat-label">AI Courses</span>
+                </div>
+
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Interactive Quizzes</span>
+                </div>
+
+                <div class="stat-item">
+                    <span class="stat-number">Instant</span>
+                    <span class="stat-label">Verified Certifications</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW: COURSES CATALOG ================= -->
+        <section id="view-courses" class="view">
+            <div class="container">
+
+                <div class="view-header">
+                    <h2>Explore Courses</h2>
+                    <p>Choose a track to begin learning and earning your certification.</p>
+                </div>
+
+                <div class="search-bar-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input
+                        type="text"
+                        id="course-search-input"
+                        placeholder="Search courses by name, topic, or difficulty..."
+                        onkeyup="filterCourses()"
+                    />
+                </div>
+
+                <div class="courses-grid" id="courses-grid-container">
+                    <!-- Dynamic courses injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW: COURSE DETAILS & LESSONS ================= -->
+        <section id="view-course-details" class="view">
+            <div class="container" id="course-details-container">
+                <!-- Dynamic course details injected here -->
+            </div>
+        </section>
+
+        <!-- ================= VIEW: ASSESSMENT ================= -->
+        <section id="view-assessment" class="view">
+            <div class="container" id="assessment-container">
+                <!-- Final assessment content injected here -->
+            </div>
+        </section>
+
+        <!-- ================= VIEW: RESULT ================= -->
+        <section id="view-result" class="view">
+            <div class="container" id="result-container">
+                <!-- Results content injected here -->
+            </div>
+        </section>
+
+        <!-- ================= VIEW: DASHBOARD ================= -->
+        <section id="view-dashboard" class="view">
+            <div class="container" id="dashboard-container">
+                <!-- Dashboard content injected here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= HIDDEN CERTIFICATE TEMPLATE ================= -->
+    <div
+        id="certificate-template"
+        style="
+            position:absolute;
+            left:-9999px;
+            top:0;
+            background:#fff;
+            color:#1f2937;
+            width:800px;
+            height:600px;
+            box-sizing:border-box;
+            text-align:center;
+            font-family:Georgia, 'Times New Roman', serif;
+            overflow:hidden;
+        "
+    >
+        <div style="position:absolute; inset:16px; border:3px solid #d8bd78;"></div>
+        <div style="position:absolute; inset:28px; border:2px solid #172b56;"></div>
+
+        <div style="position:relative; height:100%; box-sizing:border-box;">
+
+            <img
+                src="assets/learnme-logo.png"
+                alt="Learn Me"
+                crossorigin="anonymous"
+                style="
+                    position:absolute;
+                    left:76px;
+                    top:44px;
+                    width:112px;
+                    height:auto;
+                "
+            />
+
+            <h1
+                style="
+                    position:absolute;
+                    left:0;
+                    top:93px;
+                    width:100%;
+                    height:62px;
+                    font-size:54px;
+                    line-height:1.1;
+                    letter-spacing:0;
+                    font-weight:500;
+                    color:#172b56;
+                    margin:0;
+                    text-align:center;
+                "
+            >
+                CERTIFICATE
+            </h1>
+
+            <div
+                style="
+                    position:absolute;
+                    left:0;
+                    top:163px;
+                    width:100%;
+                    height:28px;
+                    font-family:Arial, sans-serif;
+                    font-size:22px;
+                    line-height:28px;
+                    color:#3d3d3d;
+                    letter-spacing:.3px;
+                    text-align:center;
+                "
+            >
+                FOR APPRECIATION
+            </div>
+
+            <p
+                style="
+                    position:absolute;
+                    left:0;
+                    top:204px;
+                    width:100%;
+                    height:22px;
+                    font-family:Arial, sans-serif;
+                    font-size:16px;
+                    line-height:22px;
+                    margin:0;
+                    text-align:center;
+                "
+            >
+                This award was given to
+            </p>
+
+            <h2
+                id="cert-student-name"
+                style="
+                    position:absolute;
+                    left:130px;
+                    top:239px;
+                    width:540px;
+                    height:43px;
+                    overflow:hidden;
+                    font-family:Arial, sans-serif;
+                    font-size:29px;
+                    line-height:35px;
+                    color:#172b56;
+                    margin:0;
+                    border-bottom:1px solid #d8bd78;
+                    padding:0 20px 6px;
+                    box-sizing:border-box;
+                    text-align:center;
+                    overflow-wrap:anywhere;
+                "
+            >
+                Student Name
+            </h2>
+
+            <p
+                style="
+                    position:absolute;
+                    left:0;
+                    top:293px;
+                    width:100%;
+                    height:20px;
+                    font-family:Arial, sans-serif;
+                    font-size:14px;
+                    line-height:20px;
+                    margin:0;
+                    text-align:center;
+                "
+            >
+                for successfully completing
+            </p>
+
+            <h3
+                id="cert-course-name"
+                style="
+                    position:absolute;
+                    left:120px;
+                    top:318px;
+                    width:560px;
+                    height:31px;
+                    overflow:hidden;
+                    font-family:Arial, sans-serif;
+                    font-size:22px;
+                    line-height:28px;
+                    color:#172b56;
+                    margin:0;
+                    text-align:center;
+                    overflow-wrap:anywhere;
+                "
+            >
+                Course Name
+            </h3>
+
+            <p
+                style="
+                    position:absolute;
+                    left:0;
+                    top:352px;
+                    width:100%;
+                    height:20px;
+                    font-family:Arial, sans-serif;
+                    font-size:14px;
+                    line-height:20px;
+                    margin:0;
+                    text-align:center;
+                "
+            >
+                with a score of
+                <strong id="cert-score">0 / 0</strong>
+                (<strong id="cert-percentage">0%</strong>)
+            </p>
+
+            <div
+                style="
+                    position:absolute;
+                    left:217px;
+                    top:405px;
+                    width:365px;
+                    border-top:1px solid #d8bd78;
+                "
+            ></div>
+
+            <p
+                style="
+                    position:absolute;
+                    left:0;
+                    top:414px;
+                    width:100%;
+                    height:16px;
+                    font-family:Arial, sans-serif;
+                    font-size:10px;
+                    line-height:16px;
+                    color:#555;
+                    margin:0;
+                    text-align:center;
+                "
+            >
+                Knowledge is everywhere. Your journey to master it starts with Learn Me.
+            </p>
+
+            <div
+                style="
+                    position:absolute;
+                    left:72px;
+                    right:72px;
+                    bottom:45px;
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:flex-end;
+                    font-family:Arial, sans-serif;
+                    font-size:11px;
+                    line-height:14px;
+                    color:#555;
+                    text-align:left;
+                "
+            >
+                <span>
+                    Date:
+                    <strong id="cert-date">YYYY-MM-DD</strong>
+                </span>
+
+                <span>
+                    Certificate ID:
+                    <strong id="cert-id">CERT-000</strong>
+                </span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= CERTIFICATE PREVIEW MODAL ================= -->
+    <div id="certificate-preview-modal" class="certificate-preview-modal" hidden>
+        <div
+            class="certificate-preview-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="certificate-preview-title"
+        >
+            <button
+                class="certificate-preview-close"
+                type="button"
+                onclick="closeCertificatePreview()"
+                aria-label="Close certificate preview"
+            >
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 id="certificate-preview-title">Certificate Preview</h2>
+
+            <div id="certificate-preview-content"></div>
+
+            <div class="certificate-preview-actions">
+                <button
+                    class="btn btn-success"
+                    type="button"
+                    onclick="downloadPreviewCertificate()"
+                >
+                    <i class="fas fa-download"></i>
+                    Download PDF
+                </button>
+
+                <button
+                    class="btn btn-secondary"
+                    type="button"
+                    onclick="window.print()"
+                >
+                    <i class="fas fa-print"></i>
+                    Print
+                </button>
+
+                <a
+                    id="certificate-preview-verify"
+                    class="btn btn-secondary"
+                    href="verify.html"
+                >
+                    <i class="fas fa-shield-check"></i>
+                    Verify
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CERTIFICATE PAYMENT MODAL ================= -->
+    <div id="payment-modal" class="certificate-preview-modal" hidden>
+        <div
+            class="certificate-preview-dialog"
+            style="max-width:520px; text-align:center;"
+        >
+            <button
+                class="certificate-preview-close"
+                type="button"
+                onclick="closePaymentModal()"
+            >
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div
+                style="
+                    width:60px;
+                    height:60px;
+                    border-radius:50%;
+                    background:rgba(37,99,235,0.1);
+                    display:inline-flex;
+                    align-items:center;
+                    justify-content:center;
+                    color:var(--primary-accent);
+                    font-size:26px;
+                    margin-bottom:12px;
+                "
+            >
+                <i class="fas fa-shield-alt"></i>
+            </div>
+
+            <h2
+                style="
+                    font-size:24px;
+                    color:var(--primary-accent);
+                    margin-bottom:6px;
+                "
+            >
+                Certificate Payment Verification
+            </h2>
+
+            <p
+                style="
+                    color:var(--text-muted);
+                    font-size:14px;
+                    margin-bottom:18px;
+                "
+            >
+                Complete the server-side payment verification to unlock your official Learn Me certificate.
+            </p>
+
+            <div
+                style="
+                    background:rgba(13,27,61,0.04);
+                    border:1px solid var(--glass-border);
+                    border-radius:14px;
+                    padding:18px;
+                    margin-bottom:20px;
+                    text-align:left;
+                "
+            >
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span style="color:var(--text-muted);">Course Title:</span>
+                    <strong id="payment-course-title">Python Programming</strong>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span style="color:var(--text-muted);">Certificate ID:</span>
+                    <code id="payment-cert-id">LM-PYTHON-2026-XXXX</code>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span style="color:var(--text-muted);">Verification Status:</span>
+                    <span style="color:#f59e0b; font-weight:700;">
+                        Payment Pending
+                    </span>
+                </div>
+
+                <hr
+                    style="
+                        border:0;
+                        border-top:1px solid rgba(0,0,0,0.1);
+                        margin:12px 0;
+                    "
+                />
+
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:16px; font-weight:700;">
+                        Fee Calculated:
+                    </span>
+
+                    <span
+                        style="
+                            font-size:26px;
+                            font-weight:800;
+                            color:var(--success);
+                        "
+                        id="payment-fee-amount"
+                    >
+                        ₹10
+                    </span>
+                </div>
+
+                <small
+                    style="
+                        color:var(--text-muted);
+                        display:block;
+                        margin-top:4px;
+                    "
+                    id="payment-fee-note"
+                >
+                    Standard course certificate download fee (Aptitude ₹100).
+                </small>
+            </div>
+
+            <!-- UPI QR & Instructions -->
+            <div
+                style="
+                    background:#f8fafc;
+                    border:1px solid #e2e8f0;
+                    border-radius:14px;
+                    padding:16px;
+                    margin-bottom:20px;
+                "
+            >
+                <p style="font-weight:700; margin-bottom:6px; color:var(--text-main);">
+                    Pay via UPI
+                </p>
+
+                <p
+                    style="
+                        font-size:13px;
+                        color:var(--text-muted);
+                        margin-bottom:10px;
+                    "
+                >
+                    Send payment to UPI ID:
+                    <strong
+                        style="color:var(--primary-accent);"
+                        id="payment-upi-id"
+                    >
+                        sumathiaz550@upi
+                    </strong>
+                </p>
+
+                <div style="margin-bottom:16px; text-align:center;">
+                    <img
+                        id="payment-qr-code"
+                        src=""
+                        alt="UPI QR Code"
+                        style="
+                            width:150px;
+                            height:150px;
+                            border:1px solid #ccc;
+                            border-radius:12px;
+                            padding:8px;
+                            background:#fff;
+                            display:inline-block;
+                        "
+                    />
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:10px;">
+
+                    <button
+                        class="btn btn-success"
+                        type="button"
+                        onclick="confirmPaymentGateway('UPI_GATEWAY')"
+                        style="width:100%;"
+                    >
+                        <i class="fas fa-bolt"></i>
+                        Instant Payment Gateway Simulation
+                    </button>
+
+                    <div>
+                        <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">
+                            Payments are securely processed and automatically verified server-side.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                id="payment-error"
+                style="
+                    color:var(--danger);
+                    font-size:13px;
+                    margin-bottom:10px;
+                "
+            ></div>
+        </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Learn Me Institute. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ================= AUTHENTICATION MODAL ================= -->
+    <div id="auth-modal" class="auth-modal" style="display: none; position: fixed; inset: 0; background: rgba(11, 23, 54, 0.75); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
+        <div style="position: relative; background: #ffffff; width: min(450px, 100%); padding: 36px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);">
+            <button onclick="closeAuthModal()" style="position: absolute; top: 16px; right: 16px; border: none; background: transparent; font-size: 20px; color: var(--text-muted); cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background: rgba(37, 99, 235, 0.1); color: var(--primary-accent); display: inline-flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 10px;">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2 id="auth-title" style="font-size: 24px; color: var(--primary-accent); font-weight: 800; margin-bottom: 4px;">Student Sign In</h2>
+                <p style="font-size: 14px; color: var(--text-muted);">Access your course tracks, assessments & certificates</p>
+            </div>
+
+            <form id="student-auth-form">
+                <!-- Bot Honeypot Field (invisible to humans, trapped for bots) -->
+                <div style="display: none !important; opacity: 0; position: absolute; left: -9999px;">
+                    <input type="text" name="website_hp" id="student-auth-hp" tabindex="-1" autocomplete="off" />
+                </div>
+
+                <div id="auth-name-group" style="display: none; margin-bottom: 16px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Full Name</label>
+                    <input type="text" id="student-auth-name" placeholder="John Doe" style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 15px; outline: none;" />
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Email Address</label>
+                    <input type="email" id="student-auth-email" required placeholder="student@example.com" style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 15px; outline: none;" />
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Password</label>
+                    <input type="password" id="student-auth-password" required placeholder="••••••••" style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 15px; outline: none;" />
+                </div>
+
+                <div id="auth-error-msg" style="color: var(--danger); font-size: 13px; font-weight: 600; margin-bottom: 14px; text-align: center;"></div>
+
+                <button type="submit" id="auth-submit-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border-radius: 10px;">
+                    Sign In
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-muted);">
+                <span id="auth-toggle-msg">Don't have an account?</span>
+                <a href="#" id="auth-toggle-link" onclick="toggleAuthMode(); return false;" style="color: var(--primary-accent); font-weight: 700; margin-left: 4px; text-decoration: underline;">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODULE STUDY & COMPLETION MODAL ================= -->
+    <div id="module-study-modal" class="certificate-preview-modal" hidden>
+        <div class="certificate-preview-dialog" style="max-width: 600px; text-align: left;">
+            <button class="certificate-preview-close" type="button" onclick="closeModuleStudyModal()" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(37,99,235,0.1); color: var(--primary-accent); display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                    <i class="fas fa-book-reader"></i>
+                </div>
+                <div>
+                    <h3 id="module-modal-title" style="margin: 0 0 2px 0; font-size: 20px; color: var(--text-main);">Module Title</h3>
+                    <small id="module-modal-course" style="color: var(--text-muted); font-weight: 600;">Course Track</small>
+                </div>
+            </div>
+
+            <div id="module-modal-body" style="background: rgba(13,27,61,0.03); border: 1px solid var(--glass-border); border-radius: 12px; padding: 18px; margin-bottom: 20px; font-size: 14.5px; line-height: 1.6; color: var(--text-main);">
+                <!-- Dynamic module content injected here -->
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <button id="module-modal-complete-btn" class="btn btn-success" type="button" onclick="toggleCurrentModuleComplete()">
+                    <i class="fas fa-check-circle"></i> Mark as Completed
+                </button>
+                <div style="display: flex; gap: 8px;">
+                    <button id="module-modal-quiz-btn" class="btn btn-secondary" type="button">
+                        <i class="fas fa-bolt"></i> Practice Topic Quiz
+                    </button>
+                    <button class="btn btn-secondary" type="button" onclick="closeModuleStudyModal()">
+                        Close
+                    </button>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:16px; font-weight:700;">
+                        Fee Calculated:
+                    </span>
+
+                    <span
+                        style="
+                            font-size:26px;
+                            font-weight:800;
+                            color:var(--success);
+                        "
+                        id="payment-fee-amount"
+                    >
+                        ₹10
+                    </span>
+                </div>
+
+                <small
+                    style="
+                        color:var(--text-muted);
+                        display:block;
+                        margin-top:4px;
+                    "
+                    id="payment-fee-note"
+                >
+                    Standard course certificate download fee (Aptitude ₹100).
+                </small>
+            </div>
+
+            <!-- UPI QR & Instructions -->
+            <div
+                style="
+                    background:#f8fafc;
+                    border:1px solid #e2e8f0;
+                    border-radius:14px;
+                    padding:16px;
+                    margin-bottom:20px;
+                "
+            >
+                <p style="font-weight:700; margin-bottom:6px; color:var(--text-main);">
+                    Pay via UPI
+                </p>
+
+                <p
+                    style="
+                        font-size:13px;
+                        color:var(--text-muted);
+                        margin-bottom:10px;
+                    "
+                >
+                    Send payment to UPI ID:
+                    <strong
+                        style="color:var(--primary-accent);"
+                        id="payment-upi-id"
+                    >
+                        sumathiaz550@upi
+                    </strong>
+                </p>
+
+                <div style="margin-bottom:16px; text-align:center;">
+                    <img
+                        id="payment-qr-code"
+                        src=""
+                        alt="UPI QR Code"
+                        style="
+                            width:150px;
+                            height:150px;
+                            border:1px solid #ccc;
+                            border-radius:12px;
+                            padding:8px;
+                            background:#fff;
+                            display:inline-block;
+                        "
+                    />
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:10px;">
+
+                    <button
+                        class="btn btn-success"
+                        type="button"
+                        onclick="confirmPaymentGateway('UPI_GATEWAY')"
+                        style="width:100%;"
+                    >
+                        <i class="fas fa-bolt"></i>
+                        Instant Payment Gateway Simulation
+                    </button>
+
+                    <div>
+                        <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">
+                            Payments are securely processed and automatically verified server-side.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                id="payment-error"
+                style="
+                    color:var(--danger);
+                    font-size:13px;
+                    margin-bottom:10px;
+                "
+            ></div>
+        </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Learn Me Institute. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ================= AUTHENTICATION MODAL ================= -->
+    <div id="auth-modal" class="auth-modal" style="display: none; position: fixed; inset: 0; background: rgba(11, 23, 54, 0.75); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
+        <div style="position: relative; background: #ffffff; width: min(450px, 100%); padding: 36px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);">
+            <button onclick="closeAuthModal()" style="position: absolute; top: 16px; right: 16px; border: none; background: transparent; font-size: 20px; color: var(--text-muted); cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background: rgba(37, 99, 235, 0.1); color: var(--primary-accent); display: inline-flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 10px;">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2 id="auth-title" style="font-size: 24px; color: var(--primary-accent); font-weight: 800; margin-bottom: 4px;">Student Sign In</h2>
+                <p style="font-size: 14px; color: var(--text-muted);">Access your course tracks, assessments & certificates</p>
+            </div>
+
+            <form id="student-auth-form">
+                <!-- Bot Honeypot Field (invisible to humans, trapped for bots) -->
+                <div style="display: none !important; opacity: 0; position: absolute; left: -9999px;">
+                    <input type="text" name="website_hp" id="student-auth-hp" tabindex="-1" autocomplete="off" />
+                </div>
+
+                <div id="auth-name-group" style="display: none; margin-bottom: 16px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Full Name</label>
+                    <input type="text" id="student-auth-name" placeholder="John Doe" style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 15px; outline: none;" />
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Email Address</label>
+                    <input type="email" id="student-auth-email" required placeholder="student@example.com" style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 15px; outline: none;" />
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Password</label>
+                    <input type="password" id="student-auth-password" required placeholder="••••••••" style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 15px; outline: none;" />
+                </div>
+
+                <div id="auth-error-msg" style="color: var(--danger); font-size: 13px; font-weight: 600; margin-bottom: 14px; text-align: center;"></div>
+
+                <button type="submit" id="auth-submit-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border-radius: 10px;">
+                    Sign In
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-muted);">
+                <span id="auth-toggle-msg">Don't have an account?</span>
+                <a href="#" id="auth-toggle-link" onclick="toggleAuthMode(); return false;" style="color: var(--primary-accent); font-weight: 700; margin-left: 4px; text-decoration: underline;">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODULE STUDY & COMPLETION MODAL ================= -->
+    <div id="module-study-modal" class="certificate-preview-modal" hidden>
+        <div class="certificate-preview-dialog" style="max-width: 600px; text-align: left;">
+            <button class="certificate-preview-close" type="button" onclick="closeModuleStudyModal()" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(37,99,235,0.1); color: var(--primary-accent); display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                    <i class="fas fa-book-reader"></i>
+                </div>
+                <div>
+                    <h3 id="module-modal-title" style="margin: 0 0 2px 0; font-size: 20px; color: var(--text-main);">Module Title</h3>
+                    <small id="module-modal-course" style="color: var(--text-muted); font-weight: 600;">Course Track</small>
+                </div>
+            </div>
+
+            <div id="module-modal-body" style="background: rgba(13,27,61,0.03); border: 1px solid var(--glass-border); border-radius: 12px; padding: 18px; margin-bottom: 20px; font-size: 14.5px; line-height: 1.6; color: var(--text-main);">
+                <!-- Dynamic module content injected here -->
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <button id="module-modal-complete-btn" class="btn btn-success" type="button" onclick="toggleCurrentModuleComplete()">
+                    <i class="fas fa-check-circle"></i> Mark as Completed
+                </button>
+                <div style="display: flex; gap: 8px;">
+                    <button id="module-modal-quiz-btn" class="btn btn-secondary" type="button">
+                        <i class="fas fa-bolt"></i> Practice Topic Quiz
+                    </button>
+                    <button class="btn btn-secondary" type="button" onclick="closeModuleStudyModal()">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/questions-data.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/nav-auth.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -689,4 +689,73 @@ router.put('/settings', logAdminAuditAction('SETTINGS_UPDATED', (req) => ({
     }
 });
 
+// ===============================
+// SYSTEM MONITORING & HEALTH
+// ===============================
+router.get('/system-health', async (req, res) => {
+    try {
+        const mem = process.memoryUsage();
+        const uptimeSeconds = Math.floor(process.uptime());
+
+        const [
+            totalUsers,
+            activeUsers,
+            totalCourses,
+            totalAuditLogs,
+            totalQuizAttempts,
+            totalCertificates
+        ] = await Promise.all([
+            User.countDocuments(),
+            User.countDocuments({ isActive: true }),
+            Course.countDocuments(),
+            AdminAuditLog.countDocuments(),
+            QuizAttempt.countDocuments(),
+            Certificate.countDocuments()
+        ]);
+
+        const fs = require('fs');
+        const path = require('path');
+        const sqlitePath = path.join(__dirname, '..', 'data', 'learnme.sqlite');
+        let dbSizeBytes = 0;
+        if (fs.existsSync(sqlitePath)) {
+            dbSizeBytes = fs.statSync(sqlitePath).size;
+        }
+
+        res.json({
+            status: 'HEALTHY',
+            timestamp: new Date().toISOString(),
+            service: 'Learn Me Production API',
+            uptime: {
+                seconds: uptimeSeconds,
+                formatted: `${Math.floor(uptimeSeconds / 3600)}h ${Math.floor((uptimeSeconds % 3600) / 60)}m ${uptimeSeconds % 60}s`
+            },
+            memory: {
+                rss: `${(mem.rss / 1024 / 1024).toFixed(2)} MB`,
+                heapUsed: `${(mem.heapUsed / 1024 / 1024).toFixed(2)} MB`,
+                heapTotal: `${(mem.heapTotal / 1024 / 1024).toFixed(2)} MB`
+            },
+            database: {
+                engine: process.env.DB_DIALECT || 'sqlite',
+                status: 'CONNECTED',
+                sizeFormatted: dbSizeBytes > 0 ? `${(dbSizeBytes / 1024).toFixed(2)} KB` : 'In-Memory/External'
+            },
+            metrics: {
+                totalUsers,
+                activeUsers,
+                totalCourses,
+                totalAuditLogs,
+                totalQuizAttempts,
+                totalCertificates
+            },
+            environment: {
+                nodeVersion: process.version,
+                platform: process.platform,
+                environment: process.env.NODE_ENV || 'production'
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to retrieve system health metrics.', error: error.message });
+    }
+});
+
 module.exports = router;

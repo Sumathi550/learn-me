@@ -1,0 +1,388 @@
+ [
+  {
+    "id": 1,
+    "question": "What does HTML stand for?",
+    "options": [
+      "HyperText Markup Language",
+      "HighText Machine Language",
+      "Hyper Transfer Markup Language",
+      "Home Tool Markup Language"
+    ],
+    "answer": "HyperText Markup Language",
+    "explanation": "HTML stands for HyperText Markup Language and is used to structure content on web pages."
+  },
+  {
+    "id": 2,
+    "question": "Which HTML element is used for the largest heading?",
+    "options": ["<h6>", "<heading>", "<h1>", "<head>"],
+    "answer": "<h1>",
+    "explanation": "<h1> represents the highest-level heading in HTML."
+  },
+  {
+    "id": 3,
+    "question": "Which HTML element is used to create a hyperlink?",
+    "options": ["<link>", "<a>", "<href>", "<url>"],
+    "answer": "<a>",
+    "explanation": "The <a> element creates hyperlinks using the href attribute."
+  },
+  {
+    "id": 4,
+    "question": "Which attribute specifies the destination of a hyperlink?",
+    "options": ["src", "href", "link", "target"],
+    "answer": "href",
+    "explanation": "The href attribute specifies the URL or destination of an anchor element."
+  },
+  {
+    "id": 5,
+    "question": "Which HTML element is used to display an image?",
+    "options": ["<image>", "<img>", "<picture>", "<src>"],
+    "answer": "<img>",
+    "explanation": "The <img> element embeds an image into a web page."
+  },
+  {
+    "id": 6,
+    "question": "Which attribute provides alternative text for an image?",
+    "options": ["title", "alt", "src", "text"],
+    "answer": "alt",
+    "explanation": "The alt attribute provides alternative text when an image cannot be displayed and improves accessibility."
+  },
+  {
+    "id": 7,
+    "question": "Which HTML element creates an unordered list?",
+    "options": ["<ol>", "<ul>", "<li>", "<list>"],
+    "answer": "<ul>",
+    "explanation": "The <ul> element creates an unordered list."
+  },
+  {
+    "id": 8,
+    "question": "Which HTML element creates an ordered list?",
+    "options": ["<ul>", "<li>", "<ol>", "<list>"],
+    "answer": "<ol>",
+    "explanation": "The <ol> element creates an ordered, numbered list."
+  },
+  {
+    "id": 9,
+    "question": "Which HTML element represents a list item?",
+    "options": ["<item>", "<li>", "<list>", "<ul>"],
+    "answer": "<li>",
+    "explanation": "The <li> element represents an individual item inside a list."
+  },
+  {
+    "id": 10,
+    "question": "Which HTML element is used to create a form?",
+    "options": ["<input>", "<form>", "<fieldset>", "<label>"],
+    "answer": "<form>",
+    "explanation": "The <form> element groups input controls for collecting and submitting user data."
+  },
+  {
+    "id": 11,
+    "question": "Which input type hides typed characters?",
+    "options": ["text", "hidden", "password", "secure"],
+    "answer": "password",
+    "explanation": "An input with type='password' masks the characters entered by the user."
+  },
+  {
+    "id": 12,
+    "question": "Which HTML element is used to create a dropdown list?",
+    "options": ["<input>", "<select>", "<option>", "<dropdown>"],
+    "answer": "<select>",
+    "explanation": "The <select> element creates a dropdown list containing <option> elements."
+  },
+  {
+    "id": 13,
+    "question": "Which HTML element is used to create a table row?",
+    "options": ["<td>", "<th>", "<tr>", "<table-row>"],
+    "answer": "<tr>",
+    "explanation": "The <tr> element defines a row inside an HTML table."
+  },
+  {
+    "id": 14,
+    "question": "Which HTML element represents a table header cell?",
+    "options": ["<td>", "<tr>", "<th>", "<thead>"],
+    "answer": "<th>",
+    "explanation": "The <th> element defines a header cell in a table."
+  },
+  {
+    "id": 15,
+    "question": "Which semantic HTML element is commonly used for navigation links?",
+    "options": ["<section>", "<nav>", "<article>", "<aside>"],
+    "answer": "<nav>",
+    "explanation": "The <nav> element represents a section containing navigation links."
+  },
+  {
+    "id": 16,
+    "question": "Which semantic element is used for the main content of a document?",
+    "options": ["<body>", "<main>", "<section>", "<content>"],
+    "answer": "<main>",
+    "explanation": "The <main> element represents the dominant or primary content of the document."
+  },
+  {
+    "id": 17,
+    "question": "Which semantic element is suitable for self-contained content such as a blog post?",
+    "options": ["<div>", "<article>", "<span>", "<aside>"],
+    "answer": "<article>",
+    "explanation": "The <article> element represents independent, self-contained content."
+  },
+  {
+    "id": 18,
+    "question": "What is the purpose of the <!DOCTYPE html> declaration?",
+    "options": [
+      "To indicate that the document uses HTML5",
+      "To create a CSS file",
+      "To link JavaScript",
+      "To define a heading"
+    ],
+    "answer": "To indicate that the document uses HTML5",
+    "explanation": "The HTML doctype tells the browser to use standards mode for an HTML document."
+  },
+  {
+    "id": 19,
+    "question": "Which CSS property changes the text color?",
+    "options": ["font-color", "text-color", "color", "foreground"],
+    "answer": "color",
+    "explanation": "The color property sets the foreground color of text."
+  },
+  {
+    "id": 20,
+    "question": "Which CSS property changes an element's background color?",
+    "options": ["color", "background-color", "bgcolor", "background"],
+    "answer": "background-color",
+    "explanation": "background-color sets the background color of an element."
+  },
+  {
+    "id": 21,
+    "question": "Which CSS selector targets an element by its ID?",
+    "options": [".", "#", "*", ":"],
+    "answer": "#",
+    "explanation": "The # symbol is used to select an element by its id attribute."
+  },
+  {
+    "id": 22,
+    "question": "Which CSS selector targets elements by class?",
+    "options": ["#", ".", "*", "@"],
+    "answer": ".",
+    "explanation": "The dot selector targets elements with a specific class name."
+  },
+  {
+    "id": 23,
+    "question": "Which CSS property controls the space inside an element's border?",
+    "options": ["margin", "padding", "gap", "spacing"],
+    "answer": "padding",
+    "explanation": "Padding creates space between an element's content and its border."
+  },
+  {
+    "id": 24,
+    "question": "Which CSS property controls the space outside an element's border?",
+    "options": ["padding", "margin", "border-spacing", "gap"],
+    "answer": "margin",
+    "explanation": "Margin creates space outside an element's border."
+  },
+  {
+    "id": 25,
+    "question": "Which property specifies the type of positioning method for an element?",
+    "options": ["display", "position", "float", "align"],
+    "answer": "position",
+    "explanation": "The position property defines how an element is positioned, such as static, relative, absolute, fixed, or sticky."
+  },
+  {
+    "id": 26,
+    "question": "Which value removes an element from the normal document flow and positions it relative to its nearest positioned ancestor?",
+    "options": ["relative", "absolute", "fixed", "static"],
+    "answer": "absolute",
+    "explanation": "position: absolute removes the element from normal flow and positions it relative to a containing positioned ancestor."
+  },
+  {
+    "id": 27,
+    "question": "Which CSS property is commonly used to create a Flexbox layout?",
+    "options": ["display: block", "display: flex", "display: grid", "position: flex"],
+    "answer": "display: flex",
+    "explanation": "display: flex creates a flex container for arranging child elements."
+  },
+  {
+    "id": 28,
+    "question": "Which Flexbox property controls alignment along the main axis?",
+    "options": ["align-items", "justify-content", "align-content", "flex-wrap"],
+    "answer": "justify-content",
+    "explanation": "justify-content controls how flex items are distributed along the main axis."
+  },
+  {
+    "id": 29,
+    "question": "Which Flexbox property controls alignment along the cross axis?",
+    "options": ["justify-content", "align-items", "flex-direction", "gap"],
+    "answer": "align-items",
+    "explanation": "align-items controls alignment of flex items along the cross axis."
+  },
+  {
+    "id": 30,
+    "question": "Which CSS declaration creates a Grid container?",
+    "options": ["display: flex", "display: grid", "position: grid", "layout: grid"],
+    "answer": "display: grid",
+    "explanation": "display: grid enables CSS Grid layout for an element's children."
+  },
+  {
+    "id": 31,
+    "question": "Which CSS feature is used to apply styles based on screen size?",
+    "options": ["Pseudo-class", "Media query", "Keyframe", "Variable"],
+    "answer": "Media query",
+    "explanation": "Media queries apply CSS rules based on conditions such as viewport width."
+  },
+  {
+    "id": 32,
+    "question": "What does responsive web design aim to achieve?",
+    "options": [
+      "Layouts that adapt to different screen sizes",
+      "Only desktop compatibility",
+      "Faster database queries",
+      "Automatic JavaScript generation"
+    ],
+    "answer": "Layouts that adapt to different screen sizes",
+    "explanation": "Responsive design allows a website's layout and content to adapt to various devices and viewport sizes."
+  },
+  {
+    "id": 33,
+    "question": "Which unit is relative to the root element's font size?",
+    "options": ["px", "em", "rem", "%"],
+    "answer": "rem",
+    "explanation": "The rem unit is relative to the font size of the root html element."
+  },
+  {
+    "id": 34,
+    "question": "Which unit is relative to the font size of the current element?",
+    "options": ["px", "rem", "em", "vh"],
+    "answer": "em",
+    "explanation": "The em unit is generally relative to the font size of the current element or its context."
+  },
+  {
+    "id": 35,
+    "question": "Which CSS property controls the stacking order of positioned elements?",
+    "options": ["order", "z-index", "layer", "stack"],
+    "answer": "z-index",
+    "explanation": "z-index controls the stacking order of applicable positioned or stacking-context elements."
+  },
+  {
+    "id": 36,
+    "question": "What does display: none do?",
+    "options": [
+      "Removes the element from the layout",
+      "Makes the element transparent but keeps its space",
+      "Moves the element behind others",
+      "Changes its position"
+    ],
+    "answer": "Removes the element from the layout",
+    "explanation": "display: none prevents the element from generating a layout box."
+  },
+  {
+    "id": 37,
+    "question": "Which CSS property controls an element's transparency?",
+    "options": ["visibility", "opacity", "transparent", "filter"],
+    "answer": "opacity",
+    "explanation": "The opacity property controls how transparent an element appears."
+  },
+  {
+    "id": 38,
+    "question": "Which pseudo-class applies styles when a user moves the pointer over an element?",
+    "options": [":focus", ":active", ":hover", ":visited"],
+    "answer": ":hover",
+    "explanation": "The :hover pseudo-class matches an element while it is being hovered by a pointing device."
+  },
+  {
+    "id": 39,
+    "question": "Which pseudo-class commonly styles a focused form input?",
+    "options": [":hover", ":focus", ":checked", ":active"],
+    "answer": ":focus",
+    "explanation": "The :focus pseudo-class applies when an element has focus."
+  },
+  {
+    "id": 40,
+    "question": "Which CSS property adds rounded corners to an element?",
+    "options": ["border-style", "border-radius", "corner-radius", "radius"],
+    "answer": "border-radius",
+    "explanation": "border-radius defines the radius used to round an element's corners."
+  },
+  {
+    "id": 41,
+    "question": "Which CSS property adds a shadow around an element's box?",
+    "options": ["text-shadow", "box-shadow", "shadow", "filter-shadow"],
+    "answer": "box-shadow",
+    "explanation": "box-shadow adds one or more shadows around an element's box."
+  },
+  {
+    "id": 42,
+    "question": "Which CSS property is used to animate changes smoothly between property values?",
+    "options": ["animation", "transition", "transform", "motion"],
+    "answer": "transition",
+    "explanation": "Transitions animate changes from one CSS property value to another over a specified duration."
+  },
+  {
+    "id": 43,
+    "question": "Which CSS feature is used to define complex animations with multiple stages?",
+    "options": ["transition", "@keyframes", "transform", "media"],
+    "answer": "@keyframes",
+    "explanation": "@keyframes defines the stages of a CSS animation."
+  },
+  {
+    "id": 44,
+    "question": "Which property is commonly used to rotate, scale, or translate an element?",
+    "options": ["transition", "transform", "animation", "position"],
+    "answer": "transform",
+    "explanation": "The transform property applies transformations such as translate(), rotate(), scale(), and skew()."
+  },
+  {
+    "id": 45,
+    "question": "What does the CSS box model include?",
+    "options": [
+      "Content, padding, border, and margin",
+      "Text, image, link, and form",
+      "Header, body, footer, and sidebar",
+      "HTML, CSS, JavaScript, and DOM"
+    ],
+    "answer": "Content, padding, border, and margin",
+    "explanation": "The CSS box model consists of the content area surrounded by padding, border, and margin."
+  },
+  {
+    "id": 46,
+    "question": "Which CSS property specifies how an element's width and height are calculated?",
+    "options": ["box-sizing", "display", "overflow", "dimension"],
+    "answer": "box-sizing",
+    "explanation": "box-sizing controls whether width and height include only content or also padding and border."
+  },
+  {
+    "id": 47,
+    "question": "What is the purpose of semantic HTML?",
+    "options": [
+      "To provide meaningful structure and improve accessibility",
+      "To make CSS unnecessary",
+      "To replace JavaScript",
+      "To reduce image size"
+    ],
+    "answer": "To provide meaningful structure and improve accessibility",
+    "explanation": "Semantic elements communicate the meaning and structure of content to browsers, developers, and assistive technologies."
+  },
+  {
+    "id": 48,
+    "question": "Which HTML attribute should be associated with a form input label?",
+    "options": ["name", "for", "value", "action"],
+    "answer": "for",
+    "explanation": "The label's for attribute should match the id of the associated form control."
+  },
+  {
+    "id": 49,
+    "question": "Which CSS property controls whether overflowing content is visible, hidden, or scrollable?",
+    "options": ["display", "overflow", "visibility", "clip"],
+    "answer": "overflow",
+    "explanation": "The overflow property controls how content that exceeds an element's box is handled."
+  },
+  {
+    "id": 50,
+    "question": "What is CSS specificity?",
+    "options": [
+      "The mechanism used to determine which competing CSS rule takes precedence",
+      "The speed of CSS rendering",
+      "The number of CSS files",
+      "The size of a stylesheet"
+    ],
+    "answer": "The mechanism used to determine which competing CSS rule takes precedence",
+    "explanation": "CSS specificity helps determine which declaration wins when multiple rules target the same element."
+  }
+]
+

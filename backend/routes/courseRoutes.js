@@ -6,8 +6,10 @@ const { Category } = require('../models');
 // Helper pattern for questions
 function sanitizeCourseQuestions(questions) {
     if (!Array.isArray(questions)) return [];
-    return questions.map(q => ({
-        q: q.q,
+    return questions.map((q, idx) => ({
+        id: idx,
+        qId: idx,
+        q: q.q || q.question,
         options: q.options || [],
         explanation: q.explanation || 'No explanation provided for this question, but consult the lesson material for more context.'
     }));
@@ -30,14 +32,15 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Search courses
+// Search courses (Safe against ReDoS injection attacks)
 router.get('/search', async (req, res) => {
     try {
         const { q } = req.query;
-        if (!q) {
+        if (!q || typeof q !== 'string') {
             return res.json([]);
         }
-        const regex = new RegExp(q, 'i');
+        const safeQuery = q.trim().substring(0, 100).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(safeQuery, 'i');
         const courses = await Course.find({
             status: 'published',
             $or: [

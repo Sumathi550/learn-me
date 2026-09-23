@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Verify Credential | Learn Me</title>
+    <link rel="icon" href="assets/learnme-logo.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css?v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .verify-hero {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(16, 185, 129, 0.04) 100%);
+            padding: 50px 0 40px;
+            border-bottom: 1px solid var(--glass-border);
+            text-align: center;
+        }
+        .verify-card {
+            max-width: 680px;
+            margin: -30px auto 80px;
+            background: #ffffff;
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            box-sizing: border-box;
+        }
+        .verify-input-wrap {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .verify-input {
+            flex: 1 1 240px;
+            min-width: 0;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(13,27,61,0.2);
+            font-size: 15px;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .verify-input:focus {
+            border-color: #2563eb;
+        }
+        .result-box {
+            padding: 24px;
+            border-radius: 16px;
+            margin-top: 20px;
+            display: none;
+            word-break: break-word;
+            box-sizing: border-box;
+        }
+        .result-valid {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1.5px solid #10b981;
+        }
+        .result-revoked {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1.5px solid #ef4444;
+        }
+        .result-invalid {
+            background: rgba(100, 116, 139, 0.08);
+            border: 1.5px solid #94a3b8;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+            gap: 16px;
+            margin-top: 16px;
+            text-align: left;
+            word-break: break-word;
+        }
+        @media (max-width: 480px) {
+            #verify-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+                <img src="assets/learnme-logo.png" alt="Learn Me Logo" width="116" height="34" />
+            </div>
+
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="courses.html" class="nav-link">Courses</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+                <li><a href="verify.html" class="nav-link active">Verify</a></li>
+            </ul>
+
+            <div class="user-auth-section" id="user-auth-section">
+                <a href="login.html" id="nav-auth-btn" class="btn btn-sm btn-outline">
+                    Sign In
+                </a>
+                <div class="menu-btn" id="menu-btn" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="nav-backdrop" id="nav-backdrop"></div>
+
+    <main>
+        <section class="verify-hero">
+            <div class="container">
+                <h1 style="font-family: 'Outfit', sans-serif; font-size: clamp(24px, 4vw, 34px); font-weight: 800; margin: 0 0 8px; color: var(--text-main); line-height: 1.25;">
+                    Public Certificate Verification
+                </h1>
+                <p style="color: var(--text-muted); font-size: 15px; margin: 0;">
+                    Verify official completion credentials issued by the Learn Me Academic Platform.
+                </p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="verify-card">
+                <form id="verify-form" class="verify-input-wrap">
+                    <input type="text" id="cert-id-input" class="verify-input" placeholder="e.g. LM-PYTHON-2026-XXXXXX" required>
+                    <button type="submit" id="verify-btn" class="btn btn-primary" style="padding: 14px 28px;">
+                        <i class="fas fa-search"></i> Verify
+                    </button>
+                </form>
+
+                <div id="result-box" class="result-box">
+                    <div id="result-header" style="display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700;"></div>
+                    <p id="result-msg" style="font-size: 14px; margin: 8px 0 0; color: #475569;"></p>
+
+                    <div id="info-grid" class="info-grid" style="display: none;">
+                        <div>
+                            <div style="font-size: 12px; color: #64748b; text-transform: uppercase;">Recipient Student</div>
+                            <strong id="val-student" style="font-size: 15px; color: #0f172a;">--</strong>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: #64748b; text-transform: uppercase;">Course Program</div>
+                            <strong id="val-course" style="font-size: 15px; color: #0f172a;">--</strong>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: #64748b; text-transform: uppercase;">Issue Date</div>
+                            <strong id="val-date" style="font-size: 15px; color: #0f172a;">--</strong>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: #64748b; text-transform: uppercase;">Validation Status</div>
+                            <strong id="val-status" style="font-size: 15px; color: #10b981;">Valid & Verified</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/nav-auth.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const certFromUrl = urlParams.get('certificate') || urlParams.get('id');
+
+        async function verifyCert(certId) {
+            const resultBox = document.getElementById('result-box');
+            const resultHeader = document.getElementById('result-header');
+            const resultMsg = document.getElementById('result-msg');
+            const infoGrid = document.getElementById('info-grid');
+            const verifyBtn = document.getElementById('verify-btn');
+
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+            resultBox.style.display = 'none';
+
+            try {
+                const res = await StudentAPI.get(`/certificates/verify/${encodeURIComponent(certId)}`);
+                const cert = res.data || res;
+
+                resultBox.className = 'result-box result-valid';
+                resultHeader.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981; font-size: 24px;"></i> <span>Official Verified Certificate</span>';
+                resultMsg.textContent = `Certificate authentic and permanently issued by Learn Me Institute.`;
+
+                document.getElementById('val-student').textContent = cert.studentName || 'Student';
+                document.getElementById('val-course').textContent = cert.courseName || cert.courseId;
+                document.getElementById('val-date').textContent = cert.completionDate ? new Date(cert.completionDate).toLocaleDateString() : '--';
+                document.getElementById('val-status').textContent = cert.status === 'valid' ? 'Valid & Authentic' : 'Revoked';
+                document.getElementById('val-status').style.color = cert.status === 'valid' ? '#10b981' : '#ef4444';
+
+                infoGrid.style.display = 'grid';
+                resultBox.style.display = 'block';
+            } catch (err) {
+                resultBox.className = 'result-box result-invalid';
+                resultHeader.innerHTML = '<i class="fas fa-times-circle" style="color: #64748b; font-size: 24px;"></i> <span>Certificate Not Found</span>';
+                resultMsg.textContent = 'No certificate record exists with the provided ID. Please verify the code and try again.';
+                infoGrid.style.display = 'none';
+                resultBox.style.display = 'block';
+            } finally {
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = '<i class="fas fa-search"></i> Verify';
+            }
+        }
+
+        document.getElementById('verify-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('cert-id-input').value.trim();
+            if (id) verifyCert(id);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (certFromUrl) {
+                document.getElementById('cert-id-input').value = certFromUrl;
+                verifyCert(certFromUrl);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Me Admin Gateway</title>
+    <script src="js/api.js"></script>
+    <script src="js/admin-auth.js"></script>
+</head>
+<body style="background: #090d16; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh;">
+    <div style="text-align: center;">
+        <p>Verifying administrative credentials...</p>
+    </div>
+    <script>
+        (async function() {
+            const user = await AdminAuth.checkAdminAuth({ redirectToLogin: false });
+            if (user && user.role === 'admin') {
+                window.location.replace('dashboard.html');
+            } else {
+                window.location.replace('login.html');
+            }
+        })();
+    </script>
+</body>
+</html>

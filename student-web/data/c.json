@@ -1,0 +1,402 @@
+ [
+    {
+        "id": 1,
+        "question": "Which function is the entry point of a standard C program?",
+        "options": ["start()", "run()", "main()", "init()"],
+        "answer": "main()",
+        "explanation": "Execution of a standard C program begins from the main() function."
+    },
+    {
+        "id": 2,
+        "question": "Which header file is required to use the printf() and scanf() functions?",
+        "options": ["<stdlib.h>", "<string.h>", "<stdio.h>", "<math.h>"],
+        "answer": "<stdio.h>",
+        "explanation": "The stdio.h header file contains declarations for standard input and output functions such as printf() and scanf()."
+    },
+    {
+        "id": 3,
+        "question": "Which format specifier is commonly used to print an integer using printf()?",
+        "options": ["%f", "%c", "%d", "%s"],
+        "answer": "%d",
+        "explanation": "The %d format specifier is used to display an int value."
+    },
+    {
+        "id": 4,
+        "question": "Which data type is commonly used to store a single character in C?",
+        "options": ["String", "char", "character", "text"],
+        "answer": "char",
+        "explanation": "The char data type stores a single character value, such as 'A'."
+    },
+    {
+        "id": 5,
+        "question": "Which operator is used to obtain the address of a variable?",
+        "options": ["*", "&", "%", "@"],
+        "answer": "&",
+        "explanation": "The & operator returns the memory address of a variable."
+    },
+    {
+        "id": 6,
+        "question": "Which operator is used to access the value stored at a pointer address?",
+        "options": ["&", "*", "->", "%"],
+        "answer": "*",
+        "explanation": "The * operator is used for pointer dereferencing, allowing access to the value stored at the memory address."
+    },
+    {
+        "id": 7,
+        "question": "What is the output of the following code?\n\nint x = 10;\nprintf(\"%d\", x++);",
+        "options": ["10", "11", "9", "Error"],
+        "answer": "10",
+        "explanation": "The post-increment operator returns the current value first and increments x afterward."
+    },
+    {
+        "id": 8,
+        "question": "What is the output of the following code?\n\nint x = 10;\nprintf(\"%d\", ++x);",
+        "options": ["10", "11", "9", "Error"],
+        "answer": "11",
+        "explanation": "The pre-increment operator increments x before its value is used."
+    },
+    {
+        "id": 9,
+        "question": "Which operator is used to find the remainder of a division operation?",
+        "options": ["/", "//", "%", "*"],
+        "answer": "%",
+        "explanation": "The modulus operator (%) returns the remainder after integer division."
+    },
+    {
+        "id": 10,
+        "question": "Which statement is commonly used to make a decision based on a condition?",
+        "options": ["for", "if", "break", "return"],
+        "answer": "if",
+        "explanation": "The if statement executes a block of code when its condition evaluates to true."
+    },
+
+    {
+        "id": 11,
+        "question": "Which loop is generally used when the number of iterations is known?",
+        "options": ["while", "for", "do-while", "switch"],
+        "answer": "for",
+        "explanation": "A for loop is commonly used when the initialization, condition, and update are known in advance."
+    },
+    {
+        "id": 12,
+        "question": "Which loop executes its body at least once?",
+        "options": ["for", "while", "do-while", "nested loop"],
+        "answer": "do-while",
+        "explanation": "A do-while loop checks its condition after executing the loop body, so it runs at least once."
+    },
+    {
+        "id": 13,
+        "question": "Which keyword immediately terminates the nearest enclosing loop or switch statement?",
+        "options": ["continue", "stop", "break", "exit"],
+        "answer": "break",
+        "explanation": "The break statement immediately exits the nearest loop or switch statement."
+    },
+    {
+        "id": 14,
+        "question": "Which keyword skips the remaining statements in the current loop iteration?",
+        "options": ["break", "continue", "return", "goto"],
+        "answer": "continue",
+        "explanation": "The continue statement skips the remaining code in the current iteration and proceeds with the next iteration."
+    },
+    {
+        "id": 15,
+        "question": "Which statement is used to return a value from a function?",
+        "options": ["break", "exit", "return", "continue"],
+        "answer": "return",
+        "explanation": "The return statement ends a function and optionally sends a value back to the calling code."
+    },
+    {
+        "id": 16,
+        "question": "What is recursion?",
+        "options": [
+            "A function calling itself",
+            "A loop inside another loop",
+            "A function without parameters",
+            "A type of pointer"
+        ],
+        "answer": "A function calling itself",
+        "explanation": "Recursion occurs when a function calls itself, usually with a base condition to stop further calls."
+    },
+    {
+        "id": 17,
+        "question": "Which keyword is used to define a constant variable in C?",
+        "options": ["final", "const", "constant", "static"],
+        "answer": "const",
+        "explanation": "The const keyword is used to indicate that a variable should not be modified through that identifier."
+    },
+    {
+        "id": 18,
+        "question": "Which storage class gives a local variable a lifetime that extends until the program terminates?",
+        "options": ["auto", "register", "static", "extern"],
+        "answer": "static",
+        "explanation": "A static local variable retains its value between function calls and exists for the lifetime of the program."
+    },
+    {
+        "id": 19,
+        "question": "Which storage class is used to refer to a global variable defined in another source file?",
+        "options": ["auto", "static", "extern", "register"],
+        "answer": "extern",
+        "explanation": "The extern keyword declares a variable or function that is defined elsewhere."
+    },
+    {
+        "id": 20,
+        "question": "What is an array in C?",
+        "options": [
+            "A collection of elements of the same data type",
+            "A collection of different data types only",
+            "A type of function",
+            "A storage class"
+        ],
+        "answer": "A collection of elements of the same data type",
+        "explanation": "An array stores multiple elements of the same type in contiguous memory locations."
+    },
+
+    {
+        "id": 21,
+        "question": "What is the index of the first element in a C array?",
+        "options": ["0", "1", "-1", "Depends on the array"],
+        "answer": "0",
+        "explanation": "C arrays use zero-based indexing, so the first element is accessed using index 0."
+    },
+    {
+        "id": 22,
+        "question": "Which function is commonly used to find the length of a null-terminated string?",
+        "options": ["size()", "length()", "strlen()", "count()"],
+        "answer": "strlen()",
+        "explanation": "The strlen() function returns the number of characters in a string before the null terminator."
+    },
+    {
+        "id": 23,
+        "question": "Which header file contains the declaration of strlen()?",
+        "options": ["<stdio.h>", "<stdlib.h>", "<string.h>", "<math.h>"],
+        "answer": "<string.h>",
+        "explanation": "String-related functions such as strlen(), strcpy(), and strcmp() are declared in string.h."
+    },
+    {
+        "id": 24,
+        "question": "What character marks the end of a C string?",
+        "options": ["\\n", "\\t", "\\0", "EOF"],
+        "answer": "\\0",
+        "explanation": "C strings are terminated by the null character, represented as \\0."
+    },
+    {
+        "id": 25,
+        "question": "Which function compares two null-terminated strings lexicographically?",
+        "options": ["strcpy()", "strlen()", "strcmp()", "strcat()"],
+        "answer": "strcmp()",
+        "explanation": "The strcmp() function compares two strings and returns a value indicating their lexical relationship."
+    },
+    {
+        "id": 26,
+        "question": "Which function is commonly used to copy one string into another?",
+        "options": ["strcmp()", "strcpy()", "strcat()", "strlen()"],
+        "answer": "strcpy()",
+        "explanation": "The strcpy() function copies a null-terminated source string into a destination array with sufficient space."
+    },
+    {
+        "id": 27,
+        "question": "What does the sizeof operator return?",
+        "options": [
+            "The number of elements in every array",
+            "The size of a type or object in bytes",
+            "The memory address of a variable",
+            "The number of characters in a string"
+        ],
+        "answer": "The size of a type or object in bytes",
+        "explanation": "sizeof returns the size, in bytes, of a type or object."
+    },
+    {
+        "id": 28,
+        "question": "Which symbol is used to declare a pointer variable?",
+        "options": ["&", "*", "#", "@"],
+        "answer": "*",
+        "explanation": "The * symbol is used in a declaration to indicate that a variable is a pointer."
+    },
+    {
+        "id": 29,
+        "question": "What is a NULL pointer?",
+        "options": [
+            "A pointer that points to no valid object or function",
+            "A pointer to the first array element",
+            "A pointer that always stores 0 bytes",
+            "A pointer to a string"
+        ],
+        "answer": "A pointer that points to no valid object or function",
+        "explanation": "A null pointer is used to represent the absence of a valid memory address."
+    },
+    {
+        "id": 30,
+        "question": "Which operator is used to access a structure member through a pointer?",
+        "options": [".", "->", "*", "&"],
+        "answer": "->",
+        "explanation": "The arrow operator (->) is used to access structure members through a pointer to that structure."
+    },
+
+    {
+        "id": 31,
+        "question": "Which keyword is used to define a structure in C?",
+        "options": ["class", "struct", "object", "record"],
+        "answer": "struct",
+        "explanation": "The struct keyword is used to define a structure containing related variables, possibly of different data types."
+    },
+    {
+        "id": 32,
+        "question": "What is the main difference between a structure and a union?",
+        "options": [
+            "Structures cannot contain integers",
+            "Union members share the same memory location",
+            "Structures cannot contain pointers",
+            "Unions cannot store variables"
+        ],
+        "answer": "Union members share the same memory location",
+        "explanation": "In a union, all members share the same memory location, whereas structure members typically have separate storage."
+    },
+    {
+        "id": 33,
+        "question": "Which function allocates a specified number of bytes of memory dynamically?",
+        "options": ["malloc()", "free()", "fopen()", "printf()"],
+        "answer": "malloc()",
+        "explanation": "malloc() allocates a requested number of bytes and returns a pointer to the allocated memory if successful."
+    },
+    {
+        "id": 34,
+        "question": "Which function releases dynamically allocated memory?",
+        "options": ["delete()", "remove()", "free()", "clear()"],
+        "answer": "free()",
+        "explanation": "The free() function releases memory that was previously allocated using dynamic memory allocation functions."
+    },
+    {
+        "id": 35,
+        "question": "Which function allocates memory and initializes all allocated bytes to zero?",
+        "options": ["malloc()", "calloc()", "realloc()", "free()"],
+        "answer": "calloc()",
+        "explanation": "calloc() allocates memory for multiple elements and initializes the allocated memory to zero."
+    },
+    {
+        "id": 36,
+        "question": "Which function is used to resize a dynamically allocated memory block?",
+        "options": ["resize()", "malloc()", "realloc()", "calloc()"],
+        "answer": "realloc()",
+        "explanation": "realloc() changes the size of a memory block that was previously allocated dynamically."
+    },
+    {
+        "id": 37,
+        "question": "What is a memory leak?",
+        "options": [
+            "Memory that is allocated but no longer needed and not properly released",
+            "A program that uses too many loops",
+            "An array with duplicate values",
+            "A compiler error"
+        ],
+        "answer": "Memory that is allocated but no longer needed and not properly released",
+        "explanation": "A memory leak occurs when dynamically allocated memory becomes unreachable or is not released when no longer required."
+    },
+    {
+        "id": 38,
+        "question": "Which function is used to open a file in C?",
+        "options": ["open()", "file()", "fopen()", "create()"],
+        "answer": "fopen()",
+        "explanation": "The fopen() function opens a file and returns a FILE pointer when successful."
+    },
+    {
+        "id": 39,
+        "question": "Which function is used to close an opened file?",
+        "options": ["close()", "fclose()", "endfile()", "free()"],
+        "answer": "fclose()",
+        "explanation": "The fclose() function closes a file associated with a FILE pointer."
+    },
+    {
+        "id": 40,
+        "question": "Which file mode opens a file for reading?",
+        "options": ["w", "a", "r", "x"],
+        "answer": "r",
+        "explanation": "The r mode opens an existing file for reading."
+    },
+
+    {
+        "id": 41,
+        "question": "Which file mode opens a file for writing and truncates existing content?",
+        "options": ["r", "a", "w", "rb"],
+        "answer": "w",
+        "explanation": "The w mode opens a file for writing and truncates the file if it already exists."
+    },
+    {
+        "id": 42,
+        "question": "Which file mode appends data to the end of a file?",
+        "options": ["r", "w", "a", "x"],
+        "answer": "a",
+        "explanation": "The a mode opens a file for appending, so new data is written at the end."
+    },
+    {
+        "id": 43,
+        "question": "What does the #include preprocessor directive do?",
+        "options": [
+            "Includes the contents of a header file during preprocessing",
+            "Creates a loop",
+            "Allocates memory",
+            "Executes a function"
+        ],
+        "answer": "Includes the contents of a header file during preprocessing",
+        "explanation": "The #include directive tells the preprocessor to include declarations or definitions from another file."
+    },
+    {
+        "id": 44,
+        "question": "Which symbol begins a preprocessor directive in C?",
+        "options": ["@", "#", "$", "&"],
+        "answer": "#",
+        "explanation": "C preprocessor directives begin with the # symbol, such as #include and #define."
+    },
+    {
+        "id": 45,
+        "question": "What is the purpose of the #define directive?",
+        "options": [
+            "Define a macro or symbolic constant",
+            "Create a function",
+            "Allocate memory",
+            "Create an array"
+        ],
+        "answer": "Define a macro or symbolic constant",
+        "explanation": "The #define directive is used to define macros and symbolic constants during preprocessing."
+    },
+    {
+        "id": 46,
+        "question": "What is the output of the following code?\n\nint x = 5;\nprintf(\"%d\", x * 2 + 3);",
+        "options": ["13", "16", "10", "Error"],
+        "answer": "13",
+        "explanation": "Multiplication has higher precedence than addition, so 5 * 2 is calculated first, followed by + 3."
+    },
+    {
+        "id": 47,
+        "question": "What is the output of the following code?\n\nint x = 5;\nif (x > 3)\n    printf(\"Yes\");\nelse\n    printf(\"No\");",
+        "options": ["Yes", "No", "5", "Error"],
+        "answer": "Yes",
+        "explanation": "Since 5 is greater than 3, the if condition is true and Yes is printed."
+    },
+    {
+        "id": 48,
+        "question": "Which operator is commonly used to compare two values for equality in C?",
+        "options": ["=", "==", "!=", ":="],
+        "answer": "==",
+        "explanation": "The == operator compares two values for equality. The = operator is used for assignment."
+    },
+    {
+        "id": 49,
+        "question": "Which keyword is used to exit a function and return control to the calling function?",
+        "options": ["break", "continue", "return", "goto"],
+        "answer": "return",
+        "explanation": "The return statement ends the current function and transfers control back to the calling function."
+    },
+    {
+        "id": 50,
+        "question": "Which statement best describes the purpose of a function prototype in C?",
+        "options": [
+            "It declares a function's name, return type, and parameter types before use",
+            "It creates an object",
+            "It allocates dynamic memory",
+            "It opens a file"
+        ],
+        "answer": "It declares a function's name, return type, and parameter types before use",
+        "explanation": "A function prototype informs the compiler about a function's signature before the function is called or defined."
+    }
+]
+

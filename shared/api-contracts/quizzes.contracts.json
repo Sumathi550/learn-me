@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QuizContracts",
+  "definitions": {
+    "QuizSubmitRequest": {
+      "type": "object",
+      "required": ["courseId", "answers"],
+      "properties": {
+        "courseId": { "type": "string" },
+        "answers": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "timeTakenSeconds": { "type": "number" },
+        "quizId": { "type": "string", "default": "final" }
+      }
+    },
+    "QuizSubmitResponse": {
+      "type": "object",
+      "required": ["score", "total", "passed", "passingScore", "courseProgress", "eligibleForCertificate"],
+      "properties": {
+        "score": { "type": "number" },
+        "rawScore": { "type": "number" },
+        "total": { "type": "number" },
+        "passed": { "type": "boolean" },
+        "passingScore": { "type": "number", "minimum": 70 },
+        "courseProgress": { "type": "number" },
+        "eligibleForCertificate": { "type": "boolean" },
+        "isCourseCompleted": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -51,6 +51,35 @@ window.coursesData = coursesData;
 window.appState = appState;
 
 // ===============================
+// UNIFIED TOAST NOTIFICATIONS
+// ===============================
+
+function showToast(message, type = 'info') {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast-item ${type}`;
+    const iconClass = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle');
+    toast.innerHTML = `<i class="fas ${iconClass}"></i> <span>${message}</span>`;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(40px)';
+        toast.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+        setTimeout(() => toast.remove(), 300);
+    }, 3500);
+}
+window.showToast = showToast;
+
+// ===============================
 // INIT & LOCAL STORAGE
 // ===============================
 
@@ -392,7 +421,7 @@ async function enrollInCourse(courseId, event) {
     } else if (appState.currentView === 'dashboard') {
         renderDashboard();
     }
-    alert(`🎉 Success! You are now enrolled in ${courseTitle}. Start learning and taking assessments!`);
+    showToast(`🎉 You are now enrolled in ${courseTitle}!`, 'success');
 }
 
 async function saveProgress() {
@@ -824,7 +853,7 @@ function navigateTo(viewId) {
 
         if (viewId === 'dashboard') renderDashboard();
         if (viewId === 'courses') renderCourses();
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     } else {
         if (viewId !== 'home') {
             return navigateTo('home');
@@ -840,26 +869,43 @@ function navigateTo(viewId) {
         }
     });
 
-    // Close mobile nav if open
+    closeMobileNav();
+}
+
+function closeMobileNav() {
     const navMenu = document.getElementById("nav-menu");
     const menuBtn = document.getElementById("menu-btn");
+    const backdrop = document.getElementById("nav-backdrop");
     if (navMenu && navMenu.classList.contains("active")) {
         navMenu.classList.remove("active");
-        if (menuBtn) menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+    if (menuBtn) {
+        menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+    if (backdrop) {
+        backdrop.classList.remove("active");
     }
 }
 
 function setupNavigation() {
     const menuBtn = document.getElementById("menu-btn");
     const navMenu = document.getElementById("nav-menu");
+    const backdrop = document.getElementById("nav-backdrop");
+
     if (menuBtn && navMenu && !menuBtn.dataset.bound) {
         menuBtn.dataset.bound = "true";
         menuBtn.addEventListener("click", () => {
-            navMenu.classList.toggle("active");
-            menuBtn.innerHTML = navMenu.classList.contains("active")
+            const isOpen = navMenu.classList.toggle("active");
+            if (backdrop) backdrop.classList.toggle("active", isOpen);
+            menuBtn.innerHTML = isOpen
                 ? '<i class="fas fa-times"></i>'
                 : '<i class="fas fa-bars"></i>';
         });
+    }
+
+    if (backdrop && !backdrop.dataset.bound) {
+        backdrop.dataset.bound = "true";
+        backdrop.addEventListener("click", closeMobileNav);
     }
 }
 
@@ -871,6 +917,22 @@ function renderCourses(coursesToRender = coursesData) {
     const container = document.getElementById('courses-grid-container');
     if (!container) return;
     container.innerHTML = '';
+
+    if (!coursesToRender || coursesToRender.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state-card" style="grid-column: 1 / -1;">
+                <div class="empty-state-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No Tracks Found</h3>
+                <p>We couldn't find any learning tracks matching your search or filter. Try a different keyword or view all courses.</p>
+                <button class="btn btn-secondary" onclick="const s = document.getElementById('course-search-input'); if(s) s.value=''; filterCourses();">
+                    <i class="fas fa-rotate-left"></i> View All Tracks
+                </button>
+            </div>
+        `;
+        return;
+    }
 
     coursesToRender.forEach(course => {
         const prog = appState.progress[course.id];
@@ -1002,58 +1064,626 @@ function getModuleQuestions(course, moduleName) {
     return allQuestions;
 }
 
+function getCourseModuleLessonsClient(course, moduleName) {
+    const cleanModuleName = String(moduleName || '').trim();
+    const allLessons = Array.isArray(course?.lessons) ? course.lessons : [];
+    const rawModules = Array.isArray(course?.modules) ? course.modules : [];
+    const requiredModules = rawModules.filter(m => {
+        const name = typeof m === 'object' ? (m.title || m.name || '') : String(m);
+        const lower = name.toLowerCase().trim();
+        return lower !== 'final assessment' && lower !== 'full assessment' && lower !== 'quiz' && !lower.includes('final assessment');
+    }).map(m => typeof m === 'object' ? (m.title || m.name || '').trim() : String(m).trim());
+    const modIndex = requiredModules.indexOf(cleanModuleName);
+
+    const matched = allLessons.filter(l => {
+        if (!l) return false;
+        const mod = String(l.module || l.moduleId || l.moduleTitle || '').trim();
+        return mod.toLowerCase() === cleanModuleName.toLowerCase();
+    });
+
+    if (matched.length > 0) {
+        return matched.map((l, i) => ({
+            lessonId: String(l.lessonId || l.id || `${course?.id || 'c'}-m${modIndex + 1}-l${i + 1}`),
+            module: cleanModuleName,
+            title: l.title || `${cleanModuleName} - Lesson ${i + 1}`,
+            content: l.content || `Study core concepts of ${cleanModuleName}.`,
+            duration: l.duration || '25 mins'
+        }));
+    }
+
+    if (allLessons.length > 0 && modIndex !== -1) {
+        const indexMatched = allLessons.filter((l, idx) => {
+            const lTitle = String(l.title || '').toLowerCase();
+            if (lTitle.includes(cleanModuleName.toLowerCase())) return true;
+            if (requiredModules.length === allLessons.length) return idx === modIndex;
+            return false;
+        });
+        if (indexMatched.length > 0) {
+            return indexMatched.map((l, i) => ({
+                lessonId: String(l.lessonId || l.id || `${course?.id || 'c'}-m${modIndex + 1}-l${i + 1}`),
+                module: cleanModuleName,
+                title: l.title || `${cleanModuleName} - Lesson ${i + 1}`,
+                content: l.content || `Study core concepts of ${cleanModuleName}.`,
+                duration: l.duration || '25 mins'
+            }));
+        }
+    }
+
+    const fallbackId = `${course?.id || 'course'}-mod-${modIndex !== -1 ? modIndex + 1 : 1}-core`;
+    return [{
+        lessonId: fallbackId,
+        module: cleanModuleName,
+        title: `${cleanModuleName} Core Curriculum`,
+        content: `Master the fundamental concepts, examples, and techniques of ${cleanModuleName}.`,
+        duration: '30 mins'
+    }];
+}
+
+function calculateCourseProgress(courseId) {
+    const course = coursesData.find(c => c.id === courseId || (c.id && c.id.toLowerCase() === (courseId || '').toLowerCase()));
+    const rawModules = Array.isArray(course?.modules) ? course.modules : ["Module 1", "Module 2", "Module 3", "Final Assessment"];
+    const requiredModules = rawModules.filter(m => {
+        const lower = String(typeof m === 'object' ? (m.title || m.name || '') : m).toLowerCase().trim();
+        return lower !== 'final assessment' && lower !== 'full assessment' && lower !== 'quiz' && !lower.includes('final assessment');
+    }).map(m => typeof m === 'object' ? (m.title || m.name || '').trim() : String(m).trim());
+    const totalModules = Math.max(1, requiredModules.length);
+
+    const prog = (appState.progress && appState.progress[courseId]) || {};
+    
+    // Completed lesson IDs
+    let completedLessonIds = [];
+    if (Array.isArray(prog.completedLessonIds)) {
+        completedLessonIds = [...prog.completedLessonIds];
+    } else if (typeof prog.completedLessonIds === 'string') {
+        try { completedLessonIds = JSON.parse(prog.completedLessonIds) || []; } catch(e) {}
+    } else if (Array.isArray(prog.completedModules)) {
+        // Fallback for initial state before migration
+        prog.completedModules.forEach(modName => {
+            const lessons = getCourseModuleLessonsClient(course, modName);
+            lessons.forEach(l => { if (!completedLessonIds.includes(l.lessonId)) completedLessonIds.push(l.lessonId); });
+        });
+    }
+
+    // Module completion check: All required lessons inside that module MUST be completed!
+    const completedModules = [];
+    const moduleDetails = requiredModules.map(moduleName => {
+        const lessons = getCourseModuleLessonsClient(course, moduleName);
+        const totalLessons = lessons.length;
+        const completedLessons = lessons.filter(l => completedLessonIds.includes(l.lessonId)).length;
+        const isCompleted = totalLessons > 0 && completedLessons === totalLessons;
+        if (isCompleted) {
+            completedModules.push(moduleName);
+        }
+        return {
+            moduleName,
+            totalLessons,
+            completedLessons,
+            isCompleted,
+            lessons: lessons.map(l => ({
+                ...l,
+                isCompleted: completedLessonIds.includes(l.lessonId)
+            }))
+        };
+    });
+
+    const completedModulesCount = completedModules.length;
+
+    // Course-specific quizzes (never hardcoded to 1)
+    let requiredQuizzes = [];
+    if (Array.isArray(course?.quizzes) && course.quizzes.length > 0) {
+        requiredQuizzes = course.quizzes.map((q, idx) => ({
+            quizId: String(q.quizId || q.id || `quiz-${idx + 1}`),
+            title: q.title || `Quiz ${idx + 1}`,
+            passingScore: Math.max(70, Number(q.passingScore) || 70)
+        }));
+    } else if (course?.hasFinalAssessment !== false || (Array.isArray(course?.questions) && course.questions.length > 0)) {
+        requiredQuizzes = [{
+            quizId: 'final',
+            title: `${course?.title || 'Course'} Final Assessment`,
+            passingScore: Math.max(70, Number(course?.passingScore) || 70)
+        }];
+    }
+    const totalQuizzes = requiredQuizzes.length;
+
+    // Quizzes completed check: must be passed with >= 70%
+    let completedQuizzes = [];
+    if (Array.isArray(prog.completedQuizzes)) {
+        completedQuizzes = [...prog.completedQuizzes];
+    } else if (typeof prog.completedQuizzes === 'string') {
+        try { completedQuizzes = JSON.parse(prog.completedQuizzes) || []; } catch(e) {}
+    }
+
+    const quizScore = typeof prog.quizScore === 'number' ? prog.quizScore : (typeof prog.score === 'number' ? prog.score : 0);
+    const passingScore = Math.max(70, Number(course?.passingScore) || 70);
+    const singleQuizPassed = Boolean((prog.quizPassed || (prog.passed && quizScore >= 70)) && quizScore >= 70);
+
+    const passedQuizzesList = requiredQuizzes.filter(q => {
+        if (completedQuizzes.includes(q.quizId)) return true;
+        if (q.quizId === 'final' && singleQuizPassed && quizScore >= q.passingScore) return true;
+        return false;
+    }).map(q => q.quizId);
+
+    const quizzesCompleted = passedQuizzesList.length;
+    const allQuizzesCompleted = totalQuizzes === 0 || quizzesCompleted >= totalQuizzes;
+
+    const totalItems = totalModules + totalQuizzes;
+    const completedItems = completedModulesCount + quizzesCompleted;
+    const overallPercentage = totalItems > 0
+        ? Math.min(100, Math.round((completedItems / totalItems) * 100))
+        : 100;
+
+    // STRICT RULE: Both all modules (all lessons) completed AND all required quizzes passed >= 70%
+    const isCompleted = (completedModulesCount >= totalModules) && allQuizzesCompleted && (overallPercentage === 100);
+
+    return {
+        courseId,
+        course,
+        courseTitle: course ? course.title : courseId,
+        totalModules,
+        requiredModules,
+        completedModules,
+        moduleDetails,
+        modulesCompleted: completedModulesCount,
+        completedLessonIds,
+        totalQuizzes,
+        requiredQuizzes,
+        quizzesCompleted,
+        passedQuizzesList,
+        quizPassed: allQuizzesCompleted && totalQuizzes > 0,
+        quizScore,
+        passingScore,
+        totalItems,
+        completedItems,
+        courseProgress: overallPercentage,
+        percentage: overallPercentage,
+        isCompleted,
+        eligibleForCertificate: isCompleted
+    };
+}
+window.calculateCourseProgress = calculateCourseProgress;
+
+function renderCertificateStatusCard(courseId) {
+    const stats = calculateCourseProgress(courseId);
+
+    if (!stats.isCompleted) {
+        return `
+            <div class="cert-eligibility-card locked" id="cert-status-card-${courseId}">
+                <div class="cert-header">
+                    <div class="cert-icon-badge">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="cert-title-group">
+                        <h3>🔒 Certificate Locked</h3>
+                        <p>Complete all module lessons and pass all required quizzes with at least 70%.</p>
+                    </div>
+                </div>
+
+                <div class="cert-metrics-grid">
+                    <div class="cert-metric-box">
+                        <span class="label">Course Progress</span>
+                        <span class="val" style="color:var(--primary-accent);">${stats.courseProgress}%</span>
+                    </div>
+                    <div class="cert-metric-box">
+                        <span class="label">Modules Completed</span>
+                        <span class="val">${stats.modulesCompleted} / ${stats.totalModules}</span>
+                    </div>
+                    <div class="cert-metric-box">
+                        <span class="label">Quizzes Completed</span>
+                        <span class="val">${stats.quizzesCompleted} / ${stats.totalQuizzes}</span>
+                    </div>
+                </div>
+
+                <div class="cert-progress-wrapper">
+                    <div class="cert-progress-bar-bg">
+                        <div class="cert-progress-bar-fill" style="width:${stats.courseProgress}%; background:linear-gradient(90deg, #f59e0b, #eab308);"></div>
+                    </div>
+                </div>
+
+                <div class="cert-claim-action">
+                    <span style="font-size:13px; color:var(--text-muted);">
+                        <i class="fas fa-shield-alt"></i> Complete all ${stats.totalModules} modules (every lesson) and pass all required quizzes (score ≥ ${stats.passingScore}%) to unlock.
+                    </span>
+                    <button class="cert-action-btn btn btn-secondary" disabled title="Complete the entire course to unlock your certificate.">
+                        <i class="fas fa-lock"></i> Claim Certificate
+                    </button>
+                </div>
+            </div>
+        `;
+    } else {
+        return `
+            <div class="cert-eligibility-card unlocked" id="cert-status-card-${courseId}">
+                <div class="cert-header">
+                    <div class="cert-icon-badge">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="cert-title-group">
+                        <h3>🎓 Certificate Unlocked</h3>
+                        <p>Congratulations! You have successfully completed 100% of the entire course.</p>
+                    </div>
+                </div>
+
+                <div class="cert-metrics-grid">
+                    <div class="cert-metric-box">
+                        <span class="label">Course Progress</span>
+                        <span class="val" style="color:var(--success);">100%</span>
+                    </div>
+                    <div class="cert-metric-box">
+                        <span class="label">Modules Completed</span>
+                        <span class="val" style="color:var(--success);">${stats.totalModules} / ${stats.totalModules}</span>
+                    </div>
+                    <div class="cert-metric-box">
+                        <span class="label">Quizzes Completed</span>
+                        <span class="val" style="color:var(--success);">${stats.totalQuizzes} / ${stats.totalQuizzes}</span>
+                    </div>
+                </div>
+
+                <div class="cert-progress-wrapper">
+                    <div class="cert-progress-bar-bg">
+                        <div class="cert-progress-bar-fill" style="width:100%; background:linear-gradient(90deg, #10b981, #059669);"></div>
+                    </div>
+                </div>
+
+                <div class="cert-claim-action">
+                    <span style="font-size:13.5px; color:#059669; font-weight:700;">
+                        <i class="fas fa-check-circle"></i> Official accredited certificate verified and ready to claim!
+                    </span>
+                    <button class="cert-action-btn btn btn-success" onclick="claimCertificate('${courseId}')" style="box-shadow: 0 4px 14px rgba(16,185,129,0.35);">
+                        <i class="fas fa-award"></i> Claim Certificate
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+}
+window.renderCertificateStatusCard = renderCertificateStatusCard;
+
+let currentStudyLesson = { courseId: null, lessonId: null, moduleName: null };
+
+function openLessonStudyModal(courseId, lessonId) {
+    const course = coursesData.find(c => c.id === courseId);
+    if (!course) return;
+
+    const stats = calculateCourseProgress(courseId);
+    let targetLesson = null;
+    let targetModule = null;
+
+    stats.moduleDetails.forEach(m => {
+        const found = m.lessons.find(l => l.lessonId === lessonId);
+        if (found) {
+            targetLesson = found;
+            targetModule = m.moduleName;
+        }
+    });
+
+    if (!targetLesson) {
+        const lessons = Array.isArray(course.lessons) ? course.lessons : [];
+        targetLesson = lessons.find(l => l.lessonId === lessonId) || {
+            lessonId,
+            title: `Lesson ${lessonId}`,
+            content: `Study core curriculum for this course.`,
+            duration: '25 mins'
+        };
+        targetModule = targetLesson.module || 'Course Module';
+    }
+
+    currentStudyLesson = { courseId, lessonId, moduleName: targetModule };
+    const modal = document.getElementById('module-study-modal');
+    if (!modal) return;
+
+    document.getElementById('module-modal-title').textContent = targetLesson.title;
+    document.getElementById('module-modal-course').textContent = `${course.title} • ${targetModule}`;
+
+    const isCompleted = stats.completedLessonIds.includes(lessonId);
+
+    const completeBtn = document.getElementById('module-modal-complete-btn');
+    if (completeBtn) {
+        completeBtn.className = isCompleted ? 'btn btn-secondary' : 'btn btn-success';
+        completeBtn.innerHTML = isCompleted
+            ? '<i class="fas fa-undo"></i> Mark Lesson as Incomplete'
+            : '<i class="fas fa-check-circle"></i> Mark Lesson as Completed';
+        completeBtn.onclick = async () => {
+            await toggleLessonComplete(courseId, lessonId);
+            closeModuleStudyModal();
+        };
+    }
+
+    const quizBtn = document.getElementById('module-modal-quiz-btn');
+    if (quizBtn) {
+        quizBtn.onclick = () => {
+            closeModuleStudyModal();
+            window.location.href = `quize.html?course=${courseId}&module=${encodeURIComponent(targetModule)}`;
+        };
+    }
+
+    const bodyEl = document.getElementById('module-modal-body');
+    if (bodyEl) {
+        bodyEl.innerHTML = `
+            <div style="margin-bottom: 14px;">
+                <h4 style="margin: 0 0 6px 0; color: var(--primary-accent); font-size: 16px;">
+                    <i class="fas fa-book-reader"></i> Lesson Objectives & Core Content
+                </h4>
+                <p style="color: var(--text-muted); margin: 0 0 10px 0; font-size: 14px; line-height: 1.6;">
+                    ${targetLesson.content || `Master the principles and practices of ${targetLesson.title}.`}
+                </p>
+            </div>
+            <div style="background: #ffffff; border: 1px solid var(--glass-border); border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+                <strong style="display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.04em;">
+                    <i class="fas fa-check-double"></i> What You Master in this Lesson:
+                </strong>
+                <ul style="margin: 0; padding-left: 20px; font-size: 13.5px; color: var(--text-muted); line-height: 1.8;">
+                    <li>Core logic, syntax rules, and architectural patterns of ${targetLesson.title}.</li>
+                    <li>Hands-on code execution, edge cases, and best practices.</li>
+                    <li>Topics evaluated in the mandatory course assessments (≥ 70% required to pass).</li>
+                </ul>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text-muted); flex-wrap: wrap; gap: 8px;">
+                <span><i class="fas fa-clock"></i> Estimated Study Time: <strong>${targetLesson.duration || '25 mins'}</strong></span>
+                <span><i class="fas fa-layer-group"></i> Module: <strong>${targetModule}</strong></span>
+            </div>
+        `;
+    }
+
+    modal.hidden = false;
+    modal.style.display = 'flex';
+}
+
+function openModuleStudyModal(courseId, moduleName) {
+    const course = coursesData.find(c => c.id === courseId);
+    if (!course) return;
+
+    const lessons = getCourseModuleLessonsClient(course, moduleName);
+    if (lessons.length > 0) {
+        return openLessonStudyModal(courseId, lessons[0].lessonId);
+    }
+}
+
+function closeModuleStudyModal() {
+    const modal = document.getElementById('module-study-modal');
+    if (modal) {
+        modal.hidden = true;
+        modal.style.display = 'none';
+    }
+}
+
+async function toggleCurrentModuleComplete() {
+    if (!currentStudyLesson.courseId || !currentStudyLesson.lessonId) return;
+    await toggleLessonComplete(currentStudyLesson.courseId, currentStudyLesson.lessonId);
+    closeModuleStudyModal();
+}
+
+async function toggleLessonComplete(courseId, lessonId) {
+    if (!appState.progress[courseId]) {
+        appState.progress[courseId] = {
+            completedLessonIds: [],
+            completedModules: [],
+            completedQuizzes: [],
+            score: 0,
+            quizPassed: false
+        };
+    }
+
+    const prog = appState.progress[courseId];
+    let currentLessons = Array.isArray(prog.completedLessonIds) ? [...prog.completedLessonIds] : [];
+    const isCompleted = currentLessons.includes(lessonId);
+
+    if (isCompleted) {
+        currentLessons = currentLessons.filter(id => id !== lessonId);
+    } else {
+        currentLessons.push(lessonId);
+    }
+    prog.completedLessonIds = currentLessons;
+    prog.completedLessons = currentLessons.length;
+
+    // Recalculate course completion using strict rules
+    const stats = calculateCourseProgress(courseId);
+    prog.completedModules = stats.completedModules;
+    prog.percentage = stats.courseProgress;
+    prog.eligibleForCertificate = stats.isCompleted;
+    prog.courseCompleted = stats.isCompleted;
+
+    saveProgress();
+
+    // Sync to backend if logged in
+    const token = localStorage.getItem('learnMeAuthToken');
+    if (token) {
+        try {
+            const res = await fetch(`${API_BASE}/progress/${courseId}/lesson`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                body: JSON.stringify({ lessonId, completed: !isCompleted })
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.progress) {
+                    prog.completedLessonIds = data.progress.completedLessonIds || currentLessons;
+                    prog.completedModules = data.progress.completedModules || stats.completedModules;
+                    prog.percentage = data.overallPercentage || stats.courseProgress;
+                    prog.eligibleForCertificate = data.eligibleForCertificate;
+                    saveProgress();
+                }
+            }
+        } catch (e) {
+            console.warn("Offline lesson sync fallback:", e);
+        }
+    }
+
+    // Refresh UI
+    if (appState.currentView === 'course-details' && appState.currentCourseId === courseId) {
+        openCourseDetails(courseId);
+    } else if (appState.currentView === 'dashboard') {
+        renderDashboard();
+    }
+}
+
+async function toggleModuleComplete(courseId, moduleName) {
+    const course = coursesData.find(c => c.id === courseId);
+    if (!course) return;
+
+    const lessons = getCourseModuleLessonsClient(course, moduleName);
+    const lessonIds = lessons.map(l => l.lessonId);
+
+    if (!appState.progress[courseId]) {
+        appState.progress[courseId] = {
+            completedLessonIds: [],
+            completedModules: [],
+            completedQuizzes: [],
+            score: 0,
+            quizPassed: false
+        };
+    }
+
+    const prog = appState.progress[courseId];
+    let currentLessons = Array.isArray(prog.completedLessonIds) ? [...prog.completedLessonIds] : [];
+    const allModuleLessonsDone = lessonIds.every(id => currentLessons.includes(id));
+
+    if (allModuleLessonsDone) {
+        // Reset lessons in this module
+        currentLessons = currentLessons.filter(id => !lessonIds.includes(id));
+    } else {
+        // Complete all lessons in this module
+        lessonIds.forEach(id => {
+            if (!currentLessons.includes(id)) currentLessons.push(id);
+        });
+    }
+
+    prog.completedLessonIds = currentLessons;
+    prog.completedLessons = currentLessons.length;
+
+    // Recalculate course completion
+    const stats = calculateCourseProgress(courseId);
+    prog.completedModules = stats.completedModules;
+    prog.percentage = stats.courseProgress;
+    prog.eligibleForCertificate = stats.isCompleted;
+    prog.courseCompleted = stats.isCompleted;
+
+    saveProgress();
+
+    // Sync to backend if logged in
+    const token = localStorage.getItem('learnMeAuthToken');
+    if (token) {
+        try {
+            await fetch(`${API_BASE}/progress/${courseId}/module`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                body: JSON.stringify({ moduleName, completed: !allModuleLessonsDone })
+            });
+        } catch (e) {
+            console.warn("Offline module sync fallback:", e);
+        }
+    }
+
+    // Refresh UI
+    if (appState.currentView === 'course-details' && appState.currentCourseId === courseId) {
+        openCourseDetails(courseId);
+    } else if (appState.currentView === 'dashboard') {
+        renderDashboard();
+    }
+}
+
 function openCourseDetails(courseId) {
     appState.currentCourseId = courseId;
     const course = coursesData.find(c => c.id === courseId);
     if (!course) return navigateTo('courses');
 
-    const prog = appState.progress[courseId];
-    const courseCompleted = Boolean(prog && (prog.courseCompleted || prog.passed));
-    const isEnrolled = Boolean((appState.enrollments && appState.enrollments[courseId]) || prog);
+    const stats = calculateCourseProgress(courseId);
+    const isEnrolled = Boolean((appState.enrollments && appState.enrollments[courseId]) || appState.progress[courseId]);
 
     const container = document.getElementById('course-details-container');
 
-    // Progress bar
-    let progressSection = '';
-    if (prog) {
-        const pct = courseCompleted ? 100 : prog.score;
-        const barColor = courseCompleted ? 'var(--success)' : 'var(--danger)';
-        progressSection = `
-            <div class="card-progress-container" style="margin-bottom:25px;">
-                <div class="progress-meta">
-                    <span>Course Progress</span>
-                    <span style="color:${barColor}; font-weight:800;">${pct}%</span>
+    // Prominent Certificate Status Card (Locked vs Unlocked based strictly on 100% course completion)
+    const certCardHTML = renderCertificateStatusCard(courseId);
+
+    // Modules list with individual lessons
+    const moduleListHTML = stats.moduleDetails.map((m, index) => {
+        const isModuleDone = m.isCompleted;
+        const lessonsHTML = m.lessons.map(l => {
+            const isLessonDone = l.isCompleted;
+            return `
+                <div class="lesson-subitem" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: ${isLessonDone ? 'rgba(16,185,129,0.06)' : 'rgba(255,255,255,0.7)'}; border: 1px solid ${isLessonDone ? 'rgba(16,185,129,0.25)' : 'var(--glass-border)'}; border-radius: 8px; margin-top: 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+                        <i class="fas ${isLessonDone ? 'fa-check-circle' : 'fa-play-circle'}" style="color: ${isLessonDone ? '#059669' : 'var(--primary-accent)'}; font-size: 15px;"></i>
+                        <div>
+                            <span style="font-size: 14px; font-weight: 600; color: var(--text-main);">${l.title}</span>
+                            <small style="display: block; color: var(--text-muted); font-size: 12px;"><i class="fas fa-clock"></i> ${l.duration || '25 mins'}</small>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 6px; align-items: center;">
+                        <button class="btn btn-sm ${isLessonDone ? 'btn-secondary' : 'btn-success'}" onclick="toggleLessonComplete('${course.id}', '${l.lessonId}')" style="padding: 5px 12px; font-size: 12px;">
+                            <i class="fas ${isLessonDone ? 'fa-undo' : 'fa-check'}"></i> ${isLessonDone ? 'Mark Incomplete' : 'Complete Lesson'}
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="openLessonStudyModal('${course.id}', '${l.lessonId}')" style="padding: 5px 12px; font-size: 12px;">
+                            <i class="fas fa-book-open"></i> Study
+                        </button>
+                    </div>
                 </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-fill" style="width:${pct}%; background:${barColor};"></div>
+            `;
+        }).join('');
+
+        return `
+            <div class="module-item-card ${isModuleDone ? 'is-completed' : ''}" style="margin-bottom: 14px; padding: 16px; border-radius: 12px; background: var(--bg-panel); border: 1px solid ${isModuleDone ? 'rgba(16,185,129,0.4)' : 'var(--glass-border)'};">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: ${isModuleDone ? 'rgba(16,185,129,0.14)' : 'rgba(37,99,235,0.08)'}; color: ${isModuleDone ? '#059669' : 'var(--primary-accent)'}; display: flex; align-items: center; justify-content: center; font-size: 15px;">
+                            <i class="fas ${isModuleDone ? 'fa-check-circle' : 'fa-folder'}"></i>
+                        </div>
+                        <div>
+                            <strong style="font-size: 16px; color: var(--text-main);">${m.moduleName}</strong>
+                            <small style="color: var(--text-muted); display: block;">Module ${index + 1} &bull; ${m.completedLessons} of ${m.totalLessons} Lessons Completed</small>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="module-status-badge ${isModuleDone ? 'completed' : 'pending'}">
+                            ${isModuleDone ? '<i class="fas fa-check"></i> Module Completed' : '<i class="fas fa-circle-notch"></i> Lessons Required'}
+                        </span>
+                        <button class="btn btn-sm ${isModuleDone ? 'btn-secondary' : 'btn-outline'}" onclick="toggleModuleComplete('${course.id}', '${m.moduleName.replace(/'/g, "\\'")}')" style="padding: 6px 12px; font-size: 12px;">
+                            ${isModuleDone ? 'Reset Module' : 'Complete All Lessons'}
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lessons inside this module -->
+                <div class="module-lessons-container" style="padding-left: 12px; border-left: 2px solid ${isModuleDone ? 'rgba(16,185,129,0.3)' : 'rgba(37,99,235,0.2)'}; margin-top: 8px;">
+                    ${lessonsHTML}
                 </div>
             </div>
         `;
-    }
+    }).join('');
 
-    const moduleList = Array.isArray(course.modules) ? course.modules.map((module, index) => {
+    // Course-specific Quizzes
+    const quizzesHTML = stats.requiredQuizzes.map((q, qIndex) => {
+        const isPassed = stats.passedQuizzesList.includes(q.quizId);
         return `
-            <div class="module-item" onclick="openAssessment('${course.id}', '${module.replace(/'/g, "\\'")}')" style="padding:14px 18px; border-radius:12px; border:1px solid var(--glass-border); background:rgba(13,27,61,0.02); margin-bottom:10px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; transition:0.2s;" role="button" tabindex="0">
-                <div class="module-item-left" style="display:flex; align-items:center; gap:14px;">
-                    <div class="module-icon" style="width:36px; height:36px; border-radius:10px; background:rgba(37,99,235,0.1); color:var(--primary-accent); display:flex; align-items:center; justify-content:center; font-weight:800;">
-                        <i class="fas fa-play-circle" style="font-size:16px;"></i>
+            <div class="module-item-card ${isPassed ? 'is-completed' : ''}" style="margin-top: 10px; background: ${isPassed ? 'rgba(16,185,129,0.04)' : 'rgba(37,99,235,0.04)'}; border-color: ${isPassed ? 'rgba(16,185,129,0.4)' : 'rgba(37,99,235,0.3)'};">
+                <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 220px;">
+                    <div style="width: 38px; height: 38px; border-radius: 10px; background: ${isPassed ? 'rgba(16,185,129,0.15)' : 'rgba(37,99,235,0.12)'}; color: ${isPassed ? '#059669' : 'var(--primary-accent)'}; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;">
+                        <i class="fas ${isPassed ? 'fa-award' : 'fa-pencil-alt'}"></i>
                     </div>
                     <div>
-                        <div class="module-item-title" style="font-size:16px; font-weight:700; color:var(--text-main);">${module}</div>
-                        <small style="color:var(--text-muted);">Click to start ${module} quiz</small>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <strong style="font-size: 15px; color: var(--text-main);">${q.title}</strong>
+                            <span class="module-status-badge ${isPassed ? 'completed' : 'pending'}">
+                                ${isPassed ? `<i class="fas fa-check"></i> Passed (≥ 70%)` : `<i class="fas fa-exclamation-circle"></i> Required (≥ ${q.passingScore}% to Pass)`}
+                            </span>
+                        </div>
+                        <small style="color: var(--text-muted); display: block; margin-top: 2px;">Mandatory assessment &bull; Score at least ${q.passingScore}% to count toward course completion</small>
                     </div>
                 </div>
-                <button class="btn btn-sm btn-primary" style="font-weight:700; padding:8px 18px;">
-                    Start Quiz <i class="fas fa-arrow-right"></i>
-                </button>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <button class="btn btn-sm btn-primary" onclick="openAssessment('${course.id}')" style="padding: 8px 18px; font-weight: 700; font-size: 13.5px;">
+                        <i class="fas ${isPassed ? 'fa-redo' : 'fa-play'}"></i> ${isPassed ? 'Retake Quiz' : 'Start Quiz'}
+                    </button>
+                    <a href="quize.html?course=${course.id}&quizId=${q.quizId}" class="btn btn-sm btn-secondary" style="padding: 8px 14px; font-size: 13px; text-decoration: none;">
+                        <i class="fas fa-bolt"></i> Quiz Portal
+                    </a>
+                </div>
             </div>
         `;
-    }).join('') : '';
+    }).join('');
 
     let bottomActions = '';
     if (!isEnrolled) {
         bottomActions = `
-            <div style="background:rgba(37,99,235,0.06); border:1px solid rgba(37,99,235,0.2); border-radius:16px; padding:26px; margin-bottom:28px; text-align:center;">
+            <div style="background:rgba(37,99,235,0.06); border:1px solid rgba(37,99,235,0.2); border-radius:16px; padding:26px; margin-top:28px; text-align:center;">
                 <h3 style="color:var(--primary-accent); margin-bottom:8px; font-size:20px;">
                     <i class="fas fa-graduation-cap"></i> Free Student Track Enrollment
                 </h3>
@@ -1070,40 +1700,23 @@ function openCourseDetails(courseId) {
                 </div>
             </div>
         `;
-    } else if (courseCompleted) {
-        bottomActions = `
-            <div style="margin-bottom:20px;">
-                <span style="background:var(--success); color:white; padding:10px 22px; border-radius:20px; font-weight:700; display:inline-flex; align-items:center; gap:8px;">
-                    <i class="fas fa-check-circle"></i> 100% Completed & Passed
-                </span>
-            </div>
-            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-                <button class="btn btn-success" onclick="generateCertificate('${course.id}')">
-                    <i class="fas fa-trophy"></i> Get Certificate
-                </button>
-                <button class="btn btn-secondary" onclick="showAnswerReview('${course.id}')">
-                    <i class="fas fa-list-check"></i> Review Answers
-                </button>
-                <button class="btn btn-secondary" onclick="openAssessment('${course.id}')">
-                    <i class="fas fa-redo"></i> Retake
-                </button>
-                <a href="quize.html?course=${course.id}" class="btn btn-secondary" style="text-decoration:none;">
-                    <i class="fas fa-bolt"></i> Quiz Portal
-                </a>
-            </div>
-        `;
     } else {
         bottomActions = `
-            <div style="margin-bottom:20px; color:var(--text-muted); font-weight:600;">
-                <span style="background:rgba(37,99,235,0.1); color:var(--primary-accent); padding:6px 16px; border-radius:20px; font-size:13px; font-weight:700;">
-                    <i class="fas fa-check-circle"></i> You are enrolled in this track
-                </span>
-            </div>
-            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-                <button class="btn btn-primary" onclick="openAssessment('${course.id}')" style="font-size:17px; padding:14px 36px;">
-                    <i class="fas fa-pencil-alt"></i> ${prog ? 'Retry Assessment' : 'Start Assessment'}
+            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:28px;">
+                ${stats.isCompleted ? `
+                    <button class="btn btn-success" onclick="claimCertificate('${course.id}')" style="font-size:16px; padding:12px 28px; font-weight:700; box-shadow:0 4px 14px rgba(16,185,129,0.35);">
+                        <i class="fas fa-award"></i> Claim Certificate
+                    </button>
+                ` : ''}
+                <button class="btn btn-primary" onclick="openAssessment('${course.id}')" style="font-size:15px; padding:12px 24px;">
+                    <i class="fas fa-pencil-alt"></i> ${stats.quizPassed ? 'Retake Assessment' : 'Take Final Assessment'}
                 </button>
-                <a href="quize.html?course=${course.id}" class="btn btn-secondary" style="font-size:15px; padding:14px 24px; text-decoration:none;">
+                ${stats.quizPassed ? `
+                    <button class="btn btn-secondary" onclick="showAnswerReview('${course.id}')" style="font-size:15px; padding:12px 20px;">
+                        <i class="fas fa-list-check"></i> Review Quiz Answers
+                    </button>
+                ` : ''}
+                <a href="quize.html?course=${course.id}" class="btn btn-secondary" style="font-size:15px; padding:12px 20px; text-decoration:none;">
                     <i class="fas fa-bolt"></i> Open in Quiz Portal
                 </a>
             </div>
@@ -1127,27 +1740,42 @@ function openCourseDetails(courseId) {
                 <div class="course-meta" style="justify-content:center; margin-bottom:20px;">
                     <span><i class="fas fa-clock"></i> ${course.duration}</span>
                     <span style="color:var(--primary-accent);"><i class="fas fa-layer-group"></i> ${course.difficulty}</span>
-                    <span><i class="fas fa-question-circle"></i> Interactive Module Exams</span>
+                    <span><i class="fas fa-book"></i> ${stats.totalModules} Modules &bull; ${stats.totalQuizzes} Required Quizzes</span>
                 </div>
                 <p style="margin-bottom:25px; color:var(--text-muted);">${course.subtitle}</p>
 
-                ${progressSection}
+                <!-- Certificate Status Card (Locked until 100% Course Completion) -->
+                ${certCardHTML}
 
-                ${moduleList ? `
-                    <div style="background:rgba(13,27,61,0.04); padding:25px; border-radius:15px; border:1px solid var(--glass-border); margin-bottom:30px; text-align:left;">
-                        <h3 style="margin-bottom:14px; color:var(--primary-accent); font-weight:800; display:flex; align-items:center; gap:8px;">
-                            <i class="fas fa-book-open"></i> Course Modules (Click any module to start exam)
+                <!-- Course Modules & Lessons Section -->
+                <div style="background:rgba(13,27,61,0.03); padding:25px; border-radius:15px; border:1px solid var(--glass-border); margin-bottom:24px; text-align:left;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+                        <h3 style="margin:0; color:var(--primary-accent); font-weight:800; display:flex; align-items:center; gap:8px; font-size:18px;">
+                            <i class="fas fa-book-open"></i> Course Modules & Lessons
                         </h3>
-                        <div>${moduleList}</div>
+                        <span style="font-size:13px; font-weight:700; color:var(--text-muted);">
+                            ${stats.modulesCompleted} of ${stats.totalModules} Modules Completed
+                        </span>
                     </div>
-                ` : ''}
+                    <div>
+                        ${moduleListHTML}
+                    </div>
 
-                <div style="background:rgba(13,27,61,0.04); padding:25px; border-radius:15px; border:1px solid var(--glass-border); margin-bottom:30px; text-align:left;">
-                    <h3 style="margin-bottom:12px; color:var(--primary-accent);"><i class="fas fa-info-circle"></i> Assessment Rules</h3>
-                    <ul style="color:var(--text-muted); padding-left:20px; line-height:2;">
-                        <li>Answer all multiple-choice questions in the module assessment.</li>
-                        <li>You must score <strong style="color:var(--text-main);">70% or above</strong> to pass and earn your certificate.</li>
-                        <li>Your best score across all attempts will be saved.</li>
+                    <!-- Required Quizzes Section -->
+                    <div style="margin-top: 24px;">
+                        <h4 style="margin: 0 0 12px 0; color: var(--primary-accent); font-weight: 800; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-award"></i> Required Quizzes & Assessments (≥ 70% to Pass)
+                        </h4>
+                        ${quizzesHTML}
+                    </div>
+                </div>
+
+                <div style="background:rgba(13,27,61,0.03); padding:20px 25px; border-radius:15px; border:1px solid var(--glass-border); text-align:left;">
+                    <h3 style="margin-bottom:10px; color:var(--primary-accent); font-size:17px;"><i class="fas fa-info-circle"></i> Certificate Requirements</h3>
+                    <ul style="color:var(--text-muted); padding-left:20px; line-height:2; font-size:14px; margin:0;">
+                        <li>Complete every required lesson inside all <strong>${stats.totalModules} study modules</strong>.</li>
+                        <li>Pass all <strong>${stats.totalQuizzes} required course quizzes</strong> with a score of at least <strong>70%</strong>.</li>
+                        <li>Overall course progress must reach <strong>100%</strong> to claim your accredited certificate.</li>
                     </ul>
                 </div>
 
@@ -1396,70 +2024,115 @@ function submitAssessment() {
     const passed      = percentage >= 70;
     const incorrect   = Math.max(0, answered - correct);
 
-    appState.progress[asmt.courseId] = {
-        score: percentage,
-        passed,
-        courseCompleted: passed,
-        title: asmt.title || asmt.courseId,
-        correct,
-        total: asmt.questions.length,
-        reviewData
-    };
+    const quizId = (asmt.moduleName && asmt.moduleName !== 'Final Assessment')
+        ? `quiz-${asmt.moduleName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+        : 'final';
+
+    if (!appState.progress[asmt.courseId]) {
+        appState.progress[asmt.courseId] = { completedModules: [], completedLessonIds: [], completedQuizzes: {} };
+    }
+    const prog = appState.progress[asmt.courseId];
+    if (!prog.completedQuizzes) prog.completedQuizzes = {};
+    if (passed) {
+        prog.completedQuizzes[quizId] = {
+            score: percentage,
+            passed: true,
+            completedAt: new Date().toISOString()
+        };
+    }
+    prog.quizScore = percentage;
+    prog.score = percentage;
+    prog.passed = passed;
+    prog.quizPassed = passed;
+    prog.correct = correct;
+    prog.total = asmt.questions.length;
+    prog.reviewData = reviewData;
+    prog.title = asmt.title || asmt.courseId;
+
+    // Accurately calculate course metrics
+    const stats = calculateCourseProgress(asmt.courseId);
+    prog.percentage = stats.courseProgress;
+    prog.courseCompleted = stats.isCompleted;
+    prog.eligibleForCertificate = stats.isCompleted;
+    prog.completedModules = stats.completedModules;
+
     saveProgress();
     renderCourses();
 
+    // Sync assessment score and status to backend
+    const token = localStorage.getItem('learnMeAuthToken');
+    if (token) {
+        fetch(`${API_BASE}/progress/${asmt.courseId}/assessment`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({
+                quizId,
+                score: percentage,
+                passed,
+                correct,
+                total: asmt.questions.length,
+                title: asmt.title
+            })
+        }).then(r => r.json()).then(data => {
+            if (data && data.overallPercentage !== undefined) {
+                prog.percentage = data.overallPercentage;
+                prog.eligibleForCertificate = data.eligibleForCertificate;
+                saveProgress();
+            }
+        }).catch(err => console.warn('Failed to sync assessment progress to backend', err));
+    }
+
     const container = document.getElementById('result-container');
     container.innerHTML = `
-        <div style="max-width:620px; margin:auto; text-align:center; background:var(--bg-panel); border:1px solid var(--glass-border); padding:50px; border-radius:20px; box-shadow:0 4px 20px rgba(0,0,0,0.04);">
+        <div style="max-width:680px; margin:auto; text-align:center; background:var(--bg-panel); border:1px solid var(--glass-border); padding:40px clamp(18px, 4vw, 50px); border-radius:20px; box-shadow:0 8px 30px rgba(0,0,0,0.06);">
             <i class="fas ${passed ? 'fa-check-circle' : 'fa-times-circle'}"
-               style="font-size:80px; color:${passed ? 'var(--success)' : 'var(--danger)'}; margin-bottom:20px;"></i>
-            <h2 style="font-size:36px; margin-bottom:8px; color:var(--text-main);">${passed ? '🎉 Passed!' : 'Not Passed'}</h2>
-            <p style="font-size:18px; color:var(--text-muted); margin-bottom:30px;">
-                You scored <strong style="color:var(--text-main);">${percentage}%</strong>
-                ${percentage >= 90 ? ' — Outstanding! 🌟' : percentage >= 70 ? ' — Well done!' : ' — Keep practising!'}
+               style="font-size:72px; color:${passed ? 'var(--success)' : 'var(--danger)'}; margin-bottom:18px;"></i>
+            <h2 style="font-size:32px; margin-bottom:8px; color:var(--text-main);">${passed ? '🎉 Assessment Passed!' : 'Assessment Not Passed'}</h2>
+            <p style="font-size:17px; color:var(--text-muted); margin-bottom:26px;">
+                You scored <strong style="color:var(--text-main); font-size:20px;">${percentage}%</strong> on this exam
+                ${percentage >= 90 ? ' — Outstanding! 🌟' : percentage >= 70 ? ' — Well done! 🎯' : ' — Keep practising to reach 70%!'}
             </p>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:40px; text-align:left;">
-                <div style="background:rgba(13,27,61,0.04); padding:16px; border-radius:10px;">
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">TOTAL QUESTIONS</div>
-                    <strong style="font-size:22px;">${asmt.questions.length}</strong>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:28px; text-align:left;">
+                <div style="background:rgba(13,27,61,0.04); padding:14px; border-radius:10px;">
+                    <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Total Questions</div>
+                    <strong style="font-size:20px;">${asmt.questions.length}</strong>
                 </div>
-                <div style="background:rgba(16,185,129,0.07); padding:16px; border-radius:10px;">
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">CORRECT</div>
-                    <strong style="font-size:22px; color:var(--success);">${correct}</strong>
+                <div style="background:rgba(16,185,129,0.07); padding:14px; border-radius:10px;">
+                    <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Correct</div>
+                    <strong style="font-size:20px; color:var(--success);">${correct}</strong>
                 </div>
-                <div style="background:rgba(239,68,68,0.05); padding:16px; border-radius:10px;">
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">INCORRECT</div>
-                    <strong style="font-size:22px; color:var(--danger);">${incorrect}</strong>
+                <div style="background:rgba(239,68,68,0.05); padding:14px; border-radius:10px;">
+                    <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Incorrect</div>
+                    <strong style="font-size:20px; color:var(--danger);">${incorrect}</strong>
                 </div>
-                <div style="background:rgba(13,27,61,0.04); padding:16px; border-radius:10px;">
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">SKIPPED</div>
-                    <strong style="font-size:22px;">${unanswered}</strong>
-                </div>
-                <div style="background:rgba(37,99,235,0.06); padding:16px; border-radius:10px;">
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">ACCURACY</div>
-                    <strong style="font-size:22px; color:var(--secondary-accent);">${answered ? Math.round((correct / answered) * 100) : 0}%</strong>
-                </div>
-                <div style="background:rgba(13,27,61,0.04); padding:16px; border-radius:10px;">
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">TIME TAKEN</div>
-                    <strong style="font-size:22px;">${String(Math.floor(timeTaken / 60)).padStart(2, '0')}:${String(timeTaken % 60).padStart(2, '0')}</strong>
+                <div style="background:rgba(37,99,235,0.06); padding:14px; border-radius:10px;">
+                    <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Time Taken</div>
+                    <strong style="font-size:20px; color:var(--secondary-accent);">${String(Math.floor(timeTaken / 60)).padStart(2, '0')}:${String(timeTaken % 60).padStart(2, '0')}</strong>
                 </div>
             </div>
 
-            <div style="display:flex; flex-direction:column; gap:12px;">
-                ${passed ? `
-                    <button class="btn btn-success" onclick="generateCertificate('${asmt.courseId}')" style="width:100%;">
-                        <i class="fas fa-award"></i> Download Certificate
+            <!-- Certificate Status UI Card (Reflects true entire course completion) -->
+            ${renderCertificateStatusCard(asmt.courseId)}
+
+            <div style="display:flex; flex-direction:column; gap:10px; margin-top:24px;">
+                ${stats.isCompleted ? `
+                    <button class="btn btn-success" onclick="claimCertificate('${asmt.courseId}')" style="width:100%; padding:14px; font-weight:700; font-size:15px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);">
+                        <i class="fas fa-award"></i> Claim Verified Certificate
                     </button>
-                ` : ''}
+                ` : `
+                    <button class="btn btn-primary" onclick="openCourseDetails('${asmt.courseId}')" style="width:100%; padding:14px; font-weight:700; font-size:15px;">
+                        <i class="fas fa-book-open"></i> Complete Course Modules to Unlock Certificate (${stats.modulesCompleted}/${stats.totalModules})
+                    </button>
+                `}
                 <button class="btn btn-secondary" onclick="showAnswerReview('${asmt.courseId}')" style="width:100%;">
-                    <i class="fas fa-list-check"></i> Review My Answers
+                    <i class="fas fa-list-check"></i> Review My Answers & Explanations
                 </button>
-                <button class="btn ${passed ? 'btn-secondary' : 'btn-primary'}" onclick="openAssessment('${asmt.courseId}')" style="width:100%;">
-                    <i class="fas fa-redo"></i> ${passed ? 'Retake' : 'Retry Assessment'}
+                <button class="btn btn-secondary" onclick="openAssessment('${asmt.courseId}')" style="width:100%;">
+                    <i class="fas fa-redo"></i> Retake Assessment
                 </button>
                 <button class="btn btn-secondary" onclick="openCourseDetails('${asmt.courseId}')" style="width:100%;">
-                    <i class="fas fa-arrow-left"></i> Back to Course
+                    <i class="fas fa-arrow-left"></i> Return to Course Overview
                 </button>
             </div>
         </div>
@@ -1626,37 +2299,58 @@ function showAnswerReview(courseId) {
 // CERTIFICATE GENERATION
 // ===============================
 
+async function claimCertificate(courseId) {
+    return generateCertificate(courseId);
+}
+window.claimCertificate = claimCertificate;
+
 async function generateCertificate(courseId) {
-    const course = coursesData.find(c => c.id === courseId);
-    const prog   = appState.progress[courseId];
-    if (!prog || !prog.passed) return alert('A passing score of 70% or above is required to download your certificate.');
+    const course = coursesData.find(c => c.id === courseId || (c.id && c.id.toLowerCase() === (courseId || '').toLowerCase()));
+    const stats  = calculateCourseProgress(courseId);
+
+    // Strict Client-Side Verification: Requires 100% Complete Course Completion
+    if (!stats.isCompleted) {
+        alert("Certificate unavailable. Please complete the entire course before claiming your certificate.");
+        return;
+    }
 
     const token = localStorage.getItem('learnMeAuthToken');
-    let certData = buildCertificateRecord(courseId, prog.score, appState.studentName || 'Learner');
-
-    if (token) {
-        try {
-            const res = await fetch(`${API_BASE}/certificates/generate`, {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ courseId })
-            });
-            if (res.ok) {
-                const data = await res.json();
-                certData = {
-                    certificateId: data.certificateId,
-                    userId: data.userId,
-                    studentName: data.userName || appState.studentName || 'Learner',
-                    courseId: data.courseId,
-                    courseName: data.courseName || (course ? course.title : courseId),
-                    score: data.score || prog.score,
-                    issueDate: data.createdAt ? new Date(data.createdAt).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
-                    status: 'valid'
-                };
-            }
-        } catch (e) {
-            console.warn('Backend offline; generating certificate locally.', e);
+    if (!token) {
+        if (confirm("Please sign in or create an account to verify your complete course completion and claim your official certificate.")) {
+            openAuthModal('login');
         }
+        return;
+    }
+
+    let certData = null;
+    try {
+        const res = await fetch(`${API_BASE}/certificates/generate`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ courseId })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+            // Anti-bypass alert: Backend rejected certificate generation
+            alert(data.message || "Certificate unavailable. Please complete the entire course before claiming your certificate.");
+            return;
+        }
+
+        certData = {
+            certificateId: data.certificateId,
+            userId: data.userId,
+            studentName: data.userName || appState.studentName || 'Learner',
+            courseId: data.courseId,
+            courseName: data.courseName || (course ? course.title : courseId),
+            score: data.score || stats.quizScore || 100,
+            issueDate: data.createdAt ? new Date(data.createdAt).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
+            status: 'valid'
+        };
+    } catch (e) {
+        console.error('Certificate claim network error:', e);
+        alert("Network error connecting to certificate service. Please try again.");
+        return;
     }
 
     if (certData) {
@@ -1666,9 +2360,10 @@ async function generateCertificate(courseId) {
             saveStoredCertificates(localCerts);
             if (appState.currentView === 'dashboard') renderDashboard();
         }
-        await generateLocalPdf(certData, prog);
+        await generateLocalPdf(certData, appState.progress[courseId]);
     }
 }
+window.generateCertificate = generateCertificate;
 
 
 async function executeCertificateDownload(courseId, certificateId) {
@@ -1898,24 +2593,28 @@ function buildCertificateRecord(courseId, score, studentName) {
 
 function renderDashboard() {
     const container = document.getElementById('dashboard-container');
-    let certificates = 0;
     let totalAttempted = 0;
     let enrolledCount = 0;
     let enrolledHTML = '';
     let recentHTML = '';
     const userCertificates = getStoredCertificates();
+    const certificates = userCertificates.length;
 
     coursesData.forEach(c => {
         const prog = appState.progress[c.id];
         const isEnrolled = Boolean((appState.enrollments && appState.enrollments[c.id]) || prog);
+        const stats = calculateCourseProgress(c.id);
 
         if (isEnrolled) {
             enrolledCount++;
-            const pct = prog ? (prog.passed || prog.courseCompleted ? 100 : prog.score) : 0;
-            const statusLabel = prog?.passed
-                ? `<span style="background:var(--success); color:white; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;">Completed (${prog.score}%)</span>`
-                : (prog ? `<span style="background:#f59e0b; color:white; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;">In Progress (${pct}%)</span>`
-                        : `<span style="background:rgba(37,99,235,0.12); color:var(--primary-accent); padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;">Enrolled</span>`);
+            let statusLabel;
+            if (stats.isCompleted) {
+                statusLabel = `<span style="background:var(--success); color:white; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;">Completed (100%)</span>`;
+            } else if (stats.overallPercentage > 0) {
+                statusLabel = `<span style="background:#f59e0b; color:white; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;">In Progress (${stats.overallPercentage}%)</span>`;
+            } else {
+                statusLabel = `<span style="background:rgba(37,99,235,0.12); color:var(--primary-accent); padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;">Enrolled (0%)</span>`;
+            }
 
             enrolledHTML += `
                 <div style="background:rgba(13,27,61,0.03); padding:18px 22px; border-radius:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--glass-border); flex-wrap:wrap; gap:12px;">
@@ -1925,8 +2624,12 @@ function renderDashboard() {
                         </div>
                         <div>
                             <h4 style="font-size:16px; font-weight:700; margin-bottom:4px; color:var(--text-main);">${c.title}</h4>
-                            <div style="display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-muted);">
+                            <div style="display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-muted); flex-wrap:wrap;">
                                 <span><i class="fas fa-clock"></i> ${c.duration}</span>
+                                <span>•</span>
+                                <span>Modules: ${stats.completedModulesCount}/${stats.totalModules}</span>
+                                <span>•</span>
+                                <span>Quiz: ${stats.quizPassed ? 'Passed' : 'Pending'}</span>
                                 <span>•</span>
                                 <span>${statusLabel}</span>
                             </div>
@@ -1934,16 +2637,20 @@ function renderDashboard() {
                     </div>
                     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                         <button class="btn btn-secondary" onclick="openCourseDetails('${c.id}')" style="padding:8px 16px; font-size:13px;">
-                            <i class="fas fa-book-open"></i> Study
+                            <i class="fas fa-book-open"></i> Study (${stats.completedModulesCount}/${stats.totalModules})
                         </button>
                         <a class="btn btn-primary" href="quize.html?course=${c.id}" style="padding:8px 16px; font-size:13px; text-decoration:none;">
                             <i class="fas fa-bolt"></i> Quiz
                         </a>
-                        ${prog && prog.passed ? `
-                            <button class="btn btn-success" onclick="generateCertificate('${c.id}')" style="padding:8px 16px; font-size:13px;" title="Claim Certificate">
-                                <i class="fas fa-certificate"></i>
+                        ${stats.isCompleted ? `
+                            <button class="btn btn-success" onclick="claimCertificate('${c.id}')" style="padding:8px 16px; font-size:13px;" title="Claim Certificate">
+                                <i class="fas fa-certificate"></i> Claim Cert
                             </button>
-                        ` : ''}
+                        ` : `
+                            <button class="btn btn-secondary" disabled style="padding:8px 16px; font-size:13px; opacity:0.6; cursor:not-allowed;" title="Complete all modules and quiz to unlock">
+                                <i class="fas fa-lock"></i> Locked
+                            </button>
+                        `}
                     </div>
                 </div>
             `;
@@ -1951,22 +2658,21 @@ function renderDashboard() {
 
         if (prog) {
             totalAttempted++;
-            if (prog.passed) certificates++;
             const badge = prog.passed
-                ? `<span style="background:var(--success); color:white; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;">Passed</span>`
-                : `<span style="background:var(--danger);   color:white; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;">Failed</span>`;
+                ? `<span style="background:var(--success); color:white; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;">Quiz Passed (${prog.score}%)</span>`
+                : `<span style="background:var(--danger);   color:white; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;">Quiz Failed (${prog.score}%)</span>`;
 
             recentHTML += `
                 <div style="background:rgba(13,27,61,0.04); padding:16px 20px; border-radius:12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--glass-border);">
                     <div>
                         <h4 style="font-size:15px; font-weight:700; margin-bottom:3px;">${c.title}</h4>
-                        <p style="font-size:13px; color:var(--text-muted);">Best Score: ${prog.score}%</p>
+                        <p style="font-size:13px; color:var(--text-muted);">Quiz Score: ${prog.score}% • Modules: ${stats.completedModulesCount}/${stats.totalModules} • Course Progress: ${stats.overallPercentage}%</p>
                     </div>
                     <div style="display:flex; align-items:center; gap:10px;">
                         ${badge}
-                        ${prog.passed
-                            ? `<button class="btn btn-success" onclick="generateCertificate('${c.id}')" style="padding:6px 14px; font-size:13px;"><i class="fas fa-download"></i></button>`
-                            : `<button class="btn btn-primary"  onclick="openAssessment('${c.id}')" style="padding:6px 14px; font-size:13px;"><i class="fas fa-redo"></i></button>`
+                        ${stats.isCompleted
+                            ? `<button class="btn btn-success" onclick="claimCertificate('${c.id}')" style="padding:6px 14px; font-size:13px;"><i class="fas fa-certificate"></i> Cert</button>`
+                            : `<button class="btn btn-secondary" onclick="openCourseDetails('${c.id}')" style="padding:6px 14px; font-size:13px;" title="Complete remaining course content"><i class="fas fa-book-open"></i> Complete</button>`
                         }
                     </div>
                 </div>
@@ -1975,11 +2681,29 @@ function renderDashboard() {
     });
 
     if (!enrolledHTML) {
-        enrolledHTML = `<p style="color:var(--text-muted); text-align:center; padding:30px 0;">You haven't enrolled in any tracks yet. <a href="#" onclick="navigateTo('courses'); return false;" style="color:var(--primary-accent); font-weight:600;">Browse all courses & enroll free →</a></p>`;
+        enrolledHTML = `
+            <div class="empty-state-card">
+                <div class="empty-state-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h3>No Active Enrollments</h3>
+                <p>You haven't enrolled in any learning tracks yet. All 20 tracks are available with free open enrollment.</p>
+                <button class="btn btn-primary" onclick="navigateTo('courses')">
+                    <i class="fas fa-book-open"></i> Browse All Courses
+                </button>
+            </div>
+        `;
     }
 
     if (!recentHTML) {
-        recentHTML = `<p style="color:var(--text-muted); text-align:center; padding:30px 0;">No assessments taken yet. <a href="#" onclick="navigateTo('courses'); return false;" style="color:var(--primary-accent); font-weight:600;">Explore courses →</a></p>`;
+        recentHTML = `
+            <div class="empty-state-card">
+                <div class="empty-state-icon"><i class="fas fa-tasks"></i></div>
+                <h3>No Assessments Taken Yet</h3>
+                <p>Study course modules and take quizzes to test your knowledge and unlock your certificate.</p>
+                <button class="btn btn-secondary" onclick="navigateTo('courses')">
+                    <i class="fas fa-arrow-right"></i> Choose a Course
+                </button>
+            </div>
+        `;
     }
 
     const certificateList = userCertificates.length
@@ -1995,7 +2719,16 @@ function renderDashboard() {
                 </div>
             </div>
         `).join('')
-        : `<p style="color:var(--text-muted); text-align:center; padding:30px 0;">No certificates earned yet.</p>`;
+        : `
+            <div class="empty-state-card">
+                <div class="empty-state-icon"><i class="fas fa-award"></i></div>
+                <h3>No Certificates Earned Yet</h3>
+                <p>Complete 100% of all required lessons, modules, and quizzes (with score $\\ge$ 70%) to claim accredited certificates.</p>
+                <button class="btn btn-secondary" onclick="navigateTo('courses')">
+                    <i class="fas fa-book-open"></i> Start Learning
+                </button>
+            </div>
+        `;
 
     const nameSection = appState.studentName
         ? `<p style="color:var(--text-muted); margin-top:8px; font-size:14px;">Welcome back, <strong>${appState.studentName}</strong>!
@@ -2003,37 +2736,37 @@ function renderDashboard() {
         : `<button class="btn btn-secondary" onclick="changeStudentName()" style="margin-top:12px; font-size:14px; padding:10px 20px;"><i class="fas fa-user-edit"></i> Set Your Name for Certificates</button>`;
 
     container.innerHTML = `
-        <div class="view-header" style="margin-bottom:40px;">
-            <h2 style="font-size:38px; color:var(--primary-accent);">Student Dashboard</h2>
+        <div class="view-header" style="margin-bottom:32px;">
+            <h2 style="color:var(--primary-accent);">Student Dashboard</h2>
             <p>Track your enrollments, quiz scores, and verified certifications.</p>
             ${nameSection}
         </div>
 
-        <div style="display:flex; gap:24px; margin-bottom:40px; justify-content:center; flex-wrap:wrap;">
-            <div style="background:var(--bg-panel); border:1px solid var(--glass-border); padding:30px; border-radius:18px; text-align:center; min-width:180px; box-shadow:0 4px 15px rgba(0,0,0,0.03);">
-                <i class="fas fa-user-check" style="font-size:36px; color:var(--primary-accent); margin-bottom:12px;"></i>
-                <h3 style="font-size:38px; font-weight:800; margin-bottom:4px;">${enrolledCount}</h3>
-                <p style="color:var(--text-muted); font-size:13px;">Enrolled Tracks</p>
+        <div class="dashboard-stats-grid">
+            <div class="dashboard-stat-card">
+                <i class="fas fa-user-check" style="color:var(--primary-accent);"></i>
+                <h3>${enrolledCount}</h3>
+                <p>Enrolled Tracks</p>
             </div>
-            <div style="background:var(--bg-panel); border:1px solid var(--glass-border); padding:30px; border-radius:18px; text-align:center; min-width:180px; box-shadow:0 4px 15px rgba(0,0,0,0.03);">
-                <i class="fas fa-award" style="font-size:36px; color:#f59e0b; margin-bottom:12px;"></i>
-                <h3 style="font-size:38px; font-weight:800; margin-bottom:4px;">${certificates}</h3>
-                <p style="color:var(--text-muted); font-size:13px;">Certificates Earned</p>
+            <div class="dashboard-stat-card">
+                <i class="fas fa-award" style="color:#f59e0b;"></i>
+                <h3>${certificates}</h3>
+                <p>Certificates Earned</p>
             </div>
-            <div style="background:var(--bg-panel); border:1px solid var(--glass-border); padding:30px; border-radius:18px; text-align:center; min-width:180px; box-shadow:0 4px 15px rgba(0,0,0,0.03);">
-                <i class="fas fa-book-open" style="font-size:36px; color:var(--primary-accent); margin-bottom:12px;"></i>
-                <h3 style="font-size:38px; font-weight:800; margin-bottom:4px;">${totalAttempted}</h3>
-                <p style="color:var(--text-muted); font-size:13px;">Assessments Taken</p>
+            <div class="dashboard-stat-card">
+                <i class="fas fa-book-open" style="color:var(--primary-accent);"></i>
+                <h3>${totalAttempted}</h3>
+                <p>Assessments Taken</p>
             </div>
-            <div style="background:var(--bg-panel); border:1px solid var(--glass-border); padding:30px; border-radius:18px; text-align:center; min-width:180px; box-shadow:0 4px 15px rgba(0,0,0,0.03);">
-                <i class="fas fa-graduation-cap" style="font-size:36px; color:var(--success); margin-bottom:12px;"></i>
-                <h3 style="font-size:38px; font-weight:800; margin-bottom:4px;">${coursesData.length}</h3>
-                <p style="color:var(--text-muted); font-size:13px;">Catalog Courses</p>
+            <div class="dashboard-stat-card">
+                <i class="fas fa-graduation-cap" style="color:var(--success);"></i>
+                <h3>${coursesData.length}</h3>
+                <p>Catalog Courses</p>
             </div>
         </div>
 
         <!-- Enrolled Courses -->
-        <div style="max-width:820px; margin:0 auto 30px; background:var(--bg-panel); border:1px solid var(--glass-border); padding:30px; border-radius:18px; box-shadow:0 4px 15px rgba(0,0,0,0.03);">
+        <div class="dashboard-panel">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
                 <h3 style="font-size:20px; color:var(--primary-accent); margin:0;">
                     <i class="fas fa-laptop-code"></i> My Enrolled Tracks
@@ -2045,14 +2778,14 @@ function renderDashboard() {
             ${enrolledHTML}
         </div>
 
-        <div style="max-width:820px; margin:0 auto 30px; background:var(--bg-panel); border:1px solid var(--glass-border); padding:30px; border-radius:18px; box-shadow:0 4px 15px rgba(0,0,0,0.03);">
+        <div class="dashboard-panel">
             <h3 style="font-size:20px; margin-bottom:20px; color:var(--primary-accent);">
                 <i class="fas fa-history"></i> Assessment History
             </h3>
             ${recentHTML}
         </div>
 
-        <div id="certificates-section" style="max-width:820px; margin:0 auto 30px; background:var(--bg-panel); border:1px solid var(--glass-border); padding:30px; border-radius:18px; box-shadow:0 4px 15px rgba(0,0,0,0.03);">
+        <div id="certificates-section" class="dashboard-panel">
             <h3 style="font-size:20px; margin-bottom:20px; color:var(--primary-accent);">
                 <i class="fas fa-certificate"></i> My Certificates
             </h3>
@@ -2165,8 +2898,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const errorEl = document.getElementById('auth-error-msg');
             if (errorEl) errorEl.innerHTML = '';
 
+            const hp = document.getElementById('student-auth-hp')?.value || '';
+            if (hp) {
+                console.warn('Bot submission blocked via honeypot trap.');
+                return;
+            }
+
             const endpoint = isSignUpMode ? `${AUTH_API_URL}/register` : `${AUTH_API_URL}/login`;
-            const payload = isSignUpMode ? { name, email, password } : { email, password };
+            const payload = isSignUpMode ? { name, email, password, website_hp: hp } : { email, password, website_hp: hp };
 
             try {
                 const response = await fetch(endpoint, {
@@ -2184,9 +2923,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateUserUI(data.user);
                 closeAuthModal();
                 if (data.message && data.message.includes('Owner')) {
-                    alert(data.message);
+                    showToast(data.message, 'info');
                 } else {
-                    alert(`Welcome ${data.user.name}!`);
+                    showToast(`Welcome, ${data.user.name}! 👋`, 'success');
                 }
                 navigateTo('dashboard');
             } catch (err) {
@@ -2209,7 +2948,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         saveStudentName(newUser.name);
                         updateUserUI(newUser);
                         closeAuthModal();
-                        alert(`Welcome to Learn Me, ${newUser.name}! 🎉`);
+                        showToast(`Welcome to Learn Me, ${newUser.name}! 🎉`, 'success');
                         navigateTo('dashboard');
                     } else {
                         const user = users.find(u => u.email === email && u.password === password);
@@ -2221,7 +2960,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         saveStudentName(user.name);
                         updateUserUI(user);
                         closeAuthModal();
-                        alert(`Welcome back, ${user.name}! 👋`);
+                        showToast(`Welcome back, ${user.name}! 👋`, 'success');
                         navigateTo('dashboard');
                     }
                 } else {
@@ -2583,4 +3322,13 @@ function showMyCertificates() {
             certificateSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }, 300);
+}
+
+// Progressive Web App (PWA) Service Worker Registration
+if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Learn Me PWA Service Worker Registered:', reg.scope))
+            .catch(err => console.debug('Service Worker Registration Note:', err.message));
+    });
 }

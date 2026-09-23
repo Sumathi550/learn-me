@@ -1,0 +1,485 @@
+ [
+    {
+        "id": 1,
+        "question": "What is JavaScript primarily used for?",
+        "options": [
+            "Adding interactivity and dynamic behavior to applications",
+            "Managing computer hardware",
+            "Replacing all databases",
+            "Creating only operating systems"
+        ],
+        "answer": "Adding interactivity and dynamic behavior to applications",
+        "explanation": "JavaScript is widely used to add dynamic behavior and interactivity to web applications, and it can also be used on servers and other environments."
+    },
+    {
+        "id": 2,
+        "question": "Which keyword declares a block-scoped variable that can be reassigned?",
+        "options": ["var", "let", "const", "static"],
+        "answer": "let",
+        "explanation": "let creates a block-scoped variable whose value can be reassigned."
+    },
+    {
+        "id": 3,
+        "question": "Which keyword declares a block-scoped binding that cannot be reassigned?",
+        "options": ["var", "let", "const", "dynamic"],
+        "answer": "const",
+        "explanation": "const creates a block-scoped binding that cannot be reassigned, although object properties may still be modified."
+    },
+    {
+        "id": 4,
+        "question": "Which keyword historically creates a function-scoped variable?",
+        "options": ["let", "const", "var", "define"],
+        "answer": "var",
+        "explanation": "var declarations are generally function-scoped rather than block-scoped."
+    },
+    {
+        "id": 5,
+        "question": "Which operator checks both value and type equality?",
+        "options": ["=", "==", "===", "!="],
+        "answer": "===",
+        "explanation": "The strict equality operator (===) compares values without performing type coercion."
+    },
+    {
+        "id": 6,
+        "question": "Which data type represents a true or false value?",
+        "options": ["String", "Boolean", "Number", "Object"],
+        "answer": "Boolean",
+        "explanation": "Boolean values represent logical true or false."
+    },
+    {
+        "id": 7,
+        "question": "Which keyword is used to define a function?",
+        "options": ["function", "func", "def", "method"],
+        "answer": "function",
+        "explanation": "The function keyword can be used to declare a traditional JavaScript function."
+    },
+    {
+        "id": 8,
+        "question": "What is an arrow function?",
+        "options": [
+            "A shorter syntax for writing a function expression",
+            "A type of loop",
+            "A database query",
+            "A CSS selector"
+        ],
+        "answer": "A shorter syntax for writing a function expression",
+        "explanation": "Arrow functions provide a concise syntax for function expressions and have lexical this behavior."
+    },
+    {
+        "id": 9,
+        "question": "Which keyword is used to return a value from a function?",
+        "options": ["break", "continue", "return", "yield"],
+        "answer": "return",
+        "explanation": "The return statement ends a function and optionally provides a value to the caller."
+    },
+    {
+        "id": 10,
+        "question": "What is an array?",
+        "options": [
+            "An ordered collection of values",
+            "A single Boolean value",
+            "A type of loop",
+            "A function only"
+        ],
+        "answer": "An ordered collection of values",
+        "explanation": "An array stores multiple values in an ordered sequence."
+    },
+
+    {
+        "id": 11,
+        "question": "Which method adds an element to the end of an array?",
+        "options": ["pop()", "shift()", "push()", "slice()"],
+        "answer": "push()",
+        "explanation": "push() adds one or more elements to the end of an array."
+    },
+    {
+        "id": 12,
+        "question": "Which method removes the last element from an array?",
+        "options": ["pop()", "push()", "shift()", "unshift()"],
+        "answer": "pop()",
+        "explanation": "pop() removes and returns the last element of an array."
+    },
+    {
+        "id": 13,
+        "question": "Which method removes the first element from an array?",
+        "options": ["push()", "pop()", "shift()", "slice()"],
+        "answer": "shift()",
+        "explanation": "shift() removes and returns the first element of an array."
+    },
+    {
+        "id": 14,
+        "question": "Which method adds an element to the beginning of an array?",
+        "options": ["push()", "unshift()", "pop()", "concat()"],
+        "answer": "unshift()",
+        "explanation": "unshift() adds one or more elements to the beginning of an array."
+    },
+    {
+        "id": 15,
+        "question": "Which array method creates a new array by transforming every element?",
+        "options": ["filter()", "map()", "find()", "forEach()"],
+        "answer": "map()",
+        "explanation": "map() creates a new array by applying a callback function to every element."
+    },
+    {
+        "id": 16,
+        "question": "Which array method creates a new array containing elements that match a condition?",
+        "options": ["map()", "filter()", "reduce()", "sort()"],
+        "answer": "filter()",
+        "explanation": "filter() returns a new array containing only elements for which the callback returns a truthy value."
+    },
+    {
+        "id": 17,
+        "question": "Which array method combines array elements into a single value?",
+        "options": ["map()", "filter()", "reduce()", "find()"],
+        "answer": "reduce()",
+        "explanation": "reduce() processes array elements and accumulates them into a single result."
+    },
+    {
+        "id": 18,
+        "question": "Which method is commonly used to find the first element that satisfies a condition?",
+        "options": ["find()", "filter()", "map()", "every()"],
+        "answer": "find()",
+        "explanation": "find() returns the first element that satisfies the provided testing function, or undefined if none match."
+    },
+    {
+        "id": 19,
+        "question": "What is an object in JavaScript?",
+        "options": [
+            "A collection of properties and values",
+            "Only a numeric variable",
+            "A loop statement",
+            "A compiler"
+        ],
+        "answer": "A collection of properties and values",
+        "explanation": "Objects store data as properties and can also contain methods."
+    },
+    {
+        "id": 20,
+        "question": "Which syntax is commonly used to access an object property?",
+        "options": ["object.property", "object->property", "object::property", "object#property"],
+        "answer": "object.property",
+        "explanation": "Dot notation accesses a property using syntax such as object.property."
+    },
+
+    {
+        "id": 21,
+        "question": "What is destructuring?",
+        "options": [
+            "Extracting values from arrays or properties from objects into variables",
+            "Deleting an object",
+            "Creating a loop",
+            "Converting JavaScript to CSS"
+        ],
+        "answer": "Extracting values from arrays or properties from objects into variables",
+        "explanation": "Destructuring provides a convenient syntax for extracting values from arrays and properties from objects."
+    },
+    {
+        "id": 22,
+        "question": "What does the spread operator (...) commonly do?",
+        "options": [
+            "Expands an iterable or object into individual values or properties",
+            "Stops a loop",
+            "Creates a class",
+            "Handles exceptions"
+        ],
+        "answer": "Expands an iterable or object into individual values or properties",
+        "explanation": "The spread syntax expands arrays, iterables, or object properties in appropriate contexts."
+    },
+    {
+        "id": 23,
+        "question": "What does the rest parameter syntax (...) do in a function parameter list?",
+        "options": [
+            "Collects remaining arguments into an array",
+            "Deletes arguments",
+            "Stops the function",
+            "Creates an object"
+        ],
+        "answer": "Collects remaining arguments into an array",
+        "explanation": "A rest parameter collects remaining arguments passed to a function into an array."
+    },
+    {
+        "id": 24,
+        "question": "What is a Promise?",
+        "options": [
+            "An object representing the eventual completion or failure of an asynchronous operation",
+            "A type of HTML element",
+            "A CSS framework",
+            "A synchronous loop"
+        ],
+        "answer": "An object representing the eventual completion or failure of an asynchronous operation",
+        "explanation": "A Promise represents the eventual result of an asynchronous operation."
+    },
+    {
+        "id": 25,
+        "question": "Which keyword is used to define an asynchronous function?",
+        "options": ["await", "async", "promise", "defer"],
+        "answer": "async",
+        "explanation": "The async keyword declares an asynchronous function that can use await."
+    },
+
+    {
+        "id": 26,
+        "question": "What does await do?",
+        "options": [
+            "Waits for a Promise to settle inside an async context",
+            "Stops JavaScript permanently",
+            "Creates a loop",
+            "Deletes a Promise"
+        ],
+        "answer": "Waits for a Promise to settle inside an async context",
+        "explanation": "await pauses execution within the async function until the awaited Promise settles."
+    },
+    {
+        "id": 27,
+        "question": "What is the DOM?",
+        "options": [
+            "A programming interface representing an HTML or XML document",
+            "A JavaScript data type",
+            "A database",
+            "A CSS property"
+        ],
+        "answer": "A programming interface representing an HTML or XML document",
+        "explanation": "The Document Object Model represents a document as objects that JavaScript can access and modify."
+    },
+    {
+        "id": 28,
+        "question": "Which method selects the first element matching a CSS selector?",
+        "options": [
+            "querySelector()",
+            "getElementsByClassName()",
+            "selectElement()",
+            "findElement()"
+        ],
+        "answer": "querySelector()",
+        "explanation": "querySelector() returns the first element that matches the specified CSS selector."
+    },
+    {
+        "id": 29,
+        "question": "Which method is commonly used to attach an event handler?",
+        "options": [
+            "addEventListener()",
+            "attachEvent()",
+            "onClick()",
+            "addHandler()"
+        ],
+        "answer": "addEventListener()",
+        "explanation": "addEventListener() registers a function to be called when a specified event occurs."
+    },
+    {
+        "id": 30,
+        "question": "Which event commonly occurs when a user clicks an element?",
+        "options": ["hover", "click", "change", "submit"],
+        "answer": "click",
+        "explanation": "The click event occurs when a pointing device button is pressed and released on an element."
+    },
+
+    {
+        "id": 31,
+        "question": "What is JSON?",
+        "options": [
+            "A text format for storing and exchanging structured data",
+            "A JavaScript loop",
+            "A CSS file",
+            "A database engine"
+        ],
+        "answer": "A text format for storing and exchanging structured data",
+        "explanation": "JSON is a lightweight text-based format commonly used for data exchange."
+    },
+    {
+        "id": 32,
+        "question": "Which method converts a JavaScript object into a JSON string?",
+        "options": [
+            "JSON.parse()",
+            "JSON.stringify()",
+            "JSON.convert()",
+            "JSON.object()"
+        ],
+        "answer": "JSON.stringify()",
+        "explanation": "JSON.stringify() converts a JavaScript value into a JSON string."
+    },
+    {
+        "id": 33,
+        "question": "Which method converts a JSON string into a JavaScript value?",
+        "options": [
+            "JSON.parse()",
+            "JSON.stringify()",
+            "JSON.decode()",
+            "JSON.read()"
+        ],
+        "answer": "JSON.parse()",
+        "explanation": "JSON.parse() parses a valid JSON string and returns the corresponding JavaScript value."
+    },
+    {
+        "id": 34,
+        "question": "What is localStorage used for?",
+        "options": [
+            "Storing data in the browser that persists across sessions",
+            "Storing data only during a function call",
+            "Compiling JavaScript",
+            "Creating API routes"
+        ],
+        "answer": "Storing data in the browser that persists across sessions",
+        "explanation": "localStorage stores data associated with a browser origin and typically persists after the browser is closed."
+    },
+    {
+        "id": 35,
+        "question": "What is sessionStorage primarily used for?",
+        "options": [
+            "Storing data for the duration of a page session",
+            "Permanently storing database records",
+            "Running server code",
+            "Creating CSS styles"
+        ],
+        "answer": "Storing data for the duration of a page session",
+        "explanation": "sessionStorage stores data for a page session and is cleared when the relevant browser tab or window session ends."
+    },
+
+    {
+        "id": 36,
+        "question": "What is event bubbling?",
+        "options": [
+            "An event propagating from a target element toward its ancestors",
+            "Deleting an event",
+            "Creating multiple events",
+            "Stopping an event before it starts"
+        ],
+        "answer": "An event propagating from a target element toward its ancestors",
+        "explanation": "During bubbling, an event triggered on an element can propagate upward through its ancestor elements."
+    },
+    {
+        "id": 37,
+        "question": "What does event.preventDefault() do?",
+        "options": [
+            "Prevents the browser's default action for an event",
+            "Stops all JavaScript",
+            "Deletes the event listener",
+            "Creates a new event"
+        ],
+        "answer": "Prevents the browser's default action for an event",
+        "explanation": "preventDefault() cancels the default action associated with an event when that action is cancelable."
+    },
+    {
+        "id": 38,
+        "question": "What does event.stopPropagation() do?",
+        "options": [
+            "Stops further propagation of the event through the DOM",
+            "Prevents the browser's default action",
+            "Deletes the element",
+            "Stops JavaScript execution permanently"
+        ],
+        "answer": "Stops further propagation of the event through the DOM",
+        "explanation": "stopPropagation() prevents the event from continuing through the propagation phases."
+    },
+    {
+        "id": 39,
+        "question": "What is a closure?",
+        "options": [
+            "A function together with access to its lexical environment",
+            "A closed HTML tag",
+            "A type of CSS selector",
+            "A database connection"
+        ],
+        "answer": "A function together with access to its lexical environment",
+        "explanation": "A closure allows a function to retain access to variables from its lexical scope even after the outer function has returned."
+    },
+    {
+        "id": 40,
+        "question": "What is hoisting?",
+        "options": [
+            "JavaScript behavior where declarations are processed before code execution in their scope",
+            "A method for deleting variables",
+            "A type of loop",
+            "A CSS animation"
+        ],
+        "answer": "JavaScript behavior where declarations are processed before code execution in their scope",
+        "explanation": "JavaScript processes declarations before executing code, though the exact behavior differs between var, let, const, and function declarations."
+    },
+
+    {
+        "id": 41,
+        "question": "What is the output?\n\nlet x = 10;\nconsole.log(x++);",
+        "options": ["10", "11", "9", "undefined"],
+        "answer": "10",
+        "explanation": "The post-increment operator returns the current value first and then increments x."
+    },
+    {
+        "id": 42,
+        "question": "What is the output?\n\nlet x = 10;\nconsole.log(++x);",
+        "options": ["10", "11", "9", "undefined"],
+        "answer": "11",
+        "explanation": "The pre-increment operator increments x before returning its value."
+    },
+    {
+        "id": 43,
+        "question": "What is the result of typeof null in JavaScript?",
+        "options": ["null", "object", "undefined", "number"],
+        "answer": "object",
+        "explanation": "typeof null returns 'object' due to a long-standing historical behavior of JavaScript."
+    },
+    {
+        "id": 44,
+        "question": "Which value represents an intentionally absent or empty object reference?",
+        "options": ["undefined", "null", "NaN", "false"],
+        "answer": "null",
+        "explanation": "null is commonly used to explicitly represent the intentional absence of an object value."
+    },
+    {
+        "id": 45,
+        "question": "Which value commonly indicates that a variable has been declared but has not been assigned a value?",
+        "options": ["null", "undefined", "false", "NaN"],
+        "answer": "undefined",
+        "explanation": "A declared variable that has not been assigned a value has the value undefined."
+    },
+
+    {
+        "id": 46,
+        "question": "What is NaN?",
+        "options": [
+            "A special numeric value representing an invalid numeric result",
+            "A null object",
+            "An empty string",
+            "A Boolean value"
+        ],
+        "answer": "A special numeric value representing an invalid numeric result",
+        "explanation": "NaN stands for 'Not-a-Number' and represents a numeric value that is not a valid number."
+    },
+    {
+        "id": 47,
+        "question": "Which statement is used to handle multiple possible values of an expression?",
+        "options": ["if", "switch", "for", "try"],
+        "answer": "switch",
+        "explanation": "A switch statement selects among multiple branches based on the value of an expression."
+    },
+    {
+        "id": 48,
+        "question": "Which loop is commonly used to iterate over iterable values such as arrays?",
+        "options": ["for...of", "for...in", "switch", "while only"],
+        "answer": "for...of",
+        "explanation": "for...of iterates over values produced by an iterable, such as array elements."
+    },
+    {
+        "id": 49,
+        "question": "What does optional chaining (?.) help with?",
+        "options": [
+            "Safely accessing properties when intermediate values may be null or undefined",
+            "Creating optional functions only",
+            "Deleting object properties",
+            "Converting objects to JSON"
+        ],
+        "answer": "Safely accessing properties when intermediate values may be null or undefined",
+        "explanation": "Optional chaining returns undefined instead of throwing an error when a null or undefined value is encountered in the chain."
+    },
+    {
+        "id": 50,
+        "question": "What does the nullish coalescing operator (??) return?",
+        "options": [
+            "The right-hand value only when the left-hand value is null or undefined",
+            "The right-hand value whenever the left-hand value is false",
+            "A Boolean value",
+            "An empty string"
+        ],
+        "answer": "The right-hand value only when the left-hand value is null or undefined",
+        "explanation": "The ?? operator uses its right-hand operand only when the left-hand operand is null or undefined."
+    }
+]
+

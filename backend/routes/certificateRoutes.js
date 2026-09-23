@@ -7,7 +7,9 @@ const { CertificatePayment } = require('../models');
 const { Activity } = require('../models');
 const { requireAuth } = require('../middleware/authMiddleware');
 
-// Student Certificate Generation Request
+const { getCourseMetrics } = require('../utils/courseProgressHelper');
+
+// Student Certificate Generation Request (Strict 100% Course Completion Verification)
 router.post('/generate', requireAuth, async (req, res) => {
     try {
         const { courseId } = req.body;
@@ -15,10 +17,44 @@ router.post('/generate', requireAuth, async (req, res) => {
 
         const normalizedCourseId = courseId.toLowerCase().trim();
         const course = await Course.findOne({ courseId: normalizedCourseId });
-        const progress = await Progress.findOne({ userId: req.user._id, courseId: normalizedCourseId });
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found.' });
+        }
 
-        if (!progress || (!progress.eligibleForCertificate && !progress.quizPassed)) {
-            return res.status(403).json({ message: 'A passing score of 70% or higher is required to generate a certificate.' });
+        const progress = await Progress.findOne({ userId: req.user._id, courseId: normalizedCourseId });
+        if (!progress) {
+            return res.status(403).json({
+                message: 'Certificate unavailable. Please complete the entire course before claiming your certificate.',
+                reasons: ['No course progress recorded. You must complete all required lessons, modules, and quizzes.']
+            });
+        }
+
+        // Server-Side Verification: Course must be 100% complete (All required lessons/modules + required quizzes >= 70%)
+        const metrics = getCourseMetrics(course, progress);
+
+        if (!metrics.isFullyCompleted) {
+            const reasons = [];
+            if (metrics.completedModulesCount < metrics.totalModules) {
+                reasons.push(`Completed ${metrics.completedModulesCount} of ${metrics.totalModules} required modules.`);
+            }
+            if (metrics.quizzesCompleted < metrics.totalQuizzes) {
+                reasons.push(`Passed ${metrics.quizzesCompleted} of ${metrics.totalQuizzes} required quizzes (score >= 70%).`);
+            }
+            return res.status(403).json({
+                message: 'Certificate unavailable. You must complete 100% of all required lessons, modules, and pass all required quizzes (score >= 70%) before claiming your certificate.',
+                reasons,
+                metrics: {
+                    courseProgress: metrics.overallPercentage,
+                    modulesCompleted: metrics.completedModulesCount,
+                    totalModules: metrics.totalModules,
+                    quizzesCompleted: metrics.quizzesCompleted,
+                    totalQuizzes: metrics.totalQuizzes,
+                    quizPassed: metrics.quizPassed,
+                    isFullyCompleted: metrics.isFullyCompleted,
+                    moduleDetails: metrics.moduleDetails,
+                    quizDetails: metrics.quizDetails
+                }
+            });
         }
 
         let cert = await Certificate.findOne({ userId: req.user._id, courseId: normalizedCourseId });
@@ -31,12 +67,20 @@ router.post('/generate', requireAuth, async (req, res) => {
                 userId: req.user._id,
                 userName: req.user.name,
                 courseId: normalizedCourseId,
-                courseName: course ? course.title : normalizedCourseId,
+                courseName: course.title || normalizedCourseId,
                 score: progress.quizScore || 85,
-                percentage: progress.quizScore || 85,
+                percentage: 100, // 100% Course completion
+                completionDate: new Date(),
                 verificationCode: certCode,
                 status: 'valid',
                 paymentStatus: 'paid'
+            });
+
+            await Activity.create({
+                userId: req.user._id,
+                action: 'CERTIFICATE_GENERATED',
+                details: `Generated official certificate ${certCode} for completing ${course.title} (100% Course Completion)`,
+                ipAddress: req.ip || req.headers['x-forwarded-for'] || '127.0.0.1'
             });
         }
 
@@ -60,12 +104,15 @@ router.get('/my-certificates', requireAuth, async (req, res) => {
 router.get('/download/:certificateId', requireAuth, async (req, res) => {
     try {
         const cert = await Certificate.findOne({
-            certificateId: req.params.certificateId.toUpperCase(),
-            userId: req.user._id
+            certificateId: req.params.certificateId.toUpperCase()
         });
 
         if (!cert) {
-            return res.status(404).json({ message: 'Certificate not found or does not belong to your account.' });
+            return res.status(404).json({ message: 'Certificate not found in registry.' });
+        }
+
+        if (String(cert.userId) !== String(req.user._id) && req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Forbidden: You do not have permission to download another student\'s certificate.' });
         }
 
         if (cert.status === 'revoked') {
@@ -117,6 +164,7 @@ router.get('/verify/:certificateId', async (req, res) => {
 
         const certPayload = {
             valid: cert.status === 'valid',
+            isValid: cert.status === 'valid',
             status: cert.status,
             certificateId: cert.certificateId,
             courseName: cert.courseName,

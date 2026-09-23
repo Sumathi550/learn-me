@@ -1,0 +1,26 @@
+{
+  "name": "Learn Me - Premium AI Learning Platform",
+  "short_name": "Learn Me",
+  "description": "Learn programming, AI, data science, and earn accredited certificates.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0d1b3d",
+  "theme_color": "#0d1b3d",
+  "orientation": "any",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "assets/learnme-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/learnme-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Assessment Center (50 Questions) | Learn Me</title>
+    <link rel="icon" href="assets/learnme-logo.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css?v=5">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <style>
+        .quiz-portal-wrap {
+            max-width: 1280px;
+            margin: 28px auto 80px;
+            padding: 0 20px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        /* Course Tracks Selector Ribbon */
+        .track-ribbon {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 6px 4px 16px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(37, 99, 235, 0.3) transparent;
+            margin-bottom: 24px;
+        }
+        .track-ribbon::-webkit-scrollbar {
+            height: 6px;
+        }
+        .track-ribbon::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 0.3);
+            border-radius: 99px;
+        }
+        .track-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 99px;
+            background: #ffffff;
+            border: 1.5px solid rgba(13, 27, 61, 0.1);
+            color: var(--text-main);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            flex-shrink: 0;
+        }
+        .track-pill:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+            transform: translateY(-1px);
+        }
+        .track-pill.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.28);
+        }
+
+        /* Mode Selector Tabs */
+        .mode-tabs {
+            display: flex;
+            background: rgba(13, 27, 61, 0.05);
+            padding: 5px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            gap: 6px;
+            max-width: 600px;
+        }
+        .mode-tab {
+            flex: 1;
+            padding: 10px 16px;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .mode-tab.active {
+            background: #ffffff;
+            color: #2563eb;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        /* Main Quiz Layout: Left Question Card, Right Palette */
+        .quiz-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+            align-items: start;
+        }
+        @media (max-width: 992px) {
+            .quiz-grid-layout {
+                grid-template-columns: 1fr;
+            }
+            .palette-card {
+                position: static !important;
+                order: 2;
+            }
+        }
+
+        .question-card {
+            background: var(--bg-panel, #ffffff);
+            border: 1px solid var(--glass-border, rgba(13, 27, 61, 0.1));
+            border-radius: 22px;
+            padding: clamp(22px, 4vw, 36px);
+            box-shadow: 0 8px 30px rgba(13, 27, 61, 0.05);
+        }
+
+        .palette-card {
+            background: var(--bg-panel, #ffffff);
+            border: 1px solid var(--glass-border, rgba(13, 27, 61, 0.1));
+            border-radius: 22px;
+            padding: 22px;
+            box-shadow: 0 8px 30px rgba(13, 27, 61, 0.05);
+            position: sticky;
+            top: 92px;
+        }
+
+        /* 50-Questions Palette Grid */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 14px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .palette-btn {
+            height: 38px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(13, 27, 61, 0.12);
+            background: #f8fafc;
+            color: var(--text-main);
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .palette-btn:hover {
+            border-color: #2563eb;
+            transform: scale(1.05);
+        }
+        .palette-btn.current {
+            border: 2px solid #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+            background: #ffffff;
+            color: #2563eb;
+        }
+        .palette-btn.answered {
+            background: #10b981;
+            border-color: #10b981;
+            color: #ffffff;
+        }
+        .palette-btn.reviewed {
+            background: #f59e0b;
+            border-color: #f59e0b;
+            color: #ffffff;
+        }
+
+        /* Option Item */
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            border-radius: 14px;
+            border: 2px solid rgba(13, 27, 61, 0.09);
+            background: rgba(13, 27, 61, 0.015);
+            margin-bottom: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .option-item:hover {
+            border-color: rgba(37, 99, 235, 0.4);
+            background: rgba(37, 99, 235, 0.03);
+            transform: translateX(4px);
+        }
+        .option-item.selected {
+            border-color: #2563eb;
+            background: rgba(37, 99, 235, 0.08);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
+        }
+        .option-letter {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(13, 27, 61, 0.06);
+            color: var(--text-main);
+            font-weight: 800;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        .option-item.selected .option-letter {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        /* Modal Overlay */
+        .quiz-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 23, 54, 0.78);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+        .quiz-modal-box {
+            background: #ffffff;
+            border-radius: 24px;
+            max-width: 600px;
+            width: 100%;
+            padding: clamp(24px, 4vw, 40px);
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        /* Review Item in Results */
+        .review-box {
+            text-align: left;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(13, 27, 61, 0.08);
+            margin-bottom: 12px;
+            font-size: 13.5px;
+        }
+        .review-box.correct {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        .review-box.incorrect {
+            background: rgba(239, 68, 68, 0.06);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= HEADER & NAVIGATION ================= -->
+    <header>
+        <nav class="container">
+            <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+                <img src="assets/learnme-logo.png" alt="Learn Me Logo" width="116" height="34" />
+            </div>
+
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="courses.html" class="nav-link">Courses</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="quiz.html" class="nav-link active">Quiz</a></li>
+                <li><a href="verify.html" class="nav-link">Verify</a></li>
+            </ul>
+
+            <div class="user-auth-section" id="user-auth-section">
+                <a href="dashboard.html" class="btn btn-sm btn-outline">
+                    <i class="fas fa-gauge"></i> My Dashboard
+                </a>
+                <div class="menu-btn" id="menu-btn" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="nav-backdrop" id="nav-backdrop"></div>
+
+    <main class="quiz-portal-wrap">
+        
+        <!-- Track Switcher Ribbon: Access Every Course/Page -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+                <i class="fas fa-compass" style="color: #2563eb;"></i> Select Subject Track:
+            </div>
+            <a href="courses.html" style="font-size: 13px; color: #2563eb; text-decoration: none; font-weight: 600;">
+                View All Course Curriculums &rarr;
+            </a>
+        </div>
+
+        <div class="track-ribbon" id="track-ribbon">
+            <!-- Injected via JavaScript -->
+        </div>
+
+        <!-- Mode Selector: 50-Questions Final Exam vs Practice Quiz -->
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
+            <div class="mode-tabs">
+                <button class="mode-tab active" id="tab-final-mode" onclick="switchMode('final')">
+                    <i class="fas fa-graduation-cap"></i> 50-Question Exam (+50% Progress)
+                </button>
+                <button class="mode-tab" id="tab-practice-mode" onclick="switchMode('practice')">
+                    <i class="fas fa-bolt"></i> Practice Quiz (+25% Progress)
+                </button>
+            </div>
+
+            <!-- Timer Badge -->
+            <div style="background: rgba(37, 99, 235, 0.08); border: 1.5px solid rgba(37, 99, 235, 0.25); padding: 8px 18px; border-radius: 99px; font-weight: 700; color: #2563eb; display: flex; align-items: center; gap: 8px; font-size: 15px;">
+                <i class="far fa-clock"></i> Time Remaining: <span id="timer-display" style="font-family: 'Outfit', monospace; font-size: 16px;">45:00</span>
+            </div>
+        </div>
+
+        <!-- Main Live Quiz Area -->
+        <div class="quiz-grid-layout">
+            
+            <!-- Left: Active Question Card -->
+            <div class="question-card" id="question-card">
+                <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(13,27,61,0.08); padding-bottom: 16px; margin-bottom: 24px; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <span id="quiz-badge-mode" style="background: rgba(37,99,235,0.1); color: #2563eb; font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 99px; text-transform: uppercase;">
+                            Final Assessment
+                        </span>
+                        <h1 id="quiz-course-title" style="font-family: 'Outfit', sans-serif; font-size: clamp(20px, 3.5vw, 24px); font-weight: 800; margin: 8px 0 0; color: var(--text-main);">
+                            Python Assessment
+                        </h1>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 13px; color: var(--text-muted);">Passing Threshold</div>
+                        <div style="font-size: 18px; font-weight: 800; color: #10b981;" id="passing-score-label">&ge; 70% (35/50)</div>
+                    </div>
+                </div>
+
+                <!-- Question Step & Progress -->
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="font-weight: 700; font-size: 14px; color: #2563eb;" id="question-step-label">
+                        Question 1 of 50
+                    </span>
+                    <span style="font-size: 13px; color: var(--text-muted);" id="answered-count-badge">
+                        0 Answered
+                    </span>
+                </div>
+                <div style="width: 100%; height: 6px; background: rgba(13,27,61,0.06); border-radius: 99px; overflow: hidden; margin-bottom: 24px;">
+                    <div id="question-progress-bar" style="width: 2%; height: 100%; background: #2563eb; border-radius: 99px; transition: width 0.2s;"></div>
+                </div>
+
+                <!-- Question Title -->
+                <h2 id="question-text" style="font-size: clamp(17px, 2.5vw, 19px); font-weight: 700; color: var(--text-main); line-height: 1.5; margin: 0 0 28px; word-break: break-word;">
+                    Loading question...
+                </h2>
+
+                <!-- Options List -->
+                <div id="options-container">
+                    <!-- Injected via JS -->
+                </div>
+
+                <!-- Navigation Controls -->
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 36px; gap: 12px; flex-wrap: wrap;">
+                    <button id="prev-btn" class="btn btn-outline" style="padding: 11px 22px;" onclick="prevQuestion()" disabled>
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button id="review-btn" class="btn btn-outline" style="padding: 11px 18px; color: #f59e0b; border-color: rgba(245,158,11,0.4);" onclick="toggleMarkForReview()">
+                            <i class="far fa-bookmark"></i> Mark for Review
+                        </button>
+                        <button id="next-btn" class="btn btn-primary" style="padding: 11px 26px;" onclick="nextQuestion()">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: 50-Questions Navigator Palette -->
+            <div class="palette-card">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                    <h3 style="font-family: 'Outfit', sans-serif; font-size: 17px; font-weight: 800; margin: 0; color: var(--text-main);">
+                        Question Palette (<span id="palette-total-count">50</span>)
+                    </h3>
+                    <span style="font-size: 12px; font-weight: 700; color: #2563eb;" id="palette-answered-ratio">0/50</span>
+                </div>
+
+                <div style="display: flex; gap: 10px; font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px; flex-wrap: wrap;">
+                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px; height:10px; border-radius:3px; background:#10b981;"></span> Answered</span>
+                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px; height:10px; border-radius:3px; background:#f59e0b;"></span> Review</span>
+                    <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px; height:10px; border-radius:3px; background:#f8fafc; border:1px solid #ccc;"></span> Unvisited</span>
+                </div>
+
+                <div class="palette-grid" id="palette-grid">
+                    <!-- 50 buttons injected via JS -->
+                </div>
+
+                <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(13,27,61,0.08);">
+                    <button class="btn btn-primary" style="width: 100%; justify-content: center; padding: 13px; font-weight: 800; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);" onclick="confirmSubmitQuiz()">
+                        <i class="fas fa-paper-plane"></i> Submit Assessment
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Results & Mark Calculation Modal -->
+    <div class="quiz-modal" id="result-modal">
+        <div class="quiz-modal-box">
+            <div id="result-icon-wrap" style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 38px;"></div>
+            
+            <h2 id="result-title" style="font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; margin: 0 0 8px; color: var(--text-main);">
+                Assessment Results
+            </h2>
+            <p id="result-desc" style="color: #64748b; font-size: 15px; margin: 0 0 24px; line-height: 1.5;"></p>
+
+            <!-- Score breakdown grid -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; background: #f8fafc; padding: 18px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
+                <div>
+                    <div style="font-size: 28px; font-weight: 800; color: #2563eb;" id="res-score-pct">0%</div>
+                    <div style="font-size: 12px; color: #64748b; font-weight: 600;">Your Score</div>
+                </div>
+                <div>
+                    <div style="font-size: 28px; font-weight: 800; color: #0f172a;" id="res-score-raw">0/50</div>
+                    <div style="font-size: 12px; color: #64748b; font-weight: 600;">Marks Scored</div>
+                </div>
+                <div>
+                    <div style="font-size: 28px; font-weight: 800; color: #10b981;" id="res-score-req">70%</div>
+                    <div style="font-size: 12px; color: #64748b; font-weight: 600;">Passing Mark</div>
+                </div>
+            </div>
+
+            <!-- Progress Added Banner -->
+            <div id="progress-awarded-banner" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 24px; color: #065f46; font-size: 14px; font-weight: 700; display: none;">
+                <i class="fas fa-chart-line"></i> +50% Progress Added! Total Course Progress: <span id="awarded-course-progress">100%</span>
+            </div>
+
+            <!-- Action buttons -->
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <a id="claim-cert-btn" href="#" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 14px; font-size: 15px; font-weight: 800; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; display: none; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);">
+                    <i class="fas fa-award"></i> View / Claim Official Certificate
+                </a>
+                
+                <button onclick="toggleAnswerReview()" id="review-answers-btn" class="btn btn-outline" style="width: 100%; justify-content: center; padding: 11px;">
+                    <i class="fas fa-list-check"></i> Review All Answers & Explanations
+                </button>
+
+                <button onclick="retakeQuiz()" class="btn btn-outline" style="width: 100%; justify-content: center; padding: 11px;">
+                    <i class="fas fa-redo"></i> Retake Assessment
+                </button>
+
+                <a id="back-curriculum-btn" href="courses.html" class="btn btn-outline" style="width: 100%; justify-content: center; padding: 11px;">
+                    <i class="fas fa-arrow-left"></i> Back to Course Curriculum
+                </a>
+            </div>
+
+            <!-- Expandable Detailed Review -->
+            <div id="detailed-review-wrap" style="display: none; margin-top: 24px; max-height: 300px; overflow-y: auto; text-align: left;">
+                <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 12px; color: var(--text-main);">Question Breakdown:</h4>
+                <div id="detailed-review-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Submit Dialog -->
+    <div class="quiz-modal" id="confirm-modal">
+        <div class="quiz-modal-box" style="max-width: 480px;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(37,99,235,0.1); color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 16px;">
+                <i class="fas fa-question"></i>
+            </div>
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 800; margin: 0 0 10px;">Ready to Submit?</h3>
+            <p id="confirm-unanswered-warning" style="color: #64748b; font-size: 14.5px; margin: 0 0 24px; line-height: 1.5;">
+                You have answered 0 of 50 questions. Once submitted, your mark will be calculated immediately.
+            </p>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn btn-outline" style="flex: 1; justify-content: center;" onclick="closeConfirmModal()">Keep Answering</button>
+                <button class="btn btn-primary" style="flex: 1; justify-content: center; font-weight: 700;" onclick="submitQuizDirectly()">Confirm Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/nav-auth.js"></script>
+    <script>
+        // Track definitions for all subjects
+        const ALL_TRACKS = [
+            { id: 'python', name: 'Python Programming', icon: 'fab fa-python' },
+            { id: 'c', name: 'C Programming', icon: 'fas fa-code' },
+            { id: 'c++', name: 'C++ Programming', icon: 'fas fa-laptop-code' },
+            { id: 'java', name: 'Java Programming', icon: 'fab fa-java' },
+            { id: 'advanced-aptitude', name: 'Advanced Aptitude', icon: 'fas fa-brain' },
+            { id: 'numpy', name: 'NumPy', icon: 'fas fa-cubes' },
+            { id: 'pandas', name: 'Pandas', icon: 'fas fa-table' },
+            { id: 'statistics', name: 'Statistics for ML', icon: 'fas fa-chart-pie' },
+            { id: 'ml', name: 'Machine Learning', icon: 'fas fa-robot' },
+            { id: 'dl', name: 'Deep Learning', icon: 'fas fa-network-wired' },
+            { id: 'cv', name: 'Computer Vision', icon: 'fas fa-eye' },
+            { id: 'c#', name: 'C# and .NET', icon: 'fas fa-terminal' },
+            { id: 'dot_net', name: '.NET Development', icon: 'fas fa-server' },
+            { id: 'js', name: 'JavaScript', icon: 'fab fa-js' },
+            { id: 'html&css', name: 'HTML and CSS', icon: 'fab fa-html5' },
+            { id: 'react', name: 'React', icon: 'fab fa-react' },
+            { id: 'sql', name: 'SQL', icon: 'fas fa-database' },
+            { id: 'dsa', name: 'Data Structures & Algo', icon: 'fas fa-project-diagram' },
+            { id: 'mangodb', name: 'MongoDB', icon: 'fas fa-leaf' },
+            { id: 'github', name: 'Git & GitHub', icon: 'fab fa-github' }
+        ];
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let currentCourseId = (urlParams.get('course') || 'python').toLowerCase();
+        let currentMode = (urlParams.get('mode') || 'final').toLowerCase(); // 'final' (50 Qs) or 'practice' (10 Qs)
+
+        let questions = [];
+        let currentIdx = 0;
+        let selectedAnswers = {}; // { qIndex: selectedOptionIndex }
+        let markedForReview = new Set();
+        let timeRemaining = 45 * 60; // 45 minutes for 50 questions
+        let timerInterval = null;
+        let startTime = Date.now();
+        let reviewDataCache = null;
+
+        // Initialize Assessment Portal
+        async function initAssessment() {
+            renderTrackRibbon();
+            updateModeUI();
+            document.getElementById('back-curriculum-btn').href = `course-details.html?course=${encodeURIComponent(currentCourseId)}`;
+
+            await loadQuestions();
+            setupKeyboardShortcuts();
+        }
+
+        function renderTrackRibbon() {
+            const ribbon = document.getElementById('track-ribbon');
+            ribbon.innerHTML = ALL_TRACKS.map(t => `
+                <a href="quiz.html?course=${t.id}&mode=${currentMode}" class="track-pill ${t.id === currentCourseId ? 'active' : ''}">
+                    <i class="${t.icon}"></i> ${t.name}
+                </a>
+            `).join('');
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            window.location.href = `quiz.html?course=${encodeURIComponent(currentCourseId)}&mode=${mode}`;
+        }
+
+        function updateModeUI() {
+            const isFinal = currentMode === 'final';
+            document.getElementById('tab-final-mode').className = `mode-tab ${isFinal ? 'active' : ''}`;
+            document.getElementById('tab-practice-mode').className = `mode-tab ${!isFinal ? 'active' : ''}`;
+            
+            document.getElementById('quiz-badge-mode').textContent = isFinal ? '50-Questions Exam (+50% Progress)' : '10-Question Practice (+25% Progress)';
+            timeRemaining = isFinal ? 45 * 60 : 15 * 60;
+        }
+
+        function shuffleQuestionOptions(q) {
+            if (!q || !Array.isArray(q.options)) return;
+            if (q.shuffledOptions && q.shuffledOptions.length === q.options.length) return;
+            const mapped = q.options.map((opt, origIdx) => ({
+                text: opt,
+                origIdx: origIdx
+            }));
+            // Fisher-Yates shuffle
+            for (let i = mapped.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [mapped[i], mapped[j]] = [mapped[j], mapped[i]];
+            }
+            q.shuffledOptions = mapped;
+        }
+
+        async function loadQuestions() {
+            const isFinal = currentMode === 'final';
+            const limit = isFinal ? 50 : 10;
+            
+            document.getElementById('question-text').textContent = 'Loading questions from bank...';
+
+            try {
+                // Fetch from central API endpoint
+                const res = await StudentAPI.get(`/courses/${currentCourseId}/quiz?limit=${limit}`);
+                const data = res.data || res;
+                questions = data.questions || [];
+                // Shuffle options for all questions
+                questions.forEach(shuffleQuestionOptions);
+
+                const courseTitle = data.title || currentCourseId.toUpperCase();
+                
+                document.getElementById('quiz-course-title').textContent = `${courseTitle} ${isFinal ? 'Final Exam' : 'Practice Quiz'}`;
+                const passPct = data.passingScore || 70;
+                const reqCount = Math.ceil((passPct / 100) * (questions.length || limit));
+                document.getElementById('passing-score-label').innerHTML = `&ge; ${passPct}% (${reqCount}/${questions.length || limit})`;
+                document.getElementById('palette-total-count').textContent = questions.length;
+
+                if (questions.length === 0) {
+                    document.getElementById('question-card').innerHTML = `<p style="color: #ef4444; padding: 20px;">No assessment questions configured for this course yet.</p>`;
+                    return;
+                }
+
+                currentIdx = 0;
+                selectedAnswers = {};
+                markedForReview.clear();
+                startTime = Date.now();
+
+                buildPaletteGrid();
+                renderQuestion();
+                startTimer();
+            } catch (err) {
+                console.error('Failed to load quiz:', err);
+                document.getElementById('question-text').textContent = 'Failed to load assessment. Please check your network connection.';
+            }
+        }
+
+        function buildPaletteGrid() {
+            const grid = document.getElementById('palette-grid');
+            grid.innerHTML = questions.map((_, idx) => `
+                <button class="palette-btn" id="pal-btn-${idx}" onclick="jumpToQuestion(${idx})">
+                    ${idx + 1}
+                </button>
+            `).join('');
+            updatePaletteStatus();
+        }
+
+        function updatePaletteStatus() {
+            const answeredCount = Object.keys(selectedAnswers).length;
+            document.getElementById('palette-answered-ratio').textContent = `${answeredCount}/${questions.length}`;
+            document.getElementById('answered-count-badge').textContent = `${answeredCount} Answered`;
+
+            questions.forEach((_, idx) => {
+                const btn = document.getElementById(`pal-btn-${idx}`);
+                if (!btn) return;
+                
+                btn.className = 'palette-btn';
+                if (idx === currentIdx) btn.classList.add('current');
+                if (selectedAnswers[idx] !== undefined) btn.classList.add('answered');
+                if (markedForReview.has(idx)) btn.classList.add('reviewed');
+            });
+        }
+
+        function renderQuestion() {
+            if (!questions || questions.length === 0) return;
+            const q = questions[currentIdx];
+            const total = questions.length;
+
+            document.getElementById('question-step-label').textContent = `Question ${currentIdx + 1} of ${total}`;
+            const pct = Math.round(((currentIdx + 1) / total) * 100);
+            document.getElementById('question-progress-bar').style.width = `${pct}%`;
+
+            document.getElementById('question-text').textContent = q.q || q.question || `Question ${currentIdx + 1}`;
+
+            // Ensure options are shuffled
+            if (!q.shuffledOptions) shuffleQuestionOptions(q);
+            const options = q.shuffledOptions || (q.options || []).map((opt, origIdx) => ({ text: opt, origIdx }));
+            const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+            const container = document.getElementById('options-container');
+
+            container.innerHTML = options.map((optItem, displayIdx) => {
+                const isSelected = selectedAnswers[currentIdx] === optItem.origIdx;
+                return `
+                    <div class="option-item ${isSelected ? 'selected' : ''}" onclick="selectOption(${optItem.origIdx})">
+                        <div class="option-letter">${letters[displayIdx] || displayIdx + 1}</div>
+                        <div style="font-size: 15px; font-weight: 500; color: var(--text-main); line-height: 1.4;">${optItem.text}</div>
+                    </div>
+                `;
+            }).join('');
+
+            // Update Review button state
+            const reviewBtn = document.getElementById('review-btn');
+            if (markedForReview.has(currentIdx)) {
+                reviewBtn.innerHTML = `<i class="fas fa-bookmark"></i> Marked for Review`;
+                reviewBtn.style.background = '#f59e0b';
+                reviewBtn.style.color = '#ffffff';
+            } else {
+                reviewBtn.innerHTML = `<i class="far fa-bookmark"></i> Mark for Review`;
+                reviewBtn.style.background = 'none';
+                reviewBtn.style.color = '#f59e0b';
+            }
+
+            // Previous / Next buttons
+            document.getElementById('prev-btn').disabled = currentIdx === 0;
+            const nextBtn = document.getElementById('next-btn');
+            if (currentIdx === total - 1) {
+                nextBtn.innerHTML = `Finish & Review <i class="fas fa-check"></i>`;
+            } else {
+                nextBtn.innerHTML = `Next <i class="fas fa-arrow-right"></i>`;
+            }
+
+            updatePaletteStatus();
+        }
+
+        function selectOption(optIdx) {
+            selectedAnswers[currentIdx] = optIdx;
+            renderQuestion();
+        }
+
+        function toggleMarkForReview() {
+            if (markedForReview.has(currentIdx)) {
+                markedForReview.delete(currentIdx);
+            } else {
+                markedForReview.add(currentIdx);
+            }
+            renderQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentIdx < questions.length - 1) {
+                currentIdx++;
+                renderQuestion();
+            } else {
+                confirmSubmitQuiz();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIdx > 0) {
+                currentIdx--;
+                renderQuestion();
+            }
+        }
+
+        function jumpToQuestion(idx) {
+            if (idx >= 0 && idx < questions.length) {
+                currentIdx = idx;
+                renderQuestion();
+            }
+        }
+
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+                
+                if (e.key === 'ArrowRight') nextQuestion();
+                if (e.key === 'ArrowLeft') prevQuestion();
+                const q = questions[currentIdx];
+                const opts = q?.shuffledOptions;
+                if (opts && opts.length > 0) {
+                    if (['1', 'a', 'A'].includes(e.key) && opts[0]) selectOption(opts[0].origIdx);
+                    if (['2', 'b', 'B'].includes(e.key) && opts[1]) selectOption(opts[1].origIdx);
+                    if (['3', 'c', 'C'].includes(e.key) && opts[2]) selectOption(opts[2].origIdx);
+                    if (['4', 'd', 'D'].includes(e.key) && opts[3]) selectOption(opts[3].origIdx);
+                }
+            });
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            const display = document.getElementById('timer-display');
+
+            timerInterval = setInterval(() => {
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuizDirectly();
+                    return;
+                }
+                timeRemaining--;
+                const mins = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+                const secs = (timeRemaining % 60).toString().padStart(2, '0');
+                display.textContent = `${mins}:${secs}`;
+                if (timeRemaining < 300) {
+                    display.style.color = '#ef4444';
+                }
+            }, 1000);
+        }
+
+        function confirmSubmitQuiz() {
+            const answered = Object.keys(selectedAnswers).length;
+            const total = questions.length;
+            const unanswered = total - answered;
+
+            const warning = document.getElementById('confirm-unanswered-warning');
+            if (unanswered > 0) {
+                warning.innerHTML = `You have answered <strong>${answered}</strong> of <strong>${total}</strong> questions. (${unanswered} questions are currently unanswered).<br>Are you sure you want to finalize and calculate your score now?`;
+            } else {
+                warning.innerHTML = `Great job! You have answered all <strong>${total}</strong> questions. Ready to submit and calculate your mark?`;
+            }
+
+            document.getElementById('confirm-modal').style.display = 'flex';
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirm-modal').style.display = 'none';
+        }
+
+        async function submitQuizDirectly() {
+            closeConfirmModal();
+            if (timerInterval) clearInterval(timerInterval);
+
+            // Format answers array
+            const answersArray = questions.map((q, idx) => {
+                return selectedAnswers[idx] !== undefined ? selectedAnswers[idx] : -1;
+            });
+
+            const timeTaken = Math.round((Date.now() - startTime) / 1000);
+            const isFinal = currentMode === 'final';
+            const quizId = isFinal ? 'final' : 'practice';
+
+            try {
+                const res = await StudentAPI.post('/quiz/submit', {
+                    courseId: currentCourseId,
+                    answers: answersArray,
+                    quizId,
+                    timeTakenSeconds: timeTaken,
+                    questionIds: questions.map(q => q.qId !== undefined ? q.qId : q.id)
+                });
+
+                const result = res.data || res;
+                reviewDataCache = result.reviewData || [];
+                showResults(result);
+            } catch (err) {
+                console.error('Quiz submission error:', err);
+                alert('Submission could not be completed. Please ensure you are logged in.');
+            }
+        }
+
+        function showResults(result) {
+            const modal = document.getElementById('result-modal');
+            const iconWrap = document.getElementById('result-icon-wrap');
+            const title = document.getElementById('result-title');
+            const desc = document.getElementById('result-desc');
+            const certBtn = document.getElementById('claim-cert-btn');
+            const progressBanner = document.getElementById('progress-awarded-banner');
+
+            const score = result.score || 0;
+            const rawScore = result.rawScore || 0;
+            const total = result.total || questions.length;
+            const passed = result.passed || false;
+            const passingScore = result.passingScore || 70;
+
+            document.getElementById('res-score-pct').textContent = `${score}%`;
+            document.getElementById('res-score-raw').textContent = `${rawScore}/${total}`;
+            document.getElementById('res-score-req').textContent = `${passingScore}%`;
+
+            if (passed) {
+                iconWrap.style.background = 'rgba(16, 185, 129, 0.15)';
+                iconWrap.style.color = '#10b981';
+                iconWrap.innerHTML = `<i class="fas fa-check-circle"></i>`;
+                title.textContent = `🎉 Congratulations, You Passed!`;
+                desc.textContent = `You scored ${rawScore}/${total} (${score}%), beating the ${passingScore}% passing mark! Your knowledge mastery is verified.`;
+
+                // Fire celebration confetti!
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+                }
+
+                // Show Certificate claim button
+                certBtn.style.display = 'inline-flex';
+                certBtn.href = `certificate.html?course=${encodeURIComponent(currentCourseId)}`;
+
+                // Show Progress banner
+                progressBanner.style.display = 'block';
+                document.getElementById('awarded-course-progress').textContent = `${result.courseProgress || 100}%`;
+            } else {
+                iconWrap.style.background = 'rgba(239, 68, 68, 0.15)';
+                iconWrap.style.color = '#ef4444';
+                iconWrap.innerHTML = `<i class="fas fa-times-circle"></i>`;
+                title.textContent = `Assessment Incomplete`;
+                desc.textContent = `You scored ${rawScore}/${total} (${score}%). A passing mark of at least ${passingScore}% (${Math.ceil((passingScore/100)*total)}/${total}) is required to unlock your verified certificate.`;
+
+                certBtn.style.display = 'none';
+                progressBanner.style.display = 'none';
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function toggleAnswerReview() {
+            const wrap = document.getElementById('detailed-review-wrap');
+            const list = document.getElementById('detailed-review-list');
+            if (wrap.style.display === 'block') {
+                wrap.style.display = 'none';
+                return;
+            }
+
+            if (!reviewDataCache || reviewDataCache.length === 0) {
+                list.innerHTML = `<p style="color: #64748b;">No answer review data available.</p>`;
+            } else {
+                list.innerHTML = reviewDataCache.map((item, idx) => `
+                    <div class="review-box ${item.isCorrect ? 'correct' : 'incorrect'}">
+                        <div style="font-weight: 700; margin-bottom: 4px;">
+                            ${idx + 1}. ${item.q}
+                        </div>
+                        <div style="font-size: 13px; margin-bottom: 2px;">
+                            Your Answer: <strong>${item.options[item.userAnswer] || 'Not Answered'}</strong> 
+                            ${item.isCorrect ? '<span style="color:#10b981; font-weight:700;">(Correct)</span>' : '<span style="color:#ef4444; font-weight:700;">(Incorrect)</span>'}
+                        </div>
+                        ${!item.isCorrect ? `<div style="font-size: 13px; color: #10b981; font-weight: 600;">Correct Answer: ${item.options[item.answer]}</div>` : ''}
+                        <div style="font-size: 12px; color: #64748b; margin-top: 4px; font-style: italic;">
+                            ${item.explanation || 'Consult the course curriculum for details.'}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            wrap.style.display = 'block';
+        }
+
+        function retakeQuiz() {
+            window.location.reload();
+        }
+
+        document.addEventListener('DOMContentLoaded', initAssessment);
+    </script>
+</body>
+</html>

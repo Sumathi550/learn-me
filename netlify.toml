@@ -1,0 +1,79 @@
+# ==============================================================================
+# LEARN ME - NETLIFY CONFIGURATION FILE
+# Full-Stack Deployment: Static Frontend + Serverless Express Backend API
+# ==============================================================================
+
+[build]
+  publish = "frontend"
+  functions = "netlify/functions"
+  command = "npm run build"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["backend/**"]
+
+# ===============================
+# REDIRECTS & API REWRITES
+# ===============================
+
+# Route all /api calls to the Netlify Serverless Function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# Clean Sub-page URLs
+[[redirects]]
+  from = "/database"
+  to = "/database.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/quiz"
+  to = "/quize.html"
+  status = 200
+
+[[redirects]]
+  from = "/quize"
+  to = "/quize.html"
+  status = 200
+
+[[redirects]]
+  from = "/verify"
+  to = "/verify.html"
+  status = 200
+
+[[redirects]]
+  from = "/verify-certificate/:certificateId"
+  to = "/verify.html?certificate=:certificateId"
+  status = 200
+
+# ===============================
+# SECURITY & CACHING HEADERS
+# ===============================
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

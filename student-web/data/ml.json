@@ -1,0 +1,602 @@
+[
+  {
+    "id": 1,
+    "question": "What is Machine Learning?",
+    "options": [
+      "A method of teaching computers to learn from data",
+      "A type of computer hardware",
+      "A database system",
+      "A web development language"
+    ],
+    "answer": "A method of teaching computers to learn from data",
+    "explanation": "Machine Learning is a branch of Artificial Intelligence where computers learn patterns from data and make predictions or decisions."
+  },
+  {
+    "id": 2,
+    "question": "Machine Learning is a subset of which field?",
+    "options": [
+      "Artificial Intelligence",
+      "Computer Networking",
+      "Cyber Security",
+      "Web Development"
+    ],
+    "answer": "Artificial Intelligence",
+    "explanation": "Machine Learning is a major branch of Artificial Intelligence that focuses on learning from data."
+  },
+  {
+    "id": 3,
+    "question": "Which type of Machine Learning uses labeled data?",
+    "options": [
+      "Supervised Learning",
+      "Unsupervised Learning",
+      "Reinforcement Learning",
+      "Random Learning"
+    ],
+    "answer": "Supervised Learning",
+    "explanation": "Supervised Learning trains a model using labeled input-output data."
+  },
+  {
+    "id": 4,
+    "question": "Which type of Machine Learning uses unlabeled data?",
+    "options": [
+      "Supervised Learning",
+      "Unsupervised Learning",
+      "Reinforcement Learning",
+      "Deep Learning"
+    ],
+    "answer": "Unsupervised Learning",
+    "explanation": "Unsupervised Learning finds hidden patterns or groups in unlabeled data."
+  },
+  {
+    "id": 5,
+    "question": "Which Machine Learning type learns through rewards and penalties?",
+    "options": [
+      "Supervised Learning",
+      "Unsupervised Learning",
+      "Reinforcement Learning",
+      "Regression"
+    ],
+    "answer": "Reinforcement Learning",
+    "explanation": "Reinforcement Learning uses rewards and penalties to help an agent learn the best actions."
+  },
+  {
+    "id": 6,
+    "question": "What is a dataset?",
+    "options": [
+      "A collection of data",
+      "A programming language",
+      "A computer processor",
+      "A network protocol"
+    ],
+    "answer": "A collection of data",
+    "explanation": "A dataset is a structured collection of data used for training, testing, or analyzing Machine Learning models."
+  },
+  {
+    "id": 7,
+    "question": "What are features in Machine Learning?",
+    "options": [
+      "Input variables used for prediction",
+      "Final predictions",
+      "Programming errors",
+      "Database tables"
+    ],
+    "answer": "Input variables used for prediction",
+    "explanation": "Features are the input variables or attributes that a model uses to learn patterns."
+  },
+  {
+    "id": 8,
+    "question": "What is the target variable?",
+    "options": [
+      "The value that the model tries to predict",
+      "The input data",
+      "A programming function",
+      "A type of feature"
+    ],
+    "answer": "The value that the model tries to predict",
+    "explanation": "The target variable is the output or result that the Machine Learning model aims to predict."
+  },
+  {
+    "id": 9,
+    "question": "Which algorithm is commonly used for classification?",
+    "options": [
+      "Decision Tree",
+      "Linear Regression",
+      "K-Means",
+      "PCA"
+    ],
+    "answer": "Decision Tree",
+    "explanation": "Decision Trees can be used for classification by splitting data into different categories."
+  },
+  {
+    "id": 10,
+    "question": "Which algorithm is commonly used to predict continuous values?",
+    "options": [
+      "Linear Regression",
+      "K-Means",
+      "KNN Classification",
+      "Apriori"
+    ],
+    "answer": "Linear Regression",
+    "explanation": "Linear Regression predicts continuous numerical values such as price or temperature."
+  },
+  {
+    "id": 11,
+    "question": "What is classification?",
+    "options": [
+      "Predicting categories or classes",
+      "Grouping unlabeled data only",
+      "Reducing data size",
+      "Sorting a database"
+    ],
+    "answer": "Predicting categories or classes",
+    "explanation": "Classification predicts which category or class a data point belongs to."
+  },
+  {
+    "id": 12,
+    "question": "What is regression?",
+    "options": [
+      "Predicting continuous numerical values",
+      "Grouping data into clusters",
+      "Removing missing values",
+      "Encrypting data"
+    ],
+    "answer": "Predicting continuous numerical values",
+    "explanation": "Regression models predict numerical values that can vary continuously."
+  },
+  {
+    "id": 13,
+    "question": "Which algorithm is commonly used for clustering?",
+    "options": [
+      "K-Means",
+      "Linear Regression",
+      "Logistic Regression",
+      "Naive Bayes"
+    ],
+    "answer": "K-Means",
+    "explanation": "K-Means groups similar data points into clusters."
+  },
+  {
+    "id": 14,
+    "question": "What does K in K-Means represent?",
+    "options": [
+      "Number of clusters",
+      "Number of features",
+      "Number of datasets",
+      "Number of predictions"
+    ],
+    "answer": "Number of clusters",
+    "explanation": "In K-Means, K specifies how many clusters the algorithm should create."
+  },
+  {
+    "id": 15,
+    "question": "What is training data?",
+    "options": [
+      "Data used to train a model",
+      "Data used only for final testing",
+      "Incorrect data",
+      "Deleted data"
+    ],
+    "answer": "Data used to train a model",
+    "explanation": "Training data is used by the model to learn patterns and relationships."
+  },
+  {
+    "id": 16,
+    "question": "What is testing data?",
+    "options": [
+      "Data used to evaluate the trained model",
+      "Data used to train the model",
+      "Duplicate data",
+      "Missing data"
+    ],
+    "answer": "Data used to evaluate the trained model",
+    "explanation": "Testing data is used to evaluate how well the trained model performs on unseen data."
+  },
+  {
+    "id": 17,
+    "question": "What is overfitting?",
+    "options": [
+      "Performing well on training data but poorly on new data",
+      "Performing poorly on all data",
+      "Having too little data only",
+      "Deleting features"
+    ],
+    "answer": "Performing well on training data but poorly on new data",
+    "explanation": "Overfitting happens when a model memorizes training data instead of learning general patterns."
+  },
+  {
+    "id": 18,
+    "question": "What is underfitting?",
+    "options": [
+      "The model is too simple to learn the patterns",
+      "The model memorizes all training data",
+      "The model has high accuracy",
+      "The model has no dataset"
+    ],
+    "answer": "The model is too simple to learn the patterns",
+    "explanation": "Underfitting occurs when a model is too simple and cannot capture important patterns in the data."
+  },
+  {
+    "id": 19,
+    "question": "What is accuracy?",
+    "options": [
+      "The proportion of correct predictions",
+      "The number of features",
+      "The size of the dataset",
+      "The training time"
+    ],
+    "answer": "The proportion of correct predictions",
+    "explanation": "Accuracy measures how many predictions were correct out of all predictions."
+  },
+  {
+    "id": 20,
+    "question": "What is a confusion matrix used for?",
+    "options": [
+      "Evaluating classification models",
+      "Training neural networks",
+      "Storing datasets",
+      "Creating websites"
+    ],
+    "answer": "Evaluating classification models",
+    "explanation": "A confusion matrix compares actual classes with predicted classes to evaluate a classifier."
+  },
+  {
+    "id": 21,
+    "question": "What does KNN stand for?",
+    "options": [
+      "K-Nearest Neighbors",
+      "Known Neural Network",
+      "Key Network Node",
+      "Kernel Neural Number"
+    ],
+    "answer": "K-Nearest Neighbors",
+    "explanation": "KNN predicts based on the similarity of nearby data points."
+  },
+  {
+    "id": 22,
+    "question": "What does SVM stand for?",
+    "options": [
+      "Support Vector Machine",
+      "Simple Variable Model",
+      "Supervised Vector Method",
+      "Statistical Value Machine"
+    ],
+    "answer": "Support Vector Machine",
+    "explanation": "SVM is a Machine Learning algorithm that finds an optimal boundary between classes."
+  },
+  {
+    "id": 23,
+    "question": "What does PCA stand for?",
+    "options": [
+      "Principal Component Analysis",
+      "Primary Classification Algorithm",
+      "Predictive Component Analysis",
+      "Parallel Computing Application"
+    ],
+    "answer": "Principal Component Analysis",
+    "explanation": "PCA is a dimensionality reduction technique that transforms data into important components."
+  },
+  {
+    "id": 24,
+    "question": "What is dimensionality reduction?",
+    "options": [
+      "Reducing the number of features",
+      "Increasing the dataset size",
+      "Adding more classes",
+      "Training more models"
+    ],
+    "answer": "Reducing the number of features",
+    "explanation": "Dimensionality reduction simplifies data by reducing the number of input features while preserving useful information."
+  },
+  {
+    "id": 25,
+    "question": "Which library is commonly used for Machine Learning in Python?",
+    "options": [
+      "Scikit-learn",
+      "Flask",
+      "Django",
+      "Matplotlib only"
+    ],
+    "answer": "Scikit-learn",
+    "explanation": "Scikit-learn provides many Machine Learning algorithms and tools for Python."
+  },
+  {
+    "id": 26,
+    "question": "What is data preprocessing?",
+    "options": [
+      "Cleaning and preparing data before training",
+      "Deleting the model",
+      "Creating a website",
+      "Encrypting predictions"
+    ],
+    "answer": "Cleaning and preparing data before training",
+    "explanation": "Data preprocessing prepares raw data by handling missing values, scaling, encoding, and other transformations."
+  },
+  {
+    "id": 27,
+    "question": "Why are missing values handled before training?",
+    "options": [
+      "To improve data quality for the model",
+      "To increase programming errors",
+      "To remove all features",
+      "To stop predictions"
+    ],
+    "answer": "To improve data quality for the model",
+    "explanation": "Missing values can negatively affect model training, so they are handled during preprocessing."
+  },
+  {
+    "id": 28,
+    "question": "What is feature scaling?",
+    "options": [
+      "Transforming features to a similar numerical range",
+      "Deleting all features",
+      "Creating new datasets",
+      "Sorting the target variable"
+    ],
+    "answer": "Transforming features to a similar numerical range",
+    "explanation": "Feature scaling helps algorithms work effectively when features have very different numerical ranges."
+  },
+  {
+    "id": 29,
+    "question": "What is normalization?",
+    "options": [
+      "Scaling values to a specific range",
+      "Adding more data",
+      "Removing labels",
+      "Creating clusters"
+    ],
+    "answer": "Scaling values to a specific range",
+    "explanation": "Normalization transforms numerical values, commonly into a range such as 0 to 1."
+  },
+  {
+    "id": 30,
+    "question": "What is standardization?",
+    "options": [
+      "Transforming data to have a mean of 0 and standard deviation of 1",
+      "Removing all numerical data",
+      "Increasing the number of features",
+      "Creating categories"
+    ],
+    "answer": "Transforming data to have a mean of 0 and standard deviation of 1",
+    "explanation": "Standardization rescales data using its mean and standard deviation."
+  },
+  {
+    "id": 31,
+    "question": "What is cross-validation?",
+    "options": [
+      "Evaluating a model using multiple data splits",
+      "Deleting validation data",
+      "Training only once",
+      "Creating new features"
+    ],
+    "answer": "Evaluating a model using multiple data splits",
+    "explanation": "Cross-validation evaluates model performance across different splits of the available dataset."
+  },
+  {
+    "id": 32,
+    "question": "What is a hyperparameter?",
+    "options": [
+      "A setting chosen before or during model training",
+      "A predicted value",
+      "A missing value",
+      "A database key"
+    ],
+    "answer": "A setting chosen before or during model training",
+    "explanation": "Hyperparameters are configuration values, such as K in KNN or tree depth, that control model behavior."
+  },
+  {
+    "id": 33,
+    "question": "What is a Decision Tree?",
+    "options": [
+      "A model that makes decisions using tree-like rules",
+      "A database structure only",
+      "A programming language",
+      "A neural network layer"
+    ],
+    "answer": "A model that makes decisions using tree-like rules",
+    "explanation": "A Decision Tree splits data based on feature conditions to make predictions."
+  },
+  {
+    "id": 34,
+    "question": "What is Random Forest?",
+    "options": [
+      "An ensemble of multiple Decision Trees",
+      "A single linear equation",
+      "A clustering algorithm only",
+      "A database system"
+    ],
+    "answer": "An ensemble of multiple Decision Trees",
+    "explanation": "Random Forest combines predictions from multiple Decision Trees to improve performance and robustness."
+  },
+  {
+    "id": 35,
+    "question": "What is ensemble learning?",
+    "options": [
+      "Combining multiple models to improve predictions",
+      "Using only one feature",
+      "Deleting training data",
+      "Creating a database"
+    ],
+    "answer": "Combining multiple models to improve predictions",
+    "explanation": "Ensemble learning combines several models to produce better predictions than a single model may provide."
+  },
+  {
+    "id": 36,
+    "question": "What does Logistic Regression mainly perform?",
+    "options": [
+      "Classification",
+      "Clustering only",
+      "Dimensionality reduction",
+      "Data storage"
+    ],
+    "answer": "Classification",
+    "explanation": "Despite its name, Logistic Regression is commonly used for classification problems."
+  },
+  {
+    "id": 37,
+    "question": "What is a binary classification problem?",
+    "options": [
+      "A problem with two possible classes",
+      "A problem with two datasets",
+      "A problem with two features only",
+      "A problem with no labels"
+    ],
+    "answer": "A problem with two possible classes",
+    "explanation": "Binary classification predicts one of two possible categories, such as Yes or No."
+  },
+  {
+    "id": 38,
+    "question": "What is multiclass classification?",
+    "options": [
+      "Classification with more than two classes",
+      "Classification with two classes only",
+      "A regression technique",
+      "A clustering method"
+    ],
+    "answer": "Classification with more than two classes",
+    "explanation": "Multiclass classification assigns data points to one of more than two possible classes."
+  },
+  {
+    "id": 39,
+    "question": "What is precision in classification?",
+    "options": [
+      "The proportion of predicted positives that are actually positive",
+      "The proportion of all predictions that are correct",
+      "The number of features",
+      "The training speed"
+    ],
+    "answer": "The proportion of predicted positives that are actually positive",
+    "explanation": "Precision measures how reliable positive predictions are."
+  },
+  {
+    "id": 40,
+    "question": "What is recall in classification?",
+    "options": [
+      "The proportion of actual positives correctly identified",
+      "The number of correct negative predictions",
+      "The training dataset size",
+      "The number of clusters"
+    ],
+    "answer": "The proportion of actual positives correctly identified",
+    "explanation": "Recall measures how effectively a model finds all actual positive cases."
+  },
+  {
+    "id": 41,
+    "question": "What is the F1-score?",
+    "options": [
+      "A balance between precision and recall",
+      "The number of model features",
+      "The learning rate",
+      "A clustering score only"
+    ],
+    "answer": "A balance between precision and recall",
+    "explanation": "The F1-score combines precision and recall into a single metric using their harmonic mean."
+  },
+  {
+    "id": 42,
+    "question": "What is a prediction in Machine Learning?",
+    "options": [
+      "The output generated by a trained model",
+      "The input dataset",
+      "A programming language",
+      "A missing value"
+    ],
+    "answer": "The output generated by a trained model",
+    "explanation": "A prediction is the result produced when a trained model receives new input data."
+  },
+  {
+    "id": 43,
+    "question": "What is model training?",
+    "options": [
+      "Learning patterns from training data",
+      "Deleting the dataset",
+      "Displaying graphs",
+      "Creating a database"
+    ],
+    "answer": "Learning patterns from training data",
+    "explanation": "During training, a Machine Learning algorithm learns relationships and patterns from the provided data."
+  },
+  {
+    "id": 44,
+    "question": "What is model evaluation?",
+    "options": [
+      "Measuring how well a trained model performs",
+      "Creating new features only",
+      "Deleting predictions",
+      "Increasing the dataset size"
+    ],
+    "answer": "Measuring how well a trained model performs",
+    "explanation": "Model evaluation uses metrics and test data to measure the performance of a trained model."
+  },
+  {
+    "id": 45,
+    "question": "What is bias in Machine Learning?",
+    "options": [
+      "Error caused by overly simple assumptions",
+      "A type of hardware",
+      "The dataset size",
+      "A visualization method"
+    ],
+    "answer": "Error caused by overly simple assumptions",
+    "explanation": "High bias can cause underfitting because the model makes overly simple assumptions about the data."
+  },
+  {
+    "id": 46,
+    "question": "What is variance in Machine Learning?",
+    "options": [
+      "Sensitivity of a model to changes in training data",
+      "The number of predictions",
+      "The dataset format",
+      "A type of cluster"
+    ],
+    "answer": "Sensitivity of a model to changes in training data",
+    "explanation": "High variance means a model can change significantly when trained on different datasets, often leading to overfitting."
+  },
+  {
+    "id": 47,
+    "question": "What is the bias-variance tradeoff?",
+    "options": [
+      "Balancing underfitting and overfitting",
+      "Balancing training and testing data sizes only",
+      "Removing all errors",
+      "Increasing the number of features"
+    ],
+    "answer": "Balancing underfitting and overfitting",
+    "explanation": "The bias-variance tradeoff aims to find a model complexity that generalizes well to new data."
+  },
+  {
+    "id": 48,
+    "question": "Which method can help reduce overfitting?",
+    "options": [
+      "Cross-validation",
+      "Removing all testing data",
+      "Training with incorrect labels",
+      "Using no features"
+    ],
+    "answer": "Cross-validation",
+    "explanation": "Cross-validation helps assess whether a model generalizes well and can support better model selection."
+  },
+  {
+    "id": 49,
+    "question": "What is feature engineering?",
+    "options": [
+      "Creating or improving input features for a model",
+      "Building computer hardware",
+      "Deleting all datasets",
+      "Creating websites"
+    ],
+    "answer": "Creating or improving input features for a model",
+    "explanation": "Feature engineering creates, transforms, or selects useful input variables to improve model performance."
+  },
+  {
+    "id": 50,
+    "question": "What is the main goal of Machine Learning?",
+    "options": [
+      "To enable computers to learn from data and make predictions or decisions",
+      "To replace all programming languages",
+      "To store unlimited data",
+      "To create computer hardware"
+    ],
+    "answer": "To enable computers to learn from data and make predictions or decisions",
+    "explanation": "The main goal of Machine Learning is to enable systems to learn patterns from data and use them for predictions or decisions."
+  }
+]

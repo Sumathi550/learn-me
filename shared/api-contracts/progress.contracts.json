@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProgressContracts",
+  "definitions": {
+    "ProgressMetrics": {
+      "type": "object",
+      "required": [
+        "overallPercentage",
+        "courseProgress",
+        "completedModulesCount",
+        "totalModules",
+        "quizzesCompleted",
+        "totalQuizzes",
+        "eligibleForCertificate",
+        "isFullyCompleted"
+      ],
+      "properties": {
+        "overallPercentage": { "type": "number", "minimum": 0, "maximum": 100 },
+        "courseProgress": { "type": "number", "minimum": 0, "maximum": 100 },
+        "completedModulesCount": { "type": "integer" },
+        "totalModules": { "type": "integer" },
+        "quizzesCompleted": { "type": "integer" },
+        "totalQuizzes": { "type": "integer" },
+        "eligibleForCertificate": { "type": "boolean" },
+        "isFullyCompleted": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["In Progress", "Completed"] }
+      }
+    }
+  }
+}

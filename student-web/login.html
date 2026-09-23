@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Student Sign In | Learn Me</title>
+    <link rel="icon" href="assets/learnme-logo.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css?v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .auth-page-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 16px 64px;
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: clamp(28px, 5vw, 40px);
+            box-shadow: 0 16px 40px rgba(13, 27, 61, 0.08);
+            box-sizing: border-box;
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .auth-icon-badge {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563eb;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+        .auth-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0 0 6px;
+        }
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+        .form-control-wrap {
+            position: relative;
+        }
+        .form-control-wrap i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 15px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 13px 16px 13px 44px;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            color: var(--text-main);
+            font-size: 14.5px;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.15);
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            border-radius: 12px;
+            background: #2563eb;
+            border: none;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-submit:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+        }
+        .alert-box {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #b91c1c;
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .auth-footer a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+                <img src="assets/learnme-logo.png" alt="Learn Me Logo" width="116" height="34" />
+            </div>
+
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="courses.html" class="nav-link">Courses</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+                <li><a href="verify.html" class="nav-link">Verify</a></li>
+            </ul>
+
+            <div class="user-auth-section" id="user-auth-section">
+                <!-- Nav auth dynamically rendered by nav-auth.js -->
+                <div class="menu-btn" id="menu-btn" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="nav-backdrop" id="nav-backdrop"></div>
+
+    <main class="auth-page-main">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-icon-badge">
+                    <i class="fas fa-sign-in-alt"></i>
+                </div>
+                <h1>Student Sign In</h1>
+                <p>Welcome back! Enter your credentials to continue learning.</p>
+            </div>
+
+            <div id="auth-alert" class="alert-box alert-error"></div>
+
+            <form id="student-login-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="form-control-wrap">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" class="form-control" placeholder="name@example.com" required autocomplete="email">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="form-control-wrap">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn" class="btn-submit">
+                    <span>Sign In</span> <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Don't have an account yet? <a href="signup.html">Create free account</a>
+            </div>
+        </div>
+    </main>
+
+    <footer style="text-align: center; padding: 24px 16px; border-top: 1px solid var(--glass-border); color: var(--text-muted); font-size: 13.5px;">
+        <div class="container">
+            &copy; 2026 Learn Me Institute. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/nav-auth.js"></script>
+    <script>
+        document.getElementById('student-login-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const alertBox = document.getElementById('auth-alert');
+            const submitBtn = document.getElementById('submit-btn');
+
+            alertBox.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+
+            try {
+                const res = await StudentAPI.post('/auth/login', { email, password });
+                if (res.token) {
+                    StudentAPI.setToken(res.token);
+                    StudentAPI.setCurrentUser(res.user);
+                    
+                    // Check if there is a redirect parameter
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirectUrl = urlParams.get('redirect') || 'dashboard.html';
+                    window.location.href = redirectUrl;
+                } else {
+                    throw new Error(res.message || 'Login failed.');
+                }
+            } catch (err) {
+                alertBox.textContent = err.message || 'Invalid email or password.';
+                alertBox.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Sign In</span> <i class="fas fa-arrow-right"></i>';
+            }
+        });
+    </script>
+</body>
+</html>

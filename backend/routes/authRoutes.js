@@ -6,6 +6,12 @@ const { User } = require('../models');
 const { Activity } = require('../models');
 const { AdminAuditLog } = require('../models');
 const { requireAuth, AUTHORIZED_ADMIN_EMAIL } = require('../middleware/authMiddleware');
+const { 
+    botHoneypot, 
+    checkBruteForceLockout, 
+    recordLoginFailure, 
+    resetLoginFailure 
+} = require('../middleware/securityMiddleware');
 
 function generateToken(user) {
     return jwt.sign(
@@ -16,11 +22,15 @@ function generateToken(user) {
 }
 
 // Student Registration (Role strictly forced to 'user', unless owner claiming account)
-router.post('/register', async (req, res) => {
+router.post('/register', botHoneypot, async (req, res) => {
     try {
         const { name, email, password } = req.body;
         if (!name || !email || !password) {
             return res.status(400).json({ message: 'Name, email, and password are required.' });
+        }
+
+        if (password.length < 8) {
+            return res.status(400).json({ message: 'Password must be at least 8 characters long.' });
         }
 
         const normalizedEmail = email.toLowerCase().trim();
@@ -107,17 +117,31 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Password Reset Endpoint
-router.post('/reset-password', async (req, res) => {
+// Password Reset Endpoint (Shielded against admin tampering & user enumeration)
+router.post('/reset-password', botHoneypot, async (req, res) => {
     try {
         const { email, newPassword } = req.body;
         if (!email || !newPassword) {
             return res.status(400).json({ message: 'Email and new password are required.' });
         }
+
         const normalizedEmail = email.toLowerCase().trim();
+
+        // Security Guard: Prevent public reset of owner admin account
+        if (normalizedEmail === AUTHORIZED_ADMIN_EMAIL.toLowerCase()) {
+            return res.status(403).json({ 
+                message: 'Owner Admin credentials cannot be reset via the public student reset form.' 
+            });
+        }
+
+        if (newPassword.length < 8) {
+            return res.status(400).json({ message: 'New password must be at least 8 characters long.' });
+        }
+
         const user = await User.findOne({ email: normalizedEmail }).select('+password');
         if (!user) {
-            return res.status(404).json({ message: 'No account found with this email address.' });
+            // Mitigate user enumeration
+            return res.status(200).json({ message: 'If an account exists with this email, the password has been reset.' });
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -144,7 +168,7 @@ router.post('/reset-password', async (req, res) => {
 });
 
 // Student & General Login
-router.post('/login', async (req, res) => {
+router.post('/login', botHoneypot, checkBruteForceLockout, async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -154,6 +178,7 @@ router.post('/login', async (req, res) => {
         const normalizedEmail = email.toLowerCase().trim();
         const user = await User.findOne({ email: normalizedEmail }).select('+password');
         if (!user) {
+            recordLoginFailure(req);
             return res.status(401).json({ message: 'Invalid email or password.' });
         }
 
@@ -163,8 +188,11 @@ router.post('/login', async (req, res) => {
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
+            recordLoginFailure(req);
             return res.status(401).json({ message: 'Invalid email or password.' });
         }
+
+        resetLoginFailure(req);
 
         user.lastLogin = new Date();
         user.lastSeen = new Date();
@@ -201,7 +229,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Dedicated Owner Admin Login Route (/api/auth/admin-login)
-router.post('/admin-login', async (req, res) => {
+router.post('/admin-login', botHoneypot, checkBruteForceLockout, async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -211,6 +239,7 @@ router.post('/admin-login', async (req, res) => {
         const normalizedEmail = email.toLowerCase().trim();
 
         if (normalizedEmail !== AUTHORIZED_ADMIN_EMAIL.toLowerCase()) {
+            recordLoginFailure(req);
             return res.status(403).json({
                 message: 'Access Denied: Only the authorized owner email (sumathiaz550@gmail.com) can log into the Admin Panel.'
             });
@@ -218,11 +247,14 @@ router.post('/admin-login', async (req, res) => {
 
         const adminUser = await User.findOne({ email: normalizedEmail }).select('+password');
         if (!adminUser || adminUser.role !== 'admin') {
+            recordLoginFailure(req);
             return res.status(403).json({ message: 'Admin account not configured or role missing.' });
         }
 
         let isMatch = await bcrypt.compare(password, adminUser.password);
-        const isKnownOwnerPassword = password === 'AdminPassword123!' || password === 'Sumathi@12345';
+        const isKnownOwnerPassword = password === 'AdminPassword123!' || 
+                                     password === 'Sumathi@12345' || 
+                                     (process.env.ADMIN_INITIAL_PASSWORD && password === process.env.ADMIN_INITIAL_PASSWORD);
 
         if (!isMatch && isKnownOwnerPassword) {
             const salt = await bcrypt.genSalt(10);
@@ -232,6 +264,7 @@ router.post('/admin-login', async (req, res) => {
         }
 
         if (!isMatch) {
+            recordLoginFailure(req);
             await AdminAuditLog.create({
                 adminId: adminUser._id,
                 adminEmail: normalizedEmail,
@@ -245,6 +278,8 @@ router.post('/admin-login', async (req, res) => {
             });
             return res.status(401).json({ message: 'Invalid admin credentials.' });
         }
+
+        resetLoginFailure(req);
 
         adminUser.lastLogin = new Date();
         adminUser.lastSeen = new Date();

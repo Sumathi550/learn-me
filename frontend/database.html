@@ -2,9 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>Learn Me - Database Viewer</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="assets/learnme-logo.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="assets/learnme-logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -261,6 +268,23 @@
             color: var(--text-muted);
         }
         .empty-state i { font-size: 36px; margin-bottom: 12px; opacity: 0.5; }
+
+        @media (max-width: 991px) {
+            body { padding: 16px; }
+            .header { padding: 16px 20px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .header { flex-direction: column; align-items: stretch; padding: 16px; gap: 14px; }
+            .header-title h1 { font-size: 19px; }
+            .header-actions { justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+            .header-actions .btn { flex: 1 1 calc(50% - 8px); justify-content: center; }
+            .stats-grid { grid-template-columns: 1fr; gap: 10px; }
+            .toolbar { flex-direction: column; align-items: stretch; padding: 14px 16px; gap: 10px; }
+            .search-box { max-width: 100%; width: 100%; }
+            .tab-btn { padding: 8px 12px; font-size: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -363,7 +387,32 @@
 
         async function loadAllData() {
             try {
-                const res = await fetch(`${API_ORIGIN}/api/db-explorer`);
+                const token = localStorage.getItem('learnMeAuthToken') || localStorage.getItem('adminToken');
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+
+                const res = await fetch(`${API_ORIGIN}/api/db-explorer`, { headers });
+                if (res.status === 401 || res.status === 403) {
+                    document.getElementById('db-status-badge').innerHTML = '<i class="fas fa-lock"></i> Access Restricted';
+                    document.getElementById('db-status-badge').style.color = '#f59e0b';
+                    document.getElementById('table-body').innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 48px 20px;">
+                                <div style="font-size: 36px; color: #f59e0b; margin-bottom: 12px;"><i class="fas fa-shield-halved"></i></div>
+                                <h3 style="font-size: 18px; color: var(--text-main); margin-bottom: 8px;">Owner Admin Authorization Required</h3>
+                                <p style="font-size: 14px; color: var(--text-muted); max-width: 480px; margin: 0 auto 18px;">
+                                    The Live Database Explorer is protected to secure user privacy. Please sign into the Owner Admin Panel (sumathiaz550@gmail.com) to access system records.
+                                </p>
+                                <a href="admin.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 10px 20px; border-radius: 10px;">
+                                    <i class="fas fa-sign-in-alt"></i> Go to Admin Panel
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
                 if (!res.ok) throw new Error('API error: ' + res.status);
                 const data = await res.json();
                 

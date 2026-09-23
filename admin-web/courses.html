@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Course Management | Learn Me Admin</title>
+    <link rel="icon" href="assets/learnme-logo.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#090d16">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Learn Me Admin">
+    <link rel="apple-touch-icon" href="assets/learnme-logo.png">
+    <link rel="stylesheet" href="css/admin.css?v=3">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-shell">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="admin-sidebar" id="admin-sidebar">
+            <div class="sidebar-header">
+                <img src="assets/learnme-logo.png" alt="Learn Me" class="sidebar-logo">
+                <h2>Learn Me Admin</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" href="dashboard.html" data-view="dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="#" class="nav-item" href="dashboard.html" data-view="database">
+                    <i class="fas fa-database"></i> Database Viewer <span class="badge-pill-live">SQLite</span>
+                </a>
+                <a href="#" class="nav-item" href="courses.html" data-view="courses">
+                    <i class="fas fa-book"></i> Courses
+                </a>
+                <a href="#" class="nav-item" data-view="categories">
+                    <i class="fas fa-folder"></i> Categories
+                </a>
+                <a href="#" class="nav-item" href="users.html" data-view="users">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a href="#" class="nav-item" href="certificates.html" data-view="certificates">
+                    <i class="fas fa-certificate"></i> Certificates
+                </a>
+                <a href="#" class="nav-item" href="analytics.html" data-view="activity">
+                    <i class="fas fa-history"></i> User Activity
+                </a>
+                <a href="#" class="nav-item" href="analytics.html" data-view="audit-log">
+                    <i class="fas fa-shield-alt"></i> Admin Audit Log
+                </a>
+                <a href="#" class="nav-item" href="settings.html" data-view="settings">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="#" class="nav-item" data-view="profile">
+                    <i class="fas fa-user-circle"></i> Profile
+                </a>
+                <a href="http://localhost:3000" target="_blank" class="nav-item" style="margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; color: var(--accent-light);"><i class="fas fa-external-link-alt"></i> Student Website</a>
+                
+                <a href="http://localhost:3000/verify.html" target="_blank" class="nav-item" style="color: var(--accent-light);"><i class="fas fa-shield-alt"></i> Public Verify Portal</a>
+            </nav>
+        </aside>
+        <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+            <!-- HEADER -->
+            <header class="admin-header">
+                <div class="header-content">
+                    <h1 id="page-title">Dashboard</h1>
+                    <p id="page-subtitle" class="subtitle"></p>
+                </div>
+                <div class="header-actions">
+                    <button id="toggle-sidebar" class="btn-icon" title="Toggle sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <button id="refresh-btn" class="btn-icon" title="Refresh">
+                        <i class="fas fa-sync"></i>
+                    </button>
+                    <div class="user-menu">
+                        <button id="user-menu-btn" class="user-menu-btn">
+                            <span id="admin-name">Sumathi (Owner Admin)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-menu-dropdown" id="user-menu-dropdown">
+                            <a href="#" data-view="profile" class="menu-item">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <hr>
+                            <button id="logout-btn" class="menu-item btn-logout">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- LOGIN PANEL -->
+            <section id="login-panel" class="view-panel active">
+                <div class="login-container">
+                    <div class="login-box">
+                        <div class="login-header">
+                            <img src="assets/learnme-logo.png" alt="Learn Me" class="login-logo">
+                            <h1>Owner Admin Sign In</h1>
+                            <p>Authorized access reserved for sumathiaz550@gmail.com</p>
+                        </div>
+                        
+                        <form id="admin-login-form">
+                            <div class="form-group">
+                                <label for="admin-email">Admin Email</label>
+                                <input id="admin-email" type="email" value="sumathiaz550@gmail.com" placeholder="sumathiaz550@gmail.com" required autocomplete="username">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="admin-password">Password</label>
+                                <input id="admin-password" type="password" placeholder="Enter owner admin password" required autocomplete="current-password">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">Sign In to Admin Panel</button>
+                            
+                            <div id="login-error" class="error-message"></div>
+                        </form>
+                        
+                        <div class="login-footer">
+                            <p><small><i class="fas fa-lock"></i> Protected route. Unauthenticated or non-admin attempts are logged and blocked.</small></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DASHBOARD VIEW -->
+            <section id="dashboard-view" class="view-panel">
+                <div id="metric-grid" class="metric-grid"></div>
+                
+                <div class="content-grid">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2>Recent Certificate Activity</h2>
+                        </div>
+                        <div id="recent-certificates" class="list-container"></div>
+                    </div>
+                    
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2>Student Activity Monitor</h2>
+                        </div>
+                        <div id="recent-activity" class="list-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DATABASE VIEWER VIEW -->
+            <section id="database-view" class="view-panel">
+                <div class="db-header-card">
+                    <div class="db-header-info">
+                        <div class="db-title-row">
+                            <h2><i class="fas fa-database" style="color:var(--accent);"></i> Live Database Explorer</h2>
+                            <span class="badge-status online" id="admin-db-status"><i class="fas fa-circle-check"></i> Connected</span>
+                        </div>
+                        <p class="db-meta-text" id="admin-db-meta">Dialect: <strong id="admin-db-dialect">SQLITE</strong> &bull; Storage: <code id="admin-db-storage">backend/data/learnme.sqlite</code> &bull; File Size: <span id="admin-db-size">520 KB</span></p>
+                    </div>
+                    <div class="db-header-actions">
+                        <button class="btn btn-outline" id="db-refresh-btn" onclick="loadAdminDatabase()"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+                        <button class="btn btn-primary" id="db-export-btn" onclick="exportCurrentDbTable()"><i class="fas fa-file-export"></i> Export JSON</button>
+                        <a href="database.html" target="_blank" class="btn btn-secondary" title="Open in separate window"><i class="fas fa-external-link-alt"></i> Fullscreen</a>
+                    </div>
+                </div>
+
+                <!-- Database Stat Grid -->
+                <div class="db-stats-grid">
+                    <div class="db-stat-card" onclick="switchDbTable('users')">
+                        <div class="db-stat-icon users"><i class="fas fa-users"></i></div>
+                        <div class="db-stat-data">
+                            <div class="num" id="db-stat-users">0</div>
+                            <div class="lbl">Users Registered</div>
+                        </div>
+                    </div>
+                    <div class="db-stat-card" onclick="switchDbTable('courses')">
+                        <div class="db-stat-icon courses"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="db-stat-data">
+                            <div class="num" id="db-stat-courses">0</div>
+                            <div class="lbl">Total Courses</div>
+                        </div>
+                    </div>
+                    <div class="db-stat-card" onclick="switchDbTable('enrollments')">
+                        <div class="db-stat-icon enrollments"><i class="fas fa-laptop-code"></i></div>
+                        <div class="db-stat-data">
+                            <div class="num" id="db-stat-enrollments">0</div>
+                            <div class="lbl">Enrollments</div>
+                        </div>
+                    </div>
+                    <div class="db-stat-card" onclick="switchDbTable('certificates')">
+                        <div class="db-stat-icon certs"><i class="fas fa-award"></i></div>
+                        <div class="db-stat-data">
+                            <div class="num" id="db-stat-certificates">0</div>
+                            <div class="lbl">Certificates Issued</div>
+                        </div>
+                    </div>
+                    <div class="db-stat-card" onclick="switchDbTable('payments')">
+                        <div class="db-stat-icon payments"><i class="fas fa-receipt"></i></div>
+                        <div class="db-stat-data">
+                            <div class="num" id="db-stat-payments">0</div>
+                            <div class="lbl">Payments Recorded</div>
+                        </div>
+                    </div>
+                    <div class="db-stat-card" onclick="switchDbTable('auditLogs')">
+                        <div class="db-stat-icon audit"><i class="fas fa-shield-halved"></i></div>
+                        <div class="db-stat-data">
+                            <div class="num" id="db-stat-audit">0</div>
+                            <div class="lbl">Audit Logs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main DB Explorer Card -->
+                <div class="panel db-explorer-panel">
+                    <!-- Tab Switcher -->
+                    <div class="db-tabs-bar">
+                        <button class="db-tab-btn active" data-dbtab="users" onclick="switchDbTable('users')">
+                            <i class="fas fa-users"></i> Users <span class="tab-count-badge" id="dbtab-count-users">0</span>
+                        </button>
+                        <button class="db-tab-btn" data-dbtab="courses" onclick="switchDbTable('courses')">
+                            <i class="fas fa-book"></i> Courses <span class="tab-count-badge" id="dbtab-count-courses">0</span>
+                        </button>
+                        <button class="db-tab-btn" data-dbtab="enrollments" onclick="switchDbTable('enrollments')">
+                            <i class="fas fa-id-badge"></i> Enrollments <span class="tab-count-badge" id="dbtab-count-enrollments">0</span>
+                        </button>
+                        <button class="db-tab-btn" data-dbtab="certificates" onclick="switchDbTable('certificates')">
+                            <i class="fas fa-certificate"></i> Certificates <span class="tab-count-badge" id="dbtab-count-certificates">0</span>
+                        </button>
+                        <button class="db-tab-btn" data-dbtab="payments" onclick="switchDbTable('payments')">
+                            <i class="fas fa-credit-card"></i> Payments <span class="tab-count-badge" id="dbtab-count-payments">0</span>
+                        </button>
+                        <button class="db-tab-btn" data-dbtab="activities" onclick="switchDbTable('activities')">
+                            <i class="fas fa-history"></i> Activities <span class="tab-count-badge" id="dbtab-count-activities">0</span>
+                        </button>
+                        <button class="db-tab-btn" data-dbtab="auditLogs" onclick="switchDbTable('auditLogs')">
+                            <i class="fas fa-shield-alt"></i> Audit Logs <span class="tab-count-badge" id="dbtab-count-auditLogs">0</span>
+                        </button>
+                        <button class="db-tab-btn" data-dbtab="categories" onclick="switchDbTable('categories')">
+                            <i class="fas fa-folder"></i> Categories <span class="tab-count-badge" id="dbtab-count-categories">0</span>
+                        </button>
+                    </div>
+
+                    <!-- DB Toolbar -->
+                    <div class="db-toolbar">
+                        <div class="search-wrap">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="db-search-input" placeholder="Search any column in this table..." oninput="handleDbSearch(this.value)">
+                        </div>
+                        <div class="db-table-meta">
+                            <span id="db-row-counter">Showing all records</span>
+                        </div>
+                    </div>
+
+                    <!-- Table Container -->
+                    <div class="table-container db-table-wrap">
+                        <table class="data-table" id="admin-db-table">
+                            <thead id="admin-db-thead"></thead>
+                            <tbody id="admin-db-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COURSES VIEW -->
+            <section id="courses-view" class="view-panel">
+                <div class="panel-header">
+                    <h2>Course Management</h2>
+                    <button id="new-course-btn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add New Course
+                    </button>
+                </div>
+                
+                <form id="course-form" class="course-form" hidden>
+                    <h3 style="grid-column: span 2; font-size:20px; color:var(--primary-accent); margin-bottom:10px;" id="course-form-title">Create / Edit Course</h3>
+                    <div class="form-group">
+                        <label for="course-id">Course ID (Slug)</label>
+                        <input id="course-id" type="text" placeholder="e.g. python, nodejs" pattern="[a-z0-9-]+" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="course-title">Title</label>
+                        <input id="course-title" type="text" placeholder="Course Title" required>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="course-subtitle">Subtitle / Summary</label>
+                        <input id="course-subtitle" type="text" placeholder="Short description of course" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="course-duration">Duration</label>
+                        <input id="course-duration" type="text" placeholder="e.g. 10 hrs" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="course-difficulty">Difficulty</label>
+                        <select id="course-difficulty" required>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="course-category">Category</label>
+                        <input id="course-category" type="text" placeholder="e.g. Programming, Aptitude" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="course-cert-price">Certificate Download Price (₹)</label>
+                        <input id="course-cert-price" type="number" min="0" placeholder="10 (Aptitude = 100)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="course-passing-score">Passing Score (%)</label>
+                        <input id="course-passing-score" type="number" min="50" max="100" value="70" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="course-status">Status</label>
+                        <select id="course-status" required>
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions" style="grid-column: span 2; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                        <div style="display:flex; gap:10px;">
+                            <button type="submit" class="btn btn-primary">Save Course</button>
+                            <button type="button" id="cancel-course-btn" class="btn btn-secondary">Cancel</button>
+                        </div>
+                        <button type="button" id="form-manage-questions-btn" class="btn btn-outline" style="display:none;" onclick="openActiveCourseQuestions()">
+                            <i class="fas fa-question-circle"></i> Manage Course Questions (<span id="form-questions-count">0</span>)
+                        </button>
+                    </div>
+                    <div id="course-error" class="error-message" style="grid-column: span 2;"></div>
+                </form>
+                
+                <div class="panel">
+                    <div id="courses-table" class="table-container"></div>
+                </div>
+            </section>
+
+            <!-- CATEGORIES VIEW -->
+            <section id="categories-view" class="view-panel">
+                <div class="panel-header">
+                    <h2>Course Category Management</h2>
+                    <button id="new-category-btn" class="btn btn-primary" onclick="openCategoryModal()">
+                        <i class="fas fa-plus"></i> Add Category
+                    </button>
+                </div>
+                <div id="categories-container" class="panel"></div>
+            </section>
+
+            <!-- USERS VIEW -->
+            <section id="users-view" class="view-panel">
+                <div class="panel-header">
+                    <h2>User & Student Management</h2>
+                    <input id="user-search" type="text" placeholder="Search by student name or email..." class="search-input">
+                </div>
+                
+                <div class="panel">
+                    <div id="users-table" class="table-container"></div>
+                </div>
+            </section>
+
+            <!-- CERTIFICATES VIEW -->
+            <section id="certificates-view" class="view-panel">
+                <div class="panel-header">
+                    <h2>Certificate Registry & Management</h2>
+                    <input id="cert-search" type="text" placeholder="Search by Certificate ID or Student..." class="search-input">
+                </div>
+                
+                <div class="panel">
+                    <div id="certificates-table" class="table-container"></div>
+                </div>
+            </section>
+
+            <!-- USER ACTIVITY VIEW -->
+            <section id="activity-view" class="view-panel">
+                <div class="panel-header">
+                    <h2>Live Student Activity Stream</h2>
+                </div>
+                
+                <div class="panel">
+                    <div id="activity-list" class="list-container"></div>
+                </div>
+            </section>
+
+            <!-- AUDIT LOG VIEW -->
+            <section id="audit-log-view" class="view-panel">
+                <div class="panel-header">
+                    <h2>Security & Admin Audit Logs</h2>
+                </div>
+                
+                <div class="panel">
+                    <div id="audit-log-list" class="list-container"></div>
+                </div>
+            </section>
+
+            <!-- SETTINGS VIEW -->
+            <section id="settings-view" class="view-panel">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Platform & Pricing Settings</h2>
+                    </div>
+                    <form id="settings-form" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                        <div class="form-group">
+                            <label for="settings-site-name">Platform Name</label>
+                            <input id="settings-site-name" type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="settings-upi">Admin UPI ID for Payments</label>
+                            <input id="settings-upi" type="text" required placeholder="sumathiaz550@upi">
+                        </div>
+                        <div class="form-group">
+                            <label for="settings-normal-price">Standard Certificate Fee (₹)</label>
+                            <input id="settings-normal-price" type="number" min="0" required value="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="settings-aptitude-price">Aptitude Certificate Fee (₹)</label>
+                            <input id="settings-aptitude-price" type="number" min="0" required value="100">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="settings-instructions">Payment Instructions for Students</label>
+                            <textarea id="settings-instructions" rows="3" style="width:100%; padding:12px; border-radius:8px; border:1px solid #ccc;"></textarea>
+                        </div>
+                        <div style="grid-column: span 2;">
+                            <button type="submit" class="btn btn-primary">Save Platform Settings</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- PROFILE VIEW -->
+            <section id="profile-view" class="view-panel">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Owner Admin Profile</h2>
+                    </div>
+                    
+                    <div id="profile-info"></div>
+                    
+                    <form id="profile-form" class="profile-form">
+                        <div class="form-group">
+                            <label for="profile-name">Owner Name</label>
+                            <input id="profile-name" type="text" value="Sumathi" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-email">Authorized Admin Email</label>
+                            <input id="profile-email" type="email" value="sumathiaz550@gmail.com" disabled>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- USER DETAILS MODAL -->
+    <div id="user-details-modal" class="modal" hidden>
+        <div class="modal-content" style="max-width:700px;">
+            <div class="modal-header">
+                <h2 id="user-modal-title">User Profile & Activity</h2>
+                <button type="button" class="btn-close" onclick="closeUserModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="user-modal-body" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeUserModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CERTIFICATE DETAILS MODAL -->
+    <div id="cert-details-modal" class="modal" hidden>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="cert-modal-title">Certificate Registry Record</h2>
+                <button type="button" class="btn-close" onclick="closeCertModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="cert-modal-body" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeCertModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORY MANAGEMENT MODAL -->
+    <div id="category-modal" class="modal" hidden>
+        <div class="modal-content" style="max-width:540px;">
+            <div class="modal-header">
+                <h2 id="category-modal-title"><i class="fas fa-folder-plus"></i> Add New Category</h2>
+                <button type="button" class="btn-close" onclick="closeCategoryModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="category-form" onsubmit="handleCategoryFormSubmit(event)">
+                <div class="modal-body">
+                    <input type="hidden" id="category-edit-id" value="">
+                    <div class="form-group">
+                        <label for="cat-name">Category Title *</label>
+                        <input id="cat-name" type="text" placeholder="e.g. Artificial Intelligence" required oninput="autoGenerateCategorySlug(this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label for="cat-id">Category ID (Slug) *</label>
+                        <input id="cat-id" type="text" placeholder="e.g. ai-ml" required pattern="[a-z0-9-]+">
+                    </div>
+                    <div class="form-group">
+                        <label for="cat-desc">Description</label>
+                        <textarea id="cat-desc" rows="3" placeholder="Description of this learning path..." style="width:100%; border-radius:8px; padding:10px; border:1px solid #334155; background:var(--bg-input); color:#fff; font-family:inherit;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="cat-icon">FontAwesome Icon Class</label>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <input id="cat-icon" type="text" placeholder="fa-brain, fa-code, fa-laptop-code" value="fa-folder" oninput="updateCatIconPreview(this.value)" style="flex:1;">
+                            <div id="cat-icon-preview" style="width:40px; height:40px; border-radius:8px; background:rgba(56,189,248,0.15); display:flex; align-items:center; justify-content:center; color:var(--accent); font-size:18px;">
+                                <i class="fas fa-folder"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-cat-btn"><i class="fas fa-save"></i> Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DB RECORD INSPECTOR MODAL -->
+    <div id="db-row-modal" class="modal" hidden>
+        <div class="modal-content" style="max-width:760px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-database"></i> Database Record Inspector</h2>
+                <button type="button" class="btn-close" onclick="closeDbRowModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="db-row-modal-body" style="max-height:550px; overflow-y:auto;"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="copyDbRowJson()"><i class="fas fa-copy"></i> Copy JSON</button>
+                <button type="button" class="btn btn-secondary" onclick="closeDbRowModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- COURSE QUESTIONS MANAGEMENT MODAL -->
+    <div id="course-questions-modal" class="modal" hidden>
+        <div class="modal-content" style="max-width:920px; width:95%;">
+            <div class="modal-header">
+                <div>
+                    <h2 id="questions-modal-course-title" style="margin:0 0 4px; display:flex; align-items:center; gap:8px;">
+                        <i class="fas fa-question-circle" style="color:var(--accent);"></i>
+                        Manage Questions: <span id="q-modal-course-name">Course</span>
+                    </h2>
+                    <p style="margin:0; font-size:13px; color:var(--text-muted);">
+                        Course ID: <code id="q-modal-course-id" class="id-pill">python</code> &bull;
+                        <span id="q-modal-count-badge" class="badge badge-primary">0 Questions</span>
+                    </p>
+                </div>
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="toggleAddQuestionForm(true)">
+                        <i class="fas fa-plus"></i> Add Question
+                    </button>
+                    <button type="button" class="btn-close" onclick="closeCourseQuestionsModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ADD / EDIT QUESTION FORM CARD (Collapsible) -->
+            <div id="question-editor-card" style="display:none; background:rgba(30,41,59,0.7); border:1.5px solid var(--accent); border-radius:12px; padding:20px; margin:16px 24px 0;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px;">
+                    <h3 id="question-editor-title" style="margin:0; font-size:16px; color:var(--accent); font-weight:700;">
+                        <i class="fas fa-plus-circle"></i> Add New Question
+                    </h3>
+                    <button type="button" class="btn btn-sm btn-outline" onclick="toggleAddQuestionForm(false)">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+
+                <form id="question-editor-form" onsubmit="handleSaveCourseQuestion(event)">
+                    <input type="hidden" id="q-editor-edit-index" value="-1">
+
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label for="q-editor-text" style="font-size:13px; font-weight:600; color:var(--text-main); margin-bottom:4px; display:block;">
+                            Question Text *
+                        </label>
+                        <textarea id="q-editor-text" rows="2" placeholder="e.g. What is the correct syntax to output 'Hello World' in Python?" required style="width:100%; border-radius:8px; padding:10px; border:1px solid #334155; background:var(--bg-input); color:#fff; font-family:inherit;"></textarea>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+                        <div class="form-group">
+                            <label for="q-editor-opt-0" style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:3px;">
+                                Option A *
+                            </label>
+                            <input id="q-editor-opt-0" type="text" placeholder="Option A text" required style="width:100%; border-radius:8px; padding:8px 12px; border:1px solid #334155; background:var(--bg-input); color:#fff;">
+                        </div>
+                        <div class="form-group">
+                            <label for="q-editor-opt-1" style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:3px;">
+                                Option B *
+                            </label>
+                            <input id="q-editor-opt-1" type="text" placeholder="Option B text" required style="width:100%; border-radius:8px; padding:8px 12px; border:1px solid #334155; background:var(--bg-input); color:#fff;">
+                        </div>
+                        <div class="form-group">
+                            <label for="q-editor-opt-2" style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:3px;">
+                                Option C *
+                            </label>
+                            <input id="q-editor-opt-2" type="text" placeholder="Option C text" required style="width:100%; border-radius:8px; padding:8px 12px; border:1px solid #334155; background:var(--bg-input); color:#fff;">
+                        </div>
+                        <div class="form-group">
+                            <label for="q-editor-opt-3" style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:3px;">
+                                Option D *
+                            </label>
+                            <input id="q-editor-opt-3" type="text" placeholder="Option D text" required style="width:100%; border-radius:8px; padding:8px 12px; border:1px solid #334155; background:var(--bg-input); color:#fff;">
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1fr 2fr; gap:12px; margin-bottom:16px;">
+                        <div class="form-group">
+                            <label for="q-editor-correct" style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:3px;">
+                                Correct Answer *
+                            </label>
+                            <select id="q-editor-correct" required style="width:100%; border-radius:8px; padding:8px 12px; border:1px solid #334155; background:var(--bg-input); color:#fff;">
+                                <option value="0">Option A</option>
+                                <option value="1">Option B</option>
+                                <option value="2">Option C</option>
+                                <option value="3">Option D</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="q-editor-explanation" style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:3px;">
+                                Explanation (Shown in quiz review)
+                            </label>
+                            <input id="q-editor-explanation" type="text" placeholder="Reasoning for this answer..." style="width:100%; border-radius:8px; padding:8px 12px; border:1px solid #334155; background:var(--bg-input); color:#fff;">
+                        </div>
+                    </div>
+
+                    <div style="display:flex; justify-content:flex-end; gap:10px;">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAddQuestionForm(false)">Cancel</button>
+                        <button type="submit" class="btn btn-success btn-sm" id="q-editor-save-btn">
+                            <i class="fas fa-save"></i> Save Question to Course
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- QUESTIONS LIST BODY -->
+            <div class="modal-body" style="max-height:550px; overflow-y:auto; padding:20px 24px;">
+                <div id="course-questions-list" style="display:flex; flex-direction:column; gap:12px;">
+                    <!-- Questions injected dynamically -->
+                </div>
+            </div>
+
+            <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12px; color:var(--text-muted);">
+                    <i class="fas fa-database"></i> Stored in SQLite Course Question Bank
+                </span>
+                <button type="button" class="btn btn-secondary" onclick="closeCourseQuestionsModal()">Done / Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="admin-toast-container" class="toast-container"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/admin-auth.js"></script>
+    <script src="js/admin-app.js"></script>
+
+    <script>
+        window.INITIAL_ADMIN_VIEW = 'courses';
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof switchNav === 'function') {
+                setTimeout(() => switchNav('courses'), 50);
+            }
+        });
+    </script>
+    
+</body>
+</html>

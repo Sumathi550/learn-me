@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Student Dashboard | Learn Me</title>
+    <link rel="icon" href="assets/learnme-logo.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css?v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .dashboard-hero {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(56, 189, 248, 0.05) 100%);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 40px 0;
+        }
+        .dashboard-welcome {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        .stat-icon.blue { background: rgba(37, 99, 235, 0.1); color: #2563eb; }
+        .stat-icon.green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .stat-icon.amber { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+        .stat-val { font-size: 28px; font-weight: 800; color: var(--text-main); line-height: 1; }
+        .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+        .progress-bar-wrap {
+            width: 100%;
+            height: 8px;
+            background: rgba(13, 27, 61, 0.08);
+            border-radius: 99px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2563eb, #38bdf8);
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+        .enrolled-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: clamp(16px, 3vw, 24px);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .enrolled-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+                <img src="assets/learnme-logo.png" alt="Learn Me Logo" width="116" height="34" />
+            </div>
+
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="courses.html" class="nav-link">Courses</a></li>
+                <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+                <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+                <li><a href="verify.html" class="nav-link">Verify</a></li>
+            </ul>
+
+            <div class="user-auth-section" id="user-auth-section">
+                <div id="user-profile-widget" style="display: flex; align-items: center; gap: 10px;">
+                    <div id="user-avatar" style="width: 38px; height: 38px; border-radius: 50%; background: #2563eb; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700;">U</div>
+                    <span id="nav-user-name" style="font-weight: 600; font-size: 14px; color: #ffffff;">Learner</span>
+                    <button onclick="StudentAPI.logout()" class="btn btn-sm btn-outline" style="padding: 6px 12px; font-size: 13px; color: #ffffff; border-color: rgba(255,255,255,0.25);">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+                <div class="menu-btn" id="menu-btn" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="nav-backdrop" id="nav-backdrop"></div>
+
+    <main>
+        <section class="dashboard-hero">
+            <div class="container dashboard-welcome">
+                <div>
+                    <h1 style="font-family: 'Outfit', sans-serif; font-size: clamp(24px, 4vw, 32px); font-weight: 800; margin: 0 0 8px; color: var(--text-main); line-height: 1.25;">
+                        Welcome back, <span id="welcome-name" style="color: #2563eb;">Learner</span>!
+                    </h1>
+                    <p style="color: var(--text-muted); margin: 0; font-size: 15px;">Track your course curriculum, quiz evaluations, and official certificates.</p>
+                </div>
+                <div>
+                    <a href="courses.html" class="btn btn-primary" style="padding: 12px 24px;">
+                        <i class="fas fa-compass"></i> Explore More Courses
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" style="padding: 40px 16px 80px;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fas fa-book-open"></i></div>
+                    <div>
+                        <div class="stat-val" id="stat-enrolled">0</div>
+                        <div class="stat-label">Enrolled Courses</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon amber"><i class="fas fa-spinner"></i></div>
+                    <div>
+                        <div class="stat-val" id="stat-inprogress">0</div>
+                        <div class="stat-label">In Progress</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fas fa-award"></i></div>
+                    <div>
+                        <div class="stat-val" id="stat-certificates">0</div>
+                        <div class="stat-label">Earned Certificates</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 48px;">
+                <h2 style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 20px;">
+                    <i class="fas fa-graduation-cap" style="color: #2563eb;"></i> My Courses & Progress
+                </h2>
+                <div id="enrolled-courses-list">
+                    <div style="text-align: center; padding: 48px; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--glass-border);">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 28px; color: #2563eb;"></i>
+                        <p style="margin-top: 14px; color: var(--text-muted);">Loading your courses...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 56px;">
+                <h2 style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 20px;">
+                    <i class="fas fa-certificate" style="color: #10b981;"></i> My Official Certificates
+                </h2>
+                <div id="my-certificates-list">
+                    <div style="text-align: center; padding: 32px; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--glass-border);">
+                        <p style="color: var(--text-muted); margin: 0;">Complete 100% of all course modules and pass the final assessment (score &ge; 70%) to claim your official certificate.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/nav-auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const user = (window.StudentAuth && StudentAuth.getCurrentUser()) || StudentAPI.getCurrentUser();
+            const token = (window.StudentAuth && StudentAuth.getToken()) || StudentAPI.getToken();
+
+            if (!token || !user) {
+                // Guest mode: Render friendly dashboard without harsh redirects
+                document.getElementById('welcome-name').textContent = 'Learner';
+                document.getElementById('stat-enrolled').textContent = '0';
+                document.getElementById('stat-inprogress').textContent = '0';
+                document.getElementById('stat-certificates').textContent = '0';
+
+                document.getElementById('enrolled-courses-list').innerHTML = `
+                    <div style="text-align: center; padding: 48px 24px; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--glass-border);">
+                        <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(37, 99, 235, 0.1); color: #2563eb; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px;">
+                            <i class="fas fa-user-lock"></i>
+                        </div>
+                        <h3 style="font-size: 19px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Please Sign In to View Your Learning Journey</h3>
+                        <p style="color: var(--text-muted); font-size: 14.5px; max-width: 500px; margin: 0 auto 20px;">
+                            Sign in or create an account to access enrolled courses, resume curriculum lessons, take smart quiz assessments, and receive verified certificates.
+                        </p>
+                        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                            <a href="login.html" class="btn btn-primary" style="padding: 10px 22px; font-size: 14px; text-decoration: none;">
+                                <i class="fas fa-sign-in-alt"></i> Sign In to Dashboard
+                            </a>
+                            <a href="courses.html" class="btn btn-outline" style="padding: 10px 22px; font-size: 14px; text-decoration: none;">
+                                <i class="fas fa-compass"></i> Browse Courses Catalog
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('my-certificates-list').innerHTML = `
+                    <div style="text-align: center; padding: 32px; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--glass-border);">
+                        <p style="color: var(--text-muted); margin: 0;">Sign in and complete your course modules to earn official verified certificates.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Authenticated user mode (Sumathi)
+            document.getElementById('welcome-name').textContent = user.name || 'Learner';
+
+            try {
+                // Fetch student progress & certificates concurrently
+                const [progressRes, certsRes] = await Promise.all([
+                    StudentAPI.get('/progress'),
+                    StudentAPI.get('/certificates/my-certificates')
+                ]);
+
+                const progressList = Array.isArray(progressRes) ? progressRes : (progressRes.data || []);
+                const certsList = Array.isArray(certsRes) ? certsRes : (certsRes.data || []);
+
+                // Update Stats
+                document.getElementById('stat-enrolled').textContent = progressList.length;
+                const completedCount = progressList.filter(p => p.percentage === 100).length;
+                document.getElementById('stat-inprogress').textContent = progressList.length - completedCount;
+                document.getElementById('stat-certificates').textContent = certsList.length;
+
+                // Render Courses
+                const coursesContainer = document.getElementById('enrolled-courses-list');
+                if (progressList.length === 0) {
+                    coursesContainer.innerHTML = `
+                        <div style="text-align: center; padding: 48px; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--glass-border);">
+                            <i class="fas fa-book-open" style="font-size: 36px; color: #94a3b8;"></i>
+                            <p style="margin: 16px 0; color: var(--text-muted); font-size: 15px;">You have not enrolled in any courses yet.</p>
+                            <a href="courses.html" class="btn btn-primary"><i class="fas fa-compass"></i> Browse Courses</a>
+                        </div>
+                    `;
+                } else {
+                    coursesContainer.innerHTML = progressList.map(item => `
+                        <div class="enrolled-card">
+                            <div style="flex: 1; min-width: 260px;">
+                                <h3 style="margin: 0 0 6px; font-size: 18px; font-weight: 700; color: var(--text-main);">${item.courseTitle || item.courseId.toUpperCase()}</h3>
+                                <div style="display: flex; gap: 16px; font-size: 13px; color: var(--text-muted);">
+                                    <span><i class="fas fa-tasks"></i> Modules: ${item.completedModulesCount || 0}/${item.totalModules || 0}</span>
+                                    <span><i class="fas fa-brain"></i> Quiz: ${item.quizPassed ? 'Passed' : (item.quizScore ? item.quizScore + '%' : 'Pending')}</span>
+                                </div>
+                                <div class="progress-bar-wrap">
+                                    <div class="progress-bar-fill" style="width: ${item.percentage || 0}%;"></div>
+                                </div>
+                                <div style="font-size: 12px; font-weight: 600; color: #2563eb; margin-top: 6px;">${item.percentage || 0}% Complete</div>
+                            </div>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                <a href="course-details.html?course=${encodeURIComponent(item.courseId)}" class="btn btn-outline" style="padding: 10px 18px; font-size: 13.5px;">
+                                    <i class="fas fa-play"></i> Continue Lessons
+                                </a>
+                                <a href="quiz.html?course=${encodeURIComponent(item.courseId)}" class="btn btn-outline" style="padding: 10px 18px; font-size: 13.5px;">
+                                    <i class="fas fa-brain"></i> Quiz Assessment
+                                </a>
+                                ${item.percentage === 100 ? `
+                                    <a href="certificate.html?course=${encodeURIComponent(item.courseId)}" class="btn btn-primary" style="padding: 10px 18px; font-size: 13.5px; background: #10b981;">
+                                        <i class="fas fa-certificate"></i> View Certificate
+                                    </a>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                // Render Certificates
+                const certsContainer = document.getElementById('my-certificates-list');
+                if (certsList.length === 0) {
+                    certsContainer.innerHTML = `
+                        <div style="text-align: center; padding: 32px; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--glass-border);">
+                            <p style="color: var(--text-muted); margin: 0;">Complete 100% of all course modules and pass the final assessment (score &ge; 70%) to claim your official certificate.</p>
+                        </div>
+                    `;
+                } else {
+                    certsContainer.innerHTML = certsList.map(c => `
+                        <div class="enrolled-card" style="border-left: 4px solid #10b981;">
+                            <div>
+                                <h3 style="margin: 0 0 4px; font-size: 18px; font-weight: 700;">${c.courseName}</h3>
+                                <div style="font-size: 13px; color: var(--text-muted);">
+                                    <span>ID: <strong>${c.certificateId}</strong></span> &bull; 
+                                    <span>Issued: ${new Date(c.completionDate || c.createdAt).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <a href="certificate.html?course=${encodeURIComponent(c.courseId)}" class="btn btn-primary" style="padding: 10px 18px; font-size: 13.5px;">
+                                    <i class="fas fa-eye"></i> View Certificate
+                                </a>
+                                <a href="verify.html?certificate=${encodeURIComponent(c.certificateId)}" target="_blank" class="btn btn-outline" style="padding: 10px 18px; font-size: 13.5px;">
+                                    <i class="fas fa-check-double"></i> Verify
+                                </a>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+            } catch (err) {
+                console.error('Failed to load student dashboard:', err);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         passingScore: { type: DataTypes.INTEGER, defaultValue: 70 },
         certificatePrice: { type: DataTypes.FLOAT, allowNull: false, defaultValue: 10 },
         hasFinalAssessment: { type: DataTypes.BOOLEAN, defaultValue: true },
+        quizzes: { type: DataTypes.JSON, defaultValue: [] },
         status: { type: DataTypes.ENUM('draft', 'published'), defaultValue: 'published' },
         order: { type: DataTypes.INTEGER, defaultValue: 0 }
     });

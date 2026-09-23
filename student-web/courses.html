@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Explore Courses | Learn Me</title>
+    <link rel="icon" href="assets/learnme-logo.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css?v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .courses-hero {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(56, 189, 248, 0.04) 100%);
+            padding: 50px 0 40px;
+            border-bottom: 1px solid var(--glass-border);
+            text-align: center;
+        }
+        .filter-controls {
+            display: flex;
+            gap: 16px;
+            margin: 32px 0 24px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .search-input-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 260px;
+            max-width: 480px;
+        }
+        .search-input-wrap i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: var(--bg-panel);
+            font-size: 14px;
+            outline: none;
+            color: var(--text-main);
+            box-sizing: border-box;
+        }
+        .search-input:focus {
+            border-color: #2563eb;
+        }
+        .category-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .cat-pill {
+            padding: 8px 16px;
+            border-radius: 99px;
+            background: rgba(13, 27, 61, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cat-pill:hover, .cat-pill.active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+        }
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+        .course-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            text-decoration: none;
+            color: inherit;
+        }
+        .course-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(37, 99, 235, 0.4);
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.1);
+        }
+        .course-icon-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(37, 99, 235, 0.08);
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+                <img src="assets/learnme-logo.png" alt="Learn Me Logo" width="116" height="34" />
+            </div>
+
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="courses.html" class="nav-link active">Courses</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+                <li><a href="verify.html" class="nav-link">Verify</a></li>
+            </ul>
+
+            <div class="user-auth-section" id="user-auth-section">
+                <a href="login.html" id="nav-login-btn" class="btn btn-sm btn-primary" style="padding: 8px 18px;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </a>
+                <div class="menu-btn" id="menu-btn" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="nav-backdrop" id="nav-backdrop"></div>
+
+    <main>
+        <section class="courses-hero">
+            <div class="container" style="text-align: center; padding: 40px 16px 20px;">
+                <h1 style="font-family: 'Outfit', sans-serif; font-size: clamp(26px, 4vw, 36px); font-weight: 800; margin: 0 0 10px; color: var(--text-main); line-height: 1.25;">
+                    Explore Certified Curriculum
+                </h1>
+                <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 15px;">
+                    Industry-aligned courses spanning Python, AI/ML, Modern Web Dev, C++, Data Structures, and Aptitude.
+                </p>
+            </div>
+        </section>
+
+        <section class="container" style="padding: 20px 16px;">
+            <div class="filter-controls">
+                <div class="search-input-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" class="search-input" placeholder="Search by course title or keyword...">
+                </div>
+            </div>
+
+            <div class="category-pills" id="category-pills">
+                <button class="cat-pill active" data-cat="all">All Courses</button>
+                <button class="cat-pill" data-cat="Programming">Programming</button>
+                <button class="cat-pill" data-cat="Python">Python & AI</button>
+                <button class="cat-pill" data-cat="Aptitude">Aptitude</button>
+            </div>
+
+            <div class="courses-grid" id="courses-grid">
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 0;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 32px; color: #2563eb;"></i>
+                    <p style="margin-top: 16px; color: var(--text-muted);">Loading available courses...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/nav-auth.js"></script>
+    <script>
+        let allCourses = [];
+        let activeCategory = 'all';
+
+        async function loadCourses() {
+            try {
+                const res = await StudentAPI.get('/courses');
+                allCourses = Array.isArray(res) ? res : (res.data || []);
+                renderCourses();
+            } catch (err) {
+                console.error('Failed to load courses:', err);
+                document.getElementById('courses-grid').innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #ef4444;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 32px;"></i>
+                        <p style="margin-top: 12px;">Unable to load courses. Please ensure backend server is running.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderCourses() {
+            const query = (document.getElementById('search-input').value || '').toLowerCase().trim();
+            const grid = document.getElementById('courses-grid');
+
+            const filtered = allCourses.filter(c => {
+                const matchesCat = activeCategory === 'all' || 
+                    (c.category && c.category.toLowerCase().includes(activeCategory.toLowerCase())) ||
+                    (c.title && c.title.toLowerCase().includes(activeCategory.toLowerCase()));
+                const matchesSearch = !query || 
+                    (c.title && c.title.toLowerCase().includes(query)) ||
+                    (c.subtitle && c.subtitle.toLowerCase().includes(query)) ||
+                    (c.description && c.description.toLowerCase().includes(query));
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 0; color: var(--text-muted);">
+                        <i class="fas fa-search" style="font-size: 32px; color: #94a3b8;"></i>
+                        <p style="margin-top: 14px; font-size: 16px;">No courses found matching your criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(c => `
+                <a href="course-details.html?course=${encodeURIComponent(c.courseId)}" class="course-card">
+                    <div>
+                        <div class="course-icon-badge">
+                            <i class="${c.iconType || 'fas'} ${c.icon || 'fa-book'}"></i>
+                        </div>
+                        <h3 style="font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 700; margin: 0 0 8px; color: var(--text-main);">${c.title}</h3>
+                        <p style="color: var(--text-muted); font-size: 13.5px; line-height: 1.5; margin: 0 0 16px;">
+                            ${c.subtitle || 'Comprehensive self-paced course modules and evaluation.'}
+                        </p>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); padding-top: 14px; border-top: 1px solid var(--glass-border); margin-bottom: 14px;">
+                            <span><i class="far fa-clock"></i> ${c.duration || 'Self-paced'}</span>
+                            <span><i class="fas fa-signal"></i> ${c.difficulty || 'All Levels'}</span>
+                        </div>
+                        <div class="btn btn-primary" style="width: 100%; text-align: center; justify-content: center; box-sizing: border-box; font-size: 14px; padding: 10px;">
+                            <span>View Curriculum</span> <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        document.getElementById('search-input').addEventListener('input', renderCourses);
+
+        document.querySelectorAll('.cat-pill').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeCategory = this.getAttribute('data-cat');
+                renderCourses();
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCourses();
+        });
+    </script>
+</body>
+</html>

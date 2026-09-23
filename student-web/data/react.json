@@ -1,0 +1,541 @@
+ [
+    {
+        "id": 1,
+        "question": "What is React primarily used for?",
+        "options": [
+            "Building user interfaces",
+            "Managing databases",
+            "Creating operating systems",
+            "Writing CSS only"
+        ],
+        "answer": "Building user interfaces",
+        "explanation": "React is a JavaScript library primarily used for building component-based user interfaces."
+    },
+    {
+        "id": 2,
+        "question": "What is a React component?",
+        "options": [
+            "A reusable piece of UI",
+            "A database table",
+            "A CSS file",
+            "A server"
+        ],
+        "answer": "A reusable piece of UI",
+        "explanation": "Components are reusable building blocks used to create React user interfaces."
+    },
+    {
+        "id": 3,
+        "question": "Which syntax is commonly used to describe UI in React?",
+        "options": ["HTML", "JSX", "XML", "JSON"],
+        "answer": "JSX",
+        "explanation": "JSX is a syntax commonly used in React to describe the structure of the user interface."
+    },
+    {
+        "id": 4,
+        "question": "What is JSX?",
+        "options": [
+            "A syntax extension for JavaScript",
+            "A database language",
+            "A CSS framework",
+            "A server"
+        ],
+        "answer": "A syntax extension for JavaScript",
+        "explanation": "JSX allows developers to write UI-like syntax within JavaScript code."
+    },
+    {
+        "id": 5,
+        "question": "Which hook is used to add state to a functional component?",
+        "options": ["useEffect", "useState", "useContext", "useRef"],
+        "answer": "useState",
+        "explanation": "useState allows a functional component to store and update state."
+    },
+    {
+        "id": 6,
+        "question": "Which hook is commonly used for side effects?",
+        "options": ["useState", "useEffect", "useMemo", "useCallback"],
+        "answer": "useEffect",
+        "explanation": "useEffect is commonly used for side effects such as data fetching, subscriptions, and synchronizing with external systems."
+    },
+    {
+        "id": 7,
+        "question": "What are props in React?",
+        "options": [
+            "Inputs passed from a parent component to a child component",
+            "Private variables only",
+            "Database records",
+            "CSS properties"
+        ],
+        "answer": "Inputs passed from a parent component to a child component",
+        "explanation": "Props allow data to be passed from a parent component to a child component."
+    },
+    {
+        "id": 8,
+        "question": "What is state in React?",
+        "options": [
+            "Data managed by a component that can trigger UI updates",
+            "A CSS style",
+            "A database connection",
+            "A type of HTML tag"
+        ],
+        "answer": "Data managed by a component that can trigger UI updates",
+        "explanation": "State represents data managed by a component, and updating state can cause React to re-render the component."
+    },
+    {
+        "id": 9,
+        "question": "Which prop is commonly required when rendering a list of React elements?",
+        "options": ["id", "key", "name", "value"],
+        "answer": "key",
+        "explanation": "The key prop helps React identify items in a list between renders."
+    },
+    {
+        "id": 10,
+        "question": "Which method is commonly used to render an array as React elements?",
+        "options": ["filter()", "map()", "reduce()", "find()"],
+        "answer": "map()",
+        "explanation": "The map() method is commonly used to transform array items into React elements."
+    },
+
+    {
+        "id": 11,
+        "question": "What does a React component return?",
+        "options": [
+            "React elements or other renderable values",
+            "Only a string",
+            "A database",
+            "A CSS file"
+        ],
+        "answer": "React elements or other renderable values",
+        "explanation": "A React component returns renderable output that React uses to describe the UI."
+    },
+    {
+        "id": 12,
+        "question": "What is conditional rendering?",
+        "options": [
+            "Displaying different UI based on a condition",
+            "Rendering only CSS",
+            "Deleting a component",
+            "Creating a database"
+        ],
+        "answer": "Displaying different UI based on a condition",
+        "explanation": "Conditional rendering allows different UI elements to be displayed depending on application state or other conditions."
+    },
+    {
+        "id": 13,
+        "question": "Which operator is commonly used for inline conditional rendering when both outcomes are needed?",
+        "options": ["&&", "||", "?", "++"],
+        "answer": "?",
+        "explanation": "The ternary operator uses a condition followed by a ? trueValue : falseValue expression."
+    },
+    {
+        "id": 14,
+        "question": "What does React use to efficiently update the user interface?",
+        "options": [
+            "Virtual DOM",
+            "Direct database updates",
+            "Only CSS",
+            "Static HTML files"
+        ],
+        "answer": "Virtual DOM",
+        "explanation": "React uses an in-memory representation of the UI and reconciles changes to efficiently update the actual DOM."
+    },
+    {
+        "id": 15,
+        "question": "What happens when a component's state changes?",
+        "options": [
+            "React schedules an update and the component may re-render",
+            "The application automatically closes",
+            "The database is deleted",
+            "The component can never render again"
+        ],
+        "answer": "React schedules an update and the component may re-render",
+        "explanation": "State updates trigger React's update process, which may result in the component rendering again."
+    },
+
+    {
+        "id": 16,
+        "question": "Which hook can store a mutable value without causing a re-render when changed?",
+        "options": ["useState", "useRef", "useEffect", "useContext"],
+        "answer": "useRef",
+        "explanation": "useRef can hold a mutable value that persists between renders without triggering a re-render when the ref value changes."
+    },
+    {
+        "id": 17,
+        "question": "What is useContext primarily used for?",
+        "options": [
+            "Accessing shared context values",
+            "Creating CSS styles",
+            "Connecting directly to SQL",
+            "Creating loops"
+        ],
+        "answer": "Accessing shared context values",
+        "explanation": "useContext allows a component to read and subscribe to a context value."
+    },
+    {
+        "id": 18,
+        "question": "What problem can React Context help reduce?",
+        "options": [
+            "Prop drilling",
+            "Syntax errors",
+            "Internet speed",
+            "Database duplication"
+        ],
+        "answer": "Prop drilling",
+        "explanation": "Context can provide values to deeply nested components without manually passing props through every intermediate component."
+    },
+    {
+        "id": 19,
+        "question": "What is prop drilling?",
+        "options": [
+            "Passing props through multiple intermediate components",
+            "Deleting props",
+            "Creating a new prop",
+            "Styling components"
+        ],
+        "answer": "Passing props through multiple intermediate components",
+        "explanation": "Prop drilling occurs when data must be passed through several components that do not directly need it."
+    },
+    {
+        "id": 20,
+        "question": "Which hook is commonly used to memoize a calculated value?",
+        "options": ["useEffect", "useMemo", "useRef", "useState"],
+        "answer": "useMemo",
+        "explanation": "useMemo can cache the result of a calculation between renders until its dependencies change."
+    },
+
+    {
+        "id": 21,
+        "question": "Which hook is commonly used to memoize a function reference?",
+        "options": ["useCallback", "useMemo", "useEffect", "useRef"],
+        "answer": "useCallback",
+        "explanation": "useCallback can cache a function definition between renders based on its dependencies."
+    },
+    {
+        "id": 22,
+        "question": "What is a controlled component?",
+        "options": [
+            "A form element whose value is controlled by React state",
+            "A component without props",
+            "A component with no state",
+            "A database component"
+        ],
+        "answer": "A form element whose value is controlled by React state",
+        "explanation": "In a controlled component, React state is the source of truth for the form input value."
+    },
+    {
+        "id": 23,
+        "question": "Which event is commonly used to handle changes in a React input?",
+        "options": ["onChange", "onClick", "onSubmit", "onLoad"],
+        "answer": "onChange",
+        "explanation": "The onChange event handler is commonly used to respond to changes in form inputs."
+    },
+    {
+        "id": 24,
+        "question": "Which event is commonly used to handle form submission?",
+        "options": ["onChange", "onSubmit", "onHover", "onLoad"],
+        "answer": "onSubmit",
+        "explanation": "The onSubmit event is used to handle submission of a form."
+    },
+    {
+        "id": 25,
+        "question": "What does event.preventDefault() commonly do in a form submit handler?",
+        "options": [
+            "Prevents the browser's default form submission behavior",
+            "Deletes the form",
+            "Stops React",
+            "Reloads the application"
+        ],
+        "answer": "Prevents the browser's default form submission behavior",
+        "explanation": "preventDefault() prevents the browser from performing its default action, such as navigating or reloading after a form submission."
+    },
+
+    {
+        "id": 26,
+        "question": "What is React Router primarily used for?",
+        "options": [
+            "Client-side routing and navigation",
+            "Database management",
+            "CSS styling",
+            "Memory allocation"
+        ],
+        "answer": "Client-side routing and navigation",
+        "explanation": "React Router is commonly used to manage navigation and route-based rendering in React applications."
+    },
+    {
+        "id": 27,
+        "question": "What is component composition?",
+        "options": [
+            "Building complex UIs by combining smaller components",
+            "Deleting unused components",
+            "Writing CSS inside HTML",
+            "Connecting directly to a database"
+        ],
+        "answer": "Building complex UIs by combining smaller components",
+        "explanation": "Component composition builds larger interfaces by combining smaller reusable components."
+    },
+    {
+        "id": 28,
+        "question": "What is the children prop used for?",
+        "options": [
+            "Passing nested content into a component",
+            "Storing database records",
+            "Creating a hook",
+            "Adding CSS only"
+        ],
+        "answer": "Passing nested content into a component",
+        "explanation": "The children prop represents content placed between a component's opening and closing tags."
+    },
+    {
+        "id": 29,
+        "question": "What is a Fragment used for?",
+        "options": [
+            "Grouping multiple elements without adding an extra DOM node",
+            "Creating a database",
+            "Adding an event listener",
+            "Storing application state"
+        ],
+        "answer": "Grouping multiple elements without adding an extra DOM node",
+        "explanation": "Fragments allow multiple elements to be grouped together without introducing an unnecessary wrapper element."
+    },
+    {
+        "id": 30,
+        "question": "Which syntax is a shorthand for a React Fragment?",
+        "options": ["<> </>", "[]", "{}", "()"],
+        "answer": "<> </>",
+        "explanation": "The empty tag syntax <>...</> is the shorthand form for a React Fragment."
+    },
+
+    {
+        "id": 31,
+        "question": "What is lifting state up?",
+        "options": [
+            "Moving shared state to the closest common parent component",
+            "Deleting component state",
+            "Moving CSS to another file",
+            "Creating a global variable"
+        ],
+        "answer": "Moving shared state to the closest common parent component",
+        "explanation": "Lifting state up allows multiple components to share and coordinate the same state through a common parent."
+    },
+    {
+        "id": 32,
+        "question": "What is a custom hook?",
+        "options": [
+            "A reusable function that uses React hooks",
+            "A built-in HTML tag",
+            "A database trigger",
+            "A CSS selector"
+        ],
+        "answer": "A reusable function that uses React hooks",
+        "explanation": "A custom hook allows reusable stateful logic to be extracted and shared between components."
+    },
+    {
+        "id": 33,
+        "question": "What naming convention is required for a custom React hook?",
+        "options": [
+            "It should start with use",
+            "It should start with get",
+            "It should start with react",
+            "It should start with hook"
+        ],
+        "answer": "It should start with use",
+        "explanation": "Custom hooks should begin with use so React tooling can recognize and enforce Hook rules."
+    },
+    {
+        "id": 34,
+        "question": "What is useReducer commonly useful for?",
+        "options": [
+            "Managing more complex state transitions",
+            "Adding CSS styles",
+            "Creating HTML elements",
+            "Connecting directly to a server"
+        ],
+        "answer": "Managing more complex state transitions",
+        "explanation": "useReducer is useful when state logic involves multiple related updates or transitions."
+    },
+    {
+        "id": 35,
+        "question": "What is the purpose of the dependency array in useEffect?",
+        "options": [
+            "It controls when the effect is re-run",
+            "It stores CSS dependencies",
+            "It creates a database connection",
+            "It deletes unused variables"
+        ],
+        "answer": "It controls when the effect is re-run",
+        "explanation": "React compares dependency values to determine whether an effect needs to run again after a render."
+    },
+
+    {
+        "id": 36,
+        "question": "What does an empty dependency array [] typically indicate for useEffect?",
+        "options": [
+            "The effect is not dependent on changing reactive values",
+            "The component will never render",
+            "State cannot be used",
+            "The application will close"
+        ],
+        "answer": "The effect is not dependent on changing reactive values",
+        "explanation": "An effect with an empty dependency array does not re-run because of reactive dependency changes after the initial setup, subject to React's development behavior."
+    },
+    {
+        "id": 37,
+        "question": "What is cleanup in useEffect commonly used for?",
+        "options": [
+            "Removing subscriptions, timers, or other external resources",
+            "Deleting the React application",
+            "Removing all components",
+            "Clearing CSS files"
+        ],
+        "answer": "Removing subscriptions, timers, or other external resources",
+        "explanation": "An effect can return a cleanup function to stop subscriptions, clear timers, or undo other external effects."
+    },
+    {
+        "id": 38,
+        "question": "Why should React state generally be treated as immutable?",
+        "options": [
+            "Updates should create new values so changes can be tracked predictably",
+            "React does not allow any state updates",
+            "Objects cannot be used in state",
+            "State must always be a string"
+        ],
+        "answer": "Updates should create new values so changes can be tracked predictably",
+        "explanation": "Creating new state values instead of mutating existing ones helps React and application logic detect and manage changes predictably."
+    },
+    {
+        "id": 39,
+        "question": "Which method is commonly used to fetch data from an API in modern browsers?",
+        "options": ["fetch()", "getData()", "loadAPI()", "requestData()"],
+        "answer": "fetch()",
+        "explanation": "The Fetch API provides the fetch() function for making HTTP requests."
+    },
+    {
+        "id": 40,
+        "question": "Where should data-fetching logic commonly be placed when it needs to synchronize a component with an external system?",
+        "options": [
+            "Inside an effect or an appropriate data-fetching abstraction",
+            "Inside JSX only",
+            "Inside a CSS file",
+            "Inside the key prop"
+        ],
+        "answer": "Inside an effect or an appropriate data-fetching abstraction",
+        "explanation": "External data synchronization is commonly handled with useEffect or dedicated data-fetching libraries and framework features."
+    },
+
+    {
+        "id": 41,
+        "question": "What is the purpose of React.StrictMode?",
+        "options": [
+            "Highlighting potential problems during development",
+            "Improving CSS performance only",
+            "Creating production errors",
+            "Replacing React Router"
+        ],
+        "answer": "Highlighting potential problems during development",
+        "explanation": "StrictMode enables additional development checks that help identify potentially unsafe patterns."
+    },
+    {
+        "id": 42,
+        "question": "What is a single-page application (SPA)?",
+        "options": [
+            "An application that updates views dynamically without full page reloads for typical navigation",
+            "A website with only one HTML tag",
+            "An application with no components",
+            "A database"
+        ],
+        "answer": "An application that updates views dynamically without full page reloads for typical navigation",
+        "explanation": "SPAs commonly update the displayed UI through client-side routing instead of loading an entirely new document for each navigation."
+    },
+    {
+        "id": 43,
+        "question": "Why should list items have stable keys?",
+        "options": [
+            "To help React correctly identify items between renders",
+            "To improve CSS color selection",
+            "To create a database ID automatically",
+            "To prevent all re-renders"
+        ],
+        "answer": "To help React correctly identify items between renders",
+        "explanation": "Stable keys help React preserve component identity and efficiently reconcile list changes."
+    },
+    {
+        "id": 44,
+        "question": "What is code splitting?",
+        "options": [
+            "Loading JavaScript in smaller chunks when needed",
+            "Splitting CSS into colors",
+            "Deleting unused components manually",
+            "Creating multiple databases"
+        ],
+        "answer": "Loading JavaScript in smaller chunks when needed",
+        "explanation": "Code splitting divides an application's JavaScript into smaller bundles that can be loaded when required."
+    },
+    {
+        "id": 45,
+        "question": "What is React.lazy() used for?",
+        "options": [
+            "Lazy loading a component",
+            "Deleting a component",
+            "Creating state",
+            "Adding an event listener"
+        ],
+        "answer": "Lazy loading a component",
+        "explanation": "React.lazy() allows a component to be loaded dynamically when it is rendered."
+    },
+
+    {
+        "id": 46,
+        "question": "Which component is commonly used with React.lazy() to display fallback content while loading?",
+        "options": ["Suspense", "Fragment", "StrictMode", "Context"],
+        "answer": "Suspense",
+        "explanation": "Suspense can display fallback UI while a lazy-loaded component is still loading."
+    },
+    {
+        "id": 47,
+        "question": "What is an Error Boundary used for?",
+        "options": [
+            "Handling rendering errors in part of a React component tree",
+            "Handling CSS errors",
+            "Validating database tables",
+            "Stopping all JavaScript errors globally"
+        ],
+        "answer": "Handling rendering errors in part of a React component tree",
+        "explanation": "Error Boundaries can catch certain errors during rendering in their child component tree and display fallback UI."
+    },
+    {
+        "id": 48,
+        "question": "What is hydration in React?",
+        "options": [
+            "Attaching React behavior to HTML that was already rendered, such as server-rendered HTML",
+            "Loading CSS files",
+            "Deleting the DOM",
+            "Creating a database"
+        ],
+        "answer": "Attaching React behavior to HTML that was already rendered, such as server-rendered HTML",
+        "explanation": "Hydration allows React to connect client-side behavior to existing HTML produced by server-side rendering."
+    },
+    {
+        "id": 49,
+        "question": "What is the main purpose of React's reconciliation process?",
+        "options": [
+            "Determining the necessary UI updates after rendering",
+            "Creating a SQL database",
+            "Compiling CSS",
+            "Managing browser history only"
+        ],
+        "answer": "Determining the necessary UI updates after rendering",
+        "explanation": "Reconciliation compares rendered output over time to determine how the UI should be updated."
+    },
+    {
+        "id": 50,
+        "question": "What is one major benefit of using reusable React components?",
+        "options": [
+            "They improve code reuse and maintainability",
+            "They remove the need for JavaScript",
+            "They automatically create a backend",
+            "They replace databases"
+        ],
+        "answer": "They improve code reuse and maintainability",
+        "explanation": "Reusable components reduce duplicated code and make applications easier to maintain and scale."
+    }
+]
+

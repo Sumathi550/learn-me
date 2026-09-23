@@ -1,15 +1,19 @@
 {
   "name": "learn-me-platform",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Learn Me - AI Learning Platform",
+  "description": "Learn Me - Production Separated Architecture (Student Web, Admin Web, Cloud API)",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "node backend/server.js",
-    "backend": "node backend/server.js",
-    "frontend": "node backend/server.js",
-    "app": "node backend/server.js",
-    "server": "node backend/server.js",
-    "db:view": "node scripts_and_seeds/view_db.js"
+    "start": "node dev-all.js",
+    "dev": "node dev-all.js",
+    "dev:backend": "node backend/server.js",
+    "dev:student": "node serve-static.js 3000 student-web",
+    "dev:admin": "node serve-static.js 3001 admin-web",
+    "dev:frontend": "node serve-static.js 5500 frontend",
+    "test": "node backend/test_rules.js && node backend/tests/rbac.test.js",
+    "test:rbac": "node backend/tests/rbac.test.js",
+    "db:view": "node scripts_and_seeds/view_db.js",
+    "db:migrate:postgres": "node backend/migrations/migrate-to-postgres.js",
+    "build": "npm --prefix backend install"
   }
 }

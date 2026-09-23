@@ -1,0 +1,454 @@
+ [
+    {
+        "id": 1,
+        "question": "Which function is the entry point of a standard C++ program?",
+        "options": ["start()", "run()", "main()", "init()"],
+        "answer": "main()",
+        "explanation": "Execution of a standard C++ program begins from the main() function."
+    },
+    {
+        "id": 2,
+        "question": "Which header is commonly used for input and output using cin and cout?",
+        "options": ["<stdio.h>", "<iostream>", "<string>", "<fstream>"],
+        "answer": "<iostream>",
+        "explanation": "The iostream header provides standard input and output stream objects such as cin and cout."
+    },
+    {
+        "id": 3,
+        "question": "Which operator is used with cout to send output to the console?",
+        "options": [">>", "<<", "&&", "=="],
+        "answer": "<<",
+        "explanation": "The insertion operator << sends data to an output stream such as cout."
+    },
+    {
+        "id": 4,
+        "question": "Which operator is used with cin to receive input?",
+        "options": ["<<", ">>", "&", "*"],
+        "answer": ">>",
+        "explanation": "The extraction operator >> reads input from an input stream such as cin."
+    },
+    {
+        "id": 5,
+        "question": "Which feature allows a class to inherit properties and methods from another class?",
+        "options": ["Encapsulation", "Inheritance", "Polymorphism", "Abstraction"],
+        "answer": "Inheritance",
+        "explanation": "Inheritance allows a derived class to reuse and extend members of a base class."
+    },
+    {
+        "id": 6,
+        "question": "Which access specifier makes class members accessible from anywhere?",
+        "options": ["private", "protected", "public", "internal"],
+        "answer": "public",
+        "explanation": "Public members can be accessed from outside the class."
+    },
+    {
+        "id": 7,
+        "question": "Which access specifier allows access within the class and its derived classes?",
+        "options": ["private", "protected", "public", "global"],
+        "answer": "protected",
+        "explanation": "Protected members are accessible inside the class and by derived classes."
+    },
+    {
+        "id": 8,
+        "question": "What is a constructor in C++?",
+        "options": [
+            "A function used to delete an object",
+            "A special member function used to initialize an object",
+            "A loop",
+            "A preprocessor directive"
+        ],
+        "answer": "A special member function used to initialize an object",
+        "explanation": "A constructor is automatically called when an object is created and is used to initialize it."
+    },
+    {
+        "id": 9,
+        "question": "What is a destructor?",
+        "options": [
+            "A function that initializes an object",
+            "A special member function called when an object is destroyed",
+            "A function that creates a class",
+            "A type of pointer"
+        ],
+        "answer": "A special member function called when an object is destroyed",
+        "explanation": "A destructor is called when an object's lifetime ends and can be used for cleanup."
+    },
+    {
+        "id": 10,
+        "question": "Which symbol is used before a destructor name?",
+        "options": ["!", "~", "#", "&"],
+        "answer": "~",
+        "explanation": "A destructor has the same name as the class preceded by the tilde (~) symbol."
+    },
+
+    {
+        "id": 11,
+        "question": "What is function overloading?",
+        "options": [
+            "Using the same function name with different parameter lists",
+            "Replacing a parent class",
+            "Deleting a function",
+            "Calling a function repeatedly"
+        ],
+        "answer": "Using the same function name with different parameter lists",
+        "explanation": "Function overloading allows multiple functions with the same name when their parameter lists differ."
+    },
+    {
+        "id": 12,
+        "question": "What is function overriding?",
+        "options": [
+            "Creating two functions in the same class",
+            "Providing a new implementation of an inherited virtual function",
+            "Deleting a parent function",
+            "Calling a recursive function"
+        ],
+        "answer": "Providing a new implementation of an inherited virtual function",
+        "explanation": "Overriding occurs when a derived class provides its own implementation of an inherited virtual function."
+    },
+    {
+        "id": 13,
+        "question": "Which keyword is commonly used to enable runtime polymorphism?",
+        "options": ["static", "virtual", "friend", "const"],
+        "answer": "virtual",
+        "explanation": "Virtual functions enable runtime polymorphism through dynamic dispatch."
+    },
+    {
+        "id": 14,
+        "question": "What is polymorphism?",
+        "options": [
+            "One interface with different implementations",
+            "Deleting objects automatically",
+            "Creating only one class",
+            "Converting data types"
+        ],
+        "answer": "One interface with different implementations",
+        "explanation": "Polymorphism allows the same interface or function call to behave differently depending on the object."
+    },
+    {
+        "id": 15,
+        "question": "Which keyword prevents a class from being inherited in modern C++?",
+        "options": ["static", "const", "final", "private"],
+        "answer": "final",
+        "explanation": "A class declared with final cannot be used as a base class for further inheritance."
+    },
+    {
+        "id": 16,
+        "question": "Which keyword is used to dynamically allocate memory in C++?",
+        "options": ["malloc", "alloc", "new", "create"],
+        "answer": "new",
+        "explanation": "The new operator dynamically allocates memory and constructs an object."
+    },
+    {
+        "id": 17,
+        "question": "Which keyword is used to release memory allocated with new?",
+        "options": ["free", "delete", "remove", "clear"],
+        "answer": "delete",
+        "explanation": "Memory allocated using new should generally be released using delete."
+    },
+    {
+        "id": 18,
+        "question": "What is a pointer?",
+        "options": [
+            "A variable that stores a memory address",
+            "A variable that stores only integers",
+            "A type of loop",
+            "A class constructor"
+        ],
+        "answer": "A variable that stores a memory address",
+        "explanation": "A pointer stores the address of another object or function."
+    },
+    {
+        "id": 19,
+        "question": "Which operator is used to obtain the address of a variable?",
+        "options": ["*", "&", "->", "%"],
+        "answer": "&",
+        "explanation": "The address-of operator & returns the memory address of an object."
+    },
+    {
+        "id": 20,
+        "question": "Which operator is used to dereference a pointer?",
+        "options": ["&", "*", ".", "::"],
+        "answer": "*",
+        "explanation": "The dereference operator * accesses the object pointed to by a pointer."
+    },
+
+    {
+        "id": 21,
+        "question": "What is a reference in C++?",
+        "options": [
+            "An alias for an existing object",
+            "A type of loop",
+            "A dynamically allocated array",
+            "A preprocessor command"
+        ],
+        "answer": "An alias for an existing object",
+        "explanation": "A reference provides another name for an existing object."
+    },
+    {
+        "id": 22,
+        "question": "Which symbol is used when declaring a reference variable?",
+        "options": ["*", "&", "#", "@"],
+        "answer": "&",
+        "explanation": "The & symbol is used in a declaration to declare a reference."
+    },
+    {
+        "id": 23,
+        "question": "What is the output?\n\nint x = 10;\nint &ref = x;\nref = 20;\ncout << x;",
+        "options": ["10", "20", "0", "Error"],
+        "answer": "20",
+        "explanation": "ref is a reference to x, so assigning 20 through ref changes x."
+    },
+    {
+        "id": 24,
+        "question": "Which C++ feature is used to group related variables and functions together?",
+        "options": ["Array", "Class", "Pointer", "Loop"],
+        "answer": "Class",
+        "explanation": "A class groups data members and member functions into a single user-defined type."
+    },
+    {
+        "id": 25,
+        "question": "What is encapsulation?",
+        "options": [
+            "Combining data and related functions into a single unit",
+            "Creating multiple loops",
+            "Deleting memory",
+            "Importing libraries"
+        ],
+        "answer": "Combining data and related functions into a single unit",
+        "explanation": "Encapsulation bundles data and behavior together and can control access to internal implementation details."
+    },
+
+    {
+        "id": 26,
+        "question": "Which keyword is used to define a class in C++?",
+        "options": ["struct", "object", "class", "define"],
+        "answer": "class",
+        "explanation": "The class keyword is used to define a class."
+    },
+    {
+        "id": 27,
+        "question": "What is the default access specifier for members of a C++ class?",
+        "options": ["public", "protected", "private", "global"],
+        "answer": "private",
+        "explanation": "Members of a class are private by default."
+    },
+    {
+        "id": 28,
+        "question": "What is the default access specifier for members of a C++ struct?",
+        "options": ["private", "protected", "public", "none"],
+        "answer": "public",
+        "explanation": "Members of a struct are public by default."
+    },
+    {
+        "id": 29,
+        "question": "Which keyword is used to inherit from a base class?",
+        "options": ["extends", "inherits", ":", "implements"],
+        "answer": ":",
+        "explanation": "C++ uses a colon in the class definition to specify base classes."
+    },
+    {
+        "id": 30,
+        "question": "What is multiple inheritance?",
+        "options": [
+            "A class inheriting from more than one base class",
+            "Creating multiple objects",
+            "Using multiple constructors",
+            "Calling multiple functions"
+        ],
+        "answer": "A class inheriting from more than one base class",
+        "explanation": "Multiple inheritance allows a derived class to inherit from two or more base classes."
+    },
+
+    {
+        "id": 31,
+        "question": "Which container stores elements in contiguous memory and can dynamically resize?",
+        "options": ["std::vector", "std::map", "std::set", "std::stack"],
+        "answer": "std::vector",
+        "explanation": "std::vector is a dynamic array container that stores elements contiguously."
+    },
+    {
+        "id": 32,
+        "question": "Which container stores unique elements in sorted order by default?",
+        "options": ["std::vector", "std::set", "std::queue", "std::stack"],
+        "answer": "std::set",
+        "explanation": "std::set stores unique keys and keeps them ordered according to its comparison function."
+    },
+    {
+        "id": 33,
+        "question": "Which container stores key-value pairs?",
+        "options": ["std::vector", "std::set", "std::map", "std::array"],
+        "answer": "std::map",
+        "explanation": "std::map stores elements as key-value pairs with unique keys."
+    },
+    {
+        "id": 34,
+        "question": "What is the purpose of the auto keyword?",
+        "options": [
+            "Automatically deduce the type of a variable from its initializer",
+            "Create a loop automatically",
+            "Allocate memory",
+            "Delete a variable"
+        ],
+        "answer": "Automatically deduce the type of a variable from its initializer",
+        "explanation": "The auto keyword allows the compiler to deduce a variable's type from its initializer."
+    },
+    {
+        "id": 35,
+        "question": "What is a lambda expression in C++?",
+        "options": [
+            "An anonymous function object expression",
+            "A type of class inheritance",
+            "A pointer declaration",
+            "A file handling function"
+        ],
+        "answer": "An anonymous function object expression",
+        "explanation": "A lambda expression provides a concise way to define an anonymous callable."
+    },
+
+    {
+        "id": 36,
+        "question": "What is the purpose of the const keyword?",
+        "options": [
+            "Indicates that an object should not be modified through that identifier",
+            "Creates a class",
+            "Allocates memory",
+            "Starts a thread"
+        ],
+        "answer": "Indicates that an object should not be modified through that identifier",
+        "explanation": "const is used to express that an object should not be modified through a particular name or reference."
+    },
+    {
+        "id": 37,
+        "question": "What does nullptr represent in modern C++?",
+        "options": [
+            "A null pointer value",
+            "An empty string",
+            "A deleted object",
+            "An integer equal to zero only"
+        ],
+        "answer": "A null pointer value",
+        "explanation": "nullptr is a dedicated null pointer literal introduced in C++11."
+    },
+    {
+        "id": 38,
+        "question": "What is the output?\n\nint arr[] = {1, 2, 3};\ncout << arr[1];",
+        "options": ["1", "2", "3", "Error"],
+        "answer": "2",
+        "explanation": "Arrays use zero-based indexing, so arr[1] refers to the second element."
+    },
+    {
+        "id": 39,
+        "question": "Which loop executes its body at least once?",
+        "options": ["for", "while", "do-while", "range-based for"],
+        "answer": "do-while",
+        "explanation": "A do-while loop evaluates its condition after executing the loop body."
+    },
+    {
+        "id": 40,
+        "question": "Which keyword exits the nearest enclosing loop or switch statement?",
+        "options": ["continue", "return", "break", "goto"],
+        "answer": "break",
+        "explanation": "break immediately exits the nearest enclosing loop or switch."
+    },
+
+    {
+        "id": 41,
+        "question": "Which keyword skips the remainder of the current loop iteration?",
+        "options": ["break", "continue", "return", "stop"],
+        "answer": "continue",
+        "explanation": "continue skips the remaining statements in the current iteration and proceeds to the next iteration."
+    },
+    {
+        "id": 42,
+        "question": "What is exception handling primarily used for?",
+        "options": [
+            "Handling exceptional runtime conditions",
+            "Creating arrays",
+            "Compiling code",
+            "Defining classes"
+        ],
+        "answer": "Handling exceptional runtime conditions",
+        "explanation": "Exception handling provides a structured mechanism for responding to exceptional runtime conditions."
+    },
+    {
+        "id": 43,
+        "question": "Which keywords are used in C++ exception handling?",
+        "options": [
+            "try, catch, throw",
+            "if, else, throw",
+            "check, error, handle",
+            "begin, end, catch"
+        ],
+        "answer": "try, catch, throw",
+        "explanation": "C++ exception handling uses try blocks, throw expressions, and catch handlers."
+    },
+    {
+        "id": 44,
+        "question": "What is a template in C++?",
+        "options": [
+            "A mechanism for writing generic code",
+            "A type of pointer",
+            "A file extension",
+            "A loop"
+        ],
+        "answer": "A mechanism for writing generic code",
+        "explanation": "Templates allow functions and classes to operate with different data types without rewriting the same logic."
+    },
+    {
+        "id": 45,
+        "question": "What is function recursion?",
+        "options": [
+            "A function calling itself",
+            "A function with multiple parameters",
+            "A function returning void",
+            "A function inside a class"
+        ],
+        "answer": "A function calling itself",
+        "explanation": "Recursion occurs when a function calls itself, typically until a base case is reached."
+    },
+    {
+        "id": 46,
+        "question": "Which keyword is used to include a header file?",
+        "options": ["import", "#include", "using", "#define"],
+        "answer": "#include",
+        "explanation": "The #include preprocessor directive includes declarations and definitions from another file."
+    },
+    {
+        "id": 47,
+        "question": "What does the scope resolution operator :: do?",
+        "options": [
+            "Accesses a name within a specific scope",
+            "Dereferences a pointer",
+            "Compares two values",
+            "Creates an object"
+        ],
+        "answer": "Accesses a name within a specific scope",
+        "explanation": "The scope resolution operator is used to access names belonging to namespaces, classes, or other scopes."
+    },
+    {
+        "id": 48,
+        "question": "What is the purpose of using namespace std;?",
+        "options": [
+            "Allows standard library names to be used without the std:: prefix",
+            "Creates a new namespace",
+            "Allocates memory",
+            "Deletes objects"
+        ],
+        "answer": "Allows standard library names to be used without the std:: prefix",
+        "explanation": "using namespace std; makes names from the std namespace available without explicitly writing std::."
+    },
+    {
+        "id": 49,
+        "question": "Which smart pointer provides exclusive ownership of a dynamically allocated object?",
+        "options": ["std::shared_ptr", "std::weak_ptr", "std::unique_ptr", "std::auto_ptr"],
+        "answer": "std::unique_ptr",
+        "explanation": "std::unique_ptr represents exclusive ownership and automatically releases its managed object when appropriate."
+    },
+    {
+        "id": 50,
+        "question": "Which smart pointer allows multiple owners to share ownership of an object?",
+        "options": ["std::unique_ptr", "std::shared_ptr", "std::weak_ptr", "std::raw_ptr"],
+        "answer": "std::shared_ptr",
+        "explanation": "std::shared_ptr uses shared ownership and destroys the managed object when the last owning shared_ptr is released."
+    }
+]
+

@@ -49,8 +49,12 @@ const defaultCourses = [
         questionsUrl: 'data/python.json',
         modules: ['Python Basics', 'Functions & Control Flow', 'OOP & Data Structures', 'Final Assessment'],
         lessons: [
-            { lessonId: 'py-1', title: 'Python Basics & Variables', content: 'Introduction to Python syntax, dynamic typing, and fundamental variables.', duration: '20 mins' },
-            { lessonId: 'py-2', title: 'Functions & Control Flow', content: 'Learn def statements, if/else logic, while loops, and for loops.', duration: '30 mins' }
+            { lessonId: 'py-1', module: 'Python Basics', title: 'Python Syntax & Variables', content: 'Introduction to Python syntax, dynamic typing, core primitives, and memory model.', duration: '25 mins' },
+            { lessonId: 'py-2', module: 'Functions & Control Flow', title: 'Functions & Control Flow', content: 'Learn def statements, if/else branching, loops, and parameter scope.', duration: '30 mins' },
+            { lessonId: 'py-3', module: 'OOP & Data Structures', title: 'OOP & Data Structures', content: 'Object-oriented programming, classes, lists, dicts, tuples, and sets.', duration: '35 mins' }
+        ],
+        quizzes: [
+            { quizId: 'final', title: 'Python Programming Final Assessment', passingScore: 70 }
         ],
         questions: loadCourseQuestions('python.json')
     },
@@ -67,7 +71,12 @@ const defaultCourses = [
         questionsUrl: 'data/c.json',
         modules: ['C Fundamentals', 'Functions & Pointers', 'Arrays & Structures', 'Final Assessment'],
         lessons: [
-            { lessonId: 'c-1', title: 'C Syntax & Memory Fundamentals', content: 'Introduction to data types, printf/scanf, and memory layout.', duration: '25 mins' }
+            { lessonId: 'c-1', module: 'C Fundamentals', title: 'C Syntax & Memory Layout', content: 'Data types, memory layout, printf/scanf, operators, and compilation process.', duration: '25 mins' },
+            { lessonId: 'c-2', module: 'Functions & Pointers', title: 'Functions & Pointer Mechanics', content: 'Pass-by-value vs pass-by-reference, address-of operator, and memory manipulation.', duration: '30 mins' },
+            { lessonId: 'c-3', module: 'Arrays & Structures', title: 'Arrays, Strings, & Structs', content: '1D/2D arrays, null-terminated strings, typedef, and custom structures.', duration: '30 mins' }
+        ],
+        quizzes: [
+            { quizId: 'final', title: 'C Programming Final Assessment', passingScore: 70 }
         ],
         questions: loadCourseQuestions('c.json')
     },
@@ -84,7 +93,12 @@ const defaultCourses = [
         questionsUrl: 'data/c++.json',
         modules: ['C++ Fundamentals', 'OOP in C++', 'STL & Modern C++', 'Final Assessment'],
         lessons: [
-            { lessonId: 'cpp-1', title: 'Classes, Objects, and Templates', content: 'OOP principles in C++, constructors, inheritance, and STL containers.', duration: '30 mins' }
+            { lessonId: 'cpp-1', module: 'C++ Fundamentals', title: 'C++ Syntax & References', content: 'C++ streams, references, namespaces, inline functions, and type safety.', duration: '25 mins' },
+            { lessonId: 'cpp-2', module: 'OOP in C++', title: 'Classes, Objects, & Inheritance', content: 'Constructors, destructors, access specifiers, inheritance, and polymorphism.', duration: '35 mins' },
+            { lessonId: 'cpp-3', module: 'STL & Modern C++', title: 'STL Containers & Templates', content: 'Vectors, maps, iterators, function templates, and modern C++ features.', duration: '35 mins' }
+        ],
+        quizzes: [
+            { quizId: 'final', title: 'C++ Programming Final Assessment', passingScore: 70 }
         ],
         questions: loadCourseQuestions('c++.json')
     },
@@ -101,7 +115,12 @@ const defaultCourses = [
         questionsUrl: 'data/java.json',
         modules: ['Java Basics', 'OOP & Inheritance', 'Collections & Exceptions', 'Final Assessment'],
         lessons: [
-            { lessonId: 'java-1', title: 'Java Syntax & JVM Architecture', content: 'Bytecode, JVM execution model, public static void main, and Garbage Collection.', duration: '30 mins' }
+            { lessonId: 'java-1', module: 'Java Basics', title: 'Java Syntax & JVM Architecture', content: 'Bytecode, JVM execution model, public static void main, and primitive types.', duration: '30 mins' },
+            { lessonId: 'java-2', module: 'OOP & Inheritance', title: 'Object-Oriented Java & Classes', content: 'Encapsulation, abstract classes, interfaces, and polymorphism.', duration: '35 mins' },
+            { lessonId: 'java-3', module: 'Collections & Exceptions', title: 'Collections & Exception Handling', content: 'List, Set, Map, try-catch-finally, and custom exceptions.', duration: '35 mins' }
+        ],
+        quizzes: [
+            { quizId: 'final', title: 'Java Programming Final Assessment', passingScore: 70 }
         ],
         questions: loadCourseQuestions('java.json')
     },
@@ -118,7 +137,13 @@ const defaultCourses = [
         questionsUrl: 'data/advanced-aptitude.json',
         modules: ['Quantitative Aptitude', 'Logical Reasoning', 'Data Interpretation', 'Verbal Ability', 'Final Assessment'],
         lessons: [
-            { lessonId: 'apt-1', title: 'Quantitative Shortcut Methods', content: 'Speed math techniques, percentage shortcuts, time-work matrix methods.', duration: '40 mins' }
+            { lessonId: 'apt-1', module: 'Quantitative Aptitude', title: 'Speed Math & Arithmetic Methods', content: 'Speed math techniques, percentage shortcuts, time-work matrix methods, and ratios.', duration: '40 mins' },
+            { lessonId: 'apt-2', module: 'Logical Reasoning', title: 'Logical Deduction & Analytical Reasoning', content: 'Syllogisms, blood relations, seating arrangements, and analytical puzzles.', duration: '40 mins' },
+            { lessonId: 'apt-3', module: 'Data Interpretation', title: 'Data Interpretation & Chart Analysis', content: 'Bar graphs, pie charts, tabular sets, and data sufficiency frameworks.', duration: '40 mins' },
+            { lessonId: 'apt-4', module: 'Verbal Ability', title: 'Verbal Ability & Comprehension Mastery', content: 'Critical reading, grammar rules, sentence corrections, and vocabulary in context.', duration: '40 mins' }
+        ],
+        quizzes: [
+            { quizId: 'final', title: 'Advanced Aptitude Master Assessment', passingScore: 70 }
         ],
         questions: loadCourseQuestions('advanced-aptitude.json')
     }
@@ -160,10 +185,14 @@ const additionalCourses = [
         modules,
         lessons: modules.slice(0, -1).map((module, index) => ({
             lessonId: `${courseId}-${index + 1}`,
+            module,
             title: module,
-            content: `Learn the core concepts of ${module} through guided lessons and practice.`,
+            content: `Learn the core concepts of ${module} through guided lessons and practical exercises.`,
             duration: '30 mins'
         })),
+        quizzes: [
+            { quizId: 'final', title: `${title} Final Assessment`, passingScore: 70 }
+        ],
         questions,
         order
     };
@@ -200,12 +229,28 @@ async function seedDatabase() {
             if (!existingCourse) {
                 await Course.create(courseData);
                 console.log(`Seeded Course: ${courseData.title}`);
-            } else if (courseData.questions && courseData.questions.length >= 50 && (!existingCourse.questions || existingCourse.questions.length < 50)) {
-                existingCourse.questions = courseData.questions;
-                existingCourse.lessons = courseData.lessons || existingCourse.lessons;
-                existingCourse.questionsUrl = courseData.questionsUrl || existingCourse.questionsUrl;
-                await existingCourse.save();
-                console.log(`Updated Course with 50 questions: ${courseData.title}`);
+            } else {
+                let updated = false;
+                // Synchronize lessons with module mapping
+                if (!existingCourse.lessons || existingCourse.lessons.length < courseData.lessons.length || !existingCourse.lessons[0]?.module) {
+                    existingCourse.lessons = courseData.lessons;
+                    updated = true;
+                }
+                // Synchronize course-specific quizzes
+                if (!existingCourse.quizzes || !Array.isArray(existingCourse.quizzes) || existingCourse.quizzes.length === 0) {
+                    existingCourse.quizzes = courseData.quizzes;
+                    updated = true;
+                }
+                // Update questions bank if available and larger
+                if (courseData.questions && courseData.questions.length >= 50 && (!existingCourse.questions || existingCourse.questions.length < 50)) {
+                    existingCourse.questions = courseData.questions;
+                    existingCourse.questionsUrl = courseData.questionsUrl || existingCourse.questionsUrl;
+                    updated = true;
+                }
+                if (updated) {
+                    await existingCourse.save();
+                    console.log(`Synchronized course curriculum: ${existingCourse.title}`);
+                }
             }
         }
 
@@ -225,10 +270,26 @@ async function seedDatabase() {
                 isActive: true
             });
             console.log(`Initial Owner Admin Account created: ${AUTHORIZED_ADMIN_EMAIL} (Password: ${adminPasswordRaw})`);
-        } else if (adminUser.role !== 'admin') {
-            adminUser.role = 'admin';
-            await adminUser.save();
-            console.log(`Updated existing user role to admin for ${AUTHORIZED_ADMIN_EMAIL}`);
+        } else {
+            let needsSave = false;
+            if (adminUser.role !== 'admin') {
+                adminUser.role = 'admin';
+                needsSave = true;
+            }
+            if (!adminUser.isActive) {
+                adminUser.isActive = true;
+                needsSave = true;
+            }
+            const isMatch = await bcrypt.compare(adminPasswordRaw, adminUser.password);
+            if (!isMatch) {
+                const salt = await bcrypt.genSalt(10);
+                adminUser.password = await bcrypt.hash(adminPasswordRaw, salt);
+                needsSave = true;
+            }
+            if (needsSave) {
+                await adminUser.save();
+                console.log(`Synchronized and verified lifetime Admin credentials for ${AUTHORIZED_ADMIN_EMAIL}`);
+            }
         }
 
     } catch (error) {

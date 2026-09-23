@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CertificateContracts",
+  "definitions": {
+    "CertificateGenerateRequest": {
+      "type": "object",
+      "required": ["courseId"],
+      "properties": {
+        "courseId": { "type": "string" }
+      }
+    },
+    "CertificateRecord": {
+      "type": "object",
+      "required": ["certificateId", "userName", "courseId", "courseName", "percentage", "status"],
+      "properties": {
+        "certificateId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "courseId": { "type": "string" },
+        "courseName": { "type": "string" },
+        "score": { "type": "number" },
+        "percentage": { "type": "number", "minimum": 100, "maximum": 100 },
+        "status": { "type": "string", "enum": ["valid", "revoked"] },
+        "completionDate": { "type": "string", "format": "date-time" },
+        "downloadCount": { "type": "integer" }
+      }
+    },
+    "CertificateVerifyResponse": {
+      "type": "object",
+      "required": ["isValid", "status", "certificate"],
+      "properties": {
+        "isValid": { "type": "boolean" },
+        "status": { "type": "string" },
+        "certificate": {
+          "type": "object",
+          "required": ["certificateId", "studentName", "courseName", "status"],
+          "properties": {
+            "certificateId": { "type": "string" },
+            "studentName": { "type": "string" },
+            "courseName": { "type": "string" },
+            "score": { "type": "number" },
+            "completionDate": { "type": "string" },
+            "status": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

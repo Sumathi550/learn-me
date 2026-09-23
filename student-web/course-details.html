@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Course Curriculum & Certification | Learn Me</title>
+    <link rel="icon" href="assets/learnme-logo.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css?v=5">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .details-header {
+            background: linear-gradient(135deg, rgba(13, 27, 61, 0.95) 0%, rgba(37, 99, 235, 0.85) 100%);
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 48px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .details-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .curriculum-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin: 40px auto 80px;
+        }
+        @media (max-width: 900px) {
+            .curriculum-layout {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                margin: 24px auto 60px;
+            }
+            .sidebar-card {
+                position: static !important;
+                padding: 22px 18px !important;
+            }
+        }
+        .module-block {
+            background: var(--bg-panel, #ffffff);
+            border: 1px solid var(--glass-border, rgba(13, 27, 61, 0.1));
+            border-radius: 18px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(13, 27, 61, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .module-block:hover {
+            box-shadow: 0 8px 24px rgba(13, 27, 61, 0.07);
+        }
+        .module-header {
+            padding: 18px 24px;
+            background: linear-gradient(180deg, rgba(13, 27, 61, 0.02) 0%, rgba(13, 27, 61, 0.04) 100%);
+            border-bottom: 1px solid rgba(13, 27, 61, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .lesson-item {
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(13, 27, 61, 0.05);
+            transition: all 0.2s ease;
+        }
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+        .lesson-item:hover {
+            background: rgba(37, 99, 235, 0.03);
+        }
+        .sidebar-card {
+            background: var(--bg-panel, #ffffff);
+            border: 1px solid var(--glass-border, rgba(13, 27, 61, 0.1));
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(13, 27, 61, 0.06);
+            position: sticky;
+            top: 92px;
+        }
+        .check-btn {
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .check-btn:hover {
+            border-color: #2563eb;
+            background: rgba(37, 99, 235, 0.05);
+        }
+        .check-btn.completed {
+            background: #10b981;
+            border-color: #10b981;
+            color: #ffffff;
+        }
+        .tier-card {
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(13, 27, 61, 0.02);
+            border: 1.5px solid rgba(13, 27, 61, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+        .tier-card.active-done {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+        .tier-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        .tier-card.active-done .tier-icon {
+            background: #10b981;
+            color: #ffffff;
+        }
+        .lesson-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(11, 23, 54, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+        .lesson-modal-content {
+            background: #ffffff;
+            border-radius: 22px;
+            max-width: 680px;
+            width: 100%;
+            padding: 34px clamp(20px, 4vw, 36px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            position: relative;
+            max-height: 88vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        .lesson-code-block {
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 16px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 13.5px;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= HEADER & NAVIGATION ================= -->
+    <header>
+        <nav class="container">
+            <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+                <img src="assets/learnme-logo.png" alt="Learn Me Logo" width="116" height="34" />
+            </div>
+
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="courses.html" class="nav-link active">Courses</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="quiz.html" class="nav-link">Quiz</a></li>
+                <li><a href="verify.html" class="nav-link">Verify</a></li>
+            </ul>
+
+            <div class="user-auth-section" id="user-auth-section">
+                <a href="login.html" id="nav-login-btn" class="btn btn-sm btn-primary" style="padding: 8px 18px;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </a>
+                <div class="menu-btn" id="menu-btn" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="nav-backdrop" id="nav-backdrop"></div>
+
+    <main>
+        <!-- Course Hero Section -->
+        <section class="details-header">
+            <div class="container">
+                <a href="courses.html" style="color: #93c5fd; text-decoration: none; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; transition: color 0.2s;">
+                    <i class="fas fa-arrow-left"></i> Back to All Courses
+                </a>
+                <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 12px; flex-wrap: wrap;">
+                    <span id="course-category-badge" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); padding: 4px 14px; border-radius: 99px; font-size: 12.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">Category</span>
+                    <span id="course-track-badge" style="background: rgba(56, 189, 248, 0.2); color: #bae6fd; padding: 4px 14px; border-radius: 99px; font-size: 12.5px; font-weight: 600;">Verified Track</span>
+                </div>
+                <h1 id="course-title" style="font-family: 'Outfit', sans-serif; font-size: clamp(26px, 4.5vw, 38px); font-weight: 800; margin: 0 0 12px; color: #ffffff; line-height: 1.25; word-break: break-word;">
+                    Loading Course Curriculum...
+                </h1>
+                <p id="course-subtitle" style="color: #cbd5e1; font-size: clamp(14px, 2vw, 16px); margin: 0 0 24px; max-width: 780px; line-height: 1.6;">
+                    Please wait while curriculum details are loaded.
+                </p>
+                <div style="display: flex; gap: 24px; font-size: 14px; color: #e2e8f0; flex-wrap: wrap;">
+                    <span id="course-duration"><i class="far fa-clock" style="color: #38bdf8;"></i> Duration: --</span>
+                    <span id="course-difficulty"><i class="fas fa-signal" style="color: #38bdf8;"></i> Difficulty: --</span>
+                    <span id="course-lessons-count"><i class="fas fa-book" style="color: #38bdf8;"></i> Lessons: --</span>
+                    <span id="course-exam-count"><i class="fas fa-award" style="color: #38bdf8;"></i> 50 Questions Final Exam</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Curriculum & Sidebar Layout -->
+        <section class="container curriculum-layout">
+            <!-- Left: Modules & Lessons -->
+            <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 12px;">
+                    <h2 style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 800; margin: 0; color: var(--text-main); display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-layer-group" style="color: #2563eb;"></i> Course Curriculum
+                    </h2>
+                    <span style="font-size: 13.5px; color: var(--text-muted);">
+                        Click <strong>Read</strong> on each lesson to earn your <strong>25% Reading credit</strong>.
+                    </span>
+                </div>
+
+                <div id="modules-container">
+                    <p style="color: var(--text-muted);">Loading curriculum modules...</p>
+                </div>
+            </div>
+
+            <!-- Right: 3-Tier Course Progress & Certification Card -->
+            <div>
+                <div class="sidebar-card">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                        <h3 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800; margin: 0; color: var(--text-main);">
+                            Course Progress
+                        </h3>
+                        <span id="completion-badge" style="background: rgba(37,99,235,0.08); color: #2563eb; font-weight: 700; padding: 4px 12px; border-radius: 99px; font-size: 12px; border: 1px solid rgba(37,99,235,0.2);">
+                            In Progress
+                        </span>
+                    </div>
+
+                    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="font-size: 38px; font-weight: 800; color: #2563eb; font-family: 'Outfit', sans-serif; line-height: 1;" id="progress-percent">0%</div>
+                        <span style="font-size: 13px; color: var(--text-muted);" id="progress-sublabel">0 of 100% Completed</span>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div style="width: 100%; height: 10px; background: rgba(13,27,61,0.08); border-radius: 99px; overflow: hidden; margin: 12px 0 24px;">
+                        <div id="progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #2563eb 0%, #10b981 100%); border-radius: 99px; transition: width 0.4s ease;"></div>
+                    </div>
+
+                    <!-- 3-Tier Step Breakdown: 25% Read + 25% Quiz + 50% 50-Questions Exam -->
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 26px;">
+                        <!-- Step 1: Reading (25%) -->
+                        <div class="tier-card" id="tier-reading-card">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="tier-icon" id="step-reading-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 14px; color: var(--text-main);">1. Reading Lessons</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);" id="step-reading-desc">Complete all lessons (+25%)</div>
+                                </div>
+                            </div>
+                            <span id="step-reading-pct" style="font-weight: 800; font-size: 13.5px; color: #64748b;">0/25%</span>
+                        </div>
+
+                        <!-- Step 2: Practice Quiz (25%) -->
+                        <div class="tier-card" id="tier-practice-card">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="tier-icon" id="step-practice-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 14px; color: var(--text-main);">2. Practice Quiz</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);" id="step-practice-desc">Module practice quiz (+25%)</div>
+                                </div>
+                            </div>
+                            <span id="step-practice-pct" style="font-weight: 800; font-size: 13.5px; color: #64748b;">0/25%</span>
+                        </div>
+
+                        <!-- Step 3: 50-Questions Exam (50%) -->
+                        <div class="tier-card" id="tier-exam-card">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="tier-icon" id="step-exam-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 14px; color: var(--text-main);">3. 50-Questions Exam</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);" id="step-exam-desc">Score &ge; 70% to pass (+50%)</div>
+                                </div>
+                            </div>
+                            <span id="step-exam-pct" style="font-weight: 800; font-size: 13.5px; color: #64748b;">0/50%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <a id="practice-quiz-btn" href="#" class="btn btn-outline" style="width: 100%; text-align: center; justify-content: center; box-sizing: border-box; font-size: 14px; padding: 12px; font-weight: 600;">
+                            <i class="fas fa-bolt" style="color: #f59e0b;"></i> Take Practice Quiz (+25%)
+                        </a>
+
+                        <a id="quiz-btn" href="#" class="btn btn-primary" style="width: 100%; text-align: center; justify-content: center; box-sizing: border-box; font-size: 14.5px; padding: 13px; font-weight: 700; letter-spacing: 0.2px;">
+                            <i class="fas fa-graduation-cap"></i> Take 50-Question Exam (+50%)
+                        </a>
+
+                        <a id="cert-btn" href="#" class="btn btn-outline" style="width: 100%; text-align: center; justify-content: center; box-sizing: border-box; font-size: 14px; padding: 13px; opacity: 0.55; pointer-events: none; transition: all 0.3s ease;">
+                            <i class="fas fa-lock"></i> Claim Certificate (100% Required)
+                        </a>
+                    </div>
+
+                    <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(13,27,61,0.08); font-size: 12.5px; color: var(--text-muted); text-align: center;">
+                        <i class="fas fa-shield-alt" style="color: #2563eb;"></i> Verified by Learn Me Certification Authority
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Interactive Lesson Reading Modal -->
+    <div class="lesson-modal" id="lesson-modal">
+        <div class="lesson-modal-content">
+            <button onclick="closeLessonModal()" style="position: absolute; top: 22px; right: 22px; background: none; border: none; font-size: 22px; color: #94a3b8; cursor: pointer; transition: color 0.2s;" title="Close Modal">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                <span style="font-size: 12px; font-weight: 700; color: #2563eb; background: rgba(37,99,235,0.08); padding: 3px 10px; border-radius: 99px;">
+                    <i class="fas fa-book-reader"></i> Interactive Lesson
+                </span>
+                <span id="modal-lesson-duration" style="font-size: 12.5px; color: var(--text-muted);">25 mins</span>
+            </div>
+
+            <h2 id="modal-lesson-title" style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; margin: 0 0 16px; color: var(--text-main); line-height: 1.3;">
+                Lesson Title
+            </h2>
+
+            <div id="modal-lesson-content" style="color: #334155; font-size: 15px; line-height: 1.75; margin-bottom: 24px;">
+                Loading lesson materials...
+            </div>
+
+            <div id="modal-lesson-keypoints" style="background: rgba(37,99,235,0.04); border-left: 4px solid #2563eb; padding: 14px 18px; border-radius: 0 12px 12px 0; margin-bottom: 28px; font-size: 14px; color: #1e293b;">
+                <strong>Key Takeaway:</strong> Review the fundamentals and try implementing the concepts in your local coding environment.
+            </div>
+
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <button id="modal-complete-btn" class="btn btn-primary" style="flex: 1; min-width: 200px; justify-content: center; padding: 12px 20px; font-weight: 700;">
+                    <i class="fas fa-check-circle"></i> Mark Read & Completed (+Progress)
+                </button>
+                <button onclick="closeLessonModal()" class="btn btn-outline" style="padding: 12px 20px;">
+                    Done Reading
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/nav-auth.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = (urlParams.get('course') || 'python').toLowerCase();
+        let currentCourse = null;
+        let userProgress = null;
+
+        async function initPage() {
+            document.getElementById('practice-quiz-btn').href = `quiz.html?course=${encodeURIComponent(courseId)}&mode=practice`;
+            document.getElementById('quiz-btn').href = `quiz.html?course=${encodeURIComponent(courseId)}&mode=final`;
+            document.getElementById('cert-btn').href = `certificate.html?course=${encodeURIComponent(courseId)}`;
+
+            try {
+                const [courseData, progressData] = await Promise.all([
+                    StudentAPI.get(`/courses/${courseId}`),
+                    StudentAPI.getToken() ? StudentAPI.get(`/progress/${courseId}`).catch(() => null) : null
+                ]);
+
+                currentCourse = courseData.data || courseData;
+                userProgress = progressData?.data || progressData;
+
+                renderCourse();
+            } catch (err) {
+                console.error('Failed to load course details:', err);
+                document.getElementById('course-title').textContent = 'Course Curriculum';
+                document.getElementById('modules-container').innerHTML = `<p style="color: #ef4444;">Could not load course details at this moment.</p>`;
+            }
+        }
+
+        function renderCourse() {
+            if (!currentCourse) return;
+
+            document.getElementById('course-title').textContent = currentCourse.title || courseId.toUpperCase();
+            document.getElementById('course-subtitle').textContent = currentCourse.subtitle || 'Master concepts, complete reading, test with practice quiz, and pass the 50-question final exam.';
+            document.getElementById('course-duration').innerHTML = `<i class="far fa-clock" style="color: #38bdf8;"></i> Duration: ${currentCourse.duration || '10 hrs'}`;
+            document.getElementById('course-difficulty').innerHTML = `<i class="fas fa-signal" style="color: #38bdf8;"></i> Difficulty: ${currentCourse.difficulty || 'All Levels'}`;
+            document.getElementById('course-category-badge').textContent = currentCourse.category || 'Programming';
+
+            const lessons = currentCourse.lessons || [];
+            const modules = currentCourse.modules || [];
+            document.getElementById('course-lessons-count').innerHTML = `<i class="fas fa-book" style="color: #38bdf8;"></i> Lessons: ${lessons.length}`;
+
+            // Calculate progress metrics
+            const completedLessonIds = userProgress?.completedLessonIds || userProgress?.progress?.completedLessonIds || [];
+            const totalLessons = lessons.length || 1;
+            const completedLessonsCount = completedLessonIds.length;
+
+            // 1. Reading (25%)
+            const readingCompleted = totalLessons > 0 && completedLessonsCount >= totalLessons;
+            const readingPct = readingCompleted ? 25 : Math.min(25, Math.round((completedLessonsCount / totalLessons) * 25));
+
+            // 2. Practice Quiz (25%)
+            const completedQuizzes = userProgress?.completedQuizzes || userProgress?.progress?.completedQuizzes || [];
+            const hasPracticePassed = Array.isArray(completedQuizzes) && (
+                completedQuizzes.includes('practice') || 
+                completedQuizzes.some(q => q.startsWith('practice') || q.startsWith('quiz-'))
+            );
+
+            // 3. Final 50-Questions Exam (50%)
+            const quizScore = typeof userProgress?.quizScore === 'number' ? userProgress.quizScore : (userProgress?.progress?.quizScore || 0);
+            const quizPassed = Boolean(userProgress?.quizPassed || userProgress?.progress?.quizPassed) && quizScore >= 70;
+            const hasFinalPassed = (Array.isArray(completedQuizzes) && completedQuizzes.includes('final')) || quizPassed;
+
+            // Overall Percentage
+            let overallPct = readingPct;
+            if (hasPracticePassed) overallPct += 25;
+            if (hasFinalPassed) {
+                overallPct += 50;
+                // If passed final exam with >= 70% and all reading is done, credit full 100%
+                if (!hasPracticePassed && readingCompleted) {
+                    overallPct += 25;
+                }
+            }
+            overallPct = Math.min(100, userProgress?.percentage || userProgress?.progress?.percentage || overallPct);
+
+            // Update UI elements
+            document.getElementById('progress-percent').textContent = `${overallPct}%`;
+            document.getElementById('progress-bar-fill').style.width = `${overallPct}%`;
+            document.getElementById('progress-sublabel').textContent = `${overallPct} of 100% Completed`;
+
+            // Tier 1 UI: Reading
+            const tierReadingCard = document.getElementById('tier-reading-card');
+            const stepReadingIcon = document.getElementById('step-reading-icon');
+            const stepReadingPct = document.getElementById('step-reading-pct');
+            const stepReadingDesc = document.getElementById('step-reading-desc');
+            stepReadingPct.textContent = `${readingPct}/25%`;
+            stepReadingDesc.textContent = `${completedLessonsCount}/${totalLessons} lessons read (+25%)`;
+
+            if (readingCompleted || readingPct === 25) {
+                tierReadingCard.classList.add('active-done');
+                stepReadingIcon.innerHTML = `<i class="fas fa-check"></i>`;
+                stepReadingPct.style.color = '#10b981';
+            } else {
+                tierReadingCard.classList.remove('active-done');
+                stepReadingIcon.innerHTML = `<i class="fas fa-book-open"></i>`;
+                stepReadingPct.style.color = '#64748b';
+            }
+
+            // Tier 2 UI: Practice Quiz
+            const tierPracticeCard = document.getElementById('tier-practice-card');
+            const stepPracticeIcon = document.getElementById('step-practice-icon');
+            const stepPracticePct = document.getElementById('step-practice-pct');
+            const stepPracticeDesc = document.getElementById('step-practice-desc');
+            const practiceQuizBtn = document.getElementById('practice-quiz-btn');
+
+            if (hasPracticePassed || (hasFinalPassed && overallPct === 100)) {
+                tierPracticeCard.classList.add('active-done');
+                stepPracticeIcon.innerHTML = `<i class="fas fa-check"></i>`;
+                stepPracticePct.textContent = '25/25%';
+                stepPracticePct.style.color = '#10b981';
+                stepPracticeDesc.textContent = 'Practice Quiz Passed (+25%)';
+                practiceQuizBtn.innerHTML = `<i class="fas fa-check-circle" style="color: #10b981;"></i> Retake Practice Quiz`;
+            } else {
+                tierPracticeCard.classList.remove('active-done');
+                stepPracticeIcon.innerHTML = `<i class="fas fa-bolt"></i>`;
+                stepPracticePct.textContent = '0/25%';
+                stepPracticePct.style.color = '#64748b';
+                stepPracticeDesc.textContent = 'Test fundamentals (+25%)';
+            }
+
+            // Tier 3 UI: 50-Questions Exam
+            const tierExamCard = document.getElementById('tier-exam-card');
+            const stepExamIcon = document.getElementById('step-exam-icon');
+            const stepExamPct = document.getElementById('step-exam-pct');
+            const stepExamDesc = document.getElementById('step-exam-desc');
+            const quizBtn = document.getElementById('quiz-btn');
+
+            if (hasFinalPassed) {
+                tierExamCard.classList.add('active-done');
+                stepExamIcon.innerHTML = `<i class="fas fa-check"></i>`;
+                stepExamPct.textContent = '50/50%';
+                stepExamPct.style.color = '#10b981';
+                stepExamDesc.textContent = `Passed with ${quizScore}% (+50%)`;
+                quizBtn.innerHTML = `<i class="fas fa-check-circle"></i> Retake 50-Question Exam (Score: ${quizScore}%)`;
+            } else {
+                tierExamCard.classList.remove('active-done');
+                stepExamIcon.innerHTML = `<i class="fas fa-graduation-cap"></i>`;
+                stepExamPct.textContent = '0/50%';
+                stepExamPct.style.color = '#64748b';
+                stepExamDesc.textContent = 'Score \u2265 70% to pass (+50%)';
+            }
+
+            // Completion & Certificate Button
+            const certBtn = document.getElementById('cert-btn');
+            const completionBadge = document.getElementById('completion-badge');
+
+            if (overallPct === 100 && hasFinalPassed) {
+                completionBadge.textContent = '100% Completed';
+                completionBadge.style.background = 'rgba(16, 185, 129, 0.12)';
+                completionBadge.style.color = '#10b981';
+                completionBadge.style.borderColor = '#10b981';
+
+                certBtn.style.opacity = '1';
+                certBtn.style.pointerEvents = 'auto';
+                certBtn.className = 'btn btn-primary';
+                certBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                certBtn.style.border = 'none';
+                certBtn.style.color = '#ffffff';
+                certBtn.style.fontWeight = '700';
+                certBtn.style.boxShadow = '0 6px 20px rgba(16, 185, 129, 0.3)';
+                certBtn.innerHTML = `<i class="fas fa-award"></i> \uD83C\uDF89 Claim Official Certificate`;
+            } else {
+                completionBadge.textContent = overallPct > 0 ? `${overallPct}% In Progress` : 'Not Started';
+                completionBadge.style.background = 'rgba(37,99,235,0.08)';
+                completionBadge.style.color = '#2563eb';
+                completionBadge.style.borderColor = 'rgba(37,99,235,0.2)';
+
+                certBtn.style.opacity = '0.55';
+                certBtn.style.pointerEvents = 'none';
+                certBtn.className = 'btn btn-outline';
+                certBtn.style.background = 'none';
+                certBtn.style.color = '#64748b';
+                certBtn.style.boxShadow = 'none';
+                certBtn.innerHTML = `<i class="fas fa-lock"></i> Claim Certificate (100% Required)`;
+            }
+
+            // Render Modules & Lessons
+            const container = document.getElementById('modules-container');
+            if (modules.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted);">No modules published for this course yet.</p>';
+                return;
+            }
+
+            container.innerHTML = modules.map((moduleName, idx) => {
+                const modLessons = lessons.filter(l => (l.module || '').toLowerCase() === moduleName.toLowerCase());
+                return `
+                    <div class="module-block">
+                        <div class="module-header">
+                            <div>
+                                <span style="font-weight: 800; font-size: 16px; color: var(--text-main);">Module ${idx + 1}: ${moduleName}</span>
+                                <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">${modLessons.length} lesson${modLessons.length === 1 ? '' : 's'} included</div>
+                            </div>
+                            <span style="font-size: 12px; font-weight: 700; color: #2563eb; background: rgba(37,99,235,0.06); padding: 4px 10px; border-radius: 8px;">
+                                Reading
+                            </span>
+                        </div>
+                        <div>
+                            ${modLessons.length > 0 ? modLessons.map(lesson => {
+                                const isDone = completedLessonIds.includes(lesson.lessonId);
+                                return `
+                                    <div class="lesson-item">
+                                        <div style="display: flex; align-items: center; gap: 14px;">
+                                            <button class="check-btn ${isDone ? 'completed' : ''}" onclick="toggleLesson('${lesson.lessonId}', ${!isDone})" title="${isDone ? 'Mark unread' : 'Mark completed'}">
+                                                <i class="fas fa-check" style="font-size: 12px;"></i>
+                                            </button>
+                                            <div>
+                                                <div style="font-weight: 600; font-size: 14.5px; color: var(--text-main);">${lesson.title}</div>
+                                                <div style="font-size: 12px; color: var(--text-muted);"><i class="far fa-clock"></i> ${lesson.duration || '25 mins'}</div>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <button onclick="openLessonModal('${lesson.lessonId}')" class="btn btn-sm ${isDone ? 'btn-outline' : 'btn-primary'}" style="padding: 6px 14px; font-size: 13px; font-weight: 600;">
+                                                <i class="fas fa-book-reader"></i> ${isDone ? 'Review' : 'Read'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('') : `<div style="padding: 18px 24px; font-size: 13.5px; color: var(--text-muted);">Self-guided reading and technical reference material.</div>`}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function toggleLesson(lessonId, markComplete) {
+            if (!StudentAPI.getToken()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const res = await StudentAPI.put(`/progress/${courseId}/lesson`, {
+                    lessonId,
+                    completed: markComplete
+                });
+
+                userProgress = res.data || res;
+                renderCourse();
+            } catch (err) {
+                console.error('Failed to update lesson status:', err);
+            }
+        }
+
+        function openLessonModal(lessonId) {
+            const lessons = currentCourse?.lessons || [];
+            const lesson = lessons.find(l => l.lessonId === lessonId);
+            if (!lesson) return;
+
+            document.getElementById('modal-lesson-title').textContent = lesson.title;
+            document.getElementById('modal-lesson-duration').textContent = lesson.duration || '25 mins';
+            
+            // Format detailed reading content
+            const content = lesson.content || `Master the foundational and advanced techniques of ${lesson.title}.`;
+            document.getElementById('modal-lesson-content').innerHTML = `
+                <p style="margin-bottom: 14px;">${content}</p>
+                <div class="lesson-code-block">
+// Practical application example for ${lesson.title}
+function demonstrateConcept() {
+    console.log("Mastered core principles of ${lesson.title}");
+    return { status: "Verified", mastery: "100%" };
+}
+                </div>
+                <p style="font-size: 13.5px; color: #64748b;">
+                    By completing this reading, your progress bar increments towards your <strong>25% Reading milestone</strong>.
+                </p>
+            `;
+
+            const completedLessonIds = userProgress?.completedLessonIds || userProgress?.progress?.completedLessonIds || [];
+            const isDone = completedLessonIds.includes(lessonId);
+
+            const completeBtn = document.getElementById('modal-complete-btn');
+            if (isDone) {
+                completeBtn.innerHTML = `<i class="fas fa-check-double"></i> Already Completed (+Progress)`;
+                completeBtn.className = 'btn btn-outline';
+            } else {
+                completeBtn.innerHTML = `<i class="fas fa-check-circle"></i> Mark Read & Completed (+Progress)`;
+                completeBtn.className = 'btn btn-primary';
+            }
+
+            completeBtn.onclick = async () => {
+                await toggleLesson(lessonId, true);
+                closeLessonModal();
+            };
+
+            document.getElementById('lesson-modal').style.display = 'flex';
+        }
+
+        function closeLessonModal() {
+            document.getElementById('lesson-modal').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>

@@ -2,10 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
     <title>Learn Me - Premium AI Learning Platform</title>
     <link rel="icon" href="assets/learnme-logo.png" type="image/png" />
-    <link rel="stylesheet" href="css/style.css?v=2" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0d1b3d" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Learn Me" />
+    <link rel="apple-touch-icon" href="assets/learnme-logo.png" />
+    <link rel="stylesheet" href="css/style.css?v=3" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
@@ -22,11 +29,7 @@
     <header>
         <nav class="container">
             <div class="logo" onclick="navigateTo('home')" style="cursor: pointer;">
-                <img src="assets/learnme-logo.png" alt="Learn Me Logo" />
-            </div>
-
-            <div class="menu-btn" id="menu-btn">
-                <i class="fas fa-bars"></i>
+                <img src="assets/learnme-logo.png" alt="Learn Me Logo" width="116" height="34" />
             </div>
 
             <ul id="nav-menu">
@@ -36,13 +39,13 @@
                 <li><a href="quize.html" class="nav-link" onclick="navigateTo('quiz'); return false;">Quiz</a></li>
                 <li><a href="verify.html" class="nav-link" onclick="navigateTo('verify'); return false;">Verify</a></li>
                 <li id="secret-admin-nav" style="display: none;">
-                    <a href="admin.html" class="nav-link" style="color: var(--primary-accent); font-weight: 700;">
+                    <a href="admin.html" class="nav-link" style="color: var(--primary-accent); font-weight: 600;">
                         <i class="fas fa-lock"></i> Admin
                     </a>
                 </li>
             </ul>
 
-            <div class="user-auth-section" id="user-auth-section" style="display: flex; gap: 12px; align-items: center;">
+            <div class="user-auth-section" id="user-auth-section">
                 <div id="auth-section" style="display: flex; align-items: center; gap: 8px;">
                     <button class="btn btn-sm btn-primary" onclick="openAuthModal('login')" style="padding: 8px 18px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px;">
                         <i class="fas fa-sign-in-alt"></i> Sign In / Register
@@ -64,9 +67,26 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="menu-btn" id="menu-btn" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </div>
             </div>
         </nav>
     </header>
+    <script>
+        (function() {
+            try {
+                if (localStorage.getItem('learnMeCurrentUser') || localStorage.getItem('learnMeAuthToken')) {
+                    var a = document.getElementById('auth-section');
+                    var u = document.getElementById('user-section');
+                    if (a) a.style.display = 'none';
+                    if (u) u.style.display = 'flex';
+                }
+            } catch(e) {}
+        })();
+    </script>
+    <div class="nav-backdrop" id="nav-backdrop"></div>
 
     <!-- ================= MAIN CONTENT VIEWS ================= -->
     <main>
@@ -668,6 +688,11 @@
             </div>
 
             <form id="student-auth-form">
+                <!-- Bot Honeypot Field (invisible to humans, trapped for bots) -->
+                <div style="display: none !important; opacity: 0; position: absolute; left: -9999px;">
+                    <input type="text" name="website_hp" id="student-auth-hp" tabindex="-1" autocomplete="off" />
+                </div>
+
                 <div id="auth-name-group" style="display: none; margin-bottom: 16px;">
                     <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Full Name</label>
                     <input type="text" id="student-auth-name" placeholder="John Doe" style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--glass-border); font-size: 15px; outline: none;" />
@@ -693,6 +718,42 @@
             <div style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-muted);">
                 <span id="auth-toggle-msg">Don't have an account?</span>
                 <a href="#" id="auth-toggle-link" onclick="toggleAuthMode(); return false;" style="color: var(--primary-accent); font-weight: 700; margin-left: 4px; text-decoration: underline;">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODULE STUDY & COMPLETION MODAL ================= -->
+    <div id="module-study-modal" class="certificate-preview-modal" hidden>
+        <div class="certificate-preview-dialog" style="max-width: 600px; text-align: left;">
+            <button class="certificate-preview-close" type="button" onclick="closeModuleStudyModal()" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(37,99,235,0.1); color: var(--primary-accent); display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                    <i class="fas fa-book-reader"></i>
+                </div>
+                <div>
+                    <h3 id="module-modal-title" style="margin: 0 0 2px 0; font-size: 20px; color: var(--text-main);">Module Title</h3>
+                    <small id="module-modal-course" style="color: var(--text-muted); font-weight: 600;">Course Track</small>
+                </div>
+            </div>
+
+            <div id="module-modal-body" style="background: rgba(13,27,61,0.03); border: 1px solid var(--glass-border); border-radius: 12px; padding: 18px; margin-bottom: 20px; font-size: 14.5px; line-height: 1.6; color: var(--text-main);">
+                <!-- Dynamic module content injected here -->
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <button id="module-modal-complete-btn" class="btn btn-success" type="button" onclick="toggleCurrentModuleComplete()">
+                    <i class="fas fa-check-circle"></i> Mark as Completed
+                </button>
+                <div style="display: flex; gap: 8px;">
+                    <button id="module-modal-quiz-btn" class="btn btn-secondary" type="button">
+                        <i class="fas fa-bolt"></i> Practice Topic Quiz
+                    </button>
+                    <button class="btn btn-secondary" type="button" onclick="closeModuleStudyModal()">
+                        Close
+                    </button>
+                </div>
             </div>
         </div>
     </div>

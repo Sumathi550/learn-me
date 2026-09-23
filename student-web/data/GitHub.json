@@ -1,0 +1,607 @@
+ [
+  {
+    "id": 1,
+    "question": "What is Git?",
+    "options": [
+      "A distributed version control system",
+      "A programming language",
+      "A database management system",
+      "A cloud hosting service"
+    ],
+    "answer": "A distributed version control system",
+    "explanation": "Git is a distributed version control system used to track changes in source code and other files."
+  },
+  {
+    "id": 2,
+    "question": "What is GitHub primarily used for?",
+    "options": [
+      "Hosting and collaborating on Git repositories",
+      "Writing only HTML code",
+      "Managing databases only",
+      "Running operating systems"
+    ],
+    "answer": "Hosting and collaborating on Git repositories",
+    "explanation": "GitHub provides repository hosting and collaboration features built around Git."
+  },
+  {
+    "id": 3,
+    "question": "Which command initializes a new Git repository?",
+    "options": [
+      "git start",
+      "git init",
+      "git create",
+      "git new"
+    ],
+    "answer": "git init",
+    "explanation": "git init creates a new Git repository in the current directory."
+  },
+  {
+    "id": 4,
+    "question": "Which command shows the current status of a Git repository?",
+    "options": [
+      "git info",
+      "git status",
+      "git check",
+      "git state"
+    ],
+    "answer": "git status",
+    "explanation": "git status displays the state of the working tree and staging area."
+  },
+  {
+    "id": 5,
+    "question": "Which command is used to add changes to the staging area?",
+    "options": [
+      "git stage",
+      "git add",
+      "git commit",
+      "git push"
+    ],
+    "answer": "git add",
+    "explanation": "git add stages changes so they can be included in the next commit."
+  },
+  {
+    "id": 6,
+    "question": "What is a Git commit?",
+    "options": [
+      "A snapshot of staged changes with metadata",
+      "A deleted repository",
+      "A remote server",
+      "A programming language"
+    ],
+    "answer": "A snapshot of staged changes with metadata",
+    "explanation": "A commit records a snapshot of staged changes along with information such as the author and commit message."
+  },
+  {
+    "id": 7,
+    "question": "Which command creates a new commit?",
+    "options": [
+      "git save",
+      "git commit",
+      "git push",
+      "git merge"
+    ],
+    "answer": "git commit",
+    "explanation": "git commit records the staged changes in the local repository."
+  },
+  {
+    "id": 8,
+    "question": "Which command displays the commit history?",
+    "options": [
+      "git history",
+      "git commits",
+      "git log",
+      "git showall"
+    ],
+    "answer": "git log",
+    "explanation": "git log displays the commit history of the repository."
+  },
+  {
+    "id": 9,
+    "question": "What is a repository?",
+    "options": [
+      "A project directory tracked by Git",
+      "A programming function",
+      "A database table",
+      "A CSS framework"
+    ],
+    "answer": "A project directory tracked by Git",
+    "explanation": "A Git repository contains project files along with the history and metadata used to track changes."
+  },
+  {
+    "id": 10,
+    "question": "Which command copies an existing remote repository to your local machine?",
+    "options": [
+      "git copy",
+      "git clone",
+      "git pull",
+      "git fork"
+    ],
+    "answer": "git clone",
+    "explanation": "git clone creates a local copy of an existing repository."
+  },
+
+  {
+    "id": 11,
+    "question": "What is a branch in Git?",
+    "options": [
+      "An independent line of development",
+      "A deleted commit",
+      "A remote server",
+      "A GitHub user"
+    ],
+    "answer": "An independent line of development",
+    "explanation": "Branches allow developers to work on changes independently without directly affecting another branch."
+  },
+  {
+    "id": 12,
+    "question": "Which command lists local branches?",
+    "options": [
+      "git branch",
+      "git branches",
+      "git list",
+      "git show branch"
+    ],
+    "answer": "git branch",
+    "explanation": "git branch lists local branches and can also be used for branch management."
+  },
+  {
+    "id": 13,
+    "question": "Which command creates and switches to a new branch?",
+    "options": [
+      "git branch newBranch",
+      "git checkout -b newBranch",
+      "git merge newBranch",
+      "git add newBranch"
+    ],
+    "answer": "git checkout -b newBranch",
+    "explanation": "git checkout -b creates a new branch and switches the working directory to it."
+  },
+  {
+    "id": 14,
+    "question": "Which modern Git command can switch branches?",
+    "options": [
+      "git change",
+      "git switch",
+      "git move",
+      "git branch switch"
+    ],
+    "answer": "git switch",
+    "explanation": "git switch is a newer command designed specifically for switching between branches."
+  },
+  {
+    "id": 15,
+    "question": "What is merging in Git?",
+    "options": [
+      "Combining changes from different branches",
+      "Deleting all branches",
+      "Uploading files to GitHub",
+      "Creating a new repository"
+    ],
+    "answer": "Combining changes from different branches",
+    "explanation": "A merge integrates changes from one branch into another."
+  },
+  {
+    "id": 16,
+    "question": "Which command is used to merge another branch into the current branch?",
+    "options": [
+      "git combine",
+      "git merge",
+      "git join",
+      "git integrate"
+    ],
+    "answer": "git merge",
+    "explanation": "git merge combines the history and changes of another branch into the current branch."
+  },
+  {
+    "id": 17,
+    "question": "What is a merge conflict?",
+    "options": [
+      "A situation where Git cannot automatically combine changes",
+      "A successful merge",
+      "A deleted branch",
+      "A GitHub account error"
+    ],
+    "answer": "A situation where Git cannot automatically combine changes",
+    "explanation": "A merge conflict occurs when competing changes require manual resolution."
+  },
+  {
+    "id": 18,
+    "question": "What does git diff show?",
+    "options": [
+      "Differences between file states",
+      "All remote repositories",
+      "Only commit messages",
+      "GitHub users"
+    ],
+    "answer": "Differences between file states",
+    "explanation": "git diff displays differences between working tree, staging area, or commit states depending on the options used."
+  },
+  {
+    "id": 19,
+    "question": "What is a remote repository?",
+    "options": [
+      "A repository stored outside the local machine",
+      "A deleted local repository",
+      "A type of branch",
+      "A programming library"
+    ],
+    "answer": "A repository stored outside the local machine",
+    "explanation": "A remote repository is hosted on another system or service and can be shared with collaborators."
+  },
+  {
+    "id": 20,
+    "question": "What is 'origin' commonly used for in Git?",
+    "options": [
+      "The default name for a remote repository",
+      "The first Git commit",
+      "The main branch",
+      "A Git command"
+    ],
+    "answer": "The default name for a remote repository",
+    "explanation": "origin is the conventional default name assigned to the remote repository when cloning."
+  },
+
+  {
+    "id": 21,
+    "question": "Which command uploads local commits to a remote repository?",
+    "options": [
+      "git upload",
+      "git push",
+      "git send",
+      "git commit"
+    ],
+    "answer": "git push",
+    "explanation": "git push sends local commits to a configured remote repository."
+  },
+  {
+    "id": 22,
+    "question": "Which command downloads changes from a remote repository and integrates them into the current branch?",
+    "options": [
+      "git fetch",
+      "git pull",
+      "git clone",
+      "git push"
+    ],
+    "answer": "git pull",
+    "explanation": "git pull generally fetches changes from a remote and then integrates them into the current branch."
+  },
+  {
+    "id": 23,
+    "question": "What does git fetch primarily do?",
+    "options": [
+      "Downloads remote changes without automatically merging them",
+      "Deletes remote branches",
+      "Uploads local commits",
+      "Creates a repository"
+    ],
+    "answer": "Downloads remote changes without automatically merging them",
+    "explanation": "git fetch updates remote-tracking information without automatically integrating the changes into the current branch."
+  },
+  {
+    "id": 24,
+    "question": "What is a pull request?",
+    "options": [
+      "A request to review and merge proposed changes",
+      "A command that deletes a repository",
+      "A local Git branch",
+      "A database query"
+    ],
+    "answer": "A request to review and merge proposed changes",
+    "explanation": "A pull request provides a collaboration workflow for discussing, reviewing, and merging proposed code changes."
+  },
+  {
+    "id": 25,
+    "question": "What is a fork on GitHub?",
+    "options": [
+      "A personal copy of another repository under your account",
+      "A deleted branch",
+      "A Git merge conflict",
+      "A programming loop"
+    ],
+    "answer": "A personal copy of another repository under your account",
+    "explanation": "Forking creates a separate copy of a repository that can be independently modified."
+  },
+  {
+    "id": 26,
+    "question": "Which command creates a new branch named feature-login?",
+    "options": [
+      "git new feature-login",
+      "git branch feature-login",
+      "git add feature-login",
+      "git merge feature-login"
+    ],
+    "answer": "git branch feature-login",
+    "explanation": "git branch followed by a branch name creates a new local branch."
+  },
+  {
+    "id": 27,
+    "question": "Which command deletes a local branch?",
+    "options": [
+      "git remove branchName",
+      "git delete branchName",
+      "git branch -d branchName",
+      "git drop branchName"
+    ],
+    "answer": "git branch -d branchName",
+    "explanation": "git branch -d deletes a local branch when it has been safely merged."
+  },
+  {
+    "id": 28,
+    "question": "What is the purpose of a .gitignore file?",
+    "options": [
+      "Specifying intentionally untracked files Git should ignore",
+      "Deleting all Git files",
+      "Encrypting commits",
+      "Creating a remote repository"
+    ],
+    "answer": "Specifying intentionally untracked files Git should ignore",
+    "explanation": ".gitignore defines file patterns that Git should not automatically track when they are untracked."
+  },
+  {
+    "id": 29,
+    "question": "Which file should generally NOT be committed because it may contain secrets?",
+    "options": [
+      ".env with passwords or API keys",
+      "README.md",
+      "package.json",
+      "source code files"
+    ],
+    "answer": ".env with passwords or API keys",
+    "explanation": "Files containing passwords, API keys, or other secrets should generally be excluded from public repositories and managed securely."
+  },
+  {
+    "id": 30,
+    "question": "What does git restore commonly help with?",
+    "options": [
+      "Restoring or discarding changes in files",
+      "Uploading commits",
+      "Creating a GitHub account",
+      "Creating remote repositories"
+    ],
+    "answer": "Restoring or discarding changes in files",
+    "explanation": "git restore is used to restore file contents from another state, depending on the options provided."
+  },
+
+  {
+    "id": 31,
+    "question": "What is git stash used for?",
+    "options": [
+      "Temporarily saving uncommitted changes",
+      "Deleting the repository",
+      "Creating a new remote",
+      "Publishing a website"
+    ],
+    "answer": "Temporarily saving uncommitted changes",
+    "explanation": "git stash saves local modifications so the working directory can be cleaned temporarily."
+  },
+  {
+    "id": 32,
+    "question": "What does git stash pop do?",
+    "options": [
+      "Applies the most recent stash and removes it",
+      "Deletes the entire repository",
+      "Creates a new branch",
+      "Pushes changes to GitHub"
+    ],
+    "answer": "Applies the most recent stash and removes it",
+    "explanation": "git stash pop applies the selected stash, normally the latest one, and removes it if successfully applied."
+  },
+  {
+    "id": 33,
+    "question": "What is git rebase used for?",
+    "options": [
+      "Reapplying commits on top of another base commit",
+      "Deleting a remote repository",
+      "Creating a database",
+      "Uploading a project"
+    ],
+    "answer": "Reapplying commits on top of another base commit",
+    "explanation": "Rebase moves or reapplies commits onto a new base, which can produce a linear project history."
+  },
+  {
+    "id": 34,
+    "question": "What is a tag in Git commonly used for?",
+    "options": [
+      "Marking important points in project history such as releases",
+      "Deleting a branch",
+      "Creating a pull request",
+      "Adding collaborators"
+    ],
+    "answer": "Marking important points in project history such as releases",
+    "explanation": "Tags are commonly used to mark specific commits, especially software releases such as v1.0.0."
+  },
+  {
+    "id": 35,
+    "question": "Which command creates a lightweight tag?",
+    "options": [
+      "git tag v1.0",
+      "git branch v1.0",
+      "git mark v1.0",
+      "git release v1.0"
+    ],
+    "answer": "git tag v1.0",
+    "explanation": "git tag followed by a tag name creates a lightweight tag at the current commit."
+  },
+  {
+    "id": 36,
+    "question": "What does HEAD represent in Git?",
+    "options": [
+      "The current checked-out commit or branch reference",
+      "The first commit in the repository",
+      "The remote repository",
+      "The GitHub account owner"
+    ],
+    "answer": "The current checked-out commit or branch reference",
+    "explanation": "HEAD normally refers to the currently checked-out branch and, through it, the current commit."
+  },
+  {
+    "id": 37,
+    "question": "What is the working directory?",
+    "options": [
+      "The files currently checked out and being edited",
+      "Only the remote repository",
+      "The GitHub website",
+      "A deleted branch"
+    ],
+    "answer": "The files currently checked out and being edited",
+    "explanation": "The working directory contains the files you are currently working with."
+  },
+  {
+    "id": 38,
+    "question": "What is the staging area?",
+    "options": [
+      "An intermediate area for selecting changes for the next commit",
+      "A remote GitHub server",
+      "A deleted repository",
+      "A branch type"
+    ],
+    "answer": "An intermediate area for selecting changes for the next commit",
+    "explanation": "The staging area, also called the index, holds selected changes before they are committed."
+  },
+  {
+    "id": 39,
+    "question": "Which command can show details about a specific commit?",
+    "options": [
+      "git show",
+      "git inspect",
+      "git details",
+      "git commit-info"
+    ],
+    "answer": "git show",
+    "explanation": "git show displays information about objects such as commits, including changes introduced by a commit."
+  },
+  {
+    "id": 40,
+    "question": "Which command changes the URL associated with an existing remote?",
+    "options": [
+      "git remote set-url",
+      "git remote change",
+      "git url update",
+      "git remote edit-url"
+    ],
+    "answer": "git remote set-url",
+    "explanation": "git remote set-url changes the configured URL for an existing remote."
+  },
+
+  {
+    "id": 41,
+    "question": "What is GitHub Actions primarily used for?",
+    "options": [
+      "Automating workflows such as CI/CD",
+      "Writing only CSS",
+      "Replacing Git completely",
+      "Creating database tables"
+    ],
+    "answer": "Automating workflows such as CI/CD",
+    "explanation": "GitHub Actions can automate tasks such as testing, building, deployment, and other development workflows."
+  },
+  {
+    "id": 42,
+    "question": "What does CI stand for?",
+    "options": [
+      "Continuous Integration",
+      "Code Installation",
+      "Central Interface",
+      "Continuous Internet"
+    ],
+    "answer": "Continuous Integration",
+    "explanation": "Continuous Integration is the practice of frequently integrating changes and automatically building or testing them."
+  },
+  {
+    "id": 43,
+    "question": "What does CD commonly refer to in DevOps?",
+    "options": [
+      "Continuous Delivery or Continuous Deployment",
+      "Code Deletion",
+      "Central Database",
+      "Commit Directory"
+    ],
+    "answer": "Continuous Delivery or Continuous Deployment",
+    "explanation": "CD commonly refers to practices that automate the delivery or deployment of software changes."
+  },
+  {
+    "id": 44,
+    "question": "What is a README.md file commonly used for?",
+    "options": [
+      "Documenting a project",
+      "Storing database passwords",
+      "Running Git commands automatically",
+      "Creating branches"
+    ],
+    "answer": "Documenting a project",
+    "explanation": "README.md typically explains the project, installation steps, usage, features, and other useful information."
+  },
+  {
+    "id": 45,
+    "question": "What is code review?",
+    "options": [
+      "Examining code changes for quality, correctness, and maintainability",
+      "Deleting old code automatically",
+      "Compiling a program",
+      "Creating a Git branch"
+    ],
+    "answer": "Examining code changes for quality, correctness, and maintainability",
+    "explanation": "Code review helps teams identify issues, share knowledge, and improve code quality before changes are merged."
+  },
+  {
+    "id": 46,
+    "question": "What is an issue on GitHub commonly used for?",
+    "options": [
+      "Tracking bugs, tasks, and feature requests",
+      "Deleting repositories",
+      "Creating database records",
+      "Compiling source code"
+    ],
+    "answer": "Tracking bugs, tasks, and feature requests",
+    "explanation": "Issues provide a structured way to discuss and track bugs, tasks, improvements, and other project work."
+  },
+  {
+    "id": 47,
+    "question": "What is a protected branch?",
+    "options": [
+      "A branch with rules restricting direct changes or requiring checks",
+      "A branch that cannot contain commits",
+      "A branch stored only locally",
+      "A deleted branch"
+    ],
+    "answer": "A branch with rules restricting direct changes or requiring checks",
+    "explanation": "Branch protection rules can require reviews, successful checks, or other conditions before changes are merged."
+  },
+  {
+    "id": 48,
+    "question": "What is semantic versioning commonly represented as?",
+    "options": [
+      "MAJOR.MINOR.PATCH",
+      "YEAR.MONTH.DAY",
+      "VERSION.BUILD.CODE",
+      "A.B.C.D"
+    ],
+    "answer": "MAJOR.MINOR.PATCH",
+    "explanation": "Semantic versioning commonly uses MAJOR.MINOR.PATCH to communicate the type of release change."
+  },
+  {
+    "id": 49,
+    "question": "What is a good practice before pushing code to a shared repository?",
+    "options": [
+      "Review changes and run relevant tests",
+      "Delete all branches",
+      "Remove the README",
+      "Commit passwords and API keys"
+    ],
+    "answer": "Review changes and run relevant tests",
+    "explanation": "Reviewing changes and running relevant tests helps reduce the chance of introducing errors into a shared codebase."
+  },
+  {
+    "id": 50,
+    "question": "What is one major benefit of Git and GitHub in a team project?",
+    "options": [
+      "Enabling version control and collaboration",
+      "Eliminating the need for source code",
+      "Automatically writing all application logic",
+      "Replacing every programming language"
+    ],
+    "answer": "Enabling version control and collaboration",
+    "explanation": "Git tracks project history, while GitHub provides collaboration features that help teams review, share, and manage code."
+  }
+]
+

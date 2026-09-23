@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CourseContracts",
+  "definitions": {
+    "CourseSummary": {
+      "type": "object",
+      "required": ["courseId", "title", "difficulty", "category", "status"],
+      "properties": {
+        "courseId": { "type": "string" },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "duration": { "type": "string" },
+        "difficulty": { "type": "string" },
+        "category": { "type": "string" },
+        "modules": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["draft", "published"] }
+      }
+    },
+    "CourseDetail": {
+      "type": "object",
+      "required": ["courseId", "title", "modules", "lessons"],
+      "properties": {
+        "courseId": { "type": "string" },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "modules": { "type": "array", "items": { "type": "string" } },
+        "lessons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["lessonId", "module", "title"],
+            "properties": {
+              "lessonId": { "type": "string" },
+              "module": { "type": "string" },
+              "title": { "type": "string" },
+              "content": { "type": "string" },
+              "duration": { "type": "string" }
+            }
+          }
+        },
+        "passingScore": { "type": "number", "default": 70 }
+      }
+    }
+  }
+}
