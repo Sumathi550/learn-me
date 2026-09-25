@@ -46,6 +46,31 @@ const server = http.createServer((req, res) => {
     let parsedUrl = new URL(req.url, `http://localhost:${port}`);
     let pathname = decodeURIComponent(parsedUrl.pathname);
 
+    // Dynamic public environment configuration endpoint for frontend
+    if (pathname === '/env.js') {
+        const rootEnvPath = path.resolve(__dirname, '.env');
+        let envVars = {};
+        if (fs.existsSync(rootEnvPath)) {
+            const lines = fs.readFileSync(rootEnvPath, 'utf8').split('\n');
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (trimmed && !trimmed.startsWith('#')) {
+                    const idx = trimmed.indexOf('=');
+                    if (idx !== -1) {
+                        const key = trimmed.slice(0, idx).trim();
+                        const val = trimmed.slice(idx + 1).trim().replace(/^["']|["']$/g, '');
+                        if (key.startsWith('VITE_') || key.startsWith('SUPABASE_')) {
+                            envVars[key] = val;
+                        }
+                    }
+                }
+            }
+        }
+        res.writeHead(200, { 'Content-Type': 'application/javascript; charset=UTF-8' });
+        res.end(`window.__ENV__ = Object.assign(window.__ENV__ || {}, ${JSON.stringify(envVars)});\nwindow.VITE_SUPABASE_URL = window.__ENV__.VITE_SUPABASE_URL || '';\nwindow.VITE_SUPABASE_PUBLISHABLE_KEY = window.__ENV__.VITE_SUPABASE_PUBLISHABLE_KEY || '';`);
+        return;
+    }
+
     let filePath = path.join(baseDir, pathname);
 
     // If requesting directory or root, serve index.html

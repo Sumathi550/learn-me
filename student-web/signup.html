@@ -10,6 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Supabase Client & Runtime Environment -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/env.js"></script>
+    <script src="js/env-config.js"></script>
+    <script src="js/supabaseClient.js"></script>
     <style>
         .auth-page-main {
             flex: 1;
@@ -127,6 +132,64 @@
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: #b91c1c;
         }
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #047857;
+        }
+        .toggle-password-btn {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+            z-index: 2;
+        }
+        .toggle-password-btn:hover {
+            color: #2563eb;
+        }
+        .password-rules {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .rule-item {
+            font-size: 12.5px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .rule-item i {
+            font-size: 12px;
+            width: 14px;
+            text-align: center;
+            color: #cbd5e1;
+            transition: all 0.2s ease;
+        }
+        .rule-item.valid {
+            color: #059669;
+            font-weight: 600;
+        }
+        .rule-item.valid i {
+            color: #10b981;
+        }
         .auth-footer {
             text-align: center;
             margin-top: 24px;
@@ -199,11 +262,37 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password (Min 8 characters)</label>
+                    <label for="password">Password</label>
                     <div class="form-control-wrap">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" class="form-control" placeholder="••••••••" minlength="8" required autocomplete="new-password">
+                        <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="new-password">
+                        <button type="button" id="toggle-password-btn" class="toggle-password-btn" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye" id="toggle-password-icon"></i>
+                        </button>
                     </div>
+                    <!-- Dynamic Password Requirement Indicators -->
+                    <ul class="password-rules" id="password-rules-list">
+                        <li class="rule-item" id="rule-length">
+                            <i class="far fa-circle" id="icon-length"></i>
+                            <span>Minimum 8 characters</span>
+                        </li>
+                        <li class="rule-item" id="rule-uppercase">
+                            <i class="far fa-circle" id="icon-uppercase"></i>
+                            <span>Uppercase letter</span>
+                        </li>
+                        <li class="rule-item" id="rule-lowercase">
+                            <i class="far fa-circle" id="icon-lowercase"></i>
+                            <span>Lowercase letter</span>
+                        </li>
+                        <li class="rule-item" id="rule-number">
+                            <i class="far fa-circle" id="icon-number"></i>
+                            <span>Number</span>
+                        </li>
+                        <li class="rule-item" id="rule-special">
+                            <i class="far fa-circle" id="icon-special"></i>
+                            <span>Special character</span>
+                        </li>
+                    </ul>
                 </div>
 
                 <button type="submit" id="submit-btn" class="btn-submit">
@@ -226,39 +315,165 @@
     <script src="js/api.js"></script>
     <script src="js/nav-auth.js"></script>
     <script>
-        document.getElementById('student-signup-form').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const alertBox = document.getElementById('auth-alert');
-            const submitBtn = document.getElementById('submit-btn');
-
-            if (password.length < 8) {
-                alertBox.textContent = 'Password must be at least 8 characters long.';
-                alertBox.style.display = 'block';
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Redirect authenticated users away from signup page
+            if (window.SupabaseService) {
+                const session = await window.SupabaseService.getSession();
+                if (session) {
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+            } else if (localStorage.getItem('learnMeAuthToken')) {
+                window.location.href = 'dashboard.html';
                 return;
             }
 
-            alertBox.style.display = 'none';
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.getElementById('toggle-password-btn');
+            const toggleIcon = document.getElementById('toggle-password-icon');
+            const alertBox = document.getElementById('auth-alert');
+            const submitBtn = document.getElementById('submit-btn');
+            const signupForm = document.getElementById('student-signup-form');
 
-            try {
-                const res = await StudentAPI.post('/auth/register', { name, email, password });
-                if (res.token) {
-                    StudentAPI.setToken(res.token);
-                    StudentAPI.setCurrentUser(res.user);
-                    window.location.href = 'dashboard.html';
-                } else {
-                    throw new Error(res.message || 'Registration failed.');
-                }
-            } catch (err) {
-                alertBox.textContent = err.message || 'Registration failed. Please try again.';
-                alertBox.style.display = 'block';
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>Create Account</span> <i class="fas fa-arrow-right"></i>';
+            // 1. Password Visibility Toggle
+            if (toggleBtn && passwordInput && toggleIcon) {
+                toggleBtn.addEventListener('click', function () {
+                    const isPassword = passwordInput.getAttribute('type') === 'password';
+                    passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                    toggleIcon.className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+                });
             }
+
+            // 2. Dynamic Password Requirement Indicators
+            function validatePasswordRules(pwd) {
+                const rules = {
+                    length: pwd.length >= 8,
+                    uppercase: /[A-Z]/.test(pwd),
+                    lowercase: /[a-z]/.test(pwd),
+                    number: /[0-9]/.test(pwd),
+                    special: /[^A-Za-z0-9]/.test(pwd)
+                };
+
+                for (const [rule, passed] of Object.entries(rules)) {
+                    const item = document.getElementById(`rule-${rule}`);
+                    const icon = document.getElementById(`icon-${rule}`);
+                    if (item && icon) {
+                        if (passed) {
+                            item.classList.add('valid');
+                            icon.className = 'fas fa-check-circle';
+                        } else {
+                            item.classList.remove('valid');
+                            icon.className = 'far fa-circle';
+                        }
+                    }
+                }
+
+                return Object.values(rules).every(Boolean);
+            }
+
+            // 3. Clear old error messages when user edits form
+            ['name', 'email', 'password'].forEach(fieldId => {
+                const input = document.getElementById(fieldId);
+                if (input) {
+                    input.addEventListener('input', function () {
+                        alertBox.style.display = 'none';
+                        alertBox.textContent = '';
+                        if (fieldId === 'password') {
+                            validatePasswordRules(input.value);
+                        }
+                    });
+                }
+            });
+
+            // 4. Form Submission with Supabase Auth
+            signupForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = passwordInput.value;
+
+                // Validate email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alertBox.className = 'alert-box alert-error';
+                    alertBox.textContent = 'Please enter a valid email address.';
+                    alertBox.style.display = 'block';
+                    return;
+                }
+
+                // Validate password rules (Uppercase, Lowercase, Number, Special char, Min 8 chars)
+                const isPasswordValid = validatePasswordRules(password);
+                if (!isPasswordValid) {
+                    alertBox.className = 'alert-box alert-error';
+                    alertBox.textContent = 'Password does not meet the required conditions.';
+                    alertBox.style.display = 'block';
+                    return;
+                }
+
+                // Disable submit button during request
+                alertBox.style.display = 'none';
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+
+                try {
+                    // Call Supabase Authentication
+                    let resData;
+                    if (window.SupabaseService) {
+                        resData = await window.SupabaseService.signUp({ email, password, name });
+                    } else if (window.supabaseClient && window.supabaseClient.auth) {
+                        const { data, error } = await window.supabaseClient.auth.signUp({
+                            email,
+                            password,
+                            options: { data: { name, full_name: name, role: 'user' } }
+                        });
+                        if (error) throw error;
+                        resData = data;
+                    } else {
+                        // Fallback to StudentAPI if Supabase client not ready
+                        const apiRes = await StudentAPI.post('/auth/register', { name, email, password });
+                        if (apiRes.token) {
+                            StudentAPI.setToken(apiRes.token);
+                            StudentAPI.setCurrentUser(apiRes.user);
+                            window.location.href = 'dashboard.html';
+                            return;
+                        }
+                        throw new Error(apiRes.message || 'Registration failed.');
+                    }
+
+                    // Handle response
+                    if (resData && resData.user && !resData.session) {
+                        // Email confirmation is enabled
+                        alertBox.className = 'alert-box alert-success';
+                        alertBox.textContent = 'Account created successfully. Please check your email to verify your account.';
+                        alertBox.style.display = 'block';
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<span>Check Email</span> <i class="fas fa-envelope"></i>';
+                    } else {
+                        // User session exists immediately (email confirmation disabled)
+                        window.location.href = 'dashboard.html';
+                    }
+                } catch (err) {
+                    let friendlyMsg = 'Unable to create your account. Please try again.';
+                    const rawMsg = (err.message || '').toLowerCase();
+
+                    if (rawMsg.includes('already registered') || rawMsg.includes('already exists') || rawMsg.includes('user already exists')) {
+                        friendlyMsg = 'An account with this email may already exist.';
+                    } else if (rawMsg.includes('valid email') || rawMsg.includes('invalid email')) {
+                        friendlyMsg = 'Please enter a valid email address.';
+                    } else if (rawMsg.includes('password') || rawMsg.includes('weak')) {
+                        friendlyMsg = 'Password does not meet the required conditions.';
+                    } else if (err.message) {
+                        friendlyMsg = err.message;
+                    }
+
+                    alertBox.className = 'alert-box alert-error';
+                    alertBox.textContent = friendlyMsg;
+                    alertBox.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span>Create Account</span> <i class="fas fa-arrow-right"></i>';
+                }
+            });
         });
     </script>
 </body>

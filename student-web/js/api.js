@@ -46,7 +46,12 @@
         } catch (e) {}
     }
 
-    function logout() {
+    async function logout() {
+        if (window.SupabaseService) {
+            try { await window.SupabaseService.signOut(); } catch (e) {}
+        } else if (window.supabaseClient && window.supabaseClient.auth) {
+            try { await window.supabaseClient.auth.signOut(); } catch (e) {}
+        }
         setToken(null);
         setCurrentUser(null);
         window.location.href = 'login.html';

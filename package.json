@@ -15,5 +15,8 @@
     "db:view": "node scripts_and_seeds/view_db.js",
     "db:migrate:postgres": "node backend/migrations/migrate-to-postgres.js",
     "build": "npm --prefix backend install"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.2"
   }
 }

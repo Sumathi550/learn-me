@@ -38,23 +38,27 @@
         } catch (e) {}
     }
 
-    function logout() {
+    async function logout() {
         const confirmLogout = confirm("Are you sure you want to log out?");
         if (!confirmLogout) return;
 
+        if (window.SupabaseService) {
+            try {
+                await window.SupabaseService.signOut();
+            } catch (e) {
+                console.warn('Supabase signOut notice:', e.message);
+            }
+        } else if (window.supabaseClient && window.supabaseClient.auth) {
+            try {
+                await window.supabaseClient.auth.signOut();
+            } catch (e) {
+                console.warn('Supabase signOut notice:', e.message);
+            }
+        }
+
         setToken(null);
         setCurrentUser(null);
-
-        // If on dashboard, reload to display clean guest dashboard without kicking user out to external screen
-        if (window.location.pathname.endsWith('dashboard.html')) {
-            window.location.reload();
-        } else if (window.location.pathname.endsWith('login.html') || window.location.pathname.endsWith('signup.html')) {
-            window.location.href = 'index.html';
-        } else {
-            // Smoothly update navbar in place
-            renderNav();
-            window.location.reload();
-        }
+        window.location.href = 'login.html';
     }
 
     function renderNav() {

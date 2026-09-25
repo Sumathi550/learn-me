@@ -10,6 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Supabase Client & Runtime Environment -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/env.js"></script>
+    <script src="js/env-config.js"></script>
+    <script src="js/supabaseClient.js"></script>
     <style>
         .dashboard-hero {
             background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(56, 189, 248, 0.05) 100%);
@@ -189,45 +194,29 @@
     <script src="js/nav-auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
-            const user = (window.StudentAuth && StudentAuth.getCurrentUser()) || StudentAPI.getCurrentUser();
-            const token = (window.StudentAuth && StudentAuth.getToken()) || StudentAPI.getToken();
+            let user = (window.StudentAuth && StudentAuth.getCurrentUser()) || StudentAPI.getCurrentUser();
+            let token = (window.StudentAuth && StudentAuth.getToken()) || StudentAPI.getToken();
+
+            // Detect Supabase active session
+            if (window.SupabaseService) {
+                const session = await window.SupabaseService.getSession();
+                if (session && session.user) {
+                    token = session.access_token;
+                    user = user || {
+                        id: session.user.id,
+                        email: session.user.email,
+                        name: session.user.user_metadata?.name || session.user.email.split('@')[0]
+                    };
+                }
+            }
 
             if (!token || !user) {
-                // Guest mode: Render friendly dashboard without harsh redirects
-                document.getElementById('welcome-name').textContent = 'Learner';
-                document.getElementById('stat-enrolled').textContent = '0';
-                document.getElementById('stat-inprogress').textContent = '0';
-                document.getElementById('stat-certificates').textContent = '0';
-
-                document.getElementById('enrolled-courses-list').innerHTML = `
-                    <div style="text-align: center; padding: 48px 24px; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--glass-border);">
-                        <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(37, 99, 235, 0.1); color: #2563eb; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px;">
-                            <i class="fas fa-user-lock"></i>
-                        </div>
-                        <h3 style="font-size: 19px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Please Sign In to View Your Learning Journey</h3>
-                        <p style="color: var(--text-muted); font-size: 14.5px; max-width: 500px; margin: 0 auto 20px;">
-                            Sign in or create an account to access enrolled courses, resume curriculum lessons, take smart quiz assessments, and receive verified certificates.
-                        </p>
-                        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                            <a href="login.html" class="btn btn-primary" style="padding: 10px 22px; font-size: 14px; text-decoration: none;">
-                                <i class="fas fa-sign-in-alt"></i> Sign In to Dashboard
-                            </a>
-                            <a href="courses.html" class="btn btn-outline" style="padding: 10px 22px; font-size: 14px; text-decoration: none;">
-                                <i class="fas fa-compass"></i> Browse Courses Catalog
-                            </a>
-                        </div>
-                    </div>
-                `;
-
-                document.getElementById('my-certificates-list').innerHTML = `
-                    <div style="text-align: center; padding: 32px; background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--glass-border);">
-                        <p style="color: var(--text-muted); margin: 0;">Sign in and complete your course modules to earn official verified certificates.</p>
-                    </div>
-                `;
+                // Redirect unauthenticated user to Login
+                window.location.href = 'login.html?redirect=dashboard.html';
                 return;
             }
 
-            // Authenticated user mode (Sumathi)
+            // Authenticated user mode
             document.getElementById('welcome-name').textContent = user.name || 'Learner';
 
             try {

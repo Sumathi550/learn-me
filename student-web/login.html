@@ -10,6 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Supabase Client & Runtime Environment -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/env.js"></script>
+    <script src="js/env-config.js"></script>
+    <script src="js/supabaseClient.js"></script>
     <style>
         .auth-page-main {
             flex: 1;
@@ -127,6 +132,26 @@
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: #b91c1c;
         }
+        .toggle-password-btn {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+            z-index: 2;
+        }
+        .toggle-password-btn:hover {
+            color: #2563eb;
+        }
         .auth-footer {
             text-align: center;
             margin-top: 24px;
@@ -195,6 +220,9 @@
                     <div class="form-control-wrap">
                         <i class="fas fa-lock"></i>
                         <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                        <button type="button" id="toggle-password-btn" class="toggle-password-btn" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye" id="toggle-password-icon"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -218,36 +246,102 @@
     <script src="js/api.js"></script>
     <script src="js/nav-auth.js"></script>
     <script>
-        document.getElementById('student-login-form').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Redirect already authenticated users to dashboard
+            if (window.SupabaseService) {
+                const session = await window.SupabaseService.getSession();
+                if (session) {
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+            } else if (localStorage.getItem('learnMeAuthToken')) {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.getElementById('toggle-password-btn');
+            const toggleIcon = document.getElementById('toggle-password-icon');
             const alertBox = document.getElementById('auth-alert');
             const submitBtn = document.getElementById('submit-btn');
+            const loginForm = document.getElementById('student-login-form');
 
-            alertBox.style.display = 'none';
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
-
-            try {
-                const res = await StudentAPI.post('/auth/login', { email, password });
-                if (res.token) {
-                    StudentAPI.setToken(res.token);
-                    StudentAPI.setCurrentUser(res.user);
-                    
-                    // Check if there is a redirect parameter
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const redirectUrl = urlParams.get('redirect') || 'dashboard.html';
-                    window.location.href = redirectUrl;
-                } else {
-                    throw new Error(res.message || 'Login failed.');
-                }
-            } catch (err) {
-                alertBox.textContent = err.message || 'Invalid email or password.';
-                alertBox.style.display = 'block';
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>Sign In</span> <i class="fas fa-arrow-right"></i>';
+            // 1. Password Visibility Toggle
+            if (toggleBtn && passwordInput && toggleIcon) {
+                toggleBtn.addEventListener('click', function () {
+                    const isPassword = passwordInput.getAttribute('type') === 'password';
+                    passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                    toggleIcon.className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+                });
             }
+
+            // 2. Clear old error messages when user edits form
+            [emailInput, passwordInput].forEach(input => {
+                if (input) {
+                    input.addEventListener('input', function () {
+                        alertBox.style.display = 'none';
+                        alertBox.textContent = '';
+                    });
+                }
+            });
+
+            // 3. Form Submission with Supabase Auth
+            loginForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+
+                // Validate email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alertBox.className = 'alert-box alert-error';
+                    alertBox.textContent = 'Please enter a valid email address.';
+                    alertBox.style.display = 'block';
+                    return;
+                }
+
+                alertBox.style.display = 'none';
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+
+                try {
+                    let resData;
+                    if (window.SupabaseService) {
+                        resData = await window.SupabaseService.signInWithPassword({ email, password });
+                    } else if (window.supabaseClient && window.supabaseClient.auth) {
+                        const { data, error } = await window.supabaseClient.auth.signInWithPassword({ email, password });
+                        if (error) throw error;
+                        resData = data;
+                    } else {
+                        // Fallback to StudentAPI
+                        const apiRes = await StudentAPI.post('/auth/login', { email, password });
+                        if (apiRes.token) {
+                            StudentAPI.setToken(apiRes.token);
+                            StudentAPI.setCurrentUser(apiRes.user);
+                            const urlParams = new URLSearchParams(window.location.search);
+                            window.location.href = urlParams.get('redirect') || 'dashboard.html';
+                            return;
+                        }
+                        throw new Error(apiRes.message || 'Login failed.');
+                    }
+
+                    if (resData && resData.session) {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const redirectUrl = urlParams.get('redirect') || 'dashboard.html';
+                        window.location.href = redirectUrl;
+                    } else {
+                        throw new Error('Invalid email or password.');
+                    }
+                } catch (err) {
+                    alertBox.className = 'alert-box alert-error';
+                    alertBox.textContent = 'Invalid email or password.';
+                    alertBox.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span>Sign In</span> <i class="fas fa-arrow-right"></i>';
+                }
+            });
         });
     </script>
 </body>

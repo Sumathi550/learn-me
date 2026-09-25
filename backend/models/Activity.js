@@ -4,11 +4,11 @@ module.exports = (sequelize, DataTypes) => {
         userId: { type: DataTypes.UUID },
         action: {
             type: DataTypes.ENUM(
-                'REGISTRATION', 'LOGIN', 'LOGOUT', 'COURSE_OPENED',
+                'REGISTRATION', 'LOGIN', 'LOGOUT', 'OWNER_CLAIMED', 'COURSE_OPENED',
                 'COURSE_ENROLLED', 'COURSE_COMPLETED',
                 'LESSON_OPENED', 'LESSON_COMPLETED', 'QUIZ_STARTED',
                 'QUIZ_SUBMITTED', 'QUIZ_PASSED', 'QUIZ_FAILED',
-                'CERTIFICATE_ELIGIBLE', 'ASSESSMENT_COMPLETED', 'PAYMENT_INITIATED',
+                'CERTIFICATE_ELIGIBLE', 'CERTIFICATE_GENERATED', 'ASSESSMENT_COMPLETED', 'PAYMENT_INITIATED',
                 'PAYMENT_SUCCESSFUL', 'CERTIFICATE_DOWNLOADED',
                 'CERTIFICATE_VERIFIED'
             ),

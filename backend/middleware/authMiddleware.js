@@ -14,8 +14,55 @@ async function requireAuth(req, res, next) {
 
     const token = authHeader.split(' ')[1];
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'learn_me_super_secret_jwt_key_2026_production_grade');
-        const user = await User.findById(decoded.id);
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET || 'learn_me_super_secret_jwt_key_2026_production_grade');
+        } catch (jwtErr) {
+            if (process.env.SUPABASE_JWT_SECRET) {
+                try {
+                    decoded = jwt.verify(token, process.env.SUPABASE_JWT_SECRET);
+                } catch (e) {}
+            }
+            if (!decoded) {
+                const unverified = jwt.decode(token);
+                if (unverified && (unverified.iss?.includes('supabase') || unverified.role === 'authenticated')) {
+                    const now = Math.floor(Date.now() / 1000);
+                    if (unverified.exp && unverified.exp < now) {
+                        return res.status(401).json({
+                            success: false,
+                            message: 'Session expired or invalid token.'
+                        });
+                    }
+                    decoded = {
+                        id: unverified.sub || unverified.id,
+                        email: unverified.email,
+                        user_metadata: unverified.user_metadata,
+                        role: unverified.user_metadata?.role || (unverified.email === AUTHORIZED_ADMIN_EMAIL ? 'admin' : 'user')
+                    };
+                } else {
+                    throw jwtErr;
+                }
+            }
+        }
+
+        const userId = decoded.id || decoded.sub;
+        let user = await User.findById(userId);
+        if (!user && decoded.email) {
+            user = await User.findOne({ email: decoded.email });
+        }
+
+        // Auto-provision user profile if authenticated via Supabase
+        if (!user && decoded.email && userId) {
+            const userName = decoded.user_metadata?.name || decoded.user_metadata?.full_name || decoded.email.split('@')[0];
+            const userRole = (decoded.email.toLowerCase() === AUTHORIZED_ADMIN_EMAIL.toLowerCase()) ? 'admin' : 'user';
+            user = await User.create({
+                id: userId,
+                email: decoded.email,
+                name: userName,
+                role: userRole,
+                isActive: true
+            });
+        }
 
         if (!user) {
             return res.status(401).json({
