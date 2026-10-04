@@ -157,6 +157,54 @@ app.use('/api/*', (req, res) => {
     });
 });
 
+// ==============================================================================
+// Unified Static Web Applications Serving (Single-Service Cloud Deployment)
+// Enables hosting Student Web, Admin Dashboard, and Database Explorer on Render/Railway
+// ==============================================================================
+const studentPath = path.resolve(__dirname, '..', 'student-web');
+const adminPath = path.resolve(__dirname, '..', 'admin-web');
+const frontendPath = path.resolve(__dirname, '..', 'frontend');
+
+// 1. Admin Dashboard (/admin)
+if (fs.existsSync(adminPath)) {
+    app.use('/admin', express.static(adminPath, { extensions: ['html'] }));
+    app.get(['/admin', '/admin/'], (req, res) => {
+        res.sendFile(path.join(adminPath, 'index.html'));
+    });
+}
+
+// 2. Database Explorer (/database)
+if (fs.existsSync(adminPath) && fs.existsSync(path.join(adminPath, 'database.html'))) {
+    app.get('/database', (req, res) => {
+        res.sendFile(path.join(adminPath, 'database.html'));
+    });
+} else if (fs.existsSync(frontendPath) && fs.existsSync(path.join(frontendPath, 'database.html'))) {
+    app.get('/database', (req, res) => {
+        res.sendFile(path.join(frontendPath, 'database.html'));
+    });
+}
+
+// 3. Question JSON Data (/data)
+if (fs.existsSync(path.join(studentPath, 'data'))) {
+    app.use('/data', express.static(path.join(studentPath, 'data')));
+} else if (fs.existsSync(path.join(frontendPath, 'data'))) {
+    app.use('/data', express.static(path.join(frontendPath, 'data')));
+}
+
+// 4. Student Web Portal (Root /)
+if (fs.existsSync(studentPath)) {
+    app.use(express.static(studentPath, { extensions: ['html'] }));
+    app.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api')) return next();
+        if (path.extname(req.path)) return res.status(404).send('Not Found');
+        const indexFile = path.join(studentPath, 'index.html');
+        if (fs.existsSync(indexFile)) {
+            return res.sendFile(indexFile);
+        }
+        next();
+    });
+}
+
 // Centralized Error Handler
 app.use(errorHandler);
 

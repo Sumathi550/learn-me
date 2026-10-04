@@ -451,6 +451,14 @@
                         submitBtn.innerHTML = '<span>Check Email</span> <i class="fas fa-envelope"></i>';
                     } else {
                         // User session exists immediately (email confirmation disabled)
+                        if (resData && resData.session) {
+                            StudentAPI.setToken(resData.session.access_token);
+                            StudentAPI.setCurrentUser({
+                                id: resData.session.user.id,
+                                email: resData.session.user.email,
+                                name: resData.session.user.user_metadata?.name || name
+                            });
+                        }
                         window.location.href = 'dashboard.html';
                     }
                 } catch (err) {

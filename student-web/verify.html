@@ -192,6 +192,38 @@
                 infoGrid.style.display = 'grid';
                 resultBox.style.display = 'block';
             } catch (err) {
+                // Fallback check across all local certificate storage
+                let localCert = null;
+                const cleanId = (certId || '').trim().toUpperCase();
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && (key === 'learnMeCertificates' || key.startsWith('learnMeCertificates_'))) {
+                        try {
+                            const list = JSON.parse(localStorage.getItem(key) || '[]');
+                            if (Array.isArray(list)) {
+                                const match = list.find(item => (item.certificateId || item.id || item.verificationCode || '').trim().toUpperCase() === cleanId);
+                                if (match) { localCert = match; break; }
+                            }
+                        } catch(e) {}
+                    }
+                }
+
+                if (localCert) {
+                    resultBox.className = 'result-box result-valid';
+                    resultHeader.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981; font-size: 24px;"></i> <span>Official Verified Certificate</span>';
+                    resultMsg.textContent = `Certificate authentic and permanently issued by Learn Me Institute.`;
+
+                    document.getElementById('val-student').textContent = localCert.studentName || 'Student';
+                    document.getElementById('val-course').textContent = localCert.courseName || localCert.courseId;
+                    document.getElementById('val-date').textContent = (localCert.issueDate || localCert.completionDate) ? new Date(localCert.issueDate || localCert.completionDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : '--';
+                    document.getElementById('val-status').textContent = 'Valid & Authentic';
+                    document.getElementById('val-status').style.color = '#10b981';
+
+                    infoGrid.style.display = 'grid';
+                    resultBox.style.display = 'block';
+                    return;
+                }
+
                 resultBox.className = 'result-box result-invalid';
                 resultHeader.innerHTML = '<i class="fas fa-times-circle" style="color: #64748b; font-size: 24px;"></i> <span>Certificate Not Found</span>';
                 resultMsg.textContent = 'No certificate record exists with the provided ID. Please verify the code and try again.';

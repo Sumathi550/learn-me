@@ -36,11 +36,12 @@ async function runMigration() {
     console.log(`   ${backupPath}\n`);
 
     // Step 2: Validate Target PostgreSQL Configuration
-    const postgresUrl = process.env.DATABASE_URL;
+    const postgresUrl = process.argv[2] || process.env.DATABASE_URL;
     if (!postgresUrl || (!postgresUrl.startsWith('postgres://') && !postgresUrl.startsWith('postgresql://'))) {
-        console.warn('⚠️  DATABASE_URL environment variable is not set to a PostgreSQL connection.');
-        console.warn('   To run live migration to cloud PostgreSQL, configure:');
-        console.warn('   DATABASE_URL=postgresql://user:password@host:5432/dbname?sslmode=require');
+        console.warn('⚠️  Target PostgreSQL connection string is missing or invalid.');
+        console.warn('   To run live migration to cloud PostgreSQL, provide the connection string directly:');
+        console.warn('   node backend/migrations/migrate-to-postgres.js "postgresql://user:password@host:5432/dbname?sslmode=require"');
+        console.warn('   OR: npm run db:migrate:postgres "postgresql://user:password@host:5432/dbname?sslmode=require"');
         console.warn('\n   Migration dry-run and backup completed successfully.');
         return;
     }

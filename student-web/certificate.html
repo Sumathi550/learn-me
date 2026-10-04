@@ -179,8 +179,14 @@
                     <span style="font-size: 13px; color: #10b981; font-weight: 600;"><i class="fas fa-shield-alt"></i> Verified Authenticated Record</span>
                 </div>
                 <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button type="button" onclick="changeCertName()" class="btn btn-outline" style="padding: 10px 18px;">
+                        <i class="fas fa-user-edit"></i> Edit Name
+                    </button>
                     <button id="download-btn" class="btn btn-primary" style="padding: 10px 20px;">
                         <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <button type="button" onclick="window.print()" class="btn btn-outline" style="padding: 10px 18px;">
+                        <i class="fas fa-print"></i> Print
                     </button>
                     <a id="public-verify-btn" href="#" target="_blank" class="btn btn-outline" style="padding: 10px 20px;">
                         <i class="fas fa-check-double"></i> Verify Authenticity
@@ -230,26 +236,72 @@
     <script src="js/nav-auth.js"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const courseId = (urlParams.get('course') || 'python').toLowerCase();
+        let courseId = (urlParams.get('course') || urlParams.get('courseId') || '').toLowerCase();
+        const certParam = urlParams.get('certificate') || urlParams.get('certificateId') || urlParams.get('id');
         let currentCertificate = null;
 
         async function initCertificatePage() {
-            if (!StudentAPI.getToken()) {
-                window.location.href = `login.html?redirect=certificate.html?course=${courseId}`;
-                return;
+            const currentUser = StudentAPI.getCurrentUser() || {};
+
+            // 1. If explicit Certificate ID provided in URL, verify and display directly
+            if (certParam) {
+                try {
+                    const res = await StudentAPI.get(`/certificates/verify/${encodeURIComponent(certParam)}`);
+                    const certData = res.certificate || res.data || res;
+                    if (certData && (certData.certificateId || certData.verificationCode)) {
+                        currentCertificate = certData;
+                        showCertificate(certData);
+                        return;
+                    }
+                } catch (e) {
+                    console.warn('Direct certificate verify notice:', e.message);
+                }
+            }
+
+            // 2. If courseId is not specified, check user's earned certificates
+            if (!courseId) {
+                try {
+                    const myCertsRes = await StudentAPI.get('/certificates/my-certificates');
+                    const myCerts = Array.isArray(myCertsRes) ? myCertsRes : (myCertsRes.data || myCertsRes.certificates || []);
+                    if (myCerts.length > 0) {
+                        currentCertificate = myCerts[0];
+                        courseId = (currentCertificate.courseId || 'python').toLowerCase();
+                        showCertificate(currentCertificate);
+                        return;
+                    } else {
+                        courseId = 'python'; // Fallback to check default course
+                    }
+                } catch (e) {
+                    courseId = 'python';
+                }
             }
 
             document.getElementById('resume-course-btn').href = `course-details.html?course=${encodeURIComponent(courseId)}`;
             document.getElementById('retake-quiz-btn').href = `quiz.html?course=${encodeURIComponent(courseId)}`;
 
+            // 3. Check if certificate already exists in DB for this course
             try {
-                // Server-side certificate request (enforces 100% completion check)
+                const existingRes = await StudentAPI.get(`/certificates/course/${encodeURIComponent(courseId)}`).catch(() => null);
+                if (existingRes && (existingRes.certificateId || existingRes.data?.certificateId)) {
+                    const certData = existingRes.data || existingRes;
+                    currentCertificate = certData;
+                    showCertificate(certData);
+                    return;
+                }
+            } catch (e) {}
+
+            // 4. Try generating/claiming certificate
+            try {
                 const res = await StudentAPI.post('/certificates/generate', { courseId });
-                const cert = res.data || res;
-                currentCertificate = cert;
-                showCertificate(cert);
+                const cert = res.data || res.certificate || res;
+                if (cert && cert.certificateId) {
+                    currentCertificate = cert;
+                    showCertificate(cert);
+                } else {
+                    throw new Error('Certificate could not be issued at this time.');
+                }
             } catch (err) {
-                console.warn('Certificate locked:', err.message);
+                console.warn('Certificate requirements check notice:', err.message);
                 showLocked(err);
             }
         }
@@ -260,7 +312,12 @@
             const reasonsList = document.getElementById('reasons-list');
 
             const reasons = err.reasons || [err.message || 'Course requirements not yet fulfilled.'];
-            reasonsList.innerHTML = reasons.map(r => `<div style="margin-bottom: 6px;"><i class="fas fa-circle-exclamation" style="color: #f59e0b; margin-right: 8px;"></i> ${r}</div>`).join('');
+            reasonsList.innerHTML = reasons.map(r => `
+                <div style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
+                    <i class="fas fa-circle-exclamation" style="color: #f59e0b; margin-top: 3px;"></i> 
+                    <span>${r}</span>
+                </div>
+            `).join('');
 
             lockedState.style.display = 'block';
         }
@@ -269,31 +326,63 @@
             document.getElementById('locked-state').style.display = 'none';
             document.getElementById('unlocked-state').style.display = 'block';
 
-            document.getElementById('cert-student-name').textContent = cert.userName || 'Student';
-            document.getElementById('cert-course-name').textContent = cert.courseName || courseId.toUpperCase();
-            document.getElementById('cert-code').textContent = cert.certificateId;
-            document.getElementById('cert-date').textContent = new Date(cert.completionDate || cert.createdAt).toLocaleDateString('en-US', {
+            const currentUser = StudentAPI.getCurrentUser() || {};
+            const studentName = cert.userName || cert.studentName || currentUser.name || currentUser.full_name || 'Learner';
+            const courseTitle = cert.courseName || (courseId ? courseId.toUpperCase() : 'Master Course');
+            const certId = cert.certificateId || cert.verificationCode || 'LM-2026-CERT';
+            const issueDate = cert.completionDate || cert.issuedAt || cert.createdAt || new Date();
+
+            document.getElementById('cert-student-name').textContent = studentName;
+            document.getElementById('cert-course-name').textContent = courseTitle;
+            document.getElementById('cert-code').textContent = certId;
+            document.getElementById('cert-date').textContent = new Date(issueDate).toLocaleDateString('en-US', {
                 year: 'numeric', month: 'long', day: 'numeric'
             });
 
-            document.getElementById('public-verify-btn').href = `verify.html?certificate=${encodeURIComponent(cert.certificateId)}`;
+            document.getElementById('public-verify-btn').href = `verify.html?certificate=${encodeURIComponent(certId)}`;
 
             document.getElementById('download-btn').onclick = async () => {
                 const element = document.getElementById('certificate-render');
-                try {
-                    // Ownership verification API check
-                    await StudentAPI.get(`/certificates/download/${cert.certificateId}`);
+                const btn = document.getElementById('download-btn');
+                const origHtml = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Generating PDF...`;
 
-                    const canvas = await html2canvas(element, { scale: 2 });
+                try {
+                    // Try ownership download verification
+                    try {
+                        await StudentAPI.get(`/certificates/download/${encodeURIComponent(certId)}`);
+                    } catch (e) {
+                        console.warn('Download tracker note:', e.message);
+                    }
+
+                    const canvas = await html2canvas(element, { scale: 2, useCORS: true });
                     const imgData = canvas.toDataURL('image/png');
                     const { jsPDF } = window.jspdf;
                     const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [canvas.width, canvas.height] });
                     pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-                    pdf.save(`${cert.certificateId}.pdf`);
+                    pdf.save(`${certId}.pdf`);
                 } catch (dErr) {
                     alert('Download error: ' + dErr.message);
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = origHtml;
                 }
             };
+        }
+
+        function changeCertName() {
+            const current = document.getElementById('cert-student-name').textContent;
+            const newName = prompt('Enter your full legal name for this certificate:', current === 'Learner' ? '' : current);
+            if (newName && newName.trim()) {
+                const clean = newName.trim();
+                StudentAPI.setStudentName(clean);
+                document.getElementById('cert-student-name').textContent = clean;
+                if (currentCertificate) {
+                    currentCertificate.studentName = clean;
+                    StudentAPI.saveCertificateRecord(currentCertificate);
+                }
+            }
         }
 
         document.addEventListener('DOMContentLoaded', initCertificatePage);

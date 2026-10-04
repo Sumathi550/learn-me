@@ -22,14 +22,12 @@ const sqlitePath = isTest
 let dialect = (process.env.DB_DIALECT || '').toLowerCase();
 const databaseUrl = process.env.DATABASE_URL || '';
 
-if (!dialect) {
-    if (databaseUrl.startsWith('postgres://') || databaseUrl.startsWith('postgresql://')) {
-        dialect = 'postgres';
-    } else if (databaseUrl.startsWith('mysql://')) {
-        dialect = 'mysql';
-    } else {
-        dialect = 'sqlite';
-    }
+if (databaseUrl.startsWith('postgres://') || databaseUrl.startsWith('postgresql://')) {
+    dialect = 'postgres';
+} else if (databaseUrl.startsWith('mysql://')) {
+    dialect = 'mysql';
+} else if (!dialect) {
+    dialect = 'sqlite';
 }
 
 // In serverless or test mode, copy pre-seeded SQLite database if target doesn't already exist
@@ -94,20 +92,30 @@ if (databaseUrl && (dialect === 'postgres' || dialect === 'postgresql')) {
         }
     );
 } else if (dialect === 'mysql') {
-    sequelize = new Sequelize(
-        process.env.DB_NAME || 'learnme',
-        process.env.DB_USER || 'root',
-        process.env.DB_PASSWORD || '',
-        {
-            host: process.env.DB_HOST || '127.0.0.1',
+    if (databaseUrl) {
+        sequelize = new Sequelize(databaseUrl, {
             dialect: 'mysql',
-            port: process.env.DB_PORT || 3306,
             logging: false,
             define: {
                 underscored: true
             }
-        }
-    );
+        });
+    } else {
+        sequelize = new Sequelize(
+            process.env.DB_NAME || 'learnme',
+            process.env.DB_USER || 'root',
+            process.env.DB_PASSWORD || '',
+            {
+                host: process.env.DB_HOST || '127.0.0.1',
+                dialect: 'mysql',
+                port: process.env.DB_PORT || 3306,
+                logging: false,
+                define: {
+                    underscored: true
+                }
+            }
+        );
+    }
 } else {
     // Default: SQLite Database for local development
     dialect = 'sqlite';

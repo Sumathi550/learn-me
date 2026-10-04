@@ -1,5 +1,5 @@
 // Learn Me Service Worker - Offline Caching & Mobile Support
-const CACHE_NAME = 'learnme-cache-v1';
+const CACHE_NAME = 'learnme-cache-v3';
 const STATIC_ASSETS = [
     '/',
     '/index.html',

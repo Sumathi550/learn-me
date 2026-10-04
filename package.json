@@ -4,8 +4,9 @@
   "private": true,
   "description": "Learn Me - Production Separated Architecture (Student Web, Admin Web, Cloud API)",
   "scripts": {
-    "start": "node dev-all.js",
+    "start": "node backend/server.js",
     "dev": "node dev-all.js",
+    "dev:all": "node dev-all.js",
     "dev:backend": "node backend/server.js",
     "dev:student": "node serve-static.js 3000 student-web",
     "dev:admin": "node serve-static.js 3001 admin-web",
@@ -14,7 +15,9 @@
     "test:rbac": "node backend/tests/rbac.test.js",
     "db:view": "node scripts_and_seeds/view_db.js",
     "db:migrate:postgres": "node backend/migrations/migrate-to-postgres.js",
-    "build": "npm --prefix backend install"
+    "migrate:db": "node backend/migrations/migrate-to-postgres.js",
+    "build": "npm --prefix backend install",
+    "postinstall": "npm --prefix backend install"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2"

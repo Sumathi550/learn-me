@@ -185,16 +185,13 @@
         async function loadCourses() {
             try {
                 const res = await StudentAPI.get('/courses');
-                allCourses = Array.isArray(res) ? res : (res.data || []);
+                allCourses = Array.isArray(res) ? res : (res.data || StudentAPI.courses || []);
+                if (allCourses.length === 0) allCourses = StudentAPI.courses || [];
                 renderCourses();
             } catch (err) {
-                console.error('Failed to load courses:', err);
-                document.getElementById('courses-grid').innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #ef4444;">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 32px;"></i>
-                        <p style="margin-top: 12px;">Unable to load courses. Please ensure backend server is running.</p>
-                    </div>
-                `;
+                console.warn('Using local courses catalog:', err);
+                allCourses = StudentAPI.courses || [];
+                renderCourses();
             }
         }
 

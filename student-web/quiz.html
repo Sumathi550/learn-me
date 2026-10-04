@@ -315,20 +315,44 @@
             <!-- Injected via JavaScript -->
         </div>
 
-        <!-- Mode Selector: 50-Questions Final Exam vs Practice Quiz -->
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
-            <div class="mode-tabs">
-                <button class="mode-tab active" id="tab-final-mode" onclick="switchMode('final')">
-                    <i class="fas fa-graduation-cap"></i> 50-Question Exam (+50% Progress)
-                </button>
-                <button class="mode-tab" id="tab-practice-mode" onclick="switchMode('practice')">
-                    <i class="fas fa-bolt"></i> Practice Quiz (+25% Progress)
-                </button>
+        <!-- Two-Stage Assessment Stepper Banner -->
+        <div style="background: var(--bg-panel, #ffffff); border: 1px solid var(--glass-border, rgba(13,27,61,0.1)); border-radius: 16px; padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; box-shadow: 0 4px 16px rgba(13,27,61,0.03);">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <div id="step-pill-read" style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #10b981;">
+                    <i class="fas fa-check-circle"></i> 1. Read Lessons
+                </div>
+                <i class="fas fa-chevron-right" style="color: #cbd5e1; font-size: 10px;"></i>
+                <div id="step-pill-stage1" style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #2563eb;">
+                    <i class="fas fa-list-ol"></i> 2. Stage 1: Qualifying (10 Qs)
+                </div>
+                <i class="fas fa-chevron-right" style="color: #cbd5e1; font-size: 10px;"></i>
+                <div id="step-pill-stage2" style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #64748b;">
+                    <i class="fas fa-lock" id="step-pill-stage2-lock"></i> 3. Stage 2: Final Exam (50 Qs)
+                </div>
+                <i class="fas fa-chevron-right" style="color: #cbd5e1; font-size: 10px;"></i>
+                <div id="step-pill-cert" style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #c5a059;">
+                    <i class="fas fa-award"></i> 4. Official Certificate
+                </div>
             </div>
 
             <!-- Timer Badge -->
-            <div style="background: rgba(37, 99, 235, 0.08); border: 1.5px solid rgba(37, 99, 235, 0.25); padding: 8px 18px; border-radius: 99px; font-weight: 700; color: #2563eb; display: flex; align-items: center; gap: 8px; font-size: 15px;">
-                <i class="far fa-clock"></i> Time Remaining: <span id="timer-display" style="font-family: 'Outfit', monospace; font-size: 16px;">45:00</span>
+            <div style="background: rgba(37, 99, 235, 0.08); border: 1.5px solid rgba(37, 99, 235, 0.25); padding: 7px 16px; border-radius: 99px; font-weight: 700; color: #2563eb; display: flex; align-items: center; gap: 8px; font-size: 14.5px;">
+                <i class="far fa-clock"></i> Time Left: <span id="timer-display" style="font-family: 'Outfit', monospace; font-size: 16px;">15:00</span>
+            </div>
+        </div>
+
+        <!-- Stage Switcher Tabs -->
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
+            <div class="mode-tabs" style="max-width: 650px;">
+                <button class="mode-tab active" id="tab-stage1-mode" onclick="switchStage('stage1')">
+                    <i class="fas fa-list-ol"></i> Stage 1: Qualifying Quiz (10 Qs)
+                </button>
+                <button class="mode-tab" id="tab-stage2-mode" onclick="switchStage('stage2')">
+                    <i class="fas fa-lock" id="tab-stage2-lock-icon"></i> Stage 2: Final Exam (50 Qs)
+                </button>
+            </div>
+            <div id="stage-status-indicator" style="font-size: 13px; font-weight: 700; color: #2563eb;">
+                <i class="fas fa-info-circle"></i> Pass Stage 1 (&ge; 70%) to unlock Stage 2
             </div>
         </div>
 
@@ -340,7 +364,7 @@
                 <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(13,27,61,0.08); padding-bottom: 16px; margin-bottom: 24px; flex-wrap: wrap; gap: 10px;">
                     <div>
                         <span id="quiz-badge-mode" style="background: rgba(37,99,235,0.1); color: #2563eb; font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 99px; text-transform: uppercase;">
-                            Final Assessment
+                            Stage 1: Qualifying Assessment
                         </span>
                         <h1 id="quiz-course-title" style="font-family: 'Outfit', sans-serif; font-size: clamp(20px, 3.5vw, 24px); font-weight: 800; margin: 8px 0 0; color: var(--text-main);">
                             Python Assessment
@@ -348,21 +372,21 @@
                     </div>
                     <div style="text-align: right;">
                         <div style="font-size: 13px; color: var(--text-muted);">Passing Threshold</div>
-                        <div style="font-size: 18px; font-weight: 800; color: #10b981;" id="passing-score-label">&ge; 70% (35/50)</div>
+                        <div style="font-size: 18px; font-weight: 800; color: #10b981;" id="passing-score-label">&ge; 70% (7/10)</div>
                     </div>
                 </div>
 
                 <!-- Question Step & Progress -->
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
                     <span style="font-weight: 700; font-size: 14px; color: #2563eb;" id="question-step-label">
-                        Question 1 of 50
+                        Question 1 of 10
                     </span>
                     <span style="font-size: 13px; color: var(--text-muted);" id="answered-count-badge">
                         0 Answered
                     </span>
                 </div>
                 <div style="width: 100%; height: 6px; background: rgba(13,27,61,0.06); border-radius: 99px; overflow: hidden; margin-bottom: 24px;">
-                    <div id="question-progress-bar" style="width: 2%; height: 100%; background: #2563eb; border-radius: 99px; transition: width 0.2s;"></div>
+                    <div id="question-progress-bar" style="width: 10%; height: 100%; background: #2563eb; border-radius: 99px; transition: width 0.2s;"></div>
                 </div>
 
                 <!-- Question Title -->
@@ -392,13 +416,13 @@
                 </div>
             </div>
 
-            <!-- Right: 50-Questions Navigator Palette -->
+            <!-- Right: Questions Navigator Palette -->
             <div class="palette-card">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                     <h3 style="font-family: 'Outfit', sans-serif; font-size: 17px; font-weight: 800; margin: 0; color: var(--text-main);">
-                        Question Palette (<span id="palette-total-count">50</span>)
+                        Question Palette (<span id="palette-total-count">10</span>)
                     </h3>
-                    <span style="font-size: 12px; font-weight: 700; color: #2563eb;" id="palette-answered-ratio">0/50</span>
+                    <span style="font-size: 12px; font-weight: 700; color: #2563eb;" id="palette-answered-ratio">0/10</span>
                 </div>
 
                 <div style="display: flex; gap: 10px; font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px; flex-wrap: wrap;">
@@ -408,7 +432,7 @@
                 </div>
 
                 <div class="palette-grid" id="palette-grid">
-                    <!-- 50 buttons injected via JS -->
+                    <!-- Buttons injected via JS -->
                 </div>
 
                 <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(13,27,61,0.08);">
@@ -426,7 +450,9 @@
         <div class="quiz-modal-box">
             <div id="result-icon-wrap" style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 38px;"></div>
             
-            <h2 id="result-title" style="font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; margin: 0 0 8px; color: var(--text-main);">
+            <div id="result-status-badge" style="margin-bottom: 12px;"></div>
+
+            <h2 id="result-title" style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; margin: 0 0 8px; color: var(--text-main);">
                 Assessment Results
             </h2>
             <p id="result-desc" style="color: #64748b; font-size: 15px; margin: 0 0 24px; line-height: 1.5;"></p>
@@ -438,7 +464,7 @@
                     <div style="font-size: 12px; color: #64748b; font-weight: 600;">Your Score</div>
                 </div>
                 <div>
-                    <div style="font-size: 28px; font-weight: 800; color: #0f172a;" id="res-score-raw">0/50</div>
+                    <div style="font-size: 28px; font-weight: 800; color: #0f172a;" id="res-score-raw">0/10</div>
                     <div style="font-size: 12px; color: #64748b; font-weight: 600;">Marks Scored</div>
                 </div>
                 <div>
@@ -447,15 +473,16 @@
                 </div>
             </div>
 
-            <!-- Progress Added Banner -->
-            <div id="progress-awarded-banner" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 24px; color: #065f46; font-size: 14px; font-weight: 700; display: none;">
-                <i class="fas fa-chart-line"></i> +50% Progress Added! Total Course Progress: <span id="awarded-course-progress">100%</span>
-            </div>
-
             <!-- Action buttons -->
             <div style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Stage 1 Qualified: Proceed to Stage 2 (50 Questions) button -->
+                <button id="proceed-stage2-btn" onclick="proceedToStage2()" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 14px; font-size: 15px; font-weight: 800; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none; display: none; box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);">
+                    <i class="fas fa-lock-open"></i> Unlock & Start Stage 2 (50 Questions) 🚀
+                </button>
+
+                <!-- Stage 2 Passed: Claim Certificate button -->
                 <a id="claim-cert-btn" href="#" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 14px; font-size: 15px; font-weight: 800; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; display: none; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);">
-                    <i class="fas fa-award"></i> View / Claim Official Certificate
+                    <i class="fas fa-award"></i> View / Claim Official Certificate 🎓
                 </a>
                 
                 <button onclick="toggleAnswerReview()" id="review-answers-btn" class="btn btn-outline" style="width: 100%; justify-content: center; padding: 11px;">
@@ -463,7 +490,7 @@
                 </button>
 
                 <button onclick="retakeQuiz()" class="btn btn-outline" style="width: 100%; justify-content: center; padding: 11px;">
-                    <i class="fas fa-redo"></i> Retake Assessment
+                    <i class="fas fa-redo"></i> Retake Current Assessment
                 </button>
 
                 <a id="back-curriculum-btn" href="courses.html" class="btn btn-outline" style="width: 100%; justify-content: center; padding: 11px;">
@@ -496,6 +523,7 @@
         </div>
     </div>
 
+    <script src="js/questions-data.js"></script>
     <script src="js/api.js"></script>
     <script src="js/nav-auth.js"></script>
     <script>
@@ -525,21 +553,69 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         let currentCourseId = (urlParams.get('course') || 'python').toLowerCase();
-        let currentMode = (urlParams.get('mode') || 'final').toLowerCase(); // 'final' (50 Qs) or 'practice' (10 Qs)
+        
+        // Two-Stage System: 'stage1' (10 Qualifying Questions) -> 'stage2' (50 Final Exam Questions)
+        let currentStage = 'stage1';
+        const requestedStage = (urlParams.get('stage') || urlParams.get('mode') || '').toLowerCase();
+
+        function getUserId() {
+            try {
+                const u = StudentAPI.getCurrentUser();
+                return u?.id || u?._id || 'guest';
+            } catch (e) {
+                return 'guest';
+            }
+        }
+
+        function getStage1Key(cId) {
+            return `learnMeStage1_${getUserId()}_${cId}`;
+        }
+
+        function isStage1Passed(cId) {
+            try {
+                const stored = localStorage.getItem(getStage1Key(cId));
+                return stored === 'passed' || stored === 'true';
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function setStage1Passed(cId, passed = true) {
+            try {
+                localStorage.setItem(getStage1Key(cId), passed ? 'passed' : 'failed');
+            } catch (e) {}
+        }
 
         let questions = [];
         let currentIdx = 0;
         let selectedAnswers = {}; // { qIndex: selectedOptionIndex }
         let markedForReview = new Set();
-        let timeRemaining = 45 * 60; // 45 minutes for 50 questions
+        let timeRemaining = 15 * 60; // 15 mins for Stage 1, 45 mins for Stage 2
         let timerInterval = null;
         let startTime = Date.now();
         let reviewDataCache = null;
 
         // Initialize Assessment Portal
         async function initAssessment() {
+
+            // Sync with backend progress: if user already completed the course or quiz, Stage 1 is unlocked!
+            try {
+                const progRes = await StudentAPI.get(`/progress/${currentCourseId}`).catch(() => null);
+                const prog = progRes?.data || progRes;
+                if (prog && (prog.quizPassed || prog.percentage === 100 || (prog.completedQuizzes && prog.completedQuizzes.includes('final')))) {
+                    setStage1Passed(currentCourseId, true);
+                }
+            } catch (e) {}
+
+            // Decide active stage
+            if ((requestedStage === 'stage2' || requestedStage === 'final') && isStage1Passed(currentCourseId)) {
+                currentStage = 'stage2';
+            } else {
+                currentStage = 'stage1';
+            }
+
             renderTrackRibbon();
-            updateModeUI();
+            updateStageUI();
             document.getElementById('back-curriculum-btn').href = `course-details.html?course=${encodeURIComponent(currentCourseId)}`;
 
             await loadQuestions();
@@ -549,24 +625,79 @@
         function renderTrackRibbon() {
             const ribbon = document.getElementById('track-ribbon');
             ribbon.innerHTML = ALL_TRACKS.map(t => `
-                <a href="quiz.html?course=${t.id}&mode=${currentMode}" class="track-pill ${t.id === currentCourseId ? 'active' : ''}">
+                <a href="quiz.html?course=${t.id}&stage=${currentStage}" class="track-pill ${t.id === currentCourseId ? 'active' : ''}">
                     <i class="${t.icon}"></i> ${t.name}
                 </a>
             `).join('');
         }
 
-        function switchMode(mode) {
-            currentMode = mode;
-            window.location.href = `quiz.html?course=${encodeURIComponent(currentCourseId)}&mode=${mode}`;
+        function switchStage(stage) {
+            if (stage === 'stage2' && !isStage1Passed(currentCourseId)) {
+                alert("🔒 Stage 2 is locked!\n\nYou must first pass Stage 1: Qualifying Quiz (10 Questions) with at least 70% (7/10) before attempting the 50-Questions Final Examination.");
+                return;
+            }
+
+            currentStage = stage;
+            const url = new URL(window.location);
+            url.searchParams.set('stage', stage);
+            window.history.replaceState({}, '', url);
+
+            updateStageUI();
+            loadQuestions();
         }
 
-        function updateModeUI() {
-            const isFinal = currentMode === 'final';
-            document.getElementById('tab-final-mode').className = `mode-tab ${isFinal ? 'active' : ''}`;
-            document.getElementById('tab-practice-mode').className = `mode-tab ${!isFinal ? 'active' : ''}`;
-            
-            document.getElementById('quiz-badge-mode').textContent = isFinal ? '50-Questions Exam (+50% Progress)' : '10-Question Practice (+25% Progress)';
-            timeRemaining = isFinal ? 45 * 60 : 15 * 60;
+        function proceedToStage2() {
+            document.getElementById('result-modal').style.display = 'none';
+            setStage1Passed(currentCourseId, true);
+            switchStage('stage2');
+        }
+
+        function updateStageUI() {
+            const passed1 = isStage1Passed(currentCourseId);
+            const isStage2 = currentStage === 'stage2';
+
+            const tab1 = document.getElementById('tab-stage1-mode');
+            const tab2 = document.getElementById('tab-stage2-mode');
+            const lockIcon = document.getElementById('tab-stage2-lock-icon');
+            const stepLock = document.getElementById('step-pill-stage2-lock');
+            const statusInd = document.getElementById('stage-status-indicator');
+
+            tab1.className = `mode-tab ${!isStage2 ? 'active' : ''}`;
+            tab2.className = `mode-tab ${isStage2 ? 'active' : ''}`;
+
+            if (passed1) {
+                lockIcon.className = 'fas fa-unlock';
+                lockIcon.style.color = '#10b981';
+                stepLock.className = 'fas fa-unlock';
+                stepLock.style.color = '#10b981';
+                tab2.innerHTML = `<i class="fas fa-unlock" style="color: #10b981;"></i> Stage 2: Final Exam (50 Qs)`;
+                document.getElementById('step-pill-stage1').style.color = '#10b981';
+                document.getElementById('step-pill-stage1').innerHTML = `<i class="fas fa-check-circle"></i> 2. Stage 1: Qualified (10 Qs)`;
+                statusInd.innerHTML = `<span style="color:#10b981;"><i class="fas fa-check-circle"></i> Stage 1 Qualified! Stage 2 Unlocked</span>`;
+            } else {
+                lockIcon.className = 'fas fa-lock';
+                lockIcon.style.color = '';
+                stepLock.className = 'fas fa-lock';
+                stepLock.style.color = '';
+                tab2.innerHTML = `<i class="fas fa-lock"></i> Stage 2: Final Exam (50 Qs)`;
+                document.getElementById('step-pill-stage1').style.color = '#2563eb';
+                document.getElementById('step-pill-stage1').innerHTML = `<i class="fas fa-list-ol"></i> 2. Stage 1: Qualifying (10 Qs)`;
+                statusInd.innerHTML = `<i class="fas fa-info-circle"></i> Pass Stage 1 (&ge; 70%) to unlock Stage 2`;
+            }
+
+            if (isStage2) {
+                document.getElementById('step-pill-stage2').style.color = '#2563eb';
+                document.getElementById('quiz-badge-mode').textContent = 'Stage 2: Final Comprehensive Examination (50 Questions)';
+                document.getElementById('quiz-badge-mode').style.background = 'rgba(16,185,129,0.15)';
+                document.getElementById('quiz-badge-mode').style.color = '#059669';
+                timeRemaining = 45 * 60;
+            } else {
+                document.getElementById('step-pill-stage2').style.color = passed1 ? '#10b981' : '#64748b';
+                document.getElementById('quiz-badge-mode').textContent = 'Stage 1: Preliminary Qualifying Quiz (10 Questions)';
+                document.getElementById('quiz-badge-mode').style.background = 'rgba(37,99,235,0.1)';
+                document.getElementById('quiz-badge-mode').style.color = '#2563eb';
+                timeRemaining = 15 * 60;
+            }
         }
 
         function shuffleQuestionOptions(q) {
@@ -576,7 +707,6 @@
                 text: opt,
                 origIdx: origIdx
             }));
-            // Fisher-Yates shuffle
             for (let i = mapped.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [mapped[i], mapped[j]] = [mapped[j], mapped[i]];
@@ -585,22 +715,20 @@
         }
 
         async function loadQuestions() {
-            const isFinal = currentMode === 'final';
-            const limit = isFinal ? 50 : 10;
+            const isStage2 = currentStage === 'stage2';
+            const limit = isStage2 ? 50 : 10;
             
-            document.getElementById('question-text').textContent = 'Loading questions from bank...';
+            document.getElementById('question-text').textContent = 'Loading questions from curriculum bank...';
 
             try {
-                // Fetch from central API endpoint
                 const res = await StudentAPI.get(`/courses/${currentCourseId}/quiz?limit=${limit}`);
                 const data = res.data || res;
                 questions = data.questions || [];
-                // Shuffle options for all questions
                 questions.forEach(shuffleQuestionOptions);
 
                 const courseTitle = data.title || currentCourseId.toUpperCase();
                 
-                document.getElementById('quiz-course-title').textContent = `${courseTitle} ${isFinal ? 'Final Exam' : 'Practice Quiz'}`;
+                document.getElementById('quiz-course-title').textContent = `${courseTitle} ${isStage2 ? '- 50-Questions Final Exam' : '- Stage 1 Qualifying Quiz (10 Questions)'}`;
                 const passPct = data.passingScore || 70;
                 const reqCount = Math.ceil((passPct / 100) * (questions.length || limit));
                 document.getElementById('passing-score-label').innerHTML = `&ge; ${passPct}% (${reqCount}/${questions.length || limit})`;
@@ -621,7 +749,7 @@
                 startTimer();
             } catch (err) {
                 console.error('Failed to load quiz:', err);
-                document.getElementById('question-text').textContent = 'Failed to load assessment. Please check your network connection.';
+                document.getElementById('question-text').textContent = 'Failed to load assessment. Please verify your connection.';
             }
         }
 
@@ -662,7 +790,6 @@
 
             document.getElementById('question-text').textContent = q.q || q.question || `Question ${currentIdx + 1}`;
 
-            // Ensure options are shuffled
             if (!q.shuffledOptions) shuffleQuestionOptions(q);
             const options = q.shuffledOptions || (q.options || []).map((opt, origIdx) => ({ text: opt, origIdx }));
             const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -678,7 +805,6 @@
                 `;
             }).join('');
 
-            // Update Review button state
             const reviewBtn = document.getElementById('review-btn');
             if (markedForReview.has(currentIdx)) {
                 reviewBtn.innerHTML = `<i class="fas fa-bookmark"></i> Marked for Review`;
@@ -690,11 +816,10 @@
                 reviewBtn.style.color = '#f59e0b';
             }
 
-            // Previous / Next buttons
             document.getElementById('prev-btn').disabled = currentIdx === 0;
             const nextBtn = document.getElementById('next-btn');
             if (currentIdx === total - 1) {
-                nextBtn.innerHTML = `Finish & Review <i class="fas fa-check"></i>`;
+                nextBtn.innerHTML = `Finish & Submit <i class="fas fa-check"></i>`;
             } else {
                 nextBtn.innerHTML = `Next <i class="fas fa-arrow-right"></i>`;
             }
@@ -783,9 +908,9 @@
 
             const warning = document.getElementById('confirm-unanswered-warning');
             if (unanswered > 0) {
-                warning.innerHTML = `You have answered <strong>${answered}</strong> of <strong>${total}</strong> questions. (${unanswered} questions are currently unanswered).<br>Are you sure you want to finalize and calculate your score now?`;
+                warning.innerHTML = `You have answered <strong>${answered}</strong> of <strong>${total}</strong> questions (${unanswered} unanswered).<br>Are you sure you want to finalize and evaluate your marks now?`;
             } else {
-                warning.innerHTML = `Great job! You have answered all <strong>${total}</strong> questions. Ready to submit and calculate your mark?`;
+                warning.innerHTML = `Great job! You have answered all <strong>${total}</strong> questions. Ready to submit and evaluate your mark?`;
             }
 
             document.getElementById('confirm-modal').style.display = 'flex';
@@ -799,14 +924,13 @@
             closeConfirmModal();
             if (timerInterval) clearInterval(timerInterval);
 
-            // Format answers array
             const answersArray = questions.map((q, idx) => {
                 return selectedAnswers[idx] !== undefined ? selectedAnswers[idx] : -1;
             });
 
             const timeTaken = Math.round((Date.now() - startTime) / 1000);
-            const isFinal = currentMode === 'final';
-            const quizId = isFinal ? 'final' : 'practice';
+            const isStage2 = currentStage === 'stage2';
+            const quizId = isStage2 ? 'final' : 'stage1';
 
             try {
                 const res = await StudentAPI.post('/quiz/submit', {
@@ -829,49 +953,88 @@
         function showResults(result) {
             const modal = document.getElementById('result-modal');
             const iconWrap = document.getElementById('result-icon-wrap');
+            const statusBadge = document.getElementById('result-status-badge');
             const title = document.getElementById('result-title');
             const desc = document.getElementById('result-desc');
+            const proceedBtn = document.getElementById('proceed-stage2-btn');
             const certBtn = document.getElementById('claim-cert-btn');
-            const progressBanner = document.getElementById('progress-awarded-banner');
 
             const score = result.score || 0;
             const rawScore = result.rawScore || 0;
             const total = result.total || questions.length;
-            const passed = result.passed || false;
+            const isStage2 = currentStage === 'stage2';
             const passingScore = result.passingScore || 70;
+            const passed = (score >= passingScore && score >= 70);
 
             document.getElementById('res-score-pct').textContent = `${score}%`;
             document.getElementById('res-score-raw').textContent = `${rawScore}/${total}`;
             document.getElementById('res-score-req').textContent = `${passingScore}%`;
 
-            if (passed) {
-                iconWrap.style.background = 'rgba(16, 185, 129, 0.15)';
-                iconWrap.style.color = '#10b981';
-                iconWrap.innerHTML = `<i class="fas fa-check-circle"></i>`;
-                title.textContent = `🎉 Congratulations, You Passed!`;
-                desc.textContent = `You scored ${rawScore}/${total} (${score}%), beating the ${passingScore}% passing mark! Your knowledge mastery is verified.`;
+            if (!isStage2) {
+                // Stage 1 (10 Questions) Evaluation
+                if (passed) {
+                    setStage1Passed(currentCourseId, true);
+                    updateStageUI();
 
-                // Fire celebration confetti!
-                if (typeof confetti === 'function') {
-                    confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+                    iconWrap.style.background = 'rgba(16, 185, 129, 0.15)';
+                    iconWrap.style.color = '#10b981';
+                    iconWrap.innerHTML = `<i class="fas fa-check-circle"></i>`;
+                    
+                    statusBadge.innerHTML = `<span style="background: rgba(16,185,129,0.15); color: #065f46; font-weight:800; padding:6px 16px; border-radius:99px; font-size: 13.5px;"><i class="fas fa-check-double"></i> STAGE 1 QUALIFIED (&ge; 70%)</span>`;
+                    title.textContent = `Stage 1 Cleared! 🎉`;
+                    desc.innerHTML = `You scored <strong>${rawScore}/${total} (${score}%)</strong>. Excellent performance! You have met the qualifying mark and unlocked the <strong>50-Questions Final Examination</strong>.`;
+
+                    if (typeof confetti === 'function') {
+                        confetti({ particleCount: 100, spread: 60, origin: { y: 0.6 } });
+                    }
+
+                    proceedBtn.style.display = 'inline-flex';
+                    certBtn.style.display = 'none';
+                } else {
+                    setStage1Passed(currentCourseId, false);
+                    updateStageUI();
+
+                    iconWrap.style.background = 'rgba(239, 68, 68, 0.15)';
+                    iconWrap.style.color = '#ef4444';
+                    iconWrap.innerHTML = `<i class="fas fa-times-circle"></i>`;
+
+                    statusBadge.innerHTML = `<span style="background: rgba(239,68,68,0.15); color: #991b1b; font-weight:800; padding:6px 16px; border-radius:99px; font-size: 13.5px;"><i class="fas fa-exclamation-triangle"></i> STAGE 1 NOT QUALIFIED</span>`;
+                    title.textContent = `Stage 1 Incomplete`;
+                    desc.innerHTML = `You scored <strong>${rawScore}/${total} (${score}%)</strong>. A minimum score of <strong>70% (7/10)</strong> is required on Stage 1 to qualify for the 50-questions Final Examination. Please retake the quiz.`;
+
+                    proceedBtn.style.display = 'none';
+                    certBtn.style.display = 'none';
                 }
-
-                // Show Certificate claim button
-                certBtn.style.display = 'inline-flex';
-                certBtn.href = `certificate.html?course=${encodeURIComponent(currentCourseId)}`;
-
-                // Show Progress banner
-                progressBanner.style.display = 'block';
-                document.getElementById('awarded-course-progress').textContent = `${result.courseProgress || 100}%`;
             } else {
-                iconWrap.style.background = 'rgba(239, 68, 68, 0.15)';
-                iconWrap.style.color = '#ef4444';
-                iconWrap.innerHTML = `<i class="fas fa-times-circle"></i>`;
-                title.textContent = `Assessment Incomplete`;
-                desc.textContent = `You scored ${rawScore}/${total} (${score}%). A passing mark of at least ${passingScore}% (${Math.ceil((passingScore/100)*total)}/${total}) is required to unlock your verified certificate.`;
+                // Stage 2 (50 Questions) Evaluation
+                proceedBtn.style.display = 'none';
 
-                certBtn.style.display = 'none';
-                progressBanner.style.display = 'none';
+                if (passed) {
+                    iconWrap.style.background = 'rgba(16, 185, 129, 0.15)';
+                    iconWrap.style.color = '#10b981';
+                    iconWrap.innerHTML = `<i class="fas fa-award"></i>`;
+
+                    statusBadge.innerHTML = `<span style="background: rgba(16,185,129,0.15); color: #065f46; font-weight:800; padding:6px 16px; border-radius:99px; font-size: 13.5px;"><i class="fas fa-shield-alt"></i> STATUS: PASSED WITH DISTINCTION</span>`;
+                    title.textContent = `Examination Passed! 🏆`;
+                    desc.innerHTML = `Outstanding achievement! You scored <strong>${rawScore}/${total} (${score}%)</strong>, fulfilling 100% of all curriculum assessment standards. Your Official Certificate is now unlocked!`;
+
+                    if (typeof confetti === 'function') {
+                        confetti({ particleCount: 160, spread: 80, origin: { y: 0.6 } });
+                    }
+
+                    certBtn.style.display = 'inline-flex';
+                    certBtn.href = `certificate.html?course=${encodeURIComponent(currentCourseId)}`;
+                } else {
+                    iconWrap.style.background = 'rgba(239, 68, 68, 0.15)';
+                    iconWrap.style.color = '#ef4444';
+                    iconWrap.innerHTML = `<i class="fas fa-times-circle"></i>`;
+
+                    statusBadge.innerHTML = `<span style="background: rgba(239,68,68,0.15); color: #991b1b; font-weight:800; padding:6px 16px; border-radius:99px; font-size: 13.5px;"><i class="fas fa-times-circle"></i> STATUS: FAILED (Score below 70%)</span>`;
+                    title.textContent = `Examination Not Cleared`;
+                    desc.innerHTML = `You scored <strong>${rawScore}/${total} (${score}%)</strong>. A passing threshold of <strong>${passingScore}% (${Math.ceil((passingScore/100)*total)}/${total})</strong> is required to earn an official certificate.`;
+
+                    certBtn.style.display = 'none';
+                }
             }
 
             modal.style.display = 'flex';

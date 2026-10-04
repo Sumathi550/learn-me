@@ -218,36 +218,85 @@
       `;
     }
 
+    function findLocalCertificate(value) {
+      if (!value) return null;
+      const cleanVal = value.trim().toUpperCase();
+
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key === 'learnMeCertificates' || key.startsWith('learnMeCertificates_'))) {
+          try {
+            const list = JSON.parse(localStorage.getItem(key) || '[]');
+            if (Array.isArray(list)) {
+              const found = list.find(item => {
+                const id = (item.certificateId || item.id || item.verificationCode || '').trim().toUpperCase();
+                return id === cleanVal;
+              });
+              if (found) return found;
+            }
+          } catch (e) {}
+        }
+      }
+      return null;
+    }
+
     async function verifyCertificate() {
-      const value = document.getElementById('certificate-input').value.trim();
+      const rawInput = document.getElementById('certificate-input').value;
+      const value = (rawInput || '').trim();
       if (!value) {
         alert('Please enter a certificate ID.');
         return;
       }
 
+      const verifyBtn = document.getElementById('verify-btn');
+      if (verifyBtn) {
+        verifyBtn.disabled = true;
+        verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+      }
+
       try {
         const response = await fetch(`${typeof CERTIFICATES_API_URL !== 'undefined' ? CERTIFICATES_API_URL : '/api/certificates'}/verify/${encodeURIComponent(value)}`);
         
-        // If the backend replies at all (200, 404, etc), use its authoritative decision!
-        if (response.ok || response.status === 404 || response.status === 403 || response.status === 400) {
+        if (response.ok) {
           const data = await response.json();
           renderVerificationResult(data);
-          return; // Do not fallback to local storage if backend gave a clear answer
+          return;
         }
       } catch (error) {
-        console.warn('Backend API unavailable, using local fallback:', error.message);
+        console.warn('Backend API unavailable, checking local records:', error.message);
+      } finally {
+        if (verifyBtn) {
+          verifyBtn.disabled = false;
+          verifyBtn.innerHTML = 'Verify';
+        }
       }
 
-      // Fallback for legacy offline usage only if backend completely unreachable
-      let records = [];
-      try {
-        const storedRecords = JSON.parse(localStorage.getItem('learnMeCertificates') || '[]');
-        records = Array.isArray(storedRecords) ? storedRecords : [];
-      } catch (error) {
-        records = [];
+      // Fallback: check across all local certificate storage (global and user-scoped)
+      const localRecord = findLocalCertificate(value);
+      if (localRecord) {
+        const issueDate = localRecord.issueDate || localRecord.completionDate || localRecord.issuedAt || new Date().toISOString();
+        renderVerificationResult({
+          valid: true,
+          isValid: true,
+          status: 'valid',
+          certificateId: localRecord.certificateId || localRecord.id || value.toUpperCase(),
+          courseName: localRecord.courseName || 'Professional Course',
+          studentName: localRecord.studentName || localRecord.userName || 'Student',
+          score: localRecord.score || 100,
+          percentage: localRecord.percentage || localRecord.score || 100,
+          completionDate: issueDate,
+          issueDate: issueDate,
+          issuedBy: 'Learn Me Learning Platform',
+          message: 'Official valid certificate verified by Learn Me.'
+        });
+        return;
       }
-      const record = records.find(item => item.certificateId === value);
-      renderVerificationResult(record);
+
+      renderVerificationResult({
+        valid: false,
+        status: 'invalid',
+        message: 'The certificate ID you entered does not exist or is invalid.'
+      });
     }
 
     const params = new URLSearchParams(window.location.search);

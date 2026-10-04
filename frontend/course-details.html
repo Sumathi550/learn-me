@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Details | Learn Me</title>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const course = urlParams.get('course') || urlParams.get('courseId') || urlParams.get('id') || 'python';
+        window.location.replace("index.html?course=" + encodeURIComponent(course) + "#course-details");
+    </script>
+</head>
+<body style="background:#0b1120; color:#fff; font-family:sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; margin:0;">
+    <p>Redirecting to Course Details...</p>
+</body>
+</html>

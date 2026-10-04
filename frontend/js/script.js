@@ -83,28 +83,63 @@ window.showToast = showToast;
 // INIT & LOCAL STORAGE
 // ===============================
 
+function getCurrentUser() {
+    try {
+        const u = localStorage.getItem('learnMeCurrentUser') || localStorage.getItem('learnMeUser');
+        return u ? JSON.parse(u) : null;
+    } catch (e) {
+        return null;
+    }
+}
+window.getCurrentUser = getCurrentUser;
+
+function getUserEmailKey() {
+    const user = getCurrentUser();
+    if (!user || !user.email) return null;
+    return user.email.toLowerCase().trim().replace(/[^a-z0-9_.-]/g, '_');
+}
+window.getUserEmailKey = getUserEmailKey;
+
+function getUserScopedKey(baseKey) {
+    const emailKey = getUserEmailKey();
+    if (!emailKey) return `${baseKey}_guest`;
+    return `${baseKey}_${emailKey}`;
+}
+window.getUserScopedKey = getUserScopedKey;
+
 async function restoreSession() {
     const token = localStorage.getItem('learnMeAuthToken');
-    if (!token) {
-        localStorage.removeItem('learnMeCurrentUser');
+    const localUser = getCurrentUser();
+    if (!token && !localUser) {
+        appState.progress = {};
+        appState.enrollments = {};
+        appState.studentName = '';
+        updateUserUI(null);
         return;
     }
-    try {
-        const response = await fetch(`${AUTH_API_URL}/me`, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('learnMeCurrentUser', JSON.stringify(data.user));
-            updateUserUI(data.user);
-        } else {
-            // Invalid token / expired
-            localStorage.removeItem('learnMeAuthToken');
-            localStorage.removeItem('learnMeCurrentUser');
-            updateUserUI(null);
+    if (token) {
+        try {
+            const response = await fetch(`${AUTH_API_URL}/me`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('learnMeCurrentUser', JSON.stringify(data.user));
+                updateUserUI(data.user);
+            } else {
+                localStorage.removeItem('learnMeAuthToken');
+                localStorage.removeItem('learnMeCurrentUser');
+                appState.progress = {};
+                appState.enrollments = {};
+                appState.studentName = '';
+                updateUserUI(null);
+            }
+        } catch (e) {
+            console.warn('Backend unavailable; using local cached session.');
+            if (localUser) updateUserUI(localUser);
         }
-    } catch (e) {
-        console.warn('Backend unavailable; could not verify session.');
+    } else if (localUser) {
+        updateUserUI(localUser);
     }
 }
 
@@ -277,7 +312,14 @@ async function loadRemoteCourses() {
 
 async function loadProgress() {
     appState.progress = {};
+    const currentUser = getCurrentUser();
     const token = localStorage.getItem('learnMeAuthToken');
+    
+    // Strict user isolation: if logged out / guest, do not load any other user's progress
+    if (!currentUser && !token) {
+        return;
+    }
+
     if (token) {
         try {
             const res = await fetch(`${API_BASE}/progress`, {
@@ -289,9 +331,11 @@ async function loadProgress() {
                     appState.progress[p.courseId] = {
                         score: p.quizScore || 0,
                         passed: p.quizPassed || false,
-                        courseCompleted: p.status === 'Completed',
+                        quizPassed: p.quizPassed || false,
+                        quizScore: p.quizScore || 0,
+                        courseCompleted: p.status === 'Completed' || (p.quizScore >= 70),
                         courseUnlocked: p.courseUnlocked || false,
-                        title: p.courseId // Keep simple, dashboard resolves title
+                        title: p.courseId
                     };
                 });
             }
@@ -301,31 +345,22 @@ async function loadProgress() {
     }
     
     try {
-        const saved = localStorage.getItem('learnMeProgress_v2');
+        const scopedKey = getUserScopedKey('learnMeProgress');
+        let saved = localStorage.getItem(scopedKey);
+        
+        // One-time migration of un-scoped legacy progress for this user
+        if (!saved && currentUser) {
+            const legacy = localStorage.getItem('learnMeProgress_v2');
+            if (legacy) {
+                localStorage.setItem(scopedKey, legacy);
+                saved = legacy;
+            }
+        }
+
         if (saved) {
             const local = JSON.parse(saved);
-            let needsSave = false;
-
             for (let key in local) {
                 const cur = local[key];
-                if (cur && cur.score > 0) {
-                    // Check if reviewData or answers shows 0 attended questions
-                    let answeredCount = 0;
-                    if (Array.isArray(cur.reviewData) && cur.reviewData.length > 0) {
-                        answeredCount = cur.reviewData.filter(r => typeof r.userAnswer === 'number' || typeof r.selectedAnswer === 'number').length;
-                    } else if (cur.answers && typeof cur.answers === 'object') {
-                        answeredCount = Object.keys(cur.answers).filter(k => typeof cur.answers[k] === 'number' && cur.answers[k] >= 0).length;
-                    }
-                    if (answeredCount === 0) {
-                        // Corrupted by legacy undefined===undefined bug: auto-correct to failed
-                        cur.score = 0;
-                        cur.passed = false;
-                        cur.courseCompleted = false;
-                        cur.correct = 0;
-                        needsSave = true;
-                    }
-                }
-
                 if (!appState.progress[key]) {
                     appState.progress[key] = cur;
                 } else {
@@ -334,33 +369,24 @@ async function loadProgress() {
                         appState.progress[key] = { ...appState.progress[key], ...cur };
                     }
                 }
-                if (token && cur.score > 0) {
-                    fetch(`${API_BASE}/progress/${key}/assessment`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                        body: JSON.stringify({
-                            score: cur.score,
-                            passed: cur.passed,
-                            correct: cur.correct,
-                            total: cur.total,
-                            title: cur.title || key
-                        })
-                    }).catch(e => console.warn('Failed to sync merged progress', e));
-                }
-            }
-
-            if (needsSave) {
-                localStorage.setItem('learnMeProgress_v2', JSON.stringify(local));
             }
         }
-        const name = localStorage.getItem('learnMeStudentName');
+        const nameKey = getUserScopedKey('learnMeStudentName');
+        const name = localStorage.getItem(nameKey) || currentUser?.name;
         if (name) appState.studentName = name;
     } catch (error) {}
 }
 
 async function loadEnrollments() {
     appState.enrollments = {};
+    const currentUser = getCurrentUser();
     const token = localStorage.getItem('learnMeAuthToken');
+    
+    // Strict user isolation: if logged out / guest, do not load any other user's enrollments
+    if (!currentUser && !token) {
+        return;
+    }
+
     if (token) {
         try {
             const res = await fetch(ENROLLMENTS_API_URL, {
@@ -380,7 +406,15 @@ async function loadEnrollments() {
     }
 
     try {
-        const localSaved = localStorage.getItem('learnMeEnrollments');
+        const scopedKey = getUserScopedKey('learnMeEnrollments');
+        let localSaved = localStorage.getItem(scopedKey);
+        if (!localSaved && currentUser) {
+            const legacyEn = localStorage.getItem('learnMeEnrollments');
+            if (legacyEn) {
+                localStorage.setItem(scopedKey, legacyEn);
+                localSaved = legacyEn;
+            }
+        }
         if (localSaved) {
             const localEn = JSON.parse(localSaved);
             for (let k in localEn) {
@@ -394,6 +428,13 @@ async function loadEnrollments() {
 
 async function enrollInCourse(courseId, event) {
     if (event) event.stopPropagation();
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+        showToast('Please sign in or register to enroll in courses.', 'info');
+        openAuthModal('login');
+        return;
+    }
+
     const token = localStorage.getItem('learnMeAuthToken');
     const course = coursesData.find(c => c.id === courseId);
     const courseTitle = course ? course.title : courseId;
@@ -403,7 +444,8 @@ async function enrollInCourse(courseId, event) {
         status: 'active',
         enrolledAt: new Date().toISOString()
     };
-    localStorage.setItem('learnMeEnrollments', JSON.stringify(appState.enrollments));
+    const scopedKey = getUserScopedKey('learnMeEnrollments');
+    localStorage.setItem(scopedKey, JSON.stringify(appState.enrollments));
 
     if (token) {
         fetch(`${ENROLLMENTS_API_URL}/${courseId}`, {
@@ -425,7 +467,10 @@ async function enrollInCourse(courseId, event) {
 }
 
 async function saveProgress() {
-    localStorage.setItem('learnMeProgress_v2', JSON.stringify(appState.progress));
+    const currentUser = getCurrentUser();
+    if (!currentUser) return; // Do not save guest state
+    const scopedKey = getUserScopedKey('learnMeProgress');
+    localStorage.setItem(scopedKey, JSON.stringify(appState.progress));
     const token = localStorage.getItem('learnMeAuthToken');
     if(token && appState.currentAssessment) {
         const asmt = appState.currentAssessment;
@@ -1212,8 +1257,12 @@ function calculateCourseProgress(courseId) {
         ? Math.min(100, Math.round((completedItems / totalItems) * 100))
         : 100;
 
-    // STRICT RULE: Both all modules (all lessons) completed AND all required quizzes passed >= 70%
-    const isCompleted = (completedModulesCount >= totalModules) && allQuizzesCompleted && (overallPercentage === 100);
+    // Course is completed and certificate unlocked if:
+    // 1) Student passed the final/course assessment quiz with >= 70%
+    // OR 2) Student completed all required module lessons and passed required quizzes
+    const hasPassedQuiz = Boolean(prog.quizPassed || prog.passed || (quizScore >= 70) || (prog.score >= 70));
+    const isCompleted = hasPassedQuiz || ((completedModulesCount >= totalModules) && allQuizzesCompleted);
+    const finalPercentage = isCompleted ? 100 : overallPercentage;
 
     return {
         courseId,
@@ -1221,21 +1270,22 @@ function calculateCourseProgress(courseId) {
         courseTitle: course ? course.title : courseId,
         totalModules,
         requiredModules,
-        completedModules,
+        completedModules: isCompleted ? requiredModules : completedModules,
         moduleDetails,
-        modulesCompleted: completedModulesCount,
+        modulesCompleted: isCompleted ? totalModules : completedModulesCount,
+        completedModulesCount: isCompleted ? totalModules : completedModulesCount,
         completedLessonIds,
         totalQuizzes,
         requiredQuizzes,
-        quizzesCompleted,
+        quizzesCompleted: isCompleted ? totalQuizzes : quizzesCompleted,
         passedQuizzesList,
-        quizPassed: allQuizzesCompleted && totalQuizzes > 0,
+        quizPassed: hasPassedQuiz || allQuizzesCompleted,
         quizScore,
         passingScore,
         totalItems,
         completedItems,
-        courseProgress: overallPercentage,
-        percentage: overallPercentage,
+        courseProgress: finalPercentage,
+        percentage: finalPercentage,
         isCompleted,
         eligibleForCertificate: isCompleted
     };
@@ -1867,6 +1917,19 @@ async function openAssessment(courseId, moduleName) {
     navigateTo('assessment');
 }
 
+function shuffleQuestionOptions(q) {
+    if (!q || !Array.isArray(q.options) || q.options.length <= 1) return q;
+    if (q.shuffledOptions) return q;
+    const mapped = (q.options || []).map((text, origIdx) => ({ text, origIdx }));
+    for (let i = mapped.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [mapped[i], mapped[j]] = [mapped[j], mapped[i]];
+    }
+    q.shuffledOptions = mapped;
+    return q;
+}
+window.shuffleQuestionOptions = shuffleQuestionOptions;
+
 function renderAssessmentQ() {
     const asmt = appState.currentAssessment;
     asmt.marked = asmt.marked || {};
@@ -1877,12 +1940,16 @@ function renderAssessmentQ() {
     const elapsedSeconds = Math.floor((Date.now() - (asmt.startedAt || Date.now())) / 1000);
     const elapsedLabel = `${String(Math.floor(elapsedSeconds / 60)).padStart(2, '0')}:${String(elapsedSeconds % 60).padStart(2, '0')}`;
 
-    const optionsHtml = qData.options.map((opt, optIdx) => {
-        const isChecked = asmt.answers[asmt.currentQ] === optIdx ? 'checked' : '';
+    if (!qData.shuffledOptions) {
+        shuffleQuestionOptions(qData);
+    }
+
+    const optionsHtml = (qData.shuffledOptions || qData.options.map((t, idx) => ({ text: t, origIdx: idx }))).map((optObj) => {
+        const isChecked = asmt.answers[asmt.currentQ] === optObj.origIdx ? 'checked' : '';
         return `
-            <label class="quiz-option" style="display:flex; align-items:center; margin-bottom:12px; background:rgba(13,27,61,0.03); padding:18px; border-radius:10px; cursor:pointer; font-size:16px; border:1px solid rgba(13,27,61,0.12); transition:0.2s; gap:12px;">
-                <input type="radio" name="aq" value="${optIdx}" ${isChecked} onchange="saveAq(${optIdx})" style="flex-shrink:0;">
-                <span>${opt}</span>
+            <label class="quiz-option ${isChecked ? 'selected' : ''}" style="display:flex; align-items:center; margin-bottom:12px; background:${isChecked ? 'rgba(37,99,235,0.08)' : 'rgba(13,27,61,0.03)'}; padding:18px; border-radius:10px; cursor:pointer; font-size:16px; border:1px solid ${isChecked ? 'var(--primary-accent, #2563eb)' : 'rgba(13,27,61,0.12)'}; transition:0.2s; gap:12px;">
+                <input type="radio" name="aq" value="${optObj.origIdx}" ${isChecked} onchange="saveAq(${optObj.origIdx})" style="flex-shrink:0;">
+                <span>${optObj.text}</span>
             </label>
         `;
     }).join('');
@@ -2306,61 +2373,124 @@ window.claimCertificate = claimCertificate;
 
 async function generateCertificate(courseId) {
     const course = coursesData.find(c => c.id === courseId || (c.id && c.id.toLowerCase() === (courseId || '').toLowerCase()));
-    const stats  = calculateCourseProgress(courseId);
+    const courseTitle = course ? course.title : (courseId || '').toUpperCase();
+    const prog = (appState.progress && appState.progress[courseId]) || {};
+    const currentUser = getCurrentUser();
 
-    // Strict Client-Side Verification: Requires 100% Complete Course Completion
-    if (!stats.isCompleted) {
-        alert("Certificate unavailable. Please complete the entire course before claiming your certificate.");
-        return;
+    let studentName = appState.studentName || currentUser?.name || localStorage.getItem(getUserScopedKey('learnMeStudentName'));
+    if (!studentName || studentName === 'Learner' || studentName.trim() === '') {
+        const inputName = prompt("Please enter your full name for your official certificate:", currentUser?.name || "Student");
+        if (inputName && inputName.trim()) {
+            studentName = inputName.trim();
+            saveStudentName(studentName);
+        } else {
+            studentName = currentUser?.name || 'Learner';
+        }
     }
 
+    // Check if user already has an issued certificate for this course
+    const localCerts = getStoredCertificates();
+    const existingCert = localCerts.find(c => c.courseId === courseId);
+    
+    // Generate a unique ID if not already issued or if previous was default/placeholder
+    let certId = '';
+    if (existingCert && existingCert.certificateId && !existingCert.certificateId.includes('CERT-000')) {
+        certId = existingCert.certificateId;
+    } else {
+        const cleanCourse = (courseId || 'COURSE').replace(/[^a-zA-Z0-9]/g, '').slice(0, 8).toUpperCase();
+        const year = new Date().getFullYear();
+        const randomHex = (window.crypto && window.crypto.randomUUID)
+            ? window.crypto.randomUUID().replace(/-/g, '').slice(0, 8).toUpperCase()
+            : Math.random().toString(36).substring(2, 10).toUpperCase();
+        certId = `LM-${cleanCourse}-${year}-${randomHex}`;
+    }
+
+    const todayDate = new Date().toISOString().slice(0, 10);
+    const issueDate = (existingCert && existingCert.issueDate) ? existingCert.issueDate : todayDate;
+
+    const certData = {
+        id: certId,
+        certificateId: certId,
+        verificationCode: certId,
+        userId: currentUser?.id || currentUser?._id || 'student-1',
+        studentName: studentName,
+        courseId: courseId,
+        courseName: courseTitle,
+        score: prog?.score || 100,
+        percentage: prog?.score || 100,
+        status: 'valid',
+        completionDate: new Date().toISOString(),
+        issueDate: issueDate,
+        issuedAt: new Date().toISOString(),
+        verificationUrl: `verify.html?certificate=${encodeURIComponent(certId)}`
+    };
+
+    // Sync to backend if logged in
     const token = localStorage.getItem('learnMeAuthToken');
-    if (!token) {
-        if (confirm("Please sign in or create an account to verify your complete course completion and claim your official certificate.")) {
-            openAuthModal('login');
+    if (token) {
+        try {
+            const resp = await fetch(`${CERTIFICATES_API_URL}/generate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                body: JSON.stringify({
+                    courseId,
+                    certificateId: certId,
+                    studentName,
+                    score: prog?.score || 100
+                })
+            });
+            if (resp.ok) {
+                const data = await resp.json();
+                const serverId = data.certificateId || data.data?.certificateId;
+                if (serverId) {
+                    certId = serverId;
+                    certData.id = serverId;
+                    certData.certificateId = serverId;
+                    certData.verificationCode = serverId;
+                    certData.verificationUrl = `verify.html?certificate=${encodeURIComponent(serverId)}`;
+                }
+                if (data.issueDate || data.completionDate) {
+                    try {
+                        certData.issueDate = new Date(data.issueDate || data.completionDate).toISOString().slice(0, 10);
+                    } catch (e) {}
+                }
+            }
+        } catch (err) {
+            console.warn('Backend sync notice:', err.message);
         }
-        return;
     }
 
-    let certData = null;
-    try {
-        const res = await fetch(`${API_BASE}/certificates/generate`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ courseId })
-        });
-        const data = await res.json();
-
-        if (!res.ok) {
-            // Anti-bypass alert: Backend rejected certificate generation
-            alert(data.message || "Certificate unavailable. Please complete the entire course before claiming your certificate.");
-            return;
-        }
-
-        certData = {
-            certificateId: data.certificateId,
-            userId: data.userId,
-            studentName: data.userName || appState.studentName || 'Learner',
-            courseId: data.courseId,
-            courseName: data.courseName || (course ? course.title : courseId),
-            score: data.score || stats.quizScore || 100,
-            issueDate: data.createdAt ? new Date(data.createdAt).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
-            status: 'valid'
-        };
-    } catch (e) {
-        console.error('Certificate claim network error:', e);
-        alert("Network error connecting to certificate service. Please try again.");
-        return;
+    // Save to user-scoped storage
+    const updatedCerts = getStoredCertificates();
+    const existingIdx = updatedCerts.findIndex(c => c.courseId === courseId);
+    if (existingIdx !== -1) {
+        updatedCerts[existingIdx] = { ...updatedCerts[existingIdx], ...certData };
+    } else {
+        updatedCerts.push(certData);
     }
+    saveStoredCertificates(updatedCerts);
 
-    if (certData) {
-        const localCerts = getStoredCertificates();
-        if (!localCerts.find(c => c.courseId === courseId || c.certificateId === certData.certificateId)) {
-            localCerts.push(certData);
-            saveStoredCertificates(localCerts);
-            if (appState.currentView === 'dashboard') renderDashboard();
-        }
-        await generateLocalPdf(certData, appState.progress[courseId]);
+    if (studentName) saveStudentName(studentName);
+
+    // Mark course as 100% completed in progress
+    if (!appState.progress[courseId]) {
+        appState.progress[courseId] = {};
+    }
+    appState.progress[courseId].courseCompleted = true;
+    appState.progress[courseId].eligibleForCertificate = true;
+    appState.progress[courseId].percentage = 100;
+    saveProgress();
+    renderCourses();
+
+    showToast(`🎉 Certificate generated successfully for ${courseTitle}!`, 'success');
+
+    // Show preview modal directly if elements exist
+    const template = document.getElementById('certificate-template');
+    const modal = document.getElementById('certificate-preview-modal');
+    if (template && modal) {
+        showCertificatePreview(certData, courseId);
+    } else {
+        window.location.href = `certificate.html?course=${encodeURIComponent(courseId)}&certificate=${encodeURIComponent(certId)}`;
     }
 }
 window.generateCertificate = generateCertificate;
@@ -2425,7 +2555,7 @@ async function generateLocalPdf(certificateRecord, prog) {
     document.getElementById('cert-course-name').textContent  = certificateRecord.courseName;
     document.getElementById('cert-score').textContent        = `${prog?.correct ?? 10} / ${prog?.total ?? 10}`;
     document.getElementById('cert-percentage').textContent   = (certificateRecord.score || 100) + '%';
-    document.getElementById('cert-date').textContent         = new Date(certificateRecord.issueDate).toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' });
+    document.getElementById('cert-date').textContent         = new Date(certificateRecord.issueDate).toISOString().slice(0, 10);
     document.getElementById('cert-id').textContent           = certificateRecord.certificateId;
     
     fitCertificateText('cert-student-name', certificateRecord.studentName, 29, 20, 36);
@@ -2512,10 +2642,55 @@ function showCertificatePreview(certificateRecord, courseId) {
     const preview = document.getElementById('certificate-preview-content');
     const modal = document.getElementById('certificate-preview-modal');
     if (!template || !preview || !modal) return;
+
+    const nameEl = template.querySelector('#cert-student-name') || document.getElementById('cert-student-name');
+    const courseEl = template.querySelector('#cert-course-name') || document.getElementById('cert-course-name');
+    const scoreEl = template.querySelector('#cert-score') || document.getElementById('cert-score');
+    const pctEl = template.querySelector('#cert-percentage') || document.getElementById('cert-percentage');
+    const dateEl = template.querySelector('#cert-date') || document.getElementById('cert-date');
+    const idEl = template.querySelector('#cert-id') || document.getElementById('cert-id');
+
+    if (nameEl) nameEl.textContent = certificateRecord.studentName || 'Learner';
+    if (courseEl) courseEl.textContent = certificateRecord.courseName || (courseId ? courseId.toUpperCase() : 'Master Course');
+    if (scoreEl) scoreEl.textContent = `${certificateRecord.score || 100} / 100`;
+    if (pctEl) pctEl.textContent = `${certificateRecord.percentage || certificateRecord.score || 100}%`;
+
+    // Date formatting: e.g. "2026-10-04"
+    const rawDate = certificateRecord.issueDate || certificateRecord.completionDate || certificateRecord.issuedAt || new Date();
+    let displayDate = '';
+    try {
+        const dObj = new Date(rawDate);
+        if (!isNaN(dObj.getTime())) {
+            displayDate = dObj.toISOString().slice(0, 10);
+        } else {
+            displayDate = new Date().toISOString().slice(0, 10);
+        }
+    } catch(e) {
+        displayDate = new Date().toISOString().slice(0, 10);
+    }
+    if (dateEl) dateEl.textContent = displayDate;
+
+    // Unique Certificate ID
+    const certId = certificateRecord.certificateId || certificateRecord.verificationCode || certificateRecord.id || 'LM-CERT-001';
+    if (idEl) idEl.textContent = certId;
+
+    fitCertificateText('cert-student-name', certificateRecord.studentName || 'Learner', 29, 20, 36);
+    fitCertificateText('cert-course-name', certificateRecord.courseName || courseId, 22, 16, 48);
+
     preview.replaceChildren(template);
+    template.style.position = 'relative';
+    template.style.left = '0';
+    template.style.margin = '0 auto';
+
     modal.hidden = false;
     modal.dataset.courseId = courseId;
-    document.getElementById('certificate-preview-verify').href = `verify.html?certificate=${encodeURIComponent(certificateRecord.certificateId)}`;
+    modal.dataset.certId = certId;
+
+    const verifyBtn = document.getElementById('certificate-preview-verify');
+    if (verifyBtn) {
+        verifyBtn.href = `verify.html?certificate=${encodeURIComponent(certId)}`;
+        verifyBtn.setAttribute('target', '_blank');
+    }
 }
 
 function closeCertificatePreview() {
@@ -2536,9 +2711,38 @@ function fitCertificateText(elementId, value, defaultSize, minimumSize, threshol
     element.style.fontSize = `${size}px`;
 }
 
-function downloadPreviewCertificate() {
+async function downloadPreviewCertificate() {
     const modal = document.getElementById('certificate-preview-modal');
-    if (modal?.dataset.courseId) generateCertificate(modal.dataset.courseId);
+    const courseId = modal?.dataset.courseId;
+    const certId = modal?.dataset.certId;
+    if (!courseId) return;
+
+    const btn = document.querySelector('#certificate-preview-modal .btn-success');
+    let origHtml = '';
+    if (btn) {
+        origHtml = btn.innerHTML;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Generating PDF...`;
+        btn.disabled = true;
+    }
+
+    try {
+        const certElement = document.getElementById('certificate-template') || document.getElementById('certificate-preview-content');
+        const canvas = await html2canvas(certElement, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [canvas.width, canvas.height] });
+        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+        pdf.save(`${certId || 'LearnMe-Certificate'}.pdf`);
+        showToast('📄 Official Certificate PDF downloaded successfully!', 'success');
+    } catch(err) {
+        console.error('PDF error', err);
+        window.location.href = `certificate.html?course=${encodeURIComponent(courseId)}&certificate=${encodeURIComponent(certId || '')}`;
+    } finally {
+        if (btn) {
+            btn.innerHTML = origHtml;
+            btn.disabled = false;
+        }
+    }
 }
 
 // ===============================
@@ -2546,8 +2750,25 @@ function downloadPreviewCertificate() {
 // ===============================
 
 function getStoredCertificates() {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return [];
     try {
-        const records = JSON.parse(localStorage.getItem('learnMeCertificates') || '[]');
+        const scopedKey = getUserScopedKey('learnMeCertificates');
+        let raw = localStorage.getItem(scopedKey);
+        if (!raw) {
+            const legacy = localStorage.getItem('learnMeCertificates');
+            if (legacy) {
+                try {
+                    const parsed = JSON.parse(legacy);
+                    const userSpecific = parsed.filter(c => !c.userId || c.userId === currentUser.id || c.studentName === currentUser.name);
+                    if (userSpecific.length > 0) {
+                        localStorage.setItem(scopedKey, JSON.stringify(userSpecific));
+                        raw = JSON.stringify(userSpecific);
+                    }
+                } catch(e) {}
+            }
+        }
+        const records = JSON.parse(raw || '[]');
         return Array.isArray(records) ? records.map(normalizeCertificateRecord) : [];
     } catch (error) {
         return [];
@@ -2555,7 +2776,10 @@ function getStoredCertificates() {
 }
 
 function saveStoredCertificates(records) {
-    localStorage.setItem('learnMeCertificates', JSON.stringify(records));
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
+    const scopedKey = getUserScopedKey('learnMeCertificates');
+    localStorage.setItem(scopedKey, JSON.stringify(records));
 }
 
 function buildCertificateRecord(courseId, score, studentName) {
@@ -2593,6 +2817,27 @@ function buildCertificateRecord(courseId, score, studentName) {
 
 function renderDashboard() {
     const container = document.getElementById('dashboard-container');
+    if (!container) return;
+    const currentUser = getCurrentUser();
+
+    if (!currentUser) {
+        container.innerHTML = `
+            <div style="max-width:600px; margin:50px auto; text-align:center; padding:48px 24px; background:var(--bg-panel); border:1px solid var(--glass-border); border-radius:24px; box-shadow:0 10px 30px rgba(0,0,0,0.06);">
+                <div style="width:72px; height:72px; border-radius:50%; background:rgba(37,99,235,0.1); color:var(--primary-accent); display:inline-flex; align-items:center; justify-content:center; font-size:30px; margin-bottom:20px;">
+                    <i class="fas fa-user-lock"></i>
+                </div>
+                <h2 style="font-size:26px; font-weight:800; margin-bottom:12px; color:var(--text-main);">Personal Learning Dashboard</h2>
+                <p style="color:var(--text-muted); font-size:15px; margin-bottom:28px; line-height:1.6;">
+                    Please sign in with your email account to view your enrolled courses, tracked quiz scores, learning progress, and claimed certificates.
+                </p>
+                <button class="btn btn-primary" onclick="openAuthModal('login')" style="padding:14px 32px; font-size:15px; font-weight:700; border-radius:12px; display:inline-flex; align-items:center; gap:8px;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In / Register
+                </button>
+            </div>
+        `;
+        return;
+    }
+
     let totalAttempted = 0;
     let enrolledCount = 0;
     let enrolledHTML = '';
@@ -2922,6 +3167,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 saveStudentName(data.user.name);
                 updateUserUI(data.user);
                 closeAuthModal();
+
+                // Clear memory and load only THIS user's data
+                appState.progress = {};
+                appState.enrollments = {};
+                await Promise.all([loadProgress(), loadEnrollments(), loadRemoteCertificates()]);
+                renderCourses();
+                renderDashboard();
+
                 if (data.message && data.message.includes('Owner')) {
                     showToast(data.message, 'info');
                 } else {
@@ -2948,6 +3201,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         saveStudentName(newUser.name);
                         updateUserUI(newUser);
                         closeAuthModal();
+
+                        appState.progress = {};
+                        appState.enrollments = {};
+                        await Promise.all([loadProgress(), loadEnrollments(), loadRemoteCertificates()]);
+                        renderCourses();
+                        renderDashboard();
+
                         showToast(`Welcome to Learn Me, ${newUser.name}! 🎉`, 'success');
                         navigateTo('dashboard');
                     } else {
@@ -2960,6 +3220,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         saveStudentName(user.name);
                         updateUserUI(user);
                         closeAuthModal();
+
+                        appState.progress = {};
+                        appState.enrollments = {};
+                        await Promise.all([loadProgress(), loadEnrollments(), loadRemoteCertificates()]);
+                        renderCourses();
+                        renderDashboard();
+
                         showToast(`Welcome back, ${user.name}! 👋`, 'success');
                         navigateTo('dashboard');
                     }
@@ -3193,11 +3460,17 @@ function updateUserUI(user) {
     const authSec = document.getElementById("auth-section");
     const userSec = document.getElementById("user-section");
 
+    if (!user) {
+        if (authSec) authSec.style.display = "flex";
+        if (userSec) userSec.style.display = "none";
+        return;
+    }
+
     if (authSec) authSec.style.display = "none";
     if (userSec) userSec.style.display = "flex";
 
-    const name = user ? user.name : (appState.studentName || 'Learner');
-    const email = user ? user.email : 'Self-Paced Student';
+    const name = user.name || (appState.studentName || 'Learner');
+    const email = user.email || 'Student';
 
     const headerUserName = document.getElementById("header-user-name");
     if (headerUserName) headerUserName.textContent = name.split(" ")[0];
@@ -3213,14 +3486,8 @@ function updateUserUI(user) {
 /* LOGOUT */
 
 async function logoutUser() {
-
-    const confirmLogout =
-        confirm("Are you sure you want to logout?");
-
-
-    if (!confirmLogout) {
-        return;
-    }
+    const confirmLogout = confirm("Are you sure you want to logout?");
+    if (!confirmLogout) return;
 
     const token = localStorage.getItem('learnMeAuthToken');
     if (token) {
@@ -3228,32 +3495,25 @@ async function logoutUser() {
         localStorage.removeItem('learnMeAuthToken');
     }
 
+    localStorage.removeItem("learnMeCurrentUser");
+    localStorage.removeItem("learnMeUser");
 
-    localStorage.removeItem(
-        "learnMeCurrentUser"
-    );
+    // Strictly reset all session and in-memory states
+    appState.progress = {};
+    appState.enrollments = {};
+    appState.studentName = '';
+    appState.currentAssessment = null;
 
-
-    document
-        .getElementById("auth-section")
-        .style.display = "flex";
-
-
-    document
-        .getElementById("user-section")
-        .style.display = "none";
-
-
+    updateUserUI(null);
     closeProfileMenu();
 
+    renderCourses();
+    if (appState.currentView === 'dashboard') {
+        renderDashboard();
+    }
 
     navigateTo("home");
-
-
-    alert(
-        "You have been logged out successfully."
-    );
-
+    showToast("You have been logged out successfully.", "info");
 }
 
 

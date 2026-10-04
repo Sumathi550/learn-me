@@ -39,6 +39,8 @@ function getCorsOptions() {
             const isLocalhostOrigin = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(normalizedOrigin);
 
             if (
+                allowedOrigins.includes('*') ||
+                process.env.CORS_ORIGINS === '*' ||
                 allowedOrigins.includes(normalizedOrigin) || 
                 isLocalhostOrigin || 
                 process.env.NODE_ENV !== 'production' || 

@@ -14,7 +14,15 @@ async function generateCertificate(user, courseId, ipAddress = '127.0.0.1') {
         throw error;
     }
 
-    const progress = await Progress.findOne({ userId: user._id, courseId: normalizedCourseId });
+    const userId = user.id || user._id;
+
+    // 1. If certificate already issued, return it immediately
+    let existingCert = await Certificate.findOne({ userId, courseId: normalizedCourseId });
+    if (existingCert) {
+        return existingCert;
+    }
+
+    const progress = await Progress.findOne({ userId, courseId: normalizedCourseId });
     if (!progress) {
         const error = new Error('Certificate unavailable. Please complete the entire course before claiming your certificate.');
         error.statusCode = 403;

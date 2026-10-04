@@ -275,7 +275,7 @@
                         <div id="progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #2563eb 0%, #10b981 100%); border-radius: 99px; transition: width 0.4s ease;"></div>
                     </div>
 
-                    <!-- 3-Tier Step Breakdown: 25% Read + 25% Quiz + 50% 50-Questions Exam -->
+                    <!-- 3-Tier Step Breakdown: 25% Read + 25% Stage 1 Quiz (10 Qs) + 50% Stage 2 Exam (50 Qs) -->
                     <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 26px;">
                         <!-- Step 1: Reading (25%) -->
                         <div class="tier-card" id="tier-reading-card">
@@ -291,29 +291,29 @@
                             <span id="step-reading-pct" style="font-weight: 800; font-size: 13.5px; color: #64748b;">0/25%</span>
                         </div>
 
-                        <!-- Step 2: Practice Quiz (25%) -->
+                        <!-- Step 2: Stage 1 Quiz (10 Qs) (25%) -->
                         <div class="tier-card" id="tier-practice-card">
                             <div style="display: flex; align-items: center; gap: 12px;">
                                 <div class="tier-icon" id="step-practice-icon">
-                                    <i class="fas fa-bolt"></i>
+                                    <i class="fas fa-list-ol"></i>
                                 </div>
                                 <div>
-                                    <div style="font-weight: 700; font-size: 14px; color: var(--text-main);">2. Practice Quiz</div>
-                                    <div style="font-size: 12px; color: var(--text-muted);" id="step-practice-desc">Module practice quiz (+25%)</div>
+                                    <div style="font-weight: 700; font-size: 14px; color: var(--text-main);">2. Stage 1: Qualifying Quiz (10 Qs)</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);" id="step-practice-desc">Pass &ge; 70% to unlock Stage 2 (+25%)</div>
                                 </div>
                             </div>
                             <span id="step-practice-pct" style="font-weight: 800; font-size: 13.5px; color: #64748b;">0/25%</span>
                         </div>
 
-                        <!-- Step 3: 50-Questions Exam (50%) -->
+                        <!-- Step 3: Stage 2 Final Exam (50 Qs) (50%) -->
                         <div class="tier-card" id="tier-exam-card">
                             <div style="display: flex; align-items: center; gap: 12px;">
                                 <div class="tier-icon" id="step-exam-icon">
                                     <i class="fas fa-graduation-cap"></i>
                                 </div>
                                 <div>
-                                    <div style="font-weight: 700; font-size: 14px; color: var(--text-main);">3. 50-Questions Exam</div>
-                                    <div style="font-size: 12px; color: var(--text-muted);" id="step-exam-desc">Score &ge; 70% to pass (+50%)</div>
+                                    <div style="font-weight: 700; font-size: 14px; color: var(--text-main);">3. Stage 2: Final Exam (50 Qs)</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);" id="step-exam-desc">Score &ge; 70% to pass & claim certificate (+50%)</div>
                                 </div>
                             </div>
                             <span id="step-exam-pct" style="font-weight: 800; font-size: 13.5px; color: #64748b;">0/50%</span>
@@ -323,11 +323,11 @@
                     <!-- Action Buttons -->
                     <div style="display: flex; flex-direction: column; gap: 12px;">
                         <a id="practice-quiz-btn" href="#" class="btn btn-outline" style="width: 100%; text-align: center; justify-content: center; box-sizing: border-box; font-size: 14px; padding: 12px; font-weight: 600;">
-                            <i class="fas fa-bolt" style="color: #f59e0b;"></i> Take Practice Quiz (+25%)
+                            <i class="fas fa-list-ol" style="color: #2563eb;"></i> Take Stage 1 Quiz (10 Qs) (+25%)
                         </a>
 
                         <a id="quiz-btn" href="#" class="btn btn-primary" style="width: 100%; text-align: center; justify-content: center; box-sizing: border-box; font-size: 14.5px; padding: 13px; font-weight: 700; letter-spacing: 0.2px;">
-                            <i class="fas fa-graduation-cap"></i> Take 50-Question Exam (+50%)
+                            <i class="fas fa-graduation-cap"></i> Take Stage 2 Final Exam (50 Qs) (+50%)
                         </a>
 
                         <a id="cert-btn" href="#" class="btn btn-outline" style="width: 100%; text-align: center; justify-content: center; box-sizing: border-box; font-size: 14px; padding: 13px; opacity: 0.55; pointer-events: none; transition: all 0.3s ease;">
@@ -388,9 +388,27 @@
         let currentCourse = null;
         let userProgress = null;
 
+        function getUserId() {
+            try {
+                const u = StudentAPI.getCurrentUser();
+                return u?.id || u?._id || 'guest';
+            } catch (e) {
+                return 'guest';
+            }
+        }
+
+        function isStage1Passed(cId) {
+            try {
+                const stored = localStorage.getItem(`learnMeStage1_${getUserId()}_${cId}`);
+                return stored === 'passed' || stored === 'true';
+            } catch (e) {
+                return false;
+            }
+        }
+
         async function initPage() {
-            document.getElementById('practice-quiz-btn').href = `quiz.html?course=${encodeURIComponent(courseId)}&mode=practice`;
-            document.getElementById('quiz-btn').href = `quiz.html?course=${encodeURIComponent(courseId)}&mode=final`;
+            document.getElementById('practice-quiz-btn').href = `quiz.html?course=${encodeURIComponent(courseId)}&stage=stage1`;
+            document.getElementById('quiz-btn').href = `quiz.html?course=${encodeURIComponent(courseId)}&stage=stage2`;
             document.getElementById('cert-btn').href = `certificate.html?course=${encodeURIComponent(courseId)}`;
 
             try {
@@ -404,9 +422,9 @@
 
                 renderCourse();
             } catch (err) {
-                console.error('Failed to load course details:', err);
-                document.getElementById('course-title').textContent = 'Course Curriculum';
-                document.getElementById('modules-container').innerHTML = `<p style="color: #ef4444;">Could not load course details at this moment.</p>`;
+                console.warn('Fallback to local curriculum:', err);
+                currentCourse = StudentAPI.findCourse ? StudentAPI.findCourse(courseId) : null;
+                renderCourse();
             }
         }
 
@@ -432,25 +450,33 @@
             const readingCompleted = totalLessons > 0 && completedLessonsCount >= totalLessons;
             const readingPct = readingCompleted ? 25 : Math.min(25, Math.round((completedLessonsCount / totalLessons) * 25));
 
-            // 2. Practice Quiz (25%)
+            // 2. Stage 1: 10 Questions Quiz (25%)
             const completedQuizzes = userProgress?.completedQuizzes || userProgress?.progress?.completedQuizzes || [];
-            const hasPracticePassed = Array.isArray(completedQuizzes) && (
+            let hasStage1Passed = isStage1Passed(courseId) || (Array.isArray(completedQuizzes) && (
+                completedQuizzes.includes('stage1') || 
                 completedQuizzes.includes('practice') || 
-                completedQuizzes.some(q => q.startsWith('practice') || q.startsWith('quiz-'))
-            );
+                completedQuizzes.some(q => q.startsWith('stage1') || q.startsWith('practice') || q.startsWith('quiz-'))
+            ));
 
-            // 3. Final 50-Questions Exam (50%)
+            // 3. Stage 2: Final 50-Questions Exam (50%)
             const quizScore = typeof userProgress?.quizScore === 'number' ? userProgress.quizScore : (userProgress?.progress?.quizScore || 0);
             const quizPassed = Boolean(userProgress?.quizPassed || userProgress?.progress?.quizPassed) && quizScore >= 70;
-            const hasFinalPassed = (Array.isArray(completedQuizzes) && completedQuizzes.includes('final')) || quizPassed;
+            const hasFinalPassed = (Array.isArray(completedQuizzes) && (completedQuizzes.includes('final') || completedQuizzes.includes('stage2'))) || quizPassed;
+
+            if (hasFinalPassed) {
+                hasStage1Passed = true;
+                try {
+                    localStorage.setItem(`learnMeStage1_${getUserId()}_${courseId}`, 'passed');
+                } catch(e) {}
+            }
 
             // Overall Percentage
             let overallPct = readingPct;
-            if (hasPracticePassed) overallPct += 25;
+            if (hasStage1Passed) overallPct += 25;
             if (hasFinalPassed) {
                 overallPct += 50;
                 // If passed final exam with >= 70% and all reading is done, credit full 100%
-                if (!hasPracticePassed && readingCompleted) {
+                if (!hasStage1Passed && readingCompleted) {
                     overallPct += 25;
                 }
             }
@@ -479,29 +505,32 @@
                 stepReadingPct.style.color = '#64748b';
             }
 
-            // Tier 2 UI: Practice Quiz
+            // Tier 2 UI: Stage 1 Quiz (10 Qs)
             const tierPracticeCard = document.getElementById('tier-practice-card');
             const stepPracticeIcon = document.getElementById('step-practice-icon');
             const stepPracticePct = document.getElementById('step-practice-pct');
             const stepPracticeDesc = document.getElementById('step-practice-desc');
             const practiceQuizBtn = document.getElementById('practice-quiz-btn');
 
-            if (hasPracticePassed || (hasFinalPassed && overallPct === 100)) {
+            practiceQuizBtn.href = `quiz.html?course=${encodeURIComponent(courseId)}&stage=stage1`;
+
+            if (hasStage1Passed) {
                 tierPracticeCard.classList.add('active-done');
                 stepPracticeIcon.innerHTML = `<i class="fas fa-check"></i>`;
                 stepPracticePct.textContent = '25/25%';
                 stepPracticePct.style.color = '#10b981';
-                stepPracticeDesc.textContent = 'Practice Quiz Passed (+25%)';
-                practiceQuizBtn.innerHTML = `<i class="fas fa-check-circle" style="color: #10b981;"></i> Retake Practice Quiz`;
+                stepPracticeDesc.textContent = 'Stage 1 Qualified (>= 70%)';
+                practiceQuizBtn.innerHTML = `<i class="fas fa-check-circle" style="color: #10b981;"></i> Retake Stage 1 (10 Qs)`;
             } else {
                 tierPracticeCard.classList.remove('active-done');
-                stepPracticeIcon.innerHTML = `<i class="fas fa-bolt"></i>`;
+                stepPracticeIcon.innerHTML = `<i class="fas fa-list-ol"></i>`;
                 stepPracticePct.textContent = '0/25%';
                 stepPracticePct.style.color = '#64748b';
-                stepPracticeDesc.textContent = 'Test fundamentals (+25%)';
+                stepPracticeDesc.textContent = 'Pass >= 70% to unlock Stage 2 (+25%)';
+                practiceQuizBtn.innerHTML = `<i class="fas fa-play"></i> Start Stage 1 Quiz (10 Qs)`;
             }
 
-            // Tier 3 UI: 50-Questions Exam
+            // Tier 3 UI: Stage 2 Final Exam (50 Qs)
             const tierExamCard = document.getElementById('tier-exam-card');
             const stepExamIcon = document.getElementById('step-exam-icon');
             const stepExamPct = document.getElementById('step-exam-pct');
@@ -514,13 +543,29 @@
                 stepExamPct.textContent = '50/50%';
                 stepExamPct.style.color = '#10b981';
                 stepExamDesc.textContent = `Passed with ${quizScore}% (+50%)`;
-                quizBtn.innerHTML = `<i class="fas fa-check-circle"></i> Retake 50-Question Exam (Score: ${quizScore}%)`;
-            } else {
+                quizBtn.innerHTML = `<i class="fas fa-check-circle"></i> Retake Stage 2 Final Exam (${quizScore}%)`;
+                quizBtn.href = `quiz.html?course=${encodeURIComponent(courseId)}&stage=stage2`;
+                quizBtn.style.opacity = '1';
+                quizBtn.style.pointerEvents = 'auto';
+            } else if (hasStage1Passed) {
                 tierExamCard.classList.remove('active-done');
-                stepExamIcon.innerHTML = `<i class="fas fa-graduation-cap"></i>`;
+                stepExamIcon.innerHTML = `<i class="fas fa-unlock"></i>`;
                 stepExamPct.textContent = '0/50%';
                 stepExamPct.style.color = '#64748b';
-                stepExamDesc.textContent = 'Score \u2265 70% to pass (+50%)';
+                stepExamDesc.textContent = 'Stage 1 Cleared! Ready for 50-Questions Exam';
+                quizBtn.innerHTML = `<i class="fas fa-graduation-cap"></i> Take Stage 2 Final Exam (50 Qs) 🚀`;
+                quizBtn.href = `quiz.html?course=${encodeURIComponent(courseId)}&stage=stage2`;
+                quizBtn.style.opacity = '1';
+                quizBtn.style.pointerEvents = 'auto';
+            } else {
+                tierExamCard.classList.remove('active-done');
+                stepExamIcon.innerHTML = `<i class="fas fa-lock"></i>`;
+                stepExamPct.textContent = '0/50%';
+                stepExamPct.style.color = '#64748b';
+                stepExamDesc.textContent = 'Locked: Pass Stage 1 (10 Qs) with >= 70% first';
+                quizBtn.innerHTML = `<i class="fas fa-lock"></i> Stage 2 Locked (Pass Stage 1 First)`;
+                quizBtn.href = `quiz.html?course=${encodeURIComponent(courseId)}&stage=stage1`;
+                quizBtn.style.opacity = '0.75';
             }
 
             // Completion & Certificate Button
